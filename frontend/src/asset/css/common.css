@@ -1,0 +1,12 @@
+:root {
+    --dark_red: rgb(205, 0, 0);
+    --grey: #777;
+    --light_grey: #eee;
+    --light_red: rgb(255, 68, 68);
+    --active_icon_color: white;
+    --button_shadow: rgba(0, 0, 0, .1);
+    --inactive_icon_color: #999;
+    --level_animation_color: #dbdbdb;
+    --listening_icon_color: var(--light_red);
+    --text_link_color: rgb(17, 85, 204);
+}
