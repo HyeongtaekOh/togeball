@@ -1,5 +1,5 @@
 import { InputBox, Button, Select, Title, KakaoIcon, 
-  NaverIcon, MainLayout } from '../../components'
+  NaverIcon, MainLayout, PersonIcon } from '../../components'
 import { useNavigate } from 'react-router-dom'
 import { useCallback } from 'react'
 import { styled } from 'styled-components'
@@ -46,7 +46,7 @@ const Dev = () => {
       </Button>
       <p>SNS 로그인</p>
       <IconWrapper>
-        <NaverIcon />
+        <PersonIcon />
         <KakaoIcon />
       </IconWrapper>
       <hr style= {{ width: '100%' }} />
