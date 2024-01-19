@@ -1,5 +1,5 @@
 import { InputBox,SignButton, Button, Select, Title, KakaoIcon, 
-  NaverIcon, MainLayout } from '../../components'
+  NaverIcon, MainLayout, OpenChatCard } from '../../components'
 import { useNavigate } from 'react-router-dom'
 import { useCallback } from 'react'
 import { styled } from 'styled-components'
@@ -41,6 +41,8 @@ const Dev = () => {
       <Button type='save' onClick={ participate }>저장</Button>
       <Button type='reset' onClick={ participate }>초기화</Button>
       <SignButton>로그인</SignButton>
+
+      <OpenChatCard children='하이하이하이' child='바이바이바이' />
     </MainLayout>
   )
 }
