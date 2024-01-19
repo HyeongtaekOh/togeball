@@ -1,8 +1,9 @@
-import { InputBox, Button, Select, Title, KakaoIcon, 
+import { InputBox, SignButton, Button, Select, Title, KakaoIcon, 
   NaverIcon, MainLayout, PersonIcon, Tag, TagBtn, TagList } from '../../components'
 import { useNavigate } from 'react-router-dom'
 import { useCallback, useState } from 'react'
 import { styled } from 'styled-components'
+
 
 const InputWrapper = styled.div`
   box-sizing: border-box;
@@ -18,17 +19,18 @@ const IconWrapper = styled.div`
   gap: 10px;
 `
 
-const dataSource = [
-  { value: 'Kakao', name: 'Kakao' },
-  { value: 'Naver', name: 'Naver' },
-]
+
 
 const Dev = () => {
   const navigator = useNavigate()
 
-  const onLogin = useCallback(() => {
-    navigator('/login')
+  const participate = useCallback(() => {
+    navigator('/participate')
   }, [])
+
+  // const onLogin = useCallback(() => {
+  //   navigator('/login')
+  // }, [])
 
   const [tags, setTags] = useState([
         {title: '# LG', isChange: true},
@@ -60,24 +62,6 @@ const Dev = () => {
 
   return (
     <MainLayout>
-      <Title type= 'large' color= 'gray'>
-        이곳에 로그인을
-        <br />
-        독려하는 카피가 들어갑니다.
-      </Title>
-      <InputWrapper>
-        <InputBox title= '이메일' placeholder= '이메일을 입력해주세요.' />
-        <InputBox title= '비밀번호' placeholder= '비밀번호를 입력해주세요' />
-      </InputWrapper>
-      <Button type='medium' onClick={ onLogin }>
-        로그인
-      </Button>
-      <p>SNS 로그인</p>
-
-      <IconWrapper>
-        <PersonIcon />
-        <KakaoIcon />
-      </IconWrapper>
       <TagBtn isChange={ true }>
         # INFJ 
       </TagBtn>
@@ -92,11 +76,13 @@ const Dev = () => {
       </Tag>
       <TagList tags = { tags } />
       <TagList tags = { tagsRemove } />
-      <hr style= {{ width: '100%' }} />
-      <Title type= 'small'>혹시</Title>
-      <Title type= 'small'>비밀번호를 잊으셨나요?</Title>
-      <Title type= 'small'>아직 회원이 아니신가요?</Title>
-      <Select dataSource={ dataSource } placeholder= '선택해주세요' />
+      
+      <Button type='cancel'>취소</Button>
+      <Button type='parti'  onClick={ participate }>참가하기</Button>
+      <Button type='save' onClick={ participate }>저장</Button>
+      <Button type='reset' onClick={ participate }>초기화</Button>
+      <SignButton>로그인</SignButton>
+
     </MainLayout>
   )
 }

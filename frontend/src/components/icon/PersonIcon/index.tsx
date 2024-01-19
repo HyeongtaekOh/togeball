@@ -13,11 +13,11 @@ const ButttonWrapper = styled.button<{ size : number }>`
 
 const PersonIcon = ( props: IconProps ) => {
 
-    const { size = 50 } = props
+    const { size = 50, onClick } = props
 
     return(
-        <ButttonWrapper size={ size }>
-         <img width={ size } height={ size} src="https://img.icons8.com/pastel-glyph/64/person-male--v2.png" alt="person-male--v2"/>
+        <ButttonWrapper size={ size } onClick={ onClick }>
+            <img width={ size } height={ size} src="https://img.icons8.com/pastel-glyph/64/person-male--v2.png" alt="person-male--v2"/>
         </ButttonWrapper>
     )
 }
@@ -26,4 +26,5 @@ export default PersonIcon
 
 type IconProps = {
     size?: number,
+    onClick?: () => void,
 }
