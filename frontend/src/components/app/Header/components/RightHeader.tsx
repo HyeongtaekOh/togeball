@@ -1,8 +1,9 @@
 import { PersonIcon, ChatIcon } from 'src/components';
-import { MenuItem } from './index'
+import { MenuItem, HeaderChat } from './index'
 import useStore from 'src/store'
 import styled from 'styled-components'
 import type { MenuItemProps } from './MenuItem'
+import { useState } from 'react';
 
 const HeaderMenuWrapper = styled.div`
   box-sizing: border-box;  
@@ -20,6 +21,7 @@ const HeaderIconWrapper = styled(HeaderMenuWrapper)`
 const RightHeader = () => {
 
   const { isLogin, setIsLogin, setSession } = useStore();
+  const [ isChatOpen, setIsChatOpen ] = useState<boolean>(false);
   
   const menu = 
     isLogin ? [
@@ -56,7 +58,10 @@ const RightHeader = () => {
       {
         !isLogin &&  (
           <HeaderIconWrapper>
-            <ChatIcon />
+            <ChatIcon onClick = {() => setIsChatOpen( !isChatOpen )}/>
+            {
+              isChatOpen && <HeaderChat />
+            }
             <PersonIcon />
           </HeaderIconWrapper>
         )

@@ -9,7 +9,7 @@ const size = {
 const TitleWrapper = styled.p<{ type : string, color : string }>`
     font-size: ${( props ) => size[ props.type ]};
     font-weight: bold;
-    color: ${( props ) => size[ props.color ]};
+    color: ${ ( props ) => props.color };
     line-height: 130%;
 `
 
