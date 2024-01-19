@@ -1,5 +1,6 @@
-import { TagBtn } from '../';
+import TagBtn from "../TagBtn";
 import styled from 'styled-components';
+import Tag from "../Tag";
 
 const TagListWrapper = styled.div`
   display: flex;
@@ -11,23 +12,46 @@ const TagListWrapper = styled.div`
 
 const TagList = (props: TagListProps) => {
 
-    const { tags } = props
+    const { tags } = props;
 
-    // const tagSize = tags.length
-
-    return (
-        <>
+    if(!tags[0].isRemove){
+        return (
+            <TagListWrapper>
+            { tags.map((tag, index) => (
+              <TagBtn key={ index } isChange={ tag.isChange }>
+                { tag.title }
+              </TagBtn>
+            ))}
+          </TagListWrapper>
+        )
+    }else{
+    return(
         <TagListWrapper>
-        {tags[0]} {tags[1]} {tags[2]} {tags[3]} {tags[4]}
-        </TagListWrapper>
-        </>
-
+            {tags.map((tag, index) => (
+                <Tag key={ index } isRemove={ tag.isRemove }>
+                    { tag.title }
+                </Tag>
+            ))}
+            </TagListWrapper>
+        
     )
+            }
+    
+
+    // return (
+    //     <TagListWrapper>
+    //         {tags.map((tag, index) => (
+    //           <TagBtn key={index} isChange={ tag.isChange }>
+    //             { tag.title }
+    //           </TagBtn>
+    //         ))}
+    //       </TagListWrapper>
+    //   );
 
 }
 
 export default TagList
 
 type TagListProps = {
-    tags: {}
+    tags: Array<{ title: string, isRemove?: boolean, isChange?: boolean }>
 }

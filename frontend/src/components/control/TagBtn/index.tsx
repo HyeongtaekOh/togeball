@@ -13,7 +13,7 @@ const TagBtnWrapper = styled.button<TagBtnProps>`
   text-decoration: none;
   font-size: 10px;
   cursor: pointer;
-  margin: 10px 0px 10px 0px;
+  margin: 10px 10px 10px 10px;
   border-radius: 20px;
 `
 
@@ -40,7 +40,7 @@ const TagBtn = (props: TagBtnProps) => {
       } = props
 
       return (
-        <TagBtnWrapper onClick={ ()=> {changeColor(); onClick?.();} } bgColor={backgroundColor} color={letterColor}>
+        <TagBtnWrapper onClick={ ()=> { changeColor(); onClick?.() } } bgColor={backgroundColor} color={ letterColor }>
           { children }
         </TagBtnWrapper>
       )

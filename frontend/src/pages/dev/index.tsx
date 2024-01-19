@@ -1,5 +1,5 @@
 import { InputBox, Button, Select, Title, KakaoIcon, 
-  NaverIcon, MainLayout, Tag, TagBtn, TagList } from '../../components'
+  NaverIcon, MainLayout, PersonIcon, Tag, TagBtn, TagList } from '../../components'
 import { useNavigate } from 'react-router-dom'
 import { useCallback, useState } from 'react'
 import { styled } from 'styled-components'
@@ -31,40 +31,31 @@ const Dev = () => {
   }, [])
 
   const [tags, setTags] = useState([
-    <TagBtn isChange={ true }>
-        # LG
-      </TagBtn>,
-      <TagBtn>
-        # KT
-      </TagBtn>,
-      <TagBtn isChange={ true }>
-        # SSG
-      </TagBtn>,
-      <TagBtn>
-        # NC
-      </TagBtn>,
-      <TagBtn>
-        # 두산
-      </TagBtn>,
-      <TagBtn>
-        # KIA
-      </TagBtn>,
-      <TagBtn>
-        # 롯데
-      </TagBtn>,
-      <TagBtn>
-        # 삼성
-      </TagBtn>,
-      <TagBtn>
-        # 한화
-      </TagBtn>,
-      <TagBtn>
-        # 키움
-      </TagBtn>,
-      <TagBtn>
-        # 팀무관
-      </TagBtn>
+        {title: '# LG', isChange: true},
+        {title: '# KT', isChange: true},
+        {title: '# SSG', isChange: true},
+        {title: '# NC', isChange: true},
+        {title: '# 두산', isChange: true},
+        {title: '# KIA', isChange: true},
+        {title: '# 롯데', isChange: true},
+        {title: '# 삼성', isChange: true},
+        {title: '# 한화', isChange: true},
+        {title: '# 키움', isChange: true},
+        {title: '# 팀무관', isChange: false}
   ])
+  const [tagsRemove, setTagsRemove] = useState([
+        {title: '# LG', isRemove: true},
+        {title: '# KT', isRemove: true},
+        {title: '# SSG', isRemove: true},
+        {title: '# NC', isRemove: true},
+        {title: '# 두산', isRemove: true},
+        {title: '# KIA', isRemove: true},
+        {title: '# 롯데', isRemove: true},
+        {title: '# 삼성', isRemove: true},
+        {title: '# 한화', isRemove: true},
+        {title: '# 키움', isRemove: false},
+        {title: '# 팀무관', isRemove: false}
+])
 
 
   return (
@@ -82,8 +73,9 @@ const Dev = () => {
         로그인
       </Button>
       <p>SNS 로그인</p>
-      <IconWrapper> 
-        <NaverIcon />
+
+      <IconWrapper>
+        <PersonIcon />
         <KakaoIcon />
       </IconWrapper>
       <TagBtn isChange={ true }>
@@ -92,7 +84,14 @@ const Dev = () => {
       <TagBtn>
         # 안변함
       </TagBtn>
-      <TagList tags = { tags} />
+      <Tag isRemove={ true }>
+        # INFJ 
+      </Tag>
+      <Tag>
+        # 안변함
+      </Tag>
+      <TagList tags = { tags } />
+      <TagList tags = { tagsRemove } />
       <hr style= {{ width: '100%' }} />
       <Title type= 'small'>혹시</Title>
       <Title type= 'small'>비밀번호를 잊으셨나요?</Title>
