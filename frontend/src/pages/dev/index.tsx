@@ -1,7 +1,7 @@
 import { InputBox, Button, Select, Title, KakaoIcon, 
-  NaverIcon, MainLayout, Tag, TagBtn } from '../../components'
+  NaverIcon, MainLayout, Tag, TagBtn, TagList } from '../../components'
 import { useNavigate } from 'react-router-dom'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { styled } from 'styled-components'
 
 const InputWrapper = styled.div`
@@ -30,6 +30,42 @@ const Dev = () => {
     navigator('/login')
   }, [])
 
+  const [tags, setTags] = useState([
+    <TagBtn isChange={ true }>
+        # LG
+      </TagBtn>,
+      <TagBtn>
+        # KT
+      </TagBtn>,
+      <TagBtn isChange={ true }>
+        # SSG
+      </TagBtn>,
+      <TagBtn>
+        # NC
+      </TagBtn>,
+      <TagBtn>
+        # 두산
+      </TagBtn>,
+      <TagBtn>
+        # KIA
+      </TagBtn>,
+      <TagBtn>
+        # 롯데
+      </TagBtn>,
+      <TagBtn>
+        # 삼성
+      </TagBtn>,
+      <TagBtn>
+        # 한화
+      </TagBtn>,
+      <TagBtn>
+        # 키움
+      </TagBtn>,
+      <TagBtn>
+        # 팀무관
+      </TagBtn>
+  ])
+
 
   return (
     <MainLayout>
@@ -56,12 +92,7 @@ const Dev = () => {
       <TagBtn>
         # 안변함
       </TagBtn>
-      <Tag isRemove={ false }>
-        # 없어지면안돼
-      </Tag>
-      <Tag>
-        # 없애야돼
-      </Tag>
+      <TagList tags = { tags} />
       <hr style= {{ width: '100%' }} />
       <Title type= 'small'>혹시</Title>
       <Title type= 'small'>비밀번호를 잊으셨나요?</Title>
