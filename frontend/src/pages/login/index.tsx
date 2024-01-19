@@ -3,6 +3,9 @@ import { InputBox, Button, Select, Title, KakaoIcon,
 import { useNavigate } from 'react-router-dom'
 import { useCallback } from 'react'
 import { styled } from 'styled-components'
+
+
+
   
 const InputWrapper = styled.div`
     box-sizing: border-box;
@@ -41,7 +44,7 @@ const Login = () => {
           <InputBox title= '이메일' placeholder= '이메일을 입력해주세요.' />
           <InputBox title= '비밀번호' placeholder= '비밀번호를 입력해주세요' />
         </InputWrapper>
-        <Button type='medium' onClick={ onLogin }>
+        <Button type='cancel' onClick={ onLogin }>
           로그인
         </Button>
         <p>SNS 로그인</p>
@@ -60,4 +63,39 @@ const Login = () => {
   }
   
   export default Login
-  
+// import {styled} from 'styled-components'
+
+// const SignButtonWrapper = styled.button<SignButtonProps>`
+//   background-color: #7D74B4;
+//   width: 200px;
+//   height: 50px;
+//   color: white;
+//   border: none;
+//   border-radius: 10px;
+//   font-size: 20px;
+//   font-weight: bold;
+//   font-family: 'BM HANNA_TTF';
+//   font-style: normal;
+//   line-height: normal;
+//   `
+// const SignButton = (props: SignButtonProps) =>{
+
+//   const {
+//     children, type = 'login', color = 'lightgrey', 
+//     onClick
+//   } = props
+
+//   return (
+//     <SignButtonWrapper onClick={ onClick } type={ type } color={ color } >
+//       { children }
+//     </SignButtonWrapper>
+//   )
+// }
+
+// export default SignButton
+
+// type SignButtonProps = {
+//   children?: string,
+//   color?: string,
+//   type?:'login' |'signup'
+//   onClick?: () => void
