@@ -1,5 +1,5 @@
 import { InputBox, Button, Select, Title, KakaoIcon, 
-  NaverIcon, MainLayout } from '../../components'
+  NaverIcon, MainLayout, Tag, TagBtn } from '../../components'
 import { useNavigate } from 'react-router-dom'
 import { useCallback } from 'react'
 import { styled } from 'styled-components'
@@ -30,6 +30,7 @@ const Dev = () => {
     navigator('/login')
   }, [])
 
+
   return (
     <MainLayout>
       <Title type= 'large' color= 'gray'>
@@ -45,10 +46,22 @@ const Dev = () => {
         로그인
       </Button>
       <p>SNS 로그인</p>
-      <IconWrapper>
+      <IconWrapper> 
         <NaverIcon />
         <KakaoIcon />
       </IconWrapper>
+      <TagBtn isChange={ true }>
+        # INFJ 
+      </TagBtn>
+      <TagBtn>
+        # 안변함
+      </TagBtn>
+      <Tag isRemove={ false }>
+        # 없어지면안돼
+      </Tag>
+      <Tag>
+        # 없애야돼
+      </Tag>
       <hr style= {{ width: '100%' }} />
       <Title type= 'small'>혹시</Title>
       <Title type= 'small'>비밀번호를 잊으셨나요?</Title>
