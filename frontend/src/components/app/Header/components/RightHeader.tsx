@@ -1,51 +1,55 @@
-import { PersonIcon, ChatIcon } from 'src/components/icon';
-import { useState } from 'react';
+import { PersonIcon, ChatIcon } from 'src/components';
+import { MenuItem } from './index'
 import useStore from 'src/store'
-import MenuItem from './MenuItem'
 import styled from 'styled-components'
+import type { MenuItemProps } from './MenuItem'
 
 const HeaderMenuWrapper = styled.div`
   box-sizing: border-box;  
   display: flex;
   flex-direction: row;
-  align-items: center;
   gap: 10px;
+  height: 60px;
 `
 const HeaderIconWrapper = styled(HeaderMenuWrapper)`
-  gap: 30px;
+  gap: 40px;
+  display: flex;
+  align-items: center;
 `
 
-const beforeLoginMenu = [
-  { title : '회원가입', path : '/signup' },
-  { title : '로그인', path : '/login' },
-]
-
-const loginMenu = [
-  { 
-    title : 'Service', 
-    menus : [ 
-      { name : '매칭하기', path : '/service' },
-      { name : '매칭하기2', path : '/service' },] 
-  },
-  { 
-    title : 'Content', 
-    menus : [ { name : '참여하기', path : '/service' } ] 
-  },
-]
-
-
 const RightHeader = () => {
+
+  const { isLogin, setIsLogin, setSession } = useStore();
   
-  const { isLogin, setIsLogin, setSession } = useStore()
-  const [ menu, setMenu ] = useState( isLogin? loginMenu : beforeLoginMenu )
+  const menu = 
+    isLogin ? [
+      { title : '회원가입', path : '/signup' },
+      { title : '로그인', path : '/login' },
+    ]: [
+      { title : 'Service', 
+        menus : [ 
+          { name : '매칭하기', path : '/service' },
+          { name : '메이트 모집하기', path : '/service' },
+        ] 
+      },
+      { title : 'Content', 
+        menus : [ 
+          { name : '오픈 채팅방', path : '/service' },
+          { name : '메이트 채팅방', path : '/service' },
+          { name : '경기 일정', path : '/service' },
+        ] 
+      }
+    ]
 
   return (
+
     <HeaderMenuWrapper>
       {
-          menu.map(( item, index ) => {
+          menu.map(( item : MenuItemProps ) => {
             return <MenuItem 
-                title={ item.title } path={ item.path }
-                menuDatas={ item.menus }
+                key = { item?.title }
+                title ={ item?.title } path = { item?.path }
+                menus ={ item?.menus }
               />
         })
       }
