@@ -19,10 +19,7 @@ const IconWrapper = styled.div`
   gap: 10px;
 `
 
-const dataSource = [
-  { value: 'Kakao', name: 'Kakao' },
-  { value: 'Naver', name: 'Naver' },
-]
+
 
 const Dev = () => {
   const navigator = useNavigate()

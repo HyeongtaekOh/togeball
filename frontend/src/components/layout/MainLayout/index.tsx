@@ -1,4 +1,5 @@
 import { styled } from 'styled-components'
+import Header from '../../app/Header'
 
 const MainWrapper = styled.div`     
     display: flex;
@@ -12,6 +13,7 @@ const MainLayout = ( props : MainLayoutProps ) =>{
 
     return(
         <MainWrapper>
+            <Header/>
             { children }
         </MainWrapper>
     )
