@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@Table(name = "TBL_CHATROOM")
 @DiscriminatorColumn(name = "dtype")
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,6 +19,6 @@ public class Chatroom extends BaseEntity {
     @Column(name = "chatroom_id")
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     protected String title;
 }
