@@ -4,6 +4,8 @@ import com.ssafy.togeball.domain.chatroom.entity.Chatroom;
 import com.ssafy.togeball.domain.chatroom.entity.GameChatroom;
 import com.ssafy.togeball.domain.chatroom.entity.MatchingChatroom;
 import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
+import com.ssafy.togeball.domain.user.entity.User;
+import com.ssafy.togeball.domain.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 @Slf4j
 @DataJpaTest
@@ -20,8 +23,11 @@ class ChatroomRepositoryTest {
     @Autowired
     private ChatroomRepository chatroomRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Test
-    void saveGameChatroomTest() {
+    void saveGameChatroom() {
 
         // given
         GameChatroom gameChatroom1 = GameChatroom.builder()
@@ -46,6 +52,50 @@ class ChatroomRepositoryTest {
         assertEquals(gameChatroom2.getTitle(), saved2.getTitle());
         assertEquals(gameChatroom2.getGameId(), saved2.getGameId());
         assertInstanceOf(GameChatroom.class, saved2);
+    }
+
+    @Test
+    void saveRecruitChatroom() {
+
+        // given
+        User manager = User.builder()
+                .email("test@gmail.com")
+                .password("password")
+                .nickname("nickname")
+                .build();
+
+        RecruitChatroom recruitChatroom1 = RecruitChatroom.builder()
+                .title("recruit chatroom 1")
+                .description("description")
+                .capacity(10)
+                .build();
+        RecruitChatroom recruitChatroom2 = RecruitChatroom.builder()
+                .title("recruit chatroom 2")
+                .description("description")
+                .capacity(10)
+                .build();
+        recruitChatroom1.setManager(manager);
+        recruitChatroom2.setManager(manager);
+
+        // when
+        User savedManager = userRepository.save(manager);
+        RecruitChatroom saved1 = chatroomRepository.save(recruitChatroom1);
+        RecruitChatroom saved2 = chatroomRepository.save(recruitChatroom2);
+
+        // then
+        log.info("saved1: id = {}, title = {}, description = {}, capacity = {}", recruitChatroom1.getId(), recruitChatroom1.getTitle(), recruitChatroom1.getDescription(), recruitChatroom1.getCapacity());
+        assertEquals(recruitChatroom1.getManager().getEmail(), savedManager.getEmail());
+        assertEquals(recruitChatroom1.getTitle(), saved1.getTitle());
+        assertEquals(recruitChatroom1.getDescription(), saved1.getDescription());
+        assertEquals(recruitChatroom1.getCapacity(), saved1.getCapacity());
+        assertInstanceOf(RecruitChatroom.class, saved1);
+
+        log.info("saved2: id = {}, title = {}, description = {}, capacity = {}", recruitChatroom2.getId(), recruitChatroom2.getTitle(), recruitChatroom2.getDescription(), recruitChatroom2.getCapacity());
+        assertEquals(recruitChatroom2.getManager().getEmail(), savedManager.getEmail());
+        assertEquals(recruitChatroom2.getTitle(), saved2.getTitle());
+        assertEquals(recruitChatroom2.getDescription(), saved2.getDescription());
+        assertEquals(recruitChatroom2.getCapacity(), saved2.getCapacity());
+        assertInstanceOf(RecruitChatroom.class, saved2);
     }
 
     @Test
@@ -97,7 +147,7 @@ class ChatroomRepositoryTest {
         assertEquals(3, chatrooms.size());
 
         // 각 채팅방의 타입이 맞는지 확인
-        chatrooms.stream().allMatch(chatroom -> {
+        chatrooms.stream().forEach(chatroom -> {
             if (chatroom instanceof GameChatroom) {
                 assertEquals(gameChatroom.getTitle(), chatroom.getTitle());
                 assertEquals(gameChatroom.getGameId(), ((GameChatroom) chatroom).getGameId());
@@ -109,7 +159,6 @@ class ChatroomRepositoryTest {
                 assertEquals(matchingChatroom.getTitle(), chatroom.getTitle());
                 assertEquals(matchingChatroom.getMatchingId(), ((MatchingChatroom) chatroom).getMatchingId());
             }
-            return true;
         });
     }
 }
