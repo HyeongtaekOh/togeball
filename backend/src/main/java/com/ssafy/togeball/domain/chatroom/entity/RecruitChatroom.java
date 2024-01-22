@@ -9,7 +9,7 @@ import lombok.*;
 @Entity
 @Table(name = "TBL_RECRUITCHATROOM")
 @ToString(exclude = {"manager"})
-@DiscriminatorValue("recruit")
+@DiscriminatorValue("RECRUIT")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RecruitChatroom extends Chatroom {
 
@@ -19,12 +19,14 @@ public class RecruitChatroom extends Chatroom {
     @Column(nullable = false)
     private Integer capacity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "manager_id")
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "manager_id", nullable = false)
     private User manager;
 
     @Builder
-    public RecruitChatroom(String title, String description, Integer capacity) {
+    public RecruitChatroom(User manager, String title, String description, Integer capacity) {
+        this.manager = manager;
         this.title = title;
         this.description = description;
         this.capacity = capacity;
@@ -32,10 +34,6 @@ public class RecruitChatroom extends Chatroom {
 
     public void changeCapacity(Integer capacity) {
         this.capacity = capacity;
-    }
-
-    public void setManager(User manager) {
-        this.manager = manager;
     }
 
 }
