@@ -16,9 +16,7 @@ public class Stadium {
     @Column(name="stadium_id")
     private byte id;
 
-    //todo: 수정해야 함 (club에 stadium 만들고...)
-    @OneToMany //구장 하나가 여러 클럽을 가질 수 있다
-    @Column(name = "club_id")
+    @OneToMany
     private List<Club> club;
 
     @Column(nullable = false, unique = true)
