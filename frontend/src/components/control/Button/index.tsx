@@ -1,30 +1,8 @@
-import { styled } from 'styled-components'
+import styled, { css } from 'styled-components'
 
 
-
-const backgroundColor = {
-  cancel : '#A2A2A7',
-  parti : '#7D74B4',
-  save : '#FBD14B',
-  reset : '#756868'
-
-}
-
-const color = {
-  cancel : 'white',
-  parti : 'white',
-  save : 'black', 
-  reset : 'white'
-}
-
-const onCursorColor = {
-  cancel : '#F21408',
-  parti : '#9008F2',
-  save : ' #F9B303',
-  reset : '#EE0E2F'
-}
 const ButtonWrapper = styled.button<ButtonProps>`
-  background-color: ${( props ) => backgroundColor[props.type] };
+  background-color: #A2A2A7;
   width: ${( props ) =>  props.width };
   display: flex;
   justify-content: center;
@@ -32,7 +10,7 @@ const ButtonWrapper = styled.button<ButtonProps>`
   height: 20.659px;
   border: none;
   border-radius: 100px;
-  color: ${( props) => color[props.type] };
+  color:white;
   padding: 15px 25px;
   font-weight: bold;
   font-size: 11px;
@@ -40,9 +18,41 @@ const ButtonWrapper = styled.button<ButtonProps>`
   margin: 10px 0px 10px 0px;
   transition: background-color 0.3s, color 0.3s;
   &:hover {
-    background-color: ${(props) => onCursorColor[props.type]}; /* 배경색 변경 */
+    background-color: #EE0E2F; /* 배경색 변경 */
     color: white; /* 텍스트 색상 변경 */
   }
+
+  ${(props) =>
+  props.type ==='save' &&
+  css`
+    background-color: #FBD14B;  
+    color: white;
+    &hover{
+      background-color: #F9B303;
+    }
+  `}
+
+  
+
+  ${(props) =>
+  props.type ==='parti' &&
+  css`
+    background-color: #7D74B4;  
+    color: white;
+    &:hover{
+      background-color: #9008F2;
+    }
+  `}
+
+  ${(props) =>
+  props.type ==='reset' &&
+  css`
+    background-color: #756868;  
+    color: white;
+    &:hover{
+      background-color: #EE0E2F;
+    }
+  `}
 `
 
 const Button = ( props: ButtonProps ) => {
