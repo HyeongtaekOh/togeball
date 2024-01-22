@@ -1,32 +1,52 @@
-import { HomeLayout, MainLayout, Button } from 'src/components'
-import { HomeCard } from './components'
+import { HomeLayout, MainLayout, Button,Title } from 'src/components'
+import { HomeCard, TodayGameCard } from './components'
 import { useState } from 'react'
+import { GameType } from 'src/model/types/Game'
 import styled from 'styled-components'
 
 const GameWrpper = styled.div`
+  box-sizing: border-box;
   display: flex;
+  flex-direction: column;
   box-shadow: 5px 5px 5px lightGray;
   border-radius: 10px;
   width: 100%;
   height: 100%;
+  padding: 20px 40px ;
+  gap: 10px;
 `
 
 const TableWrpper = styled.table`
   width: 100%;
-  height: 50%;
+  height: 60%;
   border-collapse: collapse;
-  display:table;
+  display: table;
+  margin-bottom: 10px;
   th, td {
     display:table-cell; 
     vertical-align:middle;
-    padding: 15px;
+    padding: 6px 10px;
   }
 `
 
 const Home = () => {
 
-  const [ dataSource, setDataSource ] = useState([
-    { name : "lg", value: "1" }
+  const [ gameList, setGameList ] = useState<GameType[]>([
+    {
+      gameId: 0,
+      chatroomId: 0,
+      datetime: '20240101',
+      homeClubName: 'lg',
+      awayClubName: 'kt',
+      stadiumName: '잠실',
+    },{
+      gameId: 0,
+      chatroomId: 0,
+      datetime: '20240101',
+      homeClubName: 'a',
+      awayClubName: 'b',
+      stadiumName: '잠실',
+    }
   ])
 
   return (
@@ -36,7 +56,11 @@ const Home = () => {
           <tbody>
             <tr>
               <td rowSpan={2} colSpan={2} style={{ width: '60%' }}>
-                <GameWrpper></GameWrpper>
+                <GameWrpper>
+                   <Title color='#746E6E'>오늘의 경기</Title>
+                    <TodayGameCard gameList = { gameList }/>
+                   <Title color='#746E6E'>현재 순위</Title>
+                </GameWrpper>
               </td>
               <td colSpan={2}>
                 <HomeCard 

@@ -3,7 +3,7 @@ import { styled } from 'styled-components'
 const HomeWrapper = styled.div`
     box-sizing: border-box;
 	display: flex;
-    width: 60%;
+    width: 65%;
     height: 100%;
     min-width: 1200px;
     flex-direction: column;
