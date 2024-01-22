@@ -6,6 +6,7 @@ const HeaderWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
+  width: 100%;
   justify-content: space-between;
   height: 60px;
   padding: 50px 70px;

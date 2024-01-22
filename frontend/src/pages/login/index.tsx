@@ -56,7 +56,6 @@ const Login = () => {
         <Title type= 'small'>혹시</Title>
         <Title type= 'small'>비밀번호를 잊으셨나요?</Title>
         <Title type= 'small'>아직 회원이 아니신가요?</Title>
-        <Select dataSource={ dataSource } placeholder= '선택해주세요' />
       </MainLayout>
     )
 
