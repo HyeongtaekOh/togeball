@@ -1,5 +1,5 @@
 import TagBtn from "../TagBtn";
-import styled from 'styled-components';
+import styled from "styled-components";
 import Tag from "../Tag";
 
 const TagListWrapper = styled.div`
@@ -8,50 +8,44 @@ const TagListWrapper = styled.div`
   justify-content: flex-start;
   flex-wrap: wrap;
   width: 100%;
-`
+`;
 
 const TagList = (props: TagListProps) => {
+  const { tags } = props;
 
-    const { tags } = props;
+  if (!tags[0].isRemove) {
+    return (
+      <TagListWrapper>
+        { tags.map((tag, index) => (
+          <TagBtn key={ index }>{ tag.title }</TagBtn>
+        ))}
+      </TagListWrapper>
+    );
+  } else {
+    return (
+      <TagListWrapper>
+        { tags.map((tag, index) => (
+          <Tag key={ index } isRemove={ tag.isRemove } bgColor={ tag.bgColor }>
+            { tag.title }
+          </Tag>
+        ))}
+      </TagListWrapper>
+    );
+  }
 
-    if(!tags[0].isRemove){
-        return (
-            <TagListWrapper>
-            { tags.map((tag, index) => (
-              <TagBtn key={ index } isChange={ tag.isChange }>
-                { tag.title }
-              </TagBtn>
-            ))}
-          </TagListWrapper>
-        )
-    }else{
-    return(
-        <TagListWrapper>
-            {tags.map((tag, index) => (
-                <Tag key={ index } isRemove={ tag.isRemove }>
-                    { tag.title }
-                </Tag>
-            ))}
-            </TagListWrapper>
-        
-    )
-            }
-    
+  // return (
+  //     <TagListWrapper>
+  //         {tags.map((tag, index) => (
+  //           <TagBtn key={index} isChange={ tag.isChange }>
+  //             { tag.title }
+  //           </TagBtn>
+  //         ))}
+  //       </TagListWrapper>
+  //   );
+};
 
-    // return (
-    //     <TagListWrapper>
-    //         {tags.map((tag, index) => (
-    //           <TagBtn key={index} isChange={ tag.isChange }>
-    //             { tag.title }
-    //           </TagBtn>
-    //         ))}
-    //       </TagListWrapper>
-    //   );
-
-}
-
-export default TagList
+export default TagList;
 
 type TagListProps = {
-    tags: Array<{ title: string, isRemove?: boolean, isChange?: boolean }>
-}
+  tags: Array<{ title: string; isRemove?: boolean; bgColor?: string }>;
+};

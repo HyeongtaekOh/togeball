@@ -33,47 +33,35 @@ const Dev = () => {
   // }, [])
 
   const [tags, setTags] = useState([
-        {title: '# LG', isChange: true},
-        {title: '# KT', isChange: true},
-        {title: '# SSG', isChange: true},
-        {title: '# NC', isChange: true},
-        {title: '# 두산', isChange: true},
-        {title: '# KIA', isChange: true},
-        {title: '# 롯데', isChange: true},
-        {title: '# 삼성', isChange: true},
-        {title: '# 한화', isChange: true},
-        {title: '# 키움', isChange: true},
-        {title: '# 팀무관', isChange: false}
+        { title: '# LG' },
+        { title: '# KT' },
+        { title: '# SSG' },
+        { title: '# NC' },
+        { title: '# 두산' },
+        { title: '# KIA' },
+        { title: '# 롯데' },
+        { title: '# 삼성' },
+        { title: '# 한화' },
+        { title: '# 키움' },
+        { title: '# 팀무관' }
   ])
   const [tagsRemove, setTagsRemove] = useState([
-        {title: '# LG', isRemove: true},
-        {title: '# KT', isRemove: true},
-        {title: '# SSG', isRemove: true},
-        {title: '# NC', isRemove: true},
-        {title: '# 두산', isRemove: true},
-        {title: '# KIA', isRemove: true},
-        {title: '# 롯데', isRemove: true},
-        {title: '# 삼성', isRemove: true},
-        {title: '# 한화', isRemove: true},
-        {title: '# 키움', isRemove: false},
-        {title: '# 팀무관', isRemove: false}
+        { title: '# LG', bgColor: '#FBD14B', isRemove: true },
+        { title: '# KT', bgColor: '#FBD14B',isRemove: true },
+        { title: '# SSG', bgColor: '#FBD14B',isRemove: true },
+        { title: '# NC', bgColor: '#FBD14B',isRemove: true },
+        { title: '# 두산', bgColor: '#FBD14B',isRemove: true },
+        { title: '# KIA', isRemove: true },
+        { title: '# 롯데', isRemove: true },
+        { title: '# 삼성', isRemove: true },
+        { title: '# 한화', isRemove: true },
+        { title: '# 키움' },
+        { title: '# 팀무관' }
 ])
 
 
   return (
     <MainLayout>
-      <TagBtn isChange={ true }>
-        # INFJ 
-      </TagBtn>
-      <TagBtn>
-        # 안변함
-      </TagBtn>
-      <Tag isRemove={ true }>
-        # INFJ 
-      </Tag>
-      <Tag>
-        # 안변함
-      </Tag>
       <TagList tags = { tags } />
       <TagList tags = { tagsRemove } />
       
