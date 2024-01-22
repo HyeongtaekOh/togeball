@@ -53,6 +53,7 @@ class UserTagRepositoryTest {
 
     @Test
     void userTagDuplicateTest() {
+
         UserTag userTag1 = UserTag.builder()
                 .tag(tag)
                 .user(user)
@@ -83,6 +84,7 @@ class UserTagRepositoryTest {
 
     @Test
     void findByUserIdTest() {
+
         UserTag userTag1 = UserTag.builder()
                 .tag(tag)
                 .user(user)
