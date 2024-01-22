@@ -1,6 +1,8 @@
 package com.ssafy.togeball.domain.chatroom.entity;
 
 
+import com.ssafy.togeball.domain.common.entity.AbstractJoinEntity;
+import com.ssafy.togeball.domain.common.utils.SimpleTuple;
 import com.ssafy.togeball.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -12,9 +14,10 @@ import lombok.NoArgsConstructor;
     @Index(name = "chatroom_membership_idx", columnList = "chatroom_id, user_id")
 })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChatroomMembership {
+public class ChatroomMembership extends AbstractJoinEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chatroom_membership_id")
     private Long id;
 
@@ -30,5 +33,10 @@ public class ChatroomMembership {
     public ChatroomMembership(Chatroom chatroom, User user) {
         this.chatroom = chatroom;
         this.user = user;
+    }
+
+    @Override
+    protected Object getKey() {
+        return new SimpleTuple<Long, Long>(chatroom.getId(), user.getId());
     }
 }
