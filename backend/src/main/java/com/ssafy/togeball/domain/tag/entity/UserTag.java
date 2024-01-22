@@ -9,11 +9,14 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Table(name = "TBL_USERTAG", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"user_id", "tag_id"})
+})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserTag {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_tag_id")
     private Long id;
 
@@ -29,5 +32,8 @@ public class UserTag {
     public UserTag(Tag tag, User user) {
         this.tag = tag;
         this.user = user;
+
+        tag.addUserTag(this);
+        user.addUserTag(this);
     }
 }

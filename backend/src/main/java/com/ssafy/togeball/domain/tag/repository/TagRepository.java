@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface TagRepository extends JpaRepository<Tag, Long> {
 
-    Optional<Tag> findTagByContent(String content);
+    Optional<Tag> findByContent(String content);
 
-    List<Tag> findTagsByType(TagType type);
+    List<Tag> findByType(TagType type);
 }
