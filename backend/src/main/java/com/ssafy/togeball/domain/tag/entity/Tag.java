@@ -6,10 +6,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@Table(name = "TBL_TAG")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Tag {
 
@@ -25,11 +27,15 @@ public class Tag {
     @Column(nullable = false)
     private TagType type;
 
-    @OneToMany(mappedBy = "tag")
-    private List<UserTag> userTags;
+    @OneToMany(mappedBy = "tag", orphanRemoval = true)
+    private List<UserTag> userTags = new ArrayList<>();
 
     public void changeType(TagType type) {
         this.type = type;
+    }
+
+    public void addUserTag(UserTag userTag) {
+        userTags.add(userTag);
     }
 
     @Builder
