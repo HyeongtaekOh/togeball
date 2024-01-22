@@ -16,15 +16,15 @@ public class Game {
     @Column(name = "game_id")
     private int id;
 
-    @ManyToOne //구장 하나가 여러 경기를 가질 수 있다
+    @ManyToOne(fetch = FetchType.LAZY) //구장 하나가 여러 경기를 가질 수 있다
     @JoinColumn(name = "stadium_id", nullable = false)
     private Stadium stadium;
 
-    @ManyToOne //구단 하나가 여러 경기를 가질 수 있다
+    @ManyToOne(fetch = FetchType.LAZY) //구단 하나가 여러 경기를 가질 수 있다
     @JoinColumn(name = "home_club_id", nullable = false)
     private Club homeClub;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "away_club_id", nullable = false)
     private Club awayClub;
 

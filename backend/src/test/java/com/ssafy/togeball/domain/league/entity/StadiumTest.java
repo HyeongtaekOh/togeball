@@ -36,12 +36,5 @@ public class StadiumTest {
 
         //Then
         System.out.println(stadium.toString());
-//        assertNotNull(stadium);
-//        assertEquals(club,stadium.getClub());
-//        assertEquals(name,stadium.getName());
-//        assertEquals(fullName,stadium.getFullName());
-//        assertEquals(address,stadium.getAddress());
-//        assertEquals(latitude, stadium.getLatitude(), 0.001);
-//        assertEquals(longitude,stadium.getLongitude(), 0.001);
     }
 }

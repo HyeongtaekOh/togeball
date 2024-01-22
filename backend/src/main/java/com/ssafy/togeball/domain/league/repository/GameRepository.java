@@ -13,7 +13,8 @@ import java.util.Optional;
 public interface GameRepository extends JpaRepository<Game, Integer> {
 
     @Query("SELECT g FROM Game g WHERE DATE(g.datetime)=:date")
-    List<Game> findByDate(LocalDate date);
+    Optional<List<Game>> findByDate(LocalDate date);
 
-//    List<Game> FindByClubName(String clubName);
+    @Query("SELECT g FROM Game g WHERE g.homeClub.sponsorName = :sponsorName OR g.awayClub.sponsorName = :sponsorNname")
+    Optional<List<Game>> findByClubName(String sponsorName);
 }

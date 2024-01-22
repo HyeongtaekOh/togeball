@@ -41,5 +41,4 @@ public class ClubRepositoryTest {
         assertEquals("Club English Name",saved.getClubEngName());
         assertEquals((byte)11,saved.getRanking());
     }
-
 }
