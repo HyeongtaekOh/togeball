@@ -1,10 +1,11 @@
 package com.ssafy.togeball.domain.matching.entity;
 
+import com.ssafy.togeball.domain.common.entity.AbstractJoinEntity;
+import com.ssafy.togeball.domain.common.utils.SimpleTuple;
 import com.ssafy.togeball.domain.tag.entity.Tag;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -14,9 +15,10 @@ import lombok.NoArgsConstructor;
     }, indexes = {
     @Index(name = "matching_tag_matching_idx", columnList = "matching_id")
 })
-public class MatchingTag {
+public class MatchingTag extends AbstractJoinEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "matching_tag_id")
     private Long id;
 
@@ -32,5 +34,10 @@ public class MatchingTag {
     public MatchingTag(Matching matching, Tag tag) {
         this.matching = matching;
         this.tag = tag;
+    }
+
+    @Override
+    protected Object getKey() {
+        return new SimpleTuple<Long, Long>(matching.getId(), tag.getId());
     }
 }

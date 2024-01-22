@@ -4,7 +4,10 @@ import com.ssafy.togeball.domain.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Entity
@@ -27,5 +30,6 @@ public class Chatroom extends BaseEntity {
     protected String dtype;
 
     @OneToMany(mappedBy = "chatroom", cascade = CascadeType.ALL, orphanRemoval = true)
-    protected List<ChatroomMembership> chatroomMemberships;
+    protected List<ChatroomMembership> chatroomMemberships = new ArrayList<>();
+
 }

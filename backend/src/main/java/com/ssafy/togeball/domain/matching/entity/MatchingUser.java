@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class MatchingUser {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "matching_user_id")
     private Long id;
 
