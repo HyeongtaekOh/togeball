@@ -3,7 +3,8 @@ import { useRouter } from '../hooks'
 export const routes = [
     
     { path: 'login' },
-    { path: 'dev' }
+    { path: 'dev' },
+    { path: 'home' },
     
 ]
 

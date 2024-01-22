@@ -12,10 +12,10 @@ const ButttonWrapper = styled.button<{ size : number }>`
 
 const NaverIcon = ( props: IconProps ) => {
 
-    const { size = 30 } = props
+    const { size = 30, onClick } = props
 
     return(
-        <ButttonWrapper size={ size }>
+        <ButttonWrapper size={ size } onClick = { onClick }>
           <svg width={size} height={size} viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
             <g clipPath='url(#clip0_403_243)'>
             <path d='M18 20H2C0.9 20 0 19.1 0 18V2C0 0.9 0.9 0 2 0H18C19.1 0 20 0.9 20 2V18C20 19.1 19.1 20 18 20Z' fill='#03C75A'/>
@@ -35,4 +35,5 @@ export default NaverIcon
 
 type IconProps = {
     size?: number,
+    onClick?: () => void,
 }
