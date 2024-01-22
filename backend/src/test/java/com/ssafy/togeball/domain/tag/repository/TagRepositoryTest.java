@@ -76,7 +76,7 @@ class TagRepositoryTest {
                 .build();
         tagRepository.save(tag);
 
-        Optional<Tag> found = tagRepository.findByContent("잠실구장");
+        Optional<Tag> found = tagRepository.findByContent(content);
         assertTrue(found.isPresent());
 
         Optional<Tag> notExist = tagRepository.findByContent(notExistingContent);
