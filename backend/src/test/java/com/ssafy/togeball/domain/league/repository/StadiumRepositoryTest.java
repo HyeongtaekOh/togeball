@@ -38,7 +38,7 @@ public class StadiumRepositoryTest {
     }
 
     @Test
-    void stadiumRegisterTest() {
+    void saveTest() {
         List<Club> club = new ArrayList<>();
         Club club1 = new Club("기업명","클럽명","Club English Name",(byte)11);
         Stadium stadium = Stadium.builder()

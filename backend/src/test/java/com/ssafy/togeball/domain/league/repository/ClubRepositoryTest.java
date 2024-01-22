@@ -27,7 +27,7 @@ public class ClubRepositoryTest {
     }
 
     @Test
-    void clubRegisterTest() {
+    void saveTest() {
         Club club = Club.builder()
                 .sponsorName("기업명")
                 .clubName("클럽명")
@@ -40,5 +40,13 @@ public class ClubRepositoryTest {
         assertEquals("클럽명",saved.getClubName());
         assertEquals("Club English Name",saved.getClubEngName());
         assertEquals((byte)11,saved.getRanking());
+    }
+
+    @Test
+    void findBySponsorNameTest() {
+        Club found = clubRepository.findBySponsorName("LG");
+        assertEquals("트윈스",found.getClubName());
+        assertEquals("Twins",found.getClubEngName());
+        assertEquals((byte)1,found.getRanking());
     }
 }
