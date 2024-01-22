@@ -13,6 +13,9 @@ const SignButtonWrapper = styled.button<SignButtonProps>`
   font-style: normal;
   line-height: normal;
   cursor: pointer;
+  &:hover {
+    background-color: #9008F2;
+  }
   `
 const SignButton = (props: SignButtonProps) =>{
 
