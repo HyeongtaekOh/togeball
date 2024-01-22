@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const size = {
     'large' : '25px',
-    'medium' : '20px',
+    'medium' : '23px',
     'small' : '15px'
 } 
 
@@ -15,10 +15,10 @@ const TitleWrapper = styled.p<{ type : string, color : string }>`
 
 const Title = ( props : TitleProps ) =>{
 
-    const { type = 'large', color ='black', children } = props
+    const { type = 'large', color ='black', children, style } = props
 
     return(
-        <TitleWrapper type = { type } color = { color }>
+        <TitleWrapper type = { type } color = { color } style= { style }>
             { children }
         </TitleWrapper>
     )
@@ -31,4 +31,5 @@ type TitleProps = {
     type?: 'large' | 'medium' | 'small',
     color?: string,
     children?: Array<string | any> | string
+    style?: React.CSSProperties
 }
