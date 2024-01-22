@@ -6,9 +6,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 public class GameTest {
 
     @Test
@@ -34,10 +31,5 @@ public class GameTest {
 
         //Then
         System.out.println(game.toString());
-//        assertNotNull(game);
-//        assertEquals(stadium,game.getStadium());
-//        assertEquals(homeClub,game.getHomeClub());
-//        assertEquals(awayClub,game.getAwayClub());
-//        assertEquals(datetime,game.getDatetime());
     }
 }
