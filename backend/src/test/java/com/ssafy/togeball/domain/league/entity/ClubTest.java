@@ -2,18 +2,25 @@ package com.ssafy.togeball.domain.league.entity;
 
 import org.junit.jupiter.api.Test;
 
-class ClubTest {
+public class ClubTest {
 
     @Test
     void clubBuilderTest() {
+        //Given
+        String sponsorName = "LG";
+        String clubName = "트윈스";
+        String clubEngName = "Twins";
+        byte ranking = 1;
+
+        //When
         Club club = Club.builder()
-                .sponsorName("LG")
-                .clubName("트윈스")
-                .ranking((byte)1)
+                .sponsorName(sponsorName)
+                .clubName(clubName)
+                .clubEngName(clubEngName)
+                .ranking(ranking)
                 .build();
 
-        System.out.println("club.sponsorName : " + club.getSponsorName());
-        System.out.println("club.clubName : " + club.getClubName());
-        System.out.println("club.ranking : " + club.getRanking());
+        //Then
+        System.out.println(club.toString());
     }
 }
