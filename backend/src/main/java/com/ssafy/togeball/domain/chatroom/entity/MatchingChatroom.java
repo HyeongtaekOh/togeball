@@ -1,9 +1,7 @@
 package com.ssafy.togeball.domain.chatroom.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.ssafy.togeball.domain.matching.entity.Matching;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,16 +10,17 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @Table(name = "TBL_MATCHINGCHATROOM")
-@DiscriminatorValue("matching")
+@DiscriminatorValue("MATCHING")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MatchingChatroom extends Chatroom {
 
-    @Column
-    private Long matchingId;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "matching_id", nullable = false)
+    private Matching matching;
 
     @Builder
-    public MatchingChatroom(String title, Long matchingId) {
+    public MatchingChatroom(String title, Matching matching) {
         this.title = title;
-        this.matchingId = matchingId;
+        this.matching = matching;
     }
 }

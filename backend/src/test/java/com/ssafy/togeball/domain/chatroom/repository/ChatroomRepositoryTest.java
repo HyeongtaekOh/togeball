@@ -1,9 +1,6 @@
 package com.ssafy.togeball.domain.chatroom.repository;
 
-import com.ssafy.togeball.domain.chatroom.entity.Chatroom;
-import com.ssafy.togeball.domain.chatroom.entity.GameChatroom;
-import com.ssafy.togeball.domain.chatroom.entity.MatchingChatroom;
-import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
+import com.ssafy.togeball.domain.chatroom.entity.*;
 import com.ssafy.togeball.domain.user.entity.User;
 import com.ssafy.togeball.domain.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +39,7 @@ class ChatroomRepositoryTest {
         // when
         GameChatroom saved1 = chatroomRepository.save(gameChatroom1);
         GameChatroom saved2 = chatroomRepository.save(gameChatroom2);
+
 
         // then
         log.info("saved1: id = {}, title = {}, gameId = {}", gameChatroom1.getId(), gameChatroom1.getTitle(), gameChatroom1.getGameId());
