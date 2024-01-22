@@ -1,6 +1,7 @@
 package com.ssafy.togeball.domain.user.entity;
 
 import com.ssafy.togeball.domain.common.entity.BaseEntity;
+import com.ssafy.togeball.domain.tag.entity.UserTag;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -8,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -37,6 +40,13 @@ public class User extends BaseEntity {
     private String phone;
 
     private String profileImage;
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<UserTag> userTags = new ArrayList<>();
+
+    public void addUserTag(UserTag userTag) {
+        userTags.add(userTag);
+    }
 
     public void changeProfileImage(String profileImage) {
         this.profileImage = profileImage;

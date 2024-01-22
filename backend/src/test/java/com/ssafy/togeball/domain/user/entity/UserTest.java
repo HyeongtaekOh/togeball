@@ -12,7 +12,7 @@ class UserTest {
                 .email("email@gmail.com")
                 .password("password")
                 .nickname("nickname")
-                .birthdate(LocalDateTime.of(1999, 04, 23, 0, 0, 0))
+                .birthdate(LocalDateTime.of(1999, 4, 23, 0, 0, 0))
                 .gender(Gender.FEMALE)
                 .phone("010-1234-5678")
                 .profileImage("profile.jpg")
