@@ -4,7 +4,8 @@ import styled from 'styled-components';
 
 const TagBtnWrapper = styled.button<TagBtnProps>`
   background-color: ${( props ) => props.bgColor };
-  width: 100px;
+  max-width: 100px;
+  min-width: 80px;
   height: 28px;
   border: none;
   color: ${( props ) => props.color };
@@ -33,14 +34,10 @@ const TagBtn = (props: TagBtnProps) => {
     const backgroundColor = isPurple ? '#DEDCEE' : '#6A60A9';
     const letterColor = isWhite ? 'black' : 'white';
 
-    const { 
-        children,
-        isChange = false,
-        onClick 
-      } = props
+    const { children, isChange = true } = props
 
       return (
-        <TagBtnWrapper onClick={ ()=> { changeColor(); onClick?.() } } bgColor={backgroundColor} color={ letterColor }>
+        <TagBtnWrapper onClick={  changeColor } bgColor={ backgroundColor } color={ letterColor }>
           { children }
         </TagBtnWrapper>
       )
