@@ -38,3 +38,6 @@ out/
 
 ### WSL temp files ###
 *.tmp
+
+### Querydsl ###
+**/generated/

@@ -98,30 +98,12 @@ public class ChatroomEntityTest {
                 .capacity(10)
                 .build();
 
-        ChatroomMembership chatroomMembership1 = ChatroomMembership.builder()
-                .chatroom(recruitChatroom)
-                .user(user1)
-                .build();
-        ChatroomMembership chatroomMembership2 = ChatroomMembership.builder()
-                .chatroom(recruitChatroom)
-                .user(user2)
-                .build();
+        ChatroomMembership chatroomMembership1 = ChatroomMembership.createChatroomMembership(recruitChatroom, user1);
+        ChatroomMembership chatroomMembership2 = ChatroomMembership.createChatroomMembership(recruitChatroom, user2);
 
-        RecruitTag recruitTag1 = RecruitTag.builder()
-                .recruitChatroom(recruitChatroom)
-                .tag(tag1)
-                .build();
-        RecruitTag recruitTag2 = RecruitTag.builder()
-                .recruitChatroom(recruitChatroom)
-                .tag(tag2)
-                .build();
-        RecruitTag recruitTag3 = RecruitTag.builder()
-                .recruitChatroom(recruitChatroom)
-                .tag(tag3)
-                .build();
-
-        recruitChatroom.getRecruitTags().addAll(List.of(recruitTag1, recruitTag2, recruitTag3));
-        recruitChatroom.getChatroomMemberships().addAll(List.of(chatroomMembership1, chatroomMembership2));
+        RecruitTag recruitTag1 = RecruitTag.createRecruitTag(recruitChatroom, tag1);
+        RecruitTag recruitTag2 = RecruitTag.createRecruitTag(recruitChatroom, tag2);
+        RecruitTag recruitTag3 = RecruitTag.createRecruitTag(recruitChatroom, tag3);
 
         // when
         entityManager.persist(user1);
