@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const size = {
     'large' : '25px',
@@ -8,9 +8,18 @@ const size = {
 
 const TitleWrapper = styled.p<{ type : string, color : string }>`
     font-size: ${( props ) => size[ props.type ]};
-    font-weight: bold;
     color: ${ ( props ) => props.color };
     line-height: 130%;
+    white-space: nowrap;
+    
+    ${(props) =>
+        props.type !== 'small' &&
+        css`
+            font-weight: bold;
+        `
+    }
+
+
 `
 
 const Title = ( props : TitleProps ) =>{

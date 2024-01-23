@@ -4,31 +4,35 @@ import { Title } from 'src/components'
 const HomeCardWrapper = styled.div<{ type: string, color: string }>`
     padding: 20px;
     border-radius: 10px;
-    background-color: ${( props ) => props.color};
+    background-color: ${( props ) => props.color };
     display: flex;
     flex-direction: column;
     cursor : pointer;
-    box-shadow: 5px 5px 5px lightGray;
     width: 90%;
-    height: 70%;
+    height: 80%;
     margin:0 auto;
-
-    &:hover{
-      transform: translateY(-10px);
-    }
 
     ${( props ) => 
       props.type === 'main' 
       && css`
+      box-shadow: 5px 5px 5px lightGray;
 
+      &:hover{
+        transform: translateX(20px);
+      }  
       `
     }
 
     ${( props ) => 
       props.type === 'sub' 
       && css`
-        width: 230px;
+        width: 250px;
         height: 120px;
+        box-shadow: 2px 2px 2px lightGray;
+
+        &:hover{
+          box-shadow: 5px 5px 5px lightGray;
+        }
       `
     }
 
@@ -38,7 +42,7 @@ const HomeCard = ( props : HomeCardProps ) => {
 
   const { title, type, color = "#6A60A9", children } = props
 
-  const fontColor = color ==='#6A60A9' || type === 'main' ? 'white' : '#746E6E'
+  const fontColor = color ==='#6A60A9' || type === 'main' ? '#FEFEFC' : '#746E6E'
 
   return(
     <HomeCardWrapper type={ type } color={ color }>
@@ -51,8 +55,8 @@ const HomeCard = ( props : HomeCardProps ) => {
       </Title>
       <Title 
         type = 'small' 
-        color= { fontColor }  
-        style= {{ marginTop: type === 'main'? '90px': '50px' }}
+        color= { fontColor }
+        style={{ marginTop: type==='main'? '40px': '55px' }}
       > 
         { children } 
       </Title>
@@ -62,7 +66,7 @@ const HomeCard = ( props : HomeCardProps ) => {
           <Title 
             type = 'medium' 
             color= 'white' 
-            style ={{ position: 'absolute', margin: '135px 0px 0px 350px' }} 
+            style ={{ position: 'absolute', margin: '140px 0px 0px 360px' }} 
           >
             Go &gt;
           </Title>
