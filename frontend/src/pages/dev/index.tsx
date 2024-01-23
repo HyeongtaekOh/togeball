@@ -62,6 +62,7 @@ const Dev = () => {
 
   return (
     <MainLayout>
+      <HomeLayout>
       <TagList tags = { tags } />
       <TagList tags = { tagsRemove } isRemove= { true } />
       <TagList tags = { tagsRemove } bgColor= '#FBD14B' isRemove= { true } />
