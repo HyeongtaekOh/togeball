@@ -4,6 +4,7 @@ import com.ssafy.togeball.domain.chatroom.entity.*;
 import com.ssafy.togeball.domain.matching.entity.Matching;
 import com.ssafy.togeball.domain.tag.entity.Tag;
 import com.ssafy.togeball.domain.tag.entity.TagType;
+import com.ssafy.togeball.domain.tag.repository.TagRepository;
 import com.ssafy.togeball.domain.user.entity.User;
 import com.ssafy.togeball.domain.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,9 @@ class ChatroomRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
 
     @Test
     void saveGameChatroom() {
@@ -178,5 +182,54 @@ class ChatroomRepositoryTest {
                 assertEquals(matchingChatroom.getTitle(), chatroom.getTitle());
             }
         });
+    }
+
+    @Test
+    void findByTagIds() {
+
+        // given
+        User manager = User.builder()
+                .email("test@test.com")
+                .nickname("nickname")
+                .password("password")
+                .build();
+
+        RecruitChatroom recruitChatroom1 = RecruitChatroom.builder()
+                .manager(manager)
+                .title("recruit chatroom 1")
+                .description("description")
+                .capacity(10)
+                .build();
+
+        Tag tag1 = Tag.builder()
+                .content("SSG랜더스필드")
+                .type(TagType.PREFERRED_STADIUM)
+                .build();
+        Tag tag2 = Tag.builder()
+                .content("응원지정석")
+                .type(TagType.PREFERRED_SEAT)
+                .build();
+        Tag tag3 = Tag.builder()
+                .content("SSG랜더스")
+                .type(TagType.PREFERRED_TEAM)
+                .build();
+
+        RecruitTag.createRecruitTag(recruitChatroom1, tag1);
+        RecruitTag.createRecruitTag(recruitChatroom1, tag2);
+        RecruitTag.createRecruitTag(recruitChatroom1, tag3);
+
+        // when
+        userRepository.save(manager);
+        tagRepository.save(tag1);
+        tagRepository.save(tag2);
+        tagRepository.save(tag3);
+        chatroomRepository.save(recruitChatroom1);
+
+        List<RecruitChatroom> found1 = chatroomRepository.findByTagIds(List.of(tag1.getId(), tag2.getId()));
+
+        // then
+        log.info("found1: {}", found1);
+        assertEquals(1, found1.size());
+        assertEquals(recruitChatroom1.getTitle(), found1.get(0).getTitle());
     }
 }
