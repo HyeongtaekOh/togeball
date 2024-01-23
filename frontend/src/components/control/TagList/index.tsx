@@ -11,9 +11,9 @@ const TagListWrapper = styled.div`
 `;
 
 const TagList = (props: TagListProps) => {
-  const { tags } = props;
+  const { tags, isRemove, bgColor } = props;
 
-  if (!tags[0].isRemove) {
+  if (!isRemove) {
     return (
       <TagListWrapper>
         { tags.map((tag, index) => (
@@ -25,27 +25,19 @@ const TagList = (props: TagListProps) => {
     return (
       <TagListWrapper>
         { tags.map((tag, index) => (
-          <Tag key={ index } isRemove={ tag.isRemove } bgColor={ tag.bgColor }>
+          <Tag key={ index } isRemove={ isRemove } bgColor={ bgColor }>
             { tag.title }
           </Tag>
         ))}
       </TagListWrapper>
     );
   }
-
-  // return (
-  //     <TagListWrapper>
-  //         {tags.map((tag, index) => (
-  //           <TagBtn key={index} isChange={ tag.isChange }>
-  //             { tag.title }
-  //           </TagBtn>
-  //         ))}
-  //       </TagListWrapper>
-  //   );
 };
 
 export default TagList;
 
 type TagListProps = {
-  tags: Array<{ title: string; isRemove?: boolean; bgColor?: string }>;
+  tags: Array<{ title: string; }>; 
+  isRemove?: boolean; 
+  bgColor?: string;
 };
