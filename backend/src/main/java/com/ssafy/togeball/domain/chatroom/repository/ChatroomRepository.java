@@ -1,7 +1,14 @@
 package com.ssafy.togeball.domain.chatroom.repository;
 
 import com.ssafy.togeball.domain.chatroom.entity.Chatroom;
+import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface ChatroomRepository extends JpaRepository<Chatroom, Long> {
+import java.util.List;
+
+public interface ChatroomRepository extends JpaRepository<Chatroom, Long>, CustomChatroomRepository {
+
+    List<Chatroom> findAllByTitleContaining(String title);
 }

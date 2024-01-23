@@ -30,8 +30,16 @@ public class RecruitTag {
     private Tag tag;
 
     @Builder
-    public RecruitTag(RecruitChatroom recruitChatroom, Tag tag) {
+    private RecruitTag(RecruitChatroom recruitChatroom, Tag tag) {
         this.recruitChatroom = recruitChatroom;
         this.tag = tag;
+        recruitChatroom.addRecruitTag(this);
+    }
+
+    public static RecruitTag createRecruitTag(RecruitChatroom recruitChatroom, Tag tag) {
+        return RecruitTag.builder()
+            .recruitChatroom(recruitChatroom)
+            .tag(tag)
+            .build();
     }
 }
