@@ -46,15 +46,15 @@ const Dev = () => {
         { title: '# 팀무관' }
   ])
   const [tagsRemove, setTagsRemove] = useState([
-        { title: '# LG', bgColor: '#FBD14B', isRemove: true },
-        { title: '# KT', bgColor: '#FBD14B',isRemove: true },
-        { title: '# SSG', bgColor: '#FBD14B',isRemove: true },
-        { title: '# NC', bgColor: '#FBD14B',isRemove: true },
-        { title: '# 두산', bgColor: '#FBD14B',isRemove: true },
-        { title: '# KIA', isRemove: true },
-        { title: '# 롯데', isRemove: true },
-        { title: '# 삼성', isRemove: true },
-        { title: '# 한화', isRemove: true },
+        { title: '# LG' },
+        { title: '# KT' },
+        { title: '# SSG' },
+        { title: '# NC' },
+        { title: '# 두산'},
+        { title: '# KIA' },
+        { title: '# 롯데' },
+        { title: '# 삼성' },
+        { title: '# 한화' },
         { title: '# 키움' },
         { title: '# 팀무관' }
 ])
@@ -62,8 +62,9 @@ const Dev = () => {
 
   return (
     <MainLayout>
-          <TagList tags = { tags } />
-      <TagList tags = { tagsRemove } />
+      <TagList tags = { tags } />
+      <TagList tags = { tagsRemove } isRemove= { true } />
+      <TagList tags = { tagsRemove } bgColor= '#FBD14B' isRemove= { true } />
 
       <BoardList type='main' title='첫번째 제목' createdAt='10:10:10' user='이운재' logo='https://t1.daumcdn.net/cfile/tistory/2647254A5889D6BA03'></BoardList>
       <ChatList type='main' title='1/30 두산vs기아 18:00' mbti='#estp' numberofuser='3/4명' content='어디야?' ></ChatList>
