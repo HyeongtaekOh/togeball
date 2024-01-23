@@ -1,74 +1,73 @@
+import { useState } from 'react'
 import { DownIcon } from 'src/components/icon'
 import styled from 'styled-components'
 
-const SelectBoxWrapper = styled.div<{ width: string }>`
-  width: 200px;
-  height: 40px;
-  border: 1px solid black;
+const SelectWrapper = styled.div<{ width : string, background: string }>`
   display: flex;
-  background-color: #DEDCEE;
+  box-sizing: border-box;
+  width: ${( props )=> props.width };
+  background: ${( props )=> props.background };
   align-items: center;
-  border-radius: 20px;
-  border: none;
-  transition: background-color 0.3s, color 0.3s;
-  &:hover {
-    background-color: #7D74B4; /* 배경색 변경 */
-    color: white; /* 텍스트 색상 변경 */
-  }
-`
-
-const SelectWrapper = styled.select`
-  width: 100%;
-  height: 100%;
-  padding: 0 28px 0px 20px;
+  justify-content: space-between;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid lightgray;
   cursor: pointer;
-  z-index: 999;
-  background: transparent;
-  border: none;
-  font-weight: bold;
-  &:hover {
-    color: white; 
-  }
 `
 
-const OptionWrapper = styled.option`
-padding: 4px;
-font-size: 14px;
-color: #fff;
-background: #272822;
+const LiDivWrapper = styled.div<{ width : string, background: string }>`
+  display: flex;
+  flex-direction: column;
+  width: calc(${( props )=> props.width } - 23px);
+  background: ${( props )=> props.background };
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 10px;
+  border-top: none;
+  gap: 15px;
 `
 
-const NameWrapper = styled.div`
-   height: 20px;
-`
-
-const IconWrapper = styled.div`
-  margin-left : -35px;
+const LiWrapper = styled.li`
+  cursor: pointer;
 `
 
 const SelectBox = ( props: SelectBoxProps ) => {
 
-  const { width = '100px', dataSource, placeholder = '선택해주세요' } = props
+  const { width = '200px', dataSource, placeholder = '선택해주세요', background = 'white' } = props
+  const [ isOpen, setIsOpen ] = useState<boolean>( false )
+  const [ selectedValue, setSelectedValue ] = useState<string>( placeholder )
+
+  const openHandler = () => {
+    setIsOpen( !isOpen )
+  }
+
+  const changeHandler = ( data ) => {
+    setSelectedValue( data?.name )
+    setIsOpen( false )
+  }
 
   return (
-    <SelectBoxWrapper width={ width }>
-    <SelectWrapper defaultValue=''>
-      <option style={{ display: 'none' }} value='' disabled>
-        { placeholder }
-      </option>
-      { dataSource &&
-        dataSource.map(({ value, name }, index) => {
-          return (
-            <OptionWrapper style={{ padding: '10px' }} key={ index } value={ value }>
-              { name }
-            </OptionWrapper>
-          )
-        })}
-    </SelectWrapper>
-    <IconWrapper>
+    <div>
+    <SelectWrapper onClick= { openHandler } width = { width } background = { background }>
+      { selectedValue }
       <DownIcon/>
-    </IconWrapper>
-    </SelectBoxWrapper>
+    </SelectWrapper>
+      {
+      isOpen && dataSource &&
+      <LiDivWrapper width = { width } background = { background }>
+        {
+        (
+          dataSource.map(( data : SourceData ) => {
+            return (
+              <LiWrapper onClick={() => changeHandler( data )}>{ data?.name }</LiWrapper>
+            )
+          })
+        )
+        }
+    </LiDivWrapper>
+    }
+    </div>
+   
   )
 
 }
@@ -83,5 +82,6 @@ type SourceData = {
 type SelectBoxProps = {
   width?: string,
   dataSource: SourceData[],
-  placeholder?: string
+  placeholder?: string,
+  background?: string
 }
