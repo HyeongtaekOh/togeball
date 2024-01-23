@@ -39,7 +39,10 @@ public class GameTest {
                 .build();
 
         //Then
-        System.out.println(game.toString());
+        System.out.println("Stadium: " + game.getStadium().getName());
+        System.out.println("Home Club: " + game.getHomeClub().getSponsorName());
+        System.out.println("Away Club: " + game.getAwayClub().getSponsorName());
+        System.out.println("Datetime: " + game.getDatetime());
     }
 
     @Autowired

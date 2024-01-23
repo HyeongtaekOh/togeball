@@ -24,7 +24,8 @@ public class PostTest {
                 .build();
 
         //Then
-        System.out.println(post.toString());
-        System.out.println("작성자 : " + post.getUser().getNickname());
+        System.out.println("User: " + post.getUser().getNickname());
+        System.out.println("Title: " + post.getTitle());
+        System.out.println("Content: " + post.getContent());
     }
 }
