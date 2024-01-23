@@ -29,14 +29,12 @@ public class LeagueRelationTest { // 양방향 연관관계 테스트
         Club homeClub = Club.builder()
                 .sponsorName("Home Sponsor")
                 .clubName("Home Club")
-                .clubEngName("Home Club Eng")
                 .ranking((byte) 1)
                 .build();
 
         Club awayClub = Club.builder()
                 .sponsorName("Away Sponsor")
                 .clubName("Away Club")
-                .clubEngName("Away Club Eng")
                 .ranking((byte) 2)
                 .build();
 

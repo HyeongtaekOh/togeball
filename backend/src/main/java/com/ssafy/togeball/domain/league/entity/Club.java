@@ -22,9 +22,6 @@ public class Club {
     @Column(name = "club_name", nullable = false, unique = true)
     private String clubName;
 
-    @Column(name = "club_eng_name")
-    private String clubEngName;
-
     @Column(nullable = false)
     private byte ranking;
 
@@ -35,10 +32,9 @@ public class Club {
     private List<Game> awayGames;
 
     @Builder
-    public Club(String sponsorName, String clubName, String clubEngName, byte ranking) {
+    public Club(String sponsorName, String clubName, byte ranking) {
         this.sponsorName = sponsorName;
         this.clubName = clubName;
-        this.clubEngName = clubEngName;
         this.ranking = ranking;
     }
 }
