@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @Entity
 @Table(name = "TBL_CHATROOM")
-@DiscriminatorColumn(name = "dtype")
+@DiscriminatorColumn(name = "type")
 @ToString(exclude = {"chatroomMemberships"})
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,9 +27,12 @@ public class Chatroom extends BaseEntity {
     protected String title;
 
     @Column(nullable = false, insertable = false, updatable = false)
-    protected String dtype;
+    protected String type;
 
     @OneToMany(mappedBy = "chatroom", cascade = CascadeType.ALL, orphanRemoval = true)
     protected List<ChatroomMembership> chatroomMemberships = new ArrayList<>();
 
+    public void addChatroomMembership(ChatroomMembership chatroomMembership) {
+        chatroomMemberships.add(chatroomMembership);
+    }
 }

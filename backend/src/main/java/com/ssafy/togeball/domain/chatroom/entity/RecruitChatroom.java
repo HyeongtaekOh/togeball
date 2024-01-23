@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "TBL_RECRUITCHATROOM")
-@ToString(exclude = {"manager"})
+@ToString(exclude = {"manager", "recruitTags"})
 @DiscriminatorValue("RECRUIT")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RecruitChatroom extends Chatroom {
@@ -38,6 +38,10 @@ public class RecruitChatroom extends Chatroom {
         this.title = title;
         this.description = description;
         this.capacity = capacity;
+    }
+
+    public void addRecruitTag(RecruitTag recruitTag) {
+        recruitTags.add(recruitTag);
     }
 
     public void changeCapacity(Integer capacity) {
