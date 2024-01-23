@@ -1,7 +1,7 @@
 import { HomeLayout, MainLayout, Button,Title } from 'src/components'
-import { HomeCard, TodayGameCard } from './components'
+import { HomeCard, TodayGameCard, RankCard } from './components'
 import { useState } from 'react'
-import { GameType } from 'src/model/types/Game'
+import { GameType, ClubType } from 'src/model/types'
 import styled from 'styled-components'
 
 const GameWrpper = styled.div`
@@ -49,6 +49,41 @@ const Home = () => {
     }
   ])
 
+  const [ clubList, setClubList ] = useState<ClubType[]>([
+    {
+      clubId: 0,
+      clubName: 'lg',
+      sponsorName: 'lg',
+      ranking: 1
+    },
+    {
+      clubId: 1,
+      clubName: 'kt',
+      sponsorName: 'kt',
+      ranking: 2
+    },{
+      clubId: 2,
+      clubName: 'a',
+      sponsorName: 'a',
+      ranking: 3
+    },{
+      clubId: 3,
+      clubName: 'b',
+      sponsorName: 'b',
+      ranking: 4
+    },{
+      clubId: 4,
+      clubName: 'c',
+      sponsorName: 'c',
+      ranking: 6
+    },{
+      clubId: 5,
+      clubName: 'c',
+      sponsorName: 'c',
+      ranking: 5
+    }
+  ])
+
   return (
     <MainLayout>
       <HomeLayout>
@@ -57,9 +92,10 @@ const Home = () => {
             <tr>
               <td rowSpan={2} colSpan={2} style={{ width: '60%' }}>
                 <GameWrpper>
-                   <Title color='#746E6E'>오늘의 경기</Title>
-                    <TodayGameCard gameList = { gameList }/>
-                   <Title color='#746E6E'>현재 순위</Title>
+                  <Title color='#746E6E'>오늘의 경기</Title>
+                  <TodayGameCard gameList = { gameList }/>
+                  <Title color='#746E6E'>현재 순위</Title>
+                  <RankCard clubList = { clubList }/>
                 </GameWrpper>
               </td>
               <td colSpan={2}>
@@ -73,7 +109,7 @@ const Home = () => {
               </td>
             </tr>
             <tr>
-              <td  colSpan={2}>
+              <td colSpan={2}>
                 <HomeCard 
                   title= '직접 메이트 모집하기' 
                   type= 'main'
