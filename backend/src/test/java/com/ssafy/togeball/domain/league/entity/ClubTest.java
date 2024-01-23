@@ -22,6 +22,9 @@ public class ClubTest {
                 .build();
 
         //Then
-        System.out.println(club.toString());
+        System.out.println("Sponsor Name: " + club.getSponsorName());
+        System.out.println("Club Name: " + club.getClubName());
+        System.out.println("Logo: " + club.getLogo());
+        System.out.println("Ranking: " + club.getRanking());
     }
 }

@@ -6,7 +6,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @ToString
+@Getter
 @Table(name = "TBL_GAME")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Game {

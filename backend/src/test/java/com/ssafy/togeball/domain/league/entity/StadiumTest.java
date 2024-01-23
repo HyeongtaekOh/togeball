@@ -33,6 +33,11 @@ public class StadiumTest {
                 .build();
 
         //Then
-        System.out.println(stadium.toString());
+        System.out.println("Club (1개) : " + stadium.getClubs().get(0).getSponsorName());
+        System.out.println("Name: " + stadium.getName());
+        System.out.println("Full Name: " + stadium.getFullName());
+        System.out.println("Address: " + stadium.getAddress());
+        System.out.println("Latitude: " + stadium.getLatitude());
+        System.out.println("Longitude: " + stadium.getLongitude());
     }
 }

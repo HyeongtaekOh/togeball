@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Getter @ToString
+@Getter
 @Table(name = "TBL_NOTICE")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Notice extends BaseEntity {

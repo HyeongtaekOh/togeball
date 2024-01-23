@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @ToString
+@Getter
 @Table(name = "TBL_CLUB")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Club {
