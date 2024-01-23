@@ -10,6 +10,7 @@ const TitleWrapper = styled.p<{ type : string, color : string }>`
     font-size: ${( props ) => size[ props.type ]};
     color: ${ ( props ) => props.color };
     line-height: 130%;
+    white-space: nowrap;
     
     ${(props) =>
         props.type !== 'small' &&
@@ -17,6 +18,8 @@ const TitleWrapper = styled.p<{ type : string, color : string }>`
             font-weight: bold;
         `
     }
+
+
 `
 
 const Title = ( props : TitleProps ) =>{

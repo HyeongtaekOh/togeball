@@ -23,14 +23,14 @@ const InfomWrapper = styled.div`
 
 const GameItem = ( props : GameItemProp ) => {
 
-  const { game } = props;
+  const { game, onClick } = props;
 
   const { 
     gameId, chatroomId, datetime, 
     homeClubName, awayClubName, stadiumName } = game
 
   return(
-    <GameItemWrapper>
+    <GameItemWrapper onClick={ onClick }>
         <img alt={ homeClubName }></img>
         <InfomWrapper>
           <Title>VS</Title>
@@ -45,6 +45,7 @@ export default GameItem;
 
 type GameItemProp  = {
   game?: GameType
+  onClick? : () => void
 }
 
  

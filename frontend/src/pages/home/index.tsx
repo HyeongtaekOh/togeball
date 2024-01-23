@@ -12,7 +12,7 @@ const GameWrpper = styled.div`
   border-radius: 10px;
   width: 100%;
   height: 100%;
-  padding: 20px 40px ;
+  padding: 0px 50px;
   gap: 10px;
 `
 
@@ -86,44 +86,46 @@ const Home = () => {
           </tbody>
         </TableWrpper>
         <table>
-        <tr>
-          <td>
-            <HomeCard 
-              title= '경기별 오픈 채팅방' 
-              type= 'sub'
-              color= '#FBD14B'>
-              오늘 경기 외에 모든<br/> 
-              경기 일정을 확인해보세요.
-            </HomeCard>
-          </td>   
-          <td>
-            <HomeCard 
-              title= '메이트 채팅방' 
-              type= 'sub'
-              color= '#6A60A9'>
-              오늘 경기 외에 모든<br/> 
-              경기 일정을 확인해보세요.
-            </HomeCard>
-          </td>
-          <td>
-            <HomeCard 
-              title= '경기일정' 
-              type= 'sub'
-              color= '#DEDCEE'>
-              오늘 경기 외에 모든<br/> 
-              경기 일정을 확인해보세요.
-            </HomeCard>
-          </td>
-          <td>
-            <HomeCard 
-              title= '자유게시판' 
-              type= 'sub'
-              color= '#FFFFFF'>
-              오늘 경기 외에 모든<br/> 
-              경기 일정을 확인해보세요.
-            </HomeCard>
-          </td>
-        </tr>
+          <tbody>
+            <tr>
+              <td>
+                <HomeCard 
+                  title= '경기별 오픈 채팅방' 
+                  type= 'sub'
+                  color= '#FBD14B'>
+                  오늘 경기 외에 모든<br/> 
+                  경기 일정을 확인해보세요.
+                </HomeCard>
+              </td>   
+              <td>
+                <HomeCard 
+                  title= '메이트 채팅방' 
+                  type= 'sub'
+                  color= '#6A60A9'>
+                  오늘 경기 외에 모든<br/> 
+                  경기 일정을 확인해보세요.
+                </HomeCard>
+              </td>
+              <td>
+                <HomeCard 
+                  title= '경기일정' 
+                  type= 'sub'
+                  color= '#DEDCEE'>
+                  오늘 경기 외에 모든<br/> 
+                  경기 일정을 확인해보세요.
+                </HomeCard>
+              </td>
+              <td>
+                <HomeCard 
+                  title= '자유게시판' 
+                  type= 'sub'
+                  color= '#FFFFFF'>
+                  오늘 경기 외에 모든<br/> 
+                  경기 일정을 확인해보세요.
+                </HomeCard>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </HomeLayout>
     </MainLayout>

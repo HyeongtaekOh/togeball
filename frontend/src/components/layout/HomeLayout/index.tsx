@@ -10,6 +10,7 @@ const HomeWrapper = styled.div`
     justify-content: center;
     align-center: center;
     gap: 15px;
+    margin: auto;
 `
 
 const HomeLayout = ( props : HomeLayoutProps ) =>{
