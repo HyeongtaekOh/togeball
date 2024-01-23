@@ -9,14 +9,12 @@ public class ClubTest {
         //Given
         String sponsorName = "LG";
         String clubName = "트윈스";
-        String clubEngName = "Twins";
         byte ranking = 1;
 
         //When
         Club club = Club.builder()
                 .sponsorName(sponsorName)
                 .clubName(clubName)
-                .clubEngName(clubEngName)
                 .ranking(ranking)
                 .build();
 

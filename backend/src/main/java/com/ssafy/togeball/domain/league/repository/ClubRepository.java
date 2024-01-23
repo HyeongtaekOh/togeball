@@ -14,5 +14,5 @@ import java.util.Optional;
 public interface ClubRepository extends JpaRepository<Club, Byte> {
 
     @Query("SELECT c FROM Club c WHERE c.sponsorName = :sponsorName")
-    Club findBySponsorName(@Param("sponsorName") String sponsorName);
+    Optional<Club> findBySponsorName(@Param("sponsorName") String sponsorName);
 }

@@ -22,8 +22,8 @@ public class StadiumRepositoryTest {
     @BeforeEach
     void setUp() {
         List<Club> club = new ArrayList<>();
-        Club club1 = new Club("LG","트윈스","Twins",(byte)1);
-        Club club2 = new Club("두산","베어스","Bears",(byte)5);
+        Club club1 = new Club("LG","트윈스",(byte)1);
+        Club club2 = new Club("두산","베어스",(byte)5);
         club.add(club1);
         club.add(club2);
 
@@ -40,7 +40,7 @@ public class StadiumRepositoryTest {
     @Test
     void saveTest() {
         List<Club> club = new ArrayList<>();
-        Club club1 = new Club("기업명","클럽명","Club English Name",(byte)11);
+        Club club1 = new Club("기업명","클럽명",(byte)11);
         Stadium stadium = Stadium.builder()
                 .club(club)
                 .name("구장 약칭")

@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,8 +29,8 @@ public class GameRepositoryTest {
     void saveTest() {
         // Given
         List<Club> club = new ArrayList<>();
-        Club club1 = new Club("LG","트윈스","Twins",(byte)1);
-        Club club2 = new Club("두산","베어스","Bears",(byte)5);
+        Club club1 = new Club("LG","트윈스",(byte)1);
+        Club club2 = new Club("두산","베어스",(byte)5);
         club.add(club1);
         club.add(club2);
         clubRepository.save(club1);
@@ -40,7 +39,7 @@ public class GameRepositoryTest {
         stadiumRepository.save(stadium);
 
         Club homeClub = club1;
-        Club awayClub = new Club("한화","이글스","Eagles",(byte)9);
+        Club awayClub = new Club("한화","이글스",(byte)9);
         clubRepository.save(awayClub);
 
         LocalDateTime datetime = LocalDateTime.of(2024,3,23,14,00);
@@ -67,15 +66,15 @@ public class GameRepositoryTest {
     void findAllTest() {
         // Given
         List<Club> club = new ArrayList<>();
-        Club club1 = new Club("LG","트윈스","Twins",(byte)1);
-        Club club2 = new Club("두산","베어스","Bears",(byte)5);
+        Club club1 = new Club("LG","트윈스",(byte)1);
+        Club club2 = new Club("두산","베어스",(byte)5);
         club.add(club1);
         club.add(club2);
         Stadium stadium = new Stadium(club, "잠실");
         stadiumRepository.save(stadium);
 
-        Club homeClub = new Club("Home Club", "Home", "H", (byte) 1);
-        Club awayClub = new Club("Away Club", "Away", "A", (byte) 2);
+        Club homeClub = new Club("Home Club", "Home", (byte) 1);
+        Club awayClub = new Club("Away Club", "Away", (byte) 2);
         clubRepository.save(homeClub);
         clubRepository.save(awayClub);
 
@@ -109,15 +108,15 @@ public class GameRepositoryTest {
     void findBySponsorNameTest() {
         // Given
         List<Club> club = new ArrayList<>();
-        Club club1 = new Club("LG","트윈스","Twins",(byte)1);
-        Club club2 = new Club("두산","베어스","Bears",(byte)5);
+        Club club1 = new Club("LG","트윈스",(byte)1);
+        Club club2 = new Club("두산","베어스",(byte)5);
         club.add(club1);
         club.add(club2);
         Stadium stadium = new Stadium(club, "잠실");
         stadiumRepository.save(stadium);
 
-        Club homeClub = new Club("Home Club", "Home", "H", (byte) 1);
-        Club awayClub = new Club("Away Club", "Away", "A", (byte) 2);
+        Club homeClub = new Club("Home Club", "Home", (byte) 1);
+        Club awayClub = new Club("Away Club", "Away", (byte) 2);
         clubRepository.save(homeClub);
         clubRepository.save(awayClub);
 
@@ -133,11 +132,10 @@ public class GameRepositoryTest {
         gameRepository.save(game1);
 
         // When
-        Optional<List<Game>> gamesBySponsorName = gameRepository.findBySponsorName("Home Club");
+        List<Game> gamesBySponsorName = gameRepository.findBySponsorName("Home Club");
 
         // Then
-        assertTrue(gamesBySponsorName.isPresent());
-        assertEquals(1, gamesBySponsorName.get().size());
+        assertEquals(1, gamesBySponsorName.size());
     }
 
     //Todo: 날짜 추출 함수를 MariaDB에서는 DATE()를 쓰는데 H2에서는 CAST()를 사용해서 오류 발생

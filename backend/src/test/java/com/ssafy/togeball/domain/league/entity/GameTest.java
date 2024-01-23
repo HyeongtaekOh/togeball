@@ -20,13 +20,13 @@ public class GameTest {
     void gameBuilderTest() {
         //Given
         List<Club> club = new ArrayList<>();
-        Club club1 = new Club("LG","트윈스","Twins",(byte)1);
-        Club club2 = new Club("두산","베어스","Bears",(byte)5);
+        Club club1 = new Club("LG","트윈스",(byte)1);
+        Club club2 = new Club("두산","베어스",(byte)5);
         club.add(club1);
         club.add(club2);
         Stadium stadium = new Stadium(club, "잠실");
-        Club homeClub = new Club("LG","트윈스","Twins",(byte)1);
-        Club awayClub = new Club("한화","이글스","Eagles",(byte)9);
+        Club homeClub = new Club("LG","트윈스",(byte)1);
+        Club awayClub = new Club("한화","이글스",(byte)9);
         LocalDateTime datetime = LocalDateTime.of(2024,3,23,14,00);
 
         //When
@@ -48,13 +48,13 @@ public class GameTest {
     void lazyLoadingTest() { // Stadium, HomeClub, AwayClub 객체를 Lazy Loading으로 가져오는지 확인
 
         List<Club> club = new ArrayList<>();
-        Club club1 = new Club("LG","트윈스","Twins",(byte)1);
-        Club club2 = new Club("두산","베어스","Bears",(byte)5);
+        Club club1 = new Club("LG","트윈스",(byte)1);
+        Club club2 = new Club("두산","베어스",(byte)5);
         club.add(club1);
         club.add(club2);
         Stadium stadium = new Stadium(club, "잠실");
-        Club homeClub = new Club("LG","트윈스","Twins",(byte)1);
-        Club awayClub = new Club("한화","이글스","Eagles",(byte)9);
+        Club homeClub = new Club("LG","트윈스",(byte)1);
+        Club awayClub = new Club("한화","이글스",(byte)9);
         LocalDateTime datetime = LocalDateTime.of(2024,3,23,14,00);
         entityManager.persist(stadium);
         entityManager.persist(homeClub);
