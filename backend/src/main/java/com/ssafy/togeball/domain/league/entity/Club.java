@@ -3,6 +3,8 @@ package com.ssafy.togeball.domain.league.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter @ToString
 @Table(name = "TBL_CLUB")
@@ -25,6 +27,12 @@ public class Club {
 
     @Column(nullable = false)
     private byte ranking;
+
+    @OneToMany(mappedBy = "homeClub", fetch = FetchType.LAZY)
+    private List<Game> homeGames;
+
+    @OneToMany(mappedBy = "awayClub", fetch = FetchType.LAZY)
+    private List<Game> awayGames;
 
     @Builder
     public Club(String sponsorName, String clubName, String clubEngName, byte ranking) {
