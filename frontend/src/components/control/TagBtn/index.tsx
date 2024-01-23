@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 
-const TagBtnWrapper = styled.button<TagBtnProps>`
+const TagBtnWrapper = styled.button<{ bgColor: string, color: string }>`
   background-color: ${( props ) => props.bgColor };
   max-width: 100px;
   min-width: 80px;
@@ -21,23 +21,19 @@ const TagBtnWrapper = styled.button<TagBtnProps>`
 
 const TagBtn = (props: TagBtnProps) => {
 
-    const [isPurple, setIsPurple] = useState<boolean>(true);
-    const [isWhite, setIsWhite] = useState<boolean>(true);
+    const { children } = props
+
+    const [ isClick, setIsClick ] = useState<boolean>(false);
+    
+    const backgroundColor = !isClick ? '#DEDCEE' : '#6A60A9';
+    const letterColor = !isClick ? 'black' : 'white';
 
     const changeColor = () => {
-        if(isChange){
-            setIsPurple((prevIsPurple) => !prevIsPurple);
-            setIsWhite((prevIsWhite) => !prevIsWhite);
-        }
+      setIsClick(!isClick);
     }
 
-    const backgroundColor = isPurple ? '#DEDCEE' : '#6A60A9';
-    const letterColor = isWhite ? 'black' : 'white';
-
-    const { children, isChange = true } = props
-
       return (
-        <TagBtnWrapper onClick={  changeColor } bgColor={ backgroundColor } color={ letterColor }>
+        <TagBtnWrapper onClick={ changeColor } bgColor={ backgroundColor } color={ letterColor }>
           { children }
         </TagBtnWrapper>
       )
@@ -48,8 +44,4 @@ export default TagBtn
 
 type TagBtnProps = {
     children?: string,
-    bgColor?: string,
-    color?: string,
-    isChange?: boolean,
-    onClick?: () => void
 }

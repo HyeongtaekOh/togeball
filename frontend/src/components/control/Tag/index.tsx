@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const TagWrapper = styled.div<{ bgColor }>`
+const TagWrapper = styled.div<{ bgColor : string }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -19,11 +19,13 @@ const TagWrapper = styled.div<{ bgColor }>`
   margin: 10px 5px 10px 5px;
   border-radius: 20px;
 `;
-const CloseButton = styled.button<{ bgColor }>`
+
+const CloseButton = styled.button<{ bgColor : string }>`
   height: 16px;
   width: 16px;
   background-color: ${ (props) => props.bgColor };
   margin-left: 4px;
+  margin-bottom: 1px;
   border-radius: 100%;
   border: none;
   cursor: pointer;
@@ -32,16 +34,16 @@ const CloseButton = styled.button<{ bgColor }>`
 `;
 
 const Tag = (props: TagProps) => {
+  const { children, isRemove = false, bgColor = "#DEDCEE", onDelete } = props;
+
   const handleDeleteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onDelete();
   };
 
-  const { children, isRemove = false, bgColor = "#DEDCEE", onDelete } = props;
-
   return (
     <TagWrapper bgColor={ bgColor }>
-      <span>{children}</span>
+      <span>{ children }</span>
       { isRemove && <CloseButton bgColor={ bgColor }>X</CloseButton> }
     </TagWrapper>
   );
