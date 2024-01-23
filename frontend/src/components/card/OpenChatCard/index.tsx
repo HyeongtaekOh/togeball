@@ -3,22 +3,37 @@ import { Button } from "../../../components";
 
 const Mainwrapper = styled.div`
   display: flex;
-  width: 500px;
-  border: 1px solid black;
+  width: 30%;
+  height: 250px;
+  border-radius: 10px;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
+  box-shadow: 5px 5px 5px 5px gray;
 `
 
 const WrapImgWrapper = styled.div`
     display: flex;
+    justify-content: center;
+    
 `
 const WrapTxtWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    
 `
 
 const ImgWrapper = styled.img`
+    width: 45%;
+    
 `
 const TextWrapper = styled.p<Textprops>`
+    font-size: 20px;
+    text-align: center;
+
 `
 
 const OpenChatCard = ( props: Textprops ) => {

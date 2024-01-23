@@ -1,65 +1,47 @@
 import styled, {css} from "styled-components";
 
-const ChatWrapper = styled.div<ChatListProps>`
+const ChatWrapper = styled.div`
     display: flex;
     Background-color: white;
-    border: 1px solid black;
+    box-shadow: 5px 5px 5px gray;
     border-radius: 10px;
-    width = 100%;
-    
-
+    width: 100%;
+    height: 100px;
+    justify-content: space-around;
     &:hover{
-      background-color: #9008F2;
+      background-color: #E4E2DD;
       cursor: pointer;
-    } 
+    }     
+`
+const TextWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    
+    width: 70%
+    
+    `
 
-    ${props =>
-    props.type === "sub" &&
-    css`
-        flex-direction: column;
-        align-items: center;
-        border: 1px solid white;
-        justify-content: center;
-        width: 80%
-      `
-    }
-`
 
-const LogoWrapper =styled.img`
-  width: 10%;
-`
 
-const TitleWrapper = styled.p`
-    color: black;
-`
-
-const MbtiWrapper = styled.p`
-    color: lightgray;
-`
-const ContentWrapper = styled.p`
-`
-
-const NumboerOfUserWrapper = styled.p`
-    color: black;
-    padding-top: 11px;
-`
 
 const ChatList = (props: ChatListProps) => {
 
   const {
-    children, title,logo, mbti,content, numberofuser, onClick, type = 'main'
+    children, title,logo, mbti,content, numberofuser, onClick, 
   } = props
+
 
   return(
    <ChatWrapper>
-    <LogoWrapper src={logo} alt='로고'/>
-    <ChatWrapper type="sub">
-        <TitleWrapper>{title}</TitleWrapper>
-        <MbtiWrapper>{mbti}</MbtiWrapper>
-        <ContentWrapper>{content}</ContentWrapper>
+    <img src="" alt="로고" />
+    <TextWrapper>
+      <p>토요일 같이 경기 가실분 구해요</p>
+      <p style={{marginTop: "-25px"}}>#ENFJ #ESTP</p>
+      <p style={{marginBottom: "10px"}}>어디야?</p>
+    </TextWrapper>
+    <p style={  { paddingTop: "40px" } }>4/10명</p>
 
-    </ChatWrapper>
-    <NumboerOfUserWrapper>{numberofuser}</NumboerOfUserWrapper>
 
 
    </ChatWrapper>
@@ -74,7 +56,7 @@ type ChatListProps = {
   mbti?: string,
   numberofuser?: string,
   onClick?: () => void,
-  type?: 'main'|'sub',
+  
   logo?: string,
   content?: string
 
