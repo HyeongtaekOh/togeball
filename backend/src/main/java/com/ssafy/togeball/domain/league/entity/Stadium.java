@@ -28,6 +28,10 @@ public class Stadium {
     @Column
     private String address;
 
+
+    @OneToMany(mappedBy = "stadium", fetch = FetchType.LAZY)
+    private List<Game> games;
+
     @Column
     private double latitude;
 
