@@ -20,13 +20,13 @@ public class Notice extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    //Todo: matching 엔티티와 연결
-    @Column(name = "matching_id")
-    private Long matchingId;
-
-    @Builder
-    public Notice(User user, Long matchingId) {
-        this.user = user;
-        this.matchingId = matchingId;
-    }
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @Column(name = "matching_id", nullable = false)
+//    private Matching matching;
+//
+//    @Builder
+//    public Notice(User user, Matching matching) {
+//        this.user = user;
+//        this.matching = matching;
+//    }
 }

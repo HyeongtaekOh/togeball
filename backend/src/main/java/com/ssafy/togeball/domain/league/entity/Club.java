@@ -3,6 +3,7 @@ package com.ssafy.togeball.domain.league.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,8 +23,14 @@ public class Club {
     @Column(name = "club_name", nullable = false, unique = true)
     private String clubName;
 
-    @Column(nullable = false)
+    @Column
+    private String logo;
+
+    @Column
     private byte ranking;
+
+    @OneToMany(mappedBy = "club")
+    private List<ClubStadium> clubStadiums = new ArrayList<>();
 
     @OneToMany(mappedBy = "homeClub", fetch = FetchType.LAZY)
     private List<Game> homeGames;
@@ -32,9 +39,10 @@ public class Club {
     private List<Game> awayGames;
 
     @Builder
-    public Club(String sponsorName, String clubName, byte ranking) {
+    public Club(String sponsorName, String clubName, String logo, byte ranking) {
         this.sponsorName = sponsorName;
         this.clubName = clubName;
+        this.logo = logo;
         this.ranking = ranking;
     }
 }

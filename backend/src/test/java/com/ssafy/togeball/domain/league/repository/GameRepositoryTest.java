@@ -27,19 +27,20 @@ public class GameRepositoryTest {
 
     @Test
     void saveTest() {
+
         // Given
-        List<Club> club = new ArrayList<>();
-        Club club1 = new Club("LG","트윈스",(byte)1);
-        Club club2 = new Club("두산","베어스",(byte)5);
-        club.add(club1);
-        club.add(club2);
+        List<Club> clubs = new ArrayList<>();
+        Club club1 = new Club("LG","트윈스","logo1.png",(byte)1);
+        Club club2 = new Club("두산","베어스","logo2.png",(byte)5);
+        clubs.add(club1);
+        clubs.add(club2);
         clubRepository.save(club1);
         clubRepository.save(club2);
-        Stadium stadium = new Stadium(club, "잠실");
+        Stadium stadium = new Stadium(clubs, "잠실");
         stadiumRepository.save(stadium);
 
         Club homeClub = club1;
-        Club awayClub = new Club("한화","이글스",(byte)9);
+        Club awayClub = new Club("한화","이글스","logo3.png",(byte)9);
         clubRepository.save(awayClub);
 
         LocalDateTime datetime = LocalDateTime.of(2024,3,23,14,00);
@@ -64,17 +65,18 @@ public class GameRepositoryTest {
 
     @Test
     void findAllTest() {
+
         // Given
-        List<Club> club = new ArrayList<>();
-        Club club1 = new Club("LG","트윈스",(byte)1);
-        Club club2 = new Club("두산","베어스",(byte)5);
-        club.add(club1);
-        club.add(club2);
-        Stadium stadium = new Stadium(club, "잠실");
+        List<Club> clubs = new ArrayList<>();
+        Club club1 = new Club("LG","트윈스","logo1.png",(byte)1);
+        Club club2 = new Club("두산","베어스","logo2.png",(byte)5);
+        clubs.add(club1);
+        clubs.add(club2);
+        Stadium stadium = new Stadium(clubs, "잠실");
         stadiumRepository.save(stadium);
 
-        Club homeClub = new Club("Home Club", "Home", (byte) 1);
-        Club awayClub = new Club("Away Club", "Away", (byte) 2);
+        Club homeClub = new Club("Home Club", "Home","logoH.png", (byte) 1);
+        Club awayClub = new Club("Away Club", "Away","logoA.png", (byte) 2);
         clubRepository.save(homeClub);
         clubRepository.save(awayClub);
 
@@ -106,17 +108,18 @@ public class GameRepositoryTest {
 
     @Test
     void findBySponsorNameTest() {
+
         // Given
-        List<Club> club = new ArrayList<>();
-        Club club1 = new Club("LG","트윈스",(byte)1);
-        Club club2 = new Club("두산","베어스",(byte)5);
-        club.add(club1);
-        club.add(club2);
-        Stadium stadium = new Stadium(club, "잠실");
+        List<Club> clubs = new ArrayList<>();
+        Club club1 = new Club("LG","트윈스","logo1.png",(byte)1);
+        Club club2 = new Club("두산","베어스","logo2.png",(byte)5);
+        clubs.add(club1);
+        clubs.add(club2);
+        Stadium stadium = new Stadium(clubs, "잠실");
         stadiumRepository.save(stadium);
 
-        Club homeClub = new Club("Home Club", "Home", (byte) 1);
-        Club awayClub = new Club("Away Club", "Away", (byte) 2);
+        Club homeClub = new Club("Home Club", "Home","logoH.png", (byte) 1);
+        Club awayClub = new Club("Away Club", "Away","logoA.png", (byte) 2);
         clubRepository.save(homeClub);
         clubRepository.save(awayClub);
 

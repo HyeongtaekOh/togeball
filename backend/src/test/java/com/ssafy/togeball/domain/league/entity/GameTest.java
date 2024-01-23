@@ -18,15 +18,16 @@ public class GameTest {
 
     @Test
     void gameBuilderTest() {
+
         //Given
-        List<Club> club = new ArrayList<>();
-        Club club1 = new Club("LG","트윈스",(byte)1);
-        Club club2 = new Club("두산","베어스",(byte)5);
-        club.add(club1);
-        club.add(club2);
-        Stadium stadium = new Stadium(club, "잠실");
-        Club homeClub = new Club("LG","트윈스",(byte)1);
-        Club awayClub = new Club("한화","이글스",(byte)9);
+        List<Club> clubs = new ArrayList<>();
+        Club club1 = new Club("LG","트윈스","logo1.png",(byte)1);
+        Club club2 = new Club("두산","베어스","logo2.png",(byte)5);
+        clubs.add(club1);
+        clubs.add(club2);
+        Stadium stadium = new Stadium(clubs, "잠실");
+        Club homeClub = new Club("LG","트윈스","logo1.png",(byte)1);
+        Club awayClub = new Club("한화","이글스","logo3.png",(byte)9);
         LocalDateTime datetime = LocalDateTime.of(2024,3,23,14,00);
 
         //When
@@ -45,16 +46,17 @@ public class GameTest {
     private TestEntityManager entityManager;
 
     @Test
-    void lazyLoadingTest() { // Stadium, HomeClub, AwayClub 객체를 Lazy Loading으로 가져오는지 확인
+    void gameLazyLoadingTest() { // Stadium, HomeClub, AwayClub 객체를 Lazy Loading으로 가져오는지 확인
 
-        List<Club> club = new ArrayList<>();
-        Club club1 = new Club("LG","트윈스",(byte)1);
-        Club club2 = new Club("두산","베어스",(byte)5);
-        club.add(club1);
-        club.add(club2);
-        Stadium stadium = new Stadium(club, "잠실");
-        Club homeClub = new Club("LG","트윈스",(byte)1);
-        Club awayClub = new Club("한화","이글스",(byte)9);
+        //테스트 데이터 생성
+        List<Club> clubs = new ArrayList<>();
+        Club club1 = new Club("LG","트윈스","logo.png",(byte)1);
+        Club club2 = new Club("두산","베어스","logo.png",(byte)5);
+        clubs.add(club1);
+        clubs.add(club2);
+        Stadium stadium = new Stadium(clubs, "잠실");
+        Club homeClub = new Club("LG","트윈스","logo.png",(byte)1);
+        Club awayClub = new Club("한화","이글스","logo.png",(byte)9);
         LocalDateTime datetime = LocalDateTime.of(2024,3,23,14,00);
         entityManager.persist(stadium);
         entityManager.persist(homeClub);

@@ -5,19 +5,17 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 public class StadiumTest {
 
     @Test
     void StadiumBuilderTest() {
+
         //Given
-        List<Club> club = new ArrayList<>();
-        Club club1 = new Club("LG","트윈스",(byte)1);
-        Club club2 = new Club("두산","베어스",(byte)5);
-        club.add(club1);
-        club.add(club2);
+        List<Club> clubs = new ArrayList<>();
+        Club club1 = new Club("LG","트윈스","logo1.png",(byte)1);
+        Club club2 = new Club("두산","베어스","logo2.png",(byte)5);
+        clubs.add(club1);
+        clubs.add(club2);
         String name = "잠실";
         String fullName = "잠실종합운동장";
         String address = "서울특별시 송파구 올림픽로 25 서울종합운동장";
@@ -26,7 +24,7 @@ public class StadiumTest {
 
         //When
         Stadium stadium = Stadium.builder()
-                .club(club)
+                .clubs(clubs)
                 .name(name)
                 .fullName(fullName)
                 .address(address)
