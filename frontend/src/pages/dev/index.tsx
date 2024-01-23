@@ -1,5 +1,5 @@
 import { InputBox,SignButton, Button, Select, Title, KakaoIcon, 
-  NaverIcon, MainLayout, OpenChatCard, BoardList, ChatList, Tag, TagBtn, TagList } from '../../components'
+  NaverIcon, MainLayout, OpenChatCard, BoardList, ChatList, Tag, TagBtn, TagList, HomeLayout } from '../../components'
 import { useNavigate } from 'react-router-dom'
 import { useCallback, useState } from 'react'
 import { styled } from 'styled-components'
@@ -76,6 +76,7 @@ const Dev = () => {
       <SignButton>로그인</SignButton>
 
       <OpenChatCard children='하이하이하이' child='바이바이바이' />
+      </HomeLayout>
     </MainLayout>
   )
 }
