@@ -11,11 +11,11 @@ const MainWrapper = styled.div`
 
 const MainLayout = ( props : MainLayoutProps ) =>{
 
-    const { children } = props
+    const { children, title } = props
 
     return(
         <MainWrapper>
-            <Header/>
+            <Header title={ title }/>
             { children }
         </MainWrapper>
     )
@@ -25,4 +25,5 @@ export default  MainLayout
 
 type MainLayoutProps = {
     children?: React.ReactNode
+    title?: string,
 }
