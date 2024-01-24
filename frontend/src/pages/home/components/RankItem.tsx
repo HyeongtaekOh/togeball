@@ -1,4 +1,4 @@
-import { ClubType } from "src/model/types"
+import { ClubType } from "src/types"
 import styled from "styled-components"
 
 const RankItemWrapper = styled.div`
