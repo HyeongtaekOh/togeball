@@ -1,6 +1,7 @@
 package com.ssafy.togeball.domain.chatroom.entity;
 
 import com.ssafy.togeball.domain.common.entity.BaseEntity;
+import com.ssafy.togeball.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,7 +33,11 @@ public class Chatroom extends BaseEntity {
     @OneToMany(mappedBy = "chatroom", cascade = CascadeType.ALL, orphanRemoval = true)
     protected List<ChatroomMembership> chatroomMemberships = new ArrayList<>();
 
-    public void addChatroomMembership(ChatroomMembership chatroomMembership) {
+    public void addMember(User member) {
+        ChatroomMembership chatroomMembership = ChatroomMembership.builder()
+            .chatroom(this)
+            .user(member)
+            .build();
         chatroomMemberships.add(chatroomMembership);
     }
 }

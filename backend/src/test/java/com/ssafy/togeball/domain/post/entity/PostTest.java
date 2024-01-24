@@ -11,8 +11,15 @@ public class PostTest {
     @Test
     void postBuilderTest() {
         //Given
-        User user = new User("aycho3030@gmail.com","1234","아영", Gender.FEMALE,
-                LocalDateTime.of(1994,4,30,0,0,0),"010-1000-2000","profile1.png");
+        User user = User.builder()
+                .email("aycho3030@gmail.com")
+                .password("1234")
+                .nickname("아영")
+                .gender(Gender.FEMALE)
+                .birthdate(LocalDateTime.of(1994,4,30,0,0,0))
+                .phone("010-1000-2000")
+                .profileImage("profile1.png")
+                .build();
         String title = "게시물 제목 테스트입니다.";
         String content = "게시물 내용 테스트입니다.";
 

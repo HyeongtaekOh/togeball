@@ -1,6 +1,12 @@
 package com.ssafy.togeball.domain.chatroom.repository;
 
-import com.ssafy.togeball.domain.chatroom.entity.*;
+import com.ssafy.togeball.domain.chatroom.entity.Chatroom;
+import com.ssafy.togeball.domain.chatroom.entity.GameChatroom;
+import com.ssafy.togeball.domain.chatroom.entity.MatchingChatroom;
+import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
+import com.ssafy.togeball.domain.league.entity.Club;
+import com.ssafy.togeball.domain.league.entity.Game;
+import com.ssafy.togeball.domain.league.entity.Stadium;
 import com.ssafy.togeball.domain.matching.entity.Matching;
 import com.ssafy.togeball.domain.tag.entity.Tag;
 import com.ssafy.togeball.domain.tag.entity.TagType;
@@ -8,12 +14,14 @@ import com.ssafy.togeball.domain.tag.repository.TagRepository;
 import com.ssafy.togeball.domain.user.entity.User;
 import com.ssafy.togeball.domain.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -28,6 +36,9 @@ class ChatroomRepositoryTest {
      */
 
     @Autowired
+    private TestEntityManager entityManager;
+
+    @Autowired
     private ChatroomRepository chatroomRepository;
 
     @Autowired
@@ -36,57 +47,99 @@ class ChatroomRepositoryTest {
     @Autowired
     private TagRepository tagRepository;
 
+    private User manager;
+    private Game game;
+    private Club homeClub;
+    private Club awayClub;
+    private Stadium stadium;
+    private Matching matching;
+
+    @BeforeEach
+    void setup() {
+        dataInit();
+    }
+
+    private void dataInit() {
+        manager = User.builder()
+                .email("test@gmail.com")
+                .password("password")
+                .nickname("nickname")
+                .build();
+        homeClub = Club.builder()
+                .clubName("랜더스")
+                .sponsorName("SSG")
+                .ranking(1)
+                .build();
+        awayClub = Club.builder()
+                .clubName("자이언츠")
+                .sponsorName("롯데")
+                .ranking(2)
+                .build();
+        stadium = Stadium.builder()
+                .name("문학경기장")
+                .fullName("문학경기장")
+                .address("서울특별시 동작구 상도로 369")
+                .latitude(37.496041)
+                .longitude(126.953764)
+                .build();
+        game = Game.builder()
+                .stadium(stadium)
+                .homeClub(homeClub)
+                .awayClub(awayClub)
+                .datetime(LocalDateTime.now())
+                .build();
+        matching = Matching.builder()
+                .build();
+        entityManager.persist(manager);
+        entityManager.persist(homeClub);
+        entityManager.persist(awayClub);
+        entityManager.persist(stadium);
+        entityManager.persist(game);
+        entityManager.persist(matching);
+        entityManager.flush();
+        entityManager.clear();
+    }
+
     @Test
     void saveGameChatroom() {
 
         // given
-        GameChatroom gameChatroom1 = GameChatroom.builder()
-                .title("game chatroom 1")
-                .gameId(1L)
-                .build();
-        GameChatroom gameChatroom2 = GameChatroom.builder()
-                .title("game chatroom 2")
-                .gameId(2L)
+        GameChatroom gameChatroom = GameChatroom.builder()
+                .title("game chatroom")
+                .game(game)
                 .build();
 
         // when
-        GameChatroom saved1 = chatroomRepository.save(gameChatroom1);
-        GameChatroom saved2 = chatroomRepository.save(gameChatroom2);
+        chatroomRepository.save(gameChatroom);
+        Chatroom saved = chatroomRepository.findById(gameChatroom.getId()).orElse(null);
 
 
         // then
-        log.info("saved1: id = {}, title = {}, gameId = {}", gameChatroom1.getId(), gameChatroom1.getTitle(), gameChatroom1.getGameId());
-        assertEquals(gameChatroom1.getTitle(), saved1.getTitle());
-        assertEquals(gameChatroom1.getGameId(), saved1.getGameId());
-        assertInstanceOf(GameChatroom.class, saved1);
-        log.info("saved2: id = {}, title = {}, gameId = {}", gameChatroom2.getId(), gameChatroom2.getTitle(), gameChatroom2.getGameId());
-        assertEquals(gameChatroom2.getTitle(), saved2.getTitle());
-        assertEquals(gameChatroom2.getGameId(), saved2.getGameId());
-        assertInstanceOf(GameChatroom.class, saved2);
+        log.info("saved: id = {}, title = {}", gameChatroom.getId(), gameChatroom.getTitle());
+        assertEquals(gameChatroom.getTitle(), saved.getTitle());
+        assertInstanceOf(GameChatroom.class, saved);
     }
 
     @Test
     void saveRecruitChatroom() {
 
         // given
-        User manager = User.builder()
-                .email("test@gmail.com")
-                .password("password")
-                .nickname("nickname")
-                .build();
-
         RecruitChatroom recruitChatroom1 = RecruitChatroom.builder()
+                .manager(manager)
+                .game(game)
+                .cheeringClub(homeClub)
                 .title("recruit chatroom 1")
                 .description("description")
                 .capacity(10)
                 .build();
         RecruitChatroom recruitChatroom2 = RecruitChatroom.builder()
+                .manager(manager)
+                .game(game)
+                .cheeringClub(awayClub)
                 .title("recruit chatroom 2")
                 .description("description")
                 .capacity(10)
                 .build();
-        recruitChatroom1.setManager(manager);
-        recruitChatroom2.setManager(manager);
 
         // when
         RecruitChatroom saved1 = chatroomRepository.save(recruitChatroom1);
@@ -114,7 +167,7 @@ class ChatroomRepositoryTest {
         // given
         GameChatroom gameChatroom1 = GameChatroom.builder()
                 .title("game chatroom 1")
-                .gameId(1L)
+                .game(game)
                 .build();
 
         // when
@@ -124,7 +177,6 @@ class ChatroomRepositoryTest {
         // then
         assertInstanceOf(GameChatroom.class, found1);
         assertEquals(gameChatroom1.getTitle(), found1.getTitle());
-        assertEquals(gameChatroom1.getGameId(), ((GameChatroom) found1).getGameId());
     }
 
     // GameChatroom, RecruitChatroom, MatchingChatroom 3개의 채팅방을 저장하고 findAll()로 모두 조회
@@ -134,28 +186,19 @@ class ChatroomRepositoryTest {
         // given
         GameChatroom gameChatroom = GameChatroom.builder()
                 .title("game chatroom")
-                .gameId(1L)
+                .game(game)
                 .build();
         RecruitChatroom recruitChatroom = RecruitChatroom.builder()
-                .manager(
-                        User.builder()
-                                .email("test@test.com")
-                                .password("password")
-                                .nickname("nickname")
-                                .build()
-                )
+                .manager(manager)
+                .game(game)
+                .cheeringClub(homeClub)
                 .title("recruit chatroom")
                 .description("description")
                 .capacity(10)
                 .build();
         MatchingChatroom matchingChatroom = MatchingChatroom.builder()
                 .title("matching chatroom")
-                .matching(
-                        Matching.builder()
-                                .title("matching")
-                                .capacity(10)
-                                .build()
-                )
+                .matching(matching)
                 .build();
 
         // when
@@ -173,7 +216,6 @@ class ChatroomRepositoryTest {
         chatrooms.forEach(chatroom -> {
             if (chatroom instanceof GameChatroom) {
                 assertEquals(gameChatroom.getTitle(), chatroom.getTitle());
-                assertEquals(gameChatroom.getGameId(), ((GameChatroom) chatroom).getGameId());
             } else if (chatroom instanceof RecruitChatroom) {
                 assertEquals(recruitChatroom.getTitle(), chatroom.getTitle());
                 assertEquals(recruitChatroom.getDescription(), ((RecruitChatroom) chatroom).getDescription());
@@ -188,14 +230,10 @@ class ChatroomRepositoryTest {
     void findByTagIds() {
 
         // given
-        User manager = User.builder()
-                .email("test@test.com")
-                .nickname("nickname")
-                .password("password")
-                .build();
-
         RecruitChatroom recruitChatroom1 = RecruitChatroom.builder()
                 .manager(manager)
+                .game(game)
+                .cheeringClub(homeClub)
                 .title("recruit chatroom 1")
                 .description("description")
                 .capacity(10)
@@ -214,9 +252,9 @@ class ChatroomRepositoryTest {
                 .type(TagType.PREFERRED_TEAM)
                 .build();
 
-        RecruitTag.createRecruitTag(recruitChatroom1, tag1);
-        RecruitTag.createRecruitTag(recruitChatroom1, tag2);
-        RecruitTag.createRecruitTag(recruitChatroom1, tag3);
+        recruitChatroom1.addTag(tag1);
+        recruitChatroom1.addTag(tag2);
+        recruitChatroom1.addTag(tag3);
 
         // when
         userRepository.save(manager);
@@ -231,5 +269,49 @@ class ChatroomRepositoryTest {
         log.info("found1: {}", found1);
         assertEquals(1, found1.size());
         assertEquals(recruitChatroom1.getTitle(), found1.get(0).getTitle());
+    }
+
+    @Test
+    void findByTitleContaining() {
+
+        // given
+        RecruitChatroom recruitChatroom1 = RecruitChatroom.builder()
+                .manager(manager)
+                .game(game)
+                .cheeringClub(homeClub)
+                .title("recruit chatroom 1")
+                .description("description")
+                .capacity(10)
+                .build();
+        RecruitChatroom recruitChatroom2 = RecruitChatroom.builder()
+                .manager(manager)
+                .game(game)
+                .cheeringClub(homeClub)
+                .title("recruit chatroom 2")
+                .description("description")
+                .capacity(10)
+                .build();
+        RecruitChatroom recruitChatroom3 = RecruitChatroom.builder()
+                .manager(manager)
+                .game(game)
+                .cheeringClub(homeClub)
+                .title("recruit chatroom 3")
+                .description("description")
+                .capacity(10)
+                .build();
+        GameChatroom gameChatroom1 = GameChatroom.builder()
+                .title("game chatroom 1")
+                .game(game)
+                .build();
+
+        // when
+        chatroomRepository.save(recruitChatroom1);
+        chatroomRepository.save(recruitChatroom2);
+        chatroomRepository.save(recruitChatroom3);
+        chatroomRepository.save(gameChatroom1);
+        List<Chatroom> found = chatroomRepository.findAllByTitleContaining("chat");
+
+        // then
+        assertEquals(4, found.size());
     }
 }

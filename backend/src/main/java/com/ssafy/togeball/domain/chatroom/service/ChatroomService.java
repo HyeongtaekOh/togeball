@@ -20,6 +20,10 @@ public class ChatroomService {
     private final ChatroomRepository chatroomRepository;
     private final ChatroomMembershipRepository chatroomMembershipRepository;
 
+    public Chatroom saveChatroom(Chatroom chatroom) {
+        return chatroomRepository.save(chatroom);
+    }
+
     @Transactional
     public void joinChatroom(Integer userId, Integer chatroomId) {
         User user = userRepository.findById(userId).orElseThrow();

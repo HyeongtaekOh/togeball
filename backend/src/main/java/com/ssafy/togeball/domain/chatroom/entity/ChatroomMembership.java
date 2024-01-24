@@ -30,18 +30,9 @@ public class ChatroomMembership extends AbstractJoinEntity {
     private User user;
 
     @Builder
-    private ChatroomMembership(Chatroom chatroom, User user) {
+    public ChatroomMembership(Chatroom chatroom, User user) {
         this.chatroom = chatroom;
         this.user = user;
-    }
-
-    public static ChatroomMembership createChatroomMembership(Chatroom chatroom, User user) {
-        ChatroomMembership chatroomMembership = ChatroomMembership.builder()
-            .chatroom(chatroom)
-            .user(user)
-            .build();
-        chatroom.addChatroomMembership(chatroomMembership);
-        return chatroomMembership;
     }
 
     @Override
