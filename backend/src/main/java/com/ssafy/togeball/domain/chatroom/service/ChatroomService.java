@@ -1,9 +1,13 @@
 package com.ssafy.togeball.domain.chatroom.service;
 
+import com.ssafy.togeball.domain.chatroom.dto.ChatroomCreateDto;
 import com.ssafy.togeball.domain.chatroom.entity.Chatroom;
 import com.ssafy.togeball.domain.chatroom.entity.ChatroomMembership;
+import com.ssafy.togeball.domain.chatroom.entity.MatchingChatroom;
+import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
 import com.ssafy.togeball.domain.chatroom.repository.ChatroomMembershipRepository;
 import com.ssafy.togeball.domain.chatroom.repository.ChatroomRepository;
+import com.ssafy.togeball.domain.matching.entity.Matching;
 import com.ssafy.togeball.domain.user.entity.User;
 import com.ssafy.togeball.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +24,13 @@ public class ChatroomService {
     private final ChatroomRepository chatroomRepository;
     private final ChatroomMembershipRepository chatroomMembershipRepository;
 
-    public Chatroom saveChatroom(Chatroom chatroom) {
-        return chatroomRepository.save(chatroom);
+    @Transactional
+    public MatchingChatroom createMatchingChatroom(ChatroomCreateDto chatroomDto, Matching matching) {
+        MatchingChatroom matchingChatroom = MatchingChatroom.builder()
+                .title(chatroomDto.getTitle())
+                .matching(matching)
+                .build();
+        return chatroomRepository.save(matchingChatroom);
     }
 
     @Transactional
