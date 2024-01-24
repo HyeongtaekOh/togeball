@@ -4,21 +4,19 @@ import useStore from 'src/store'
 const useAxios = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
   withCredentials: true,
-  responseType: "json",
+  responseType: 'json',
   timeout: 10000,
 })
-
-
 
 useAxios.interceptors.request.use( 
   async( config ) => {
     const { accessToken, setAccessToken } = useStore()
     
       if( accessToken ){
-        config.headers["Authorization"] = `Bearer ${accessToken}`
+        config.headers['Authorization'] = `Bearer ${ accessToken }`
       }
       return config
   },
@@ -46,7 +44,7 @@ useAxios.interceptors.response.use(
 )
 
 const useAxiosRefreshToken: () => Promise<string> = async() =>{
-  const { data } = await useAxios.post<string>("/refresh");
+  const { data } = await useAxios.post<string>('/refresh');
   return data
 }
 
