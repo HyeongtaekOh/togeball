@@ -13,11 +13,13 @@ const HeaderWrapper = styled.div`
   align-items: center;
 `
 
-const Header = () => {
+const Header = (props: HeaderProps) => {
+
+  const { title } = props;
   
   return(
     <HeaderWrapper>
-      <LeftHeader />
+      <LeftHeader children={ title }/>
       <RightHeader />
     </HeaderWrapper>
   )
@@ -25,3 +27,7 @@ const Header = () => {
 }
 
 export default Header
+
+type HeaderProps = {
+  title?: string,
+}

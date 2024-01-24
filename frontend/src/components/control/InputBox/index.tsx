@@ -4,6 +4,7 @@ const InputWrapper = styled.div<{ height: string; width: string }>`
   height: ${( props ) => props.height};
   width: ${( props ) => props.width};
   border: 1px solid #ccc;
+  border-radius: 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
