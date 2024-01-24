@@ -4,6 +4,7 @@
     "target": "es2018",
     "jsx": "react-jsx",
     "module": "esnext",
+    "declaration": true,
     "sourceMap": true,
     "removeComments": true,
     "esModuleInterop": true,
@@ -30,6 +31,7 @@
   "types": [
     "@types/node"
   ],
+  "include": ["**/*.ts","**/*.tsx","./src/@types"],
   "exclude": [
     "node_modules/*"
   ]

@@ -1,4 +1,4 @@
-import { ClubType } from "src/model/types"
+import { ClubType } from "src/types"
 import { useMemo } from "react"
 import { RankItem } from "./index"
 import styled from 'styled-components'

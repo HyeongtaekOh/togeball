@@ -3,7 +3,7 @@ import { InputBox,SignButton, Button, Select, Title, KakaoIcon,
 import { useNavigate } from 'react-router-dom'
 import { useCallback, useState } from 'react'
 import { styled } from 'styled-components'
-import { ParticipantsType } from '@/model/types/Participands'
+import { ParticipantsType } from 'src/types'
 
 
 const InputWrapper = styled.div`
@@ -59,6 +59,7 @@ const Dev = () => {
         { title: '# 키움' },
         { title: '# 팀무관' }
 ])
+  const board = { creatorName:'이운재', title: 'LG', createdTime: '2021-09-20', logo:'https://avatars.githubusercontent.com/u/10000000?v'}
 const [ participant, setParticipant ] = useState<ParticipantsType>(
   {
     userId: 1,
@@ -78,13 +79,16 @@ const [ participant, setParticipant ] = useState<ParticipantsType>(
 
       <TagList tags = { tags } />
       <TagList tags = { tagsRemove } isRemove= { true } />
-      <TagList tags = { tagsRemove } bgColor= '#FBD14B' isRemove= { true } />
+      <TagList tags = { tagsRemove } bgColor= '#FBD14B' isRemove= { true } /> 
 
+       <BoardList board={ board } ></BoardList>
+       <div>-------------------------------------------------------------------------</div>
+       <ChatList></ChatList>
       
-      <BoardList type='main' title='첫번째 제목' createdAt='10:10:10' user='이운재' logo='https://t1.daumcdn.net/cfile/tistory/2647254A5889D6BA03'></BoardList>
-      <ChatList type='main' title='1/30 두산vs기아 18:00' mbti='#estp' numberofuser='3/4명' content='어디야?' ></ChatList>
+      
+      <ChatList title='1/30 두산vs기아 18:00' mbti='#estp' numberofuser='3/4명' content='어디야?' ></ChatList>
 
-      <Button type='cancel'>취소</Button>
+       <Button type='cancel'>취소</Button>
       <Button type='parti'  onClick={ participate }>참가하기</Button>
       <Button type='save' onClick={ participate }>저장</Button>
       <Button type='reset' onClick={ participate }>초기화</Button>
