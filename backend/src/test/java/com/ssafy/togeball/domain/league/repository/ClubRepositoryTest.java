@@ -21,7 +21,7 @@ public class ClubRepositoryTest {
                 .sponsorName("LG")
                 .clubName("트윈스")
                 .logo("logo.png")
-                .ranking((byte)1)
+                .ranking(1)
                 .build();
         clubRepository.save(club1);
     }
@@ -33,7 +33,7 @@ public class ClubRepositoryTest {
                 .sponsorName("기업명")
                 .clubName("클럽명")
                 .logo("로고.png")
-                .ranking((byte)11)
+                .ranking(11)
                 .build();
         Club saved = clubRepository.save(club);
         assertNotNull(club);

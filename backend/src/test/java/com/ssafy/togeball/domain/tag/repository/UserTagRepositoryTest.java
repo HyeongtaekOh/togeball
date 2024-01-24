@@ -79,7 +79,7 @@ class UserTagRepositoryTest {
         userTagRepository.save(userTag);
 
         assertTrue(userTagRepository.findByTagIdAndUserId(tag.getId(), user.getId()).isPresent());
-        assertFalse(userTagRepository.findByTagIdAndUserId(tag.getId(), -1L).isPresent());
+        assertFalse(userTagRepository.findByTagIdAndUserId(tag.getId(), -1).isPresent());
     }
 
     @Test

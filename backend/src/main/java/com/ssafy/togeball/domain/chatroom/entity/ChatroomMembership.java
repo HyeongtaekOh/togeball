@@ -19,7 +19,7 @@ public class ChatroomMembership extends AbstractJoinEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chatroom_membership_id")
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chatroom_id")
@@ -46,6 +46,6 @@ public class ChatroomMembership extends AbstractJoinEntity {
 
     @Override
     protected Object getKey() {
-        return new SimpleTuple<Long, Long>(chatroom.getId(), user.getId());
+        return new SimpleTuple<Integer, Integer>(chatroom.getId(), user.getId());
     }
 }
