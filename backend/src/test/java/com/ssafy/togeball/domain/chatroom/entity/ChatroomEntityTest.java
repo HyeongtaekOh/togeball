@@ -1,17 +1,20 @@
 package com.ssafy.togeball.domain.chatroom.entity;
 
+import com.ssafy.togeball.domain.league.entity.Club;
+import com.ssafy.togeball.domain.league.entity.Game;
+import com.ssafy.togeball.domain.league.entity.Stadium;
 import com.ssafy.togeball.domain.tag.entity.Tag;
 import com.ssafy.togeball.domain.tag.entity.TagType;
 import com.ssafy.togeball.domain.user.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,22 +25,67 @@ public class ChatroomEntityTest {
     @Autowired
     private TestEntityManager entityManager;
 
-    @Test
-    void recruitChatroomLazyLoadingTest() { // User 객체를 Lazy Loading으로 가져오는지 확인
+    private User manager;
+    private Game game;
+    private Club homeClub;
+    private Club awayClub;
+    private Stadium stadium;
 
-        // 테스트 데이터 저장
-        User manager = User.builder()
+    @BeforeEach
+    void setup() {
+        dataInit();
+    }
+
+    private void dataInit() {
+        manager = User.builder()
                 .email("test@gmail.com")
                 .password("password")
                 .nickname("nickname")
                 .build();
+        homeClub = Club.builder()
+                .clubName("랜더스")
+                .sponsorName("SSG")
+                .ranking(1)
+                .build();
+        awayClub = Club.builder()
+                .clubName("자이언츠")
+                .sponsorName("롯데")
+                .ranking(2)
+                .build();
+        stadium = Stadium.builder()
+                .name("문학경기장")
+                .fullName("문학경기장")
+                .address("서울특별시 동작구 상도로 369")
+                .latitude(37.496041)
+                .longitude(126.953764)
+                .build();
+        game = Game.builder()
+                .stadium(stadium)
+                .homeClub(homeClub)
+                .awayClub(awayClub)
+                .datetime(LocalDateTime.now())
+                .build();
+        entityManager.persist(manager);
+        entityManager.persist(homeClub);
+        entityManager.persist(awayClub);
+        entityManager.persist(stadium);
+        entityManager.persist(game);
+        entityManager.flush();
+        entityManager.clear();
+    }
+
+    @Test
+    void recruitChatroomLazyLoadingTest() { // User 객체를 Lazy Loading으로 가져오는지 확인
+
+        // 테스트 데이터 저장
         RecruitChatroom recruitChatroom = RecruitChatroom.builder()
+                .manager(manager)
+                .game(game)
+                .cheeringClub(homeClub)
                 .title("recruit chatroom")
                 .description("description")
                 .capacity(10)
                 .build();
-        recruitChatroom.setManager(manager);
-        entityManager.persist(manager);
         entityManager.persist(recruitChatroom);
         entityManager.flush();
 
@@ -61,11 +109,6 @@ public class ChatroomEntityTest {
     void saveCascadeTest() {
 
         // given
-        User manager = User.builder()
-                .email("test@test.com")
-                .nickname("nickname")
-                .password("password")
-                .build();
 
         User user1 = User.builder()
                 .email("test2@test.com")
@@ -93,17 +136,19 @@ public class ChatroomEntityTest {
 
         RecruitChatroom recruitChatroom = RecruitChatroom.builder()
                 .manager(manager)
+                .game(game)
+                .cheeringClub(homeClub)
                 .title("recruit chatroom")
                 .description("description")
                 .capacity(10)
                 .build();
 
-        ChatroomMembership chatroomMembership1 = ChatroomMembership.createChatroomMembership(recruitChatroom, user1);
-        ChatroomMembership chatroomMembership2 = ChatroomMembership.createChatroomMembership(recruitChatroom, user2);
+        recruitChatroom.addMember(user1);
+        recruitChatroom.addMember(user2);
 
-        RecruitTag recruitTag1 = RecruitTag.createRecruitTag(recruitChatroom, tag1);
-        RecruitTag recruitTag2 = RecruitTag.createRecruitTag(recruitChatroom, tag2);
-        RecruitTag recruitTag3 = RecruitTag.createRecruitTag(recruitChatroom, tag3);
+        recruitChatroom.addTag(tag1);
+        recruitChatroom.addTag(tag2);
+        recruitChatroom.addTag(tag3);
 
         // when
         entityManager.persist(user1);
