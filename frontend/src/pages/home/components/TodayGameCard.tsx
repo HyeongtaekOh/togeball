@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { GameType } from 'src/model/types/Game'
+import { GameType } from 'src/types'
 import { LeftIcon, RightIcon} from 'src/components'
 import { GameItem } from './index'
-import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
 
 const GameCard = styled.div`
   box-sizing: border-box;

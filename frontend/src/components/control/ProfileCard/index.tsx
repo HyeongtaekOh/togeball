@@ -1,4 +1,4 @@
-import { ParticipantsType } from '@/model/types/Participands';
+import { ParticipantsType } from 'src/types';
 import styled from 'styled-components';
 
 

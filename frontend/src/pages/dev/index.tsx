@@ -3,7 +3,7 @@ import { InputBox,SignButton, Button, Select, Title, KakaoIcon,
 import { useNavigate } from 'react-router-dom'
 import { useCallback, useState } from 'react'
 import { styled } from 'styled-components'
-import { ParticipantsType } from '@/model/types/Participands'
+import { ParticipantsType } from 'src/types'
 
 
 const InputWrapper = styled.div`
