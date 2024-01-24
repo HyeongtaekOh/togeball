@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { Button } from "../../../components";
+import { Button } from "../..";
 
 const Mainwrapper = styled.div`
   display: flex;

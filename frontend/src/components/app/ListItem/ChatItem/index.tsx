@@ -1,5 +1,5 @@
-import styled, {css} from "styled-components";
-import {Title} from "../../font";
+import styled, { css } from "styled-components";
+import { Title } from "../../../font";
 
 const ChatWrapper = styled.div<{ width?: string}>`
     display: flex;
@@ -30,20 +30,20 @@ const TextWrapper = styled.div`
 const ChatList = (props: ChatListProps) => {
 
   const {
-    children, title,logo, mbti,content, numberofuser, onClick, width='1000px'
+    children, title, logo, mbti, content, numberofuser, onClick, width='1000px'
   } = props
 
 
   return(
    <ChatWrapper width='1000px'>
-    <img src="" alt="로고" />
+    <img src="" alt="로고"/>
     <TextWrapper>
       
       <Title type="medium">gd</Title>
-      <Title type="small" style={{marginBottom: '10px'}}>#entj</Title>
-      <p style={{marginBottom: "10px"}}>어디야?</p>
+      <Title type="small" style={{ marginBottom: '10px' }}>#entj</Title>
+      <p style={{ marginBottom: "10px" }}>어디야?</p>
     </TextWrapper>
-    <p style={  { paddingTop: "40px" } }>4/10명</p>
+    <p style={{ paddingTop: "40px" }}>4/10명</p>
 
 
 

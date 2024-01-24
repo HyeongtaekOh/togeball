@@ -1,4 +1,4 @@
-import styled, {css} from "styled-components";
+import styled, { css } from "styled-components";
 import { BoardType } from "src/types/Board";
 
 const BoardWrapper = styled.div<BoardListProps>`
