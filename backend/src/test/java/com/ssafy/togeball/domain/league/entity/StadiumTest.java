@@ -12,8 +12,8 @@ public class StadiumTest {
 
         //Given
         List<Club> clubs = new ArrayList<>();
-        Club club1 = new Club("LG","트윈스","logo1.png",(byte)1);
-        Club club2 = new Club("두산","베어스","logo2.png",(byte)5);
+        Club club1 = new Club("LG","트윈스","logo1.png", 1);
+        Club club2 = new Club("두산","베어스","logo2.png", 5);
         clubs.add(club1);
         clubs.add(club2);
         String name = "잠실";

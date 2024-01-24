@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ChatroomRepository extends JpaRepository<Chatroom, Long>, CustomChatroomRepository {
+public interface ChatroomRepository extends JpaRepository<Chatroom, Integer>, CustomChatroomRepository {
 
     List<Chatroom> findAllByTitleContaining(String title);
 }

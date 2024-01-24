@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PostRepository extends JpaRepository<Post, Long> {
+public interface PostRepository extends JpaRepository<Post, Integer> {
 
-    List<Post> findByUserId(Long userId);
+    List<Post> findByUserId(Integer userId);
 
     // 특정 단어가 게시물 제목 필드에 포함된 게시물을 검색
     @Query("SELECT p FROM Post p WHERE p.title LIKE %:keyword%")

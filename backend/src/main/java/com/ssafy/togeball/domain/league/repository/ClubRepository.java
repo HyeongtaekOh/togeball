@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ClubRepository extends JpaRepository<Club, Byte> {
+public interface ClubRepository extends JpaRepository<Club, Integer> {
 
     Optional<Club> findBySponsorName(@Param("sponsorName") String sponsorName);
 }

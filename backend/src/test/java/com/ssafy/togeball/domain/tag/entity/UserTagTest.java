@@ -78,8 +78,8 @@ class UserTagTest {
                 .user(user)
                 .build();
 
-        Long userId = entityManager.persist(user).getId();
-        Long tagId = entityManager.persist(tag).getId();
+        Integer userId = entityManager.persist(user).getId();
+        Integer tagId = entityManager.persist(tag).getId();
         entityManager.persist(userTag);
         entityManager.flush();
 

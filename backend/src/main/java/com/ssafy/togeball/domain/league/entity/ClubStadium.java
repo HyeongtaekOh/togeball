@@ -17,7 +17,7 @@ public class ClubStadium {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "club_stadium_id")
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")

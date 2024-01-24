@@ -17,7 +17,7 @@ public class Matching {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "matching_id")
-    private Long id;
+    private Integer id;
 
     private String title;
 
