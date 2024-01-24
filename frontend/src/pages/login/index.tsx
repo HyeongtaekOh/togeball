@@ -32,12 +32,12 @@ const Login = () => {
         <Title>투게볼</Title>
         <InputWrapper>
           <InputBox title= '이메일' placeholder= '이메일을 입력해주세요.' />
-          <InputBox title= '비밀번호' placeholder= '비밀번호를 입력해주세요' />
+          <InputBox title= '비밀번호' placeholder= '비밀번호를 입력해주세요.' />
         </InputWrapper>
         <SignButton onClick={ onLogin }>
           로그인
         </SignButton>
-        <Title>SNS 로그인</Title>
+        <Title type='small'>SNS 로그인</Title>
         <IconWrapper><NaverIcon /><KakaoIcon /></IconWrapper>
         <a href='./sign'>혹시 아직 회원이 아니신가요?</a>
        </SignLayout>

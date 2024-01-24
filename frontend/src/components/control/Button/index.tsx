@@ -18,8 +18,8 @@ const ButtonWrapper = styled.button<ButtonProps>`
   margin: 10px 0px 10px 0px;
   transition: background-color 0.3s, color 0.3s;
   &:hover {
-    background-color: #EE0E2F; /* 배경색 변경 */
-    color: white; /* 텍스트 색상 변경 */
+    background-color: #FABE01; 
+    color: white; 
   }
 
   ${(props) =>
@@ -58,14 +58,14 @@ const ButtonWrapper = styled.button<ButtonProps>`
 const Button = ( props: ButtonProps ) => {
 
   const { 
-    children, type = 'parti', color = 'lightgrey', width = '100.981px',
+    children, type = 'parti', color = 'lightgrey', width = '100px',
     onClick 
   } = props
 
   
 
   return (
-    <ButtonWrapper onClick={ onClick } type={ type } color={ color } width={width}>
+    <ButtonWrapper onClick={ onClick } type={ type } color={ color } width={ width }>
       { children }
     </ButtonWrapper>
   )
@@ -77,7 +77,7 @@ export default Button
 type ButtonProps = {
   children?: string,
   color?: string,
-  type?:'cancel' |'save' |'reset'|'parti'
+  type?:'cancel' |'save' | 'reset' | 'parti'
   width?: string,
   onClick?: () => void
 }
