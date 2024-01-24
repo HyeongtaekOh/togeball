@@ -1,9 +1,7 @@
 package com.ssafy.togeball.domain.chatroom.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.ssafy.togeball.domain.league.entity.Game;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -15,12 +13,13 @@ import org.hibernate.annotations.SQLRestriction;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GameChatroom extends Chatroom {
 
-    @Column
-    private Long gameId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "game_id")
+    private Game game;
 
     @Builder
-    public GameChatroom(String title, Long gameId) {
+    public GameChatroom(Game game, String title) {
+        this.game = game;
         this.title = title;
-        this.gameId = gameId;
     }
 }

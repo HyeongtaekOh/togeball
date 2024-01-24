@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table(name = "TBL_CLUBSTADIUM", uniqueConstraints = {
+@Table(name = "TBL_CLUB_STADIUM", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"club_id", "stadium_id"})
 })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

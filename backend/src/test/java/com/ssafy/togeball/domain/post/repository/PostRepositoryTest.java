@@ -66,8 +66,16 @@ public class PostRepositoryTest {
     void postSaveTest() {
 
         LocalDate now = LocalDate.now();
-        User user = new User("aycho3030@gmail.com","1234","아영", Gender.FEMALE,
-                LocalDateTime.of(1994,4,30,0,0,0),"010-1000-2000","profile1.png");
+        User user = User.builder()
+                .email("aycho3030@gmail.com")
+                .password("1234")
+                .nickname("아영")
+                .gender(Gender.FEMALE)
+                .birthdate(LocalDateTime.of(1994,4,30,0,0,0))
+                .phone("010-1000-2000")
+                .profileImage("profile1.png")
+                .build();
+
         User savedUser = userRepository.save(user);
 
         String title = "저녁 뭐 먹지";
