@@ -12,7 +12,7 @@ const ButttonWrapper = styled.button<{ size : number }>`
 
 const NaverIcon = ( props: IconProps ) => {
 
-    const { size = 30, onClick } = props
+    const { size = 40, onClick } = props
 
     return(
         <ButttonWrapper size={ size } onClick = { onClick }>

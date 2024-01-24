@@ -24,7 +24,7 @@ const LeftHeader = () => {
   const navigator = useNavigate()
 
   const onClickLogo = useCallback(() => {
-    navigator('/')
+    navigator('/home')
   },[])
 
   return(
