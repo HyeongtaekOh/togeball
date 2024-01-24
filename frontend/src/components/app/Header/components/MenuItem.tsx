@@ -12,7 +12,7 @@ const MenuWrapper = styled.div`
   flex-direction: column;
   margin-top: 20px;
 `
-const LiDiv = styled.div`
+const LiDivWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -25,7 +25,7 @@ const LiDiv = styled.div`
 
 const MenuItem = ( props : MenuItemProps ) => {
 
-  const { title, menus } = props
+  const { title, menus, path } = props
 
   const [ isOpen, setIsOpen ] = useState<boolean>( false )
   const navigator = useNavigate()
@@ -38,9 +38,10 @@ const MenuItem = ( props : MenuItemProps ) => {
 
     <MenuWrapper 
       onMouseOver = {() => setIsOpen( true )}
-      onMouseLeave = {() => setIsOpen( false )}>
+      onMouseLeave = {() => setIsOpen( false )}
+      onClick = {() => onClick( path )}>
       <Title type='medium'>{ title }</Title>
-      <LiDiv>
+      <LiDivWrapper>
       {
       isOpen && menus &&
         (
@@ -51,7 +52,7 @@ const MenuItem = ( props : MenuItemProps ) => {
           })
         )
       }
-      </LiDiv>
+      </LiDivWrapper>
     </MenuWrapper>
 
   )

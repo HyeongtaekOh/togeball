@@ -1,8 +1,9 @@
 import { InputBox,SignButton, Button, Select, Title, KakaoIcon, 
-  NaverIcon, MainLayout, OpenChatCard, BoardList, ChatList, Tag, TagBtn, TagList, SimpleWordcloud,HomeLayout } from '../../components'
+  NaverIcon, MainLayout, OpenChatCard, BoardList, ChatList, Tag, TagBtn, TagList, ProfileCard, HomeLayout } from '../../components'
 import { useNavigate } from 'react-router-dom'
 import { useCallback, useState } from 'react'
 import { styled } from 'styled-components'
+import { ParticipantsType } from 'src/types'
 
 
 const InputWrapper = styled.div`
@@ -59,17 +60,33 @@ const Dev = () => {
         { title: '# 팀무관' }
 ])
   const board = { creatorName:'이운재', title: 'LG', createdTime: '2021-09-20', logo:'https://avatars.githubusercontent.com/u/10000000?v'}
+const [ participant, setParticipant ] = useState<ParticipantsType>(
+  {
+    userId: 1,
+    nickname: '이운재',
+    age: 32,
+    gender: '남성',
+    profileImg: 'https://i.namu.wiki/i/qA822LZ7zUrIq-AH8Q7IhXiCv_YyBYnZLwGYosmEpAz25gvsgBIUusUXsTJqxKhbSsBbYvSeqavdNmHc06s0FQ.webp',
+    hashtags: ['#LG', '#KT', '#SSG', '#NC', '#LG', '#KT', '#SSG', '#NC','#LG', '#KT', '#SSG', '#NC' ]
+  }
+)
 
 
   return (
     <MainLayout>
-      {/* <TagList tags = { tags } />
+
+      <ProfileCard participant = { participant }></ProfileCard>
+
+      <TagList tags = { tags } />
       <TagList tags = { tagsRemove } isRemove= { true } />
-      <TagList tags = { tagsRemove } bgColor= '#FBD14B' isRemove= { true } /> */}
+      <TagList tags = { tagsRemove } bgColor= '#FBD14B' isRemove= { true } /> 
 
        <BoardList board={ board } ></BoardList>
        <div>-------------------------------------------------------------------------</div>
        <ChatList></ChatList>
+      
+      
+      <ChatList title='1/30 두산vs기아 18:00' mbti='#estp' numberofuser='3/4명' content='어디야?' ></ChatList>
 
        <Button type='cancel'>취소</Button>
       <Button type='parti'  onClick={ participate }>참가하기</Button>
@@ -78,7 +95,6 @@ const Dev = () => {
       <SignButton>로그인</SignButton>
 
       <OpenChatCard children='하이하이하이' child='바이바이바이' />
-      
     </MainLayout>
   )
 }

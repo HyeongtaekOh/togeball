@@ -17,7 +17,7 @@ const DownIcon = ( props: IconProps ) => {
 
     return(
         <ButttonWrapper size= { size } onClick= { onClick }>
-          <img width={ size } height={ size } src="https://img.icons8.com/external-others-inmotus-design/67/external-Down-basic-functions-others-inmotus-design.png" alt="external-Down-basic-functions-others-inmotus-design"/>
+          <img width={ size } height={ size } src="https://img.icons8.com/material-rounded/24/expand-arrow--v1.png" alt="expand-arrow--v1"/>
         </ButttonWrapper>
     )
 }
