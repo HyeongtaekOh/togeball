@@ -15,7 +15,7 @@ public class Stadium {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="stadium_id")
-    private byte id;
+    private Integer id;
 
     @OneToMany
     private List<Club> clubs;

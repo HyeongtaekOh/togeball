@@ -11,7 +11,7 @@ public class ClubTest {
         String sponsorName = "LG";
         String clubName = "트윈스";
         String logo = "logo.png";
-        byte ranking = 1;
+        int ranking = 1;
 
         //When
         Club club = Club.builder()

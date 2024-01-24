@@ -14,7 +14,7 @@ public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "game_id")
-    private int id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY) //구장 하나가 여러 경기를 가질 수 있다
     @JoinColumn(name = "stadium_id", nullable = false)

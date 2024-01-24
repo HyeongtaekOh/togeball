@@ -21,7 +21,7 @@ public class ChatroomService {
     private final ChatroomMembershipRepository chatroomMembershipRepository;
 
     @Transactional
-    public void joinChatroom(Long userId, Long chatroomId) {
+    public void joinChatroom(Integer userId, Integer chatroomId) {
         User user = userRepository.findById(userId).orElseThrow();
         Chatroom chatroom = chatroomRepository.findById(chatroomId).orElseThrow();
 
@@ -34,7 +34,7 @@ public class ChatroomService {
     }
 
     @Transactional
-    public void leaveChatroom(Long userId, Long chatroomId) {
+    public void leaveChatroom(Integer userId, Integer chatroomId) {
         ChatroomMembership membership = chatroomMembershipRepository
                 .findByUserIdAndChatroomId(userId, chatroomId).orElseThrow();
         chatroomMembershipRepository.delete(membership);

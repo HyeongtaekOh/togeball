@@ -20,7 +20,7 @@ public class MatchingTag extends AbstractJoinEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "matching_tag_id")
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "matching_id")
@@ -38,6 +38,6 @@ public class MatchingTag extends AbstractJoinEntity {
 
     @Override
     protected Object getKey() {
-        return new SimpleTuple<Long, Long>(matching.getId(), tag.getId());
+        return new SimpleTuple<Integer, Integer>(matching.getId(), tag.getId());
     }
 }

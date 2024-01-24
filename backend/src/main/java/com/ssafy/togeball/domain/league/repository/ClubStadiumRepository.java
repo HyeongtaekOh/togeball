@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ClubStadiumRepository extends JpaRepository<ClubStadium, Long> {
+public interface ClubStadiumRepository extends JpaRepository<ClubStadium, Integer> {
 
-    Optional<ClubStadium> findByClubIdAndStadiumId(byte clubId, byte stadiumId);
+    Optional<ClubStadium> findByClubIdAndStadiumId(Integer clubId, Integer stadiumId);
 
-    List<ClubStadium> findByClubId(byte clubId);
+    List<ClubStadium> findByClubId(Integer clubId);
 
-    List<ClubStadium> findByStadiumId(byte stadiumId);
+    List<ClubStadium> findByStadiumId(Integer stadiumId);
 }

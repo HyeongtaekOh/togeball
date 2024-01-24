@@ -15,7 +15,7 @@ public class Club {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="club_id")
-    private byte id;
+    private Integer id;
 
     @Column(name = "sponsor_name", nullable = false, unique = true)
     private String sponsorName;
@@ -27,7 +27,7 @@ public class Club {
     private String logo;
 
     @Column
-    private byte ranking;
+    private Integer ranking;
 
     @OneToMany(mappedBy = "club")
     private List<ClubStadium> clubStadiums = new ArrayList<>();
@@ -39,7 +39,7 @@ public class Club {
     private List<Game> awayGames;
 
     @Builder
-    public Club(String sponsorName, String clubName, String logo, byte ranking) {
+    public Club(String sponsorName, String clubName, String logo, Integer ranking) {
         this.sponsorName = sponsorName;
         this.clubName = clubName;
         this.logo = logo;
