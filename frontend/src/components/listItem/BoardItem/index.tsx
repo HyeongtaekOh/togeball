@@ -1,13 +1,12 @@
 import styled, {css} from "styled-components";
+import { BoardType } from "src/model/types/Board";
 
 const BoardWrapper = styled.div<BoardListProps>`
     display: flex;
-    Background-color: #7D74B4;
+    Background-color: #DEDCEE;
     border-radius: 10px;
-    width: 100%;
+    width: 1000px;
     height: 60px;
-    
-
     &:hover{
       background-color: #9008F2;
       cursor: pointer;
@@ -26,20 +25,12 @@ const BoardWrapper = styled.div<BoardListProps>`
     }
 `
 
-const LogoWrapper =styled.img`
-  width: 10%;
-`
-
-const TitleWrapper = styled.p`
-    color: black;
-`
-
 const CreateTimeWrapper = styled.p`
-    color: lightgray;
+    color: #A4A29F;
     font-size: 10px;
 `
 const UserWrapper = styled.div`
-    color: white;
+    color: black;
     padding-bottom: 10px;
     display: flex;
     align-items: flex-end;
@@ -48,34 +39,30 @@ const UserWrapper = styled.div`
     
 `
 
-const BoardList = (props: BoardListProps) => {
+const BoardItem = ( props: BoardListProps ) => {
 
-  const {
-    children, title,logo, createdAt, user, onClick, type = 'main'
-  } = props
+  const { board, onClick, type = 'main' } = props
+
+  const { creatorName, title, createdTime, logo } = board
 
   return(
-    <BoardWrapper>
-      <LogoWrapper  src={logo} alt="이미지" />
+    <BoardWrapper >
+      <img style={{ width: '10%', borderRadius:'10px' }} src={ logo} alt="" ></img>
       <BoardWrapper type="sub">
-      <TitleWrapper>{title}</TitleWrapper>
-      <CreateTimeWrapper>{createdAt}</CreateTimeWrapper>
+      <p style={{ color: 'black' }}>{ title }</p>
+      <CreateTimeWrapper>{ createdTime }</CreateTimeWrapper>
       </BoardWrapper>
-      <UserWrapper>{user}</UserWrapper>
+      <UserWrapper>{ creatorName }</UserWrapper>
 
     </BoardWrapper>
   )
 }
 
-export default BoardList
+export default BoardItem
 
 type BoardListProps = {
-  children?: React.ReactNode,
-  title?: string,
-  createdAt?: string,
-  user?: string,
-  onClick?: () => void,
+  board?: BoardType,
   type?: 'main'|'sub',
-  logo?: string
+  onClick? : () => void
 
 }

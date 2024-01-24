@@ -58,16 +58,18 @@ const Dev = () => {
         { title: '# 키움' },
         { title: '# 팀무관' }
 ])
+  const board = { creatorName:'이운재', title: 'LG', createdTime: '2021-09-20', logo:'https://avatars.githubusercontent.com/u/10000000?v'}
 
 
   return (
     <MainLayout>
-      <TagList tags = { tags } />
+      {/* <TagList tags = { tags } />
       <TagList tags = { tagsRemove } isRemove= { true } />
-      <TagList tags = { tagsRemove } bgColor= '#FBD14B' isRemove= { true } />
+      <TagList tags = { tagsRemove } bgColor= '#FBD14B' isRemove= { true } /> */}
 
-       {/* <BoardList type='main' title='첫번째 제목' createdAt='10:10:10' user='이운재' logo='https://t1.daumcdn.net/cfile/tistory/2647254A5889D6BA03'></BoardList> */}
-       <ChatList  title='1/30 두산vs기아 18:00' mbti='#estp #estj' numberofuser='3/4명' content='어디야?' ></ChatList>
+       <BoardList board={ board } ></BoardList>
+       <div>-------------------------------------------------------------------------</div>
+       <ChatList></ChatList>
 
        <Button type='cancel'>취소</Button>
       <Button type='parti'  onClick={ participate }>참가하기</Button>
