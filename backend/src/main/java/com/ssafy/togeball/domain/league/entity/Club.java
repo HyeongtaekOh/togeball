@@ -1,5 +1,6 @@
 package com.ssafy.togeball.domain.league.entity;
 
+import com.ssafy.togeball.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,6 +38,9 @@ public class Club {
 
     @OneToMany(mappedBy = "awayClub", fetch = FetchType.LAZY)
     private List<Game> awayGames;
+
+    @OneToMany(mappedBy = "club")
+    private List<User> fans;
 
     @Builder
     public Club(String sponsorName, String clubName, String logo, Integer ranking) {

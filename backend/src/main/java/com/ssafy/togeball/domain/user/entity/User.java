@@ -1,6 +1,8 @@
 package com.ssafy.togeball.domain.user.entity;
 
 import com.ssafy.togeball.domain.common.entity.BaseEntity;
+import com.ssafy.togeball.domain.league.entity.Club;
+import com.ssafy.togeball.domain.notice.entity.Notice;
 import com.ssafy.togeball.domain.tag.entity.UserTag;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -41,11 +43,18 @@ public class User extends BaseEntity {
 
     private String profileImage;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "club_id")
+    private Club club;
+
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<UserTag> userTags = new ArrayList<>();
 
-    public void addUserTag(UserTag userTag) {
-        userTags.add(userTag);
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Notice> notices = new ArrayList<>();
+
+    public void changeClub(Club club) {
+        this.club = club;
     }
 
     public void changeProfileImage(String profileImage) {
@@ -67,7 +76,7 @@ public class User extends BaseEntity {
     }
 
     @Builder
-    public User(String email, String password, String nickname, Gender gender, LocalDateTime birthdate, String phone, String profileImage) {
+    public User(String email, String password, String nickname, Gender gender, LocalDateTime birthdate, String phone, String profileImage, Club club) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
@@ -75,5 +84,6 @@ public class User extends BaseEntity {
         this.gender = gender;
         this.phone = phone;
         this.profileImage = profileImage;
+        this.club = club;
     }
 }
