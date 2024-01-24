@@ -34,10 +34,6 @@ public class Tag {
         this.type = type;
     }
 
-    public void addUserTag(UserTag userTag) {
-        userTags.add(userTag);
-    }
-
     @Builder
     public Tag(String content, TagType type) {
         this.content = content;
