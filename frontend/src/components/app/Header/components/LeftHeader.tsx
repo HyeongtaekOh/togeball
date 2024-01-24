@@ -17,9 +17,19 @@ const BtnWrapper = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 10px;
 `
 
-const LeftHeader = () => {
+const TitleWrapper = styled.span`
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 14px;
+  margin-top: 50px;
+`
+
+const LeftHeader = (props: LeftHeaderProps) => {
+
+  const { children } = props;
 
   const navigator = useNavigate()
 
@@ -28,8 +38,17 @@ const LeftHeader = () => {
   },[])
 
   return(
-    <BtnWrapper onClick={ onClickLogo }><ImgWrapper src= { Logo } alt="없다"/></BtnWrapper>
+    <>
+    <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <BtnWrapper onClick={ onClickLogo }><ImgWrapper src= { Logo } alt="없다"/></BtnWrapper>
+      <TitleWrapper>{ children }</TitleWrapper>
+    </div>
+    </>
   )
 }
 
 export default LeftHeader
+
+type LeftHeaderProps = {
+  children?: string,
+}
