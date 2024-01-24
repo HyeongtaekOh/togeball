@@ -1,4 +1,4 @@
-import { GameType } from "src/model/types/Game";
+import { GameType } from "src/types";
 import { Title } from 'src/components'
 import styled from "styled-components";
 
