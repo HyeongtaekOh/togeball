@@ -1,5 +1,6 @@
-package com.ssafy.togeball.domain.chatroom.entity;
+package com.ssafy.togeball.domain.tag.entity;
 
+import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
 import com.ssafy.togeball.domain.tag.entity.Tag;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
