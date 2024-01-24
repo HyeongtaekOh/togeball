@@ -11,9 +11,10 @@ const TagListWrapper = styled.div`
 `;
 
 const TagList = (props: TagListProps) => {
+
   const { tags, isRemove, bgColor } = props;
 
-  if (!isRemove) {
+  if (!isRemove && typeof tags!== 'string') {
     return (
       <TagListWrapper>
         { tags.map((tag, index) => (
@@ -21,7 +22,7 @@ const TagList = (props: TagListProps) => {
         ))}
       </TagListWrapper>
     );
-  } else {
+  } else if (typeof tags !== 'string'){
     return (
       <TagListWrapper>
         { tags.map((tag, index) => (
@@ -32,12 +33,17 @@ const TagList = (props: TagListProps) => {
       </TagListWrapper>
     );
   }
+  else{
+    <Tag isRemove={ isRemove } bgColor={ bgColor }>
+        tags
+    </Tag>
+  }
 };
 
 export default TagList;
 
 type TagListProps = {
-  tags: Array<{ title: string; }>; 
+  tags: Array<{ title: string; }> | string; 
   isRemove?: boolean; 
   bgColor?: string;
 };
