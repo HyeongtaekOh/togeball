@@ -1,32 +1,32 @@
 import { styled } from 'styled-components'
 
-const HomeWrapper = styled.div`
+const SignWrapper = styled.div`
     box-sizing: border-box;
 	display: flex;
-    width: 65%;
+    width: 500px;
     height: 100%;
-    min-width: 1200px;
     flex-direction: column;
     justify-content: center;
-    gap: 15px;
+    align-items: center;
+    gap: 30px;
     margin: auto;
 `
 
-const HomeLayout = ( props : HomeLayoutProps ) =>{
+const SignLayout = ( props : SignLayoutProps ) =>{
 
     const { children, style } = props
 
     return(
-        <HomeWrapper style = { style }>
+        <SignWrapper style = { style }>
             { children }
-        </HomeWrapper>
+        </SignWrapper>
     )
 
 }
 
-export default  HomeLayout
+export default  SignLayout
 
-type HomeLayoutProps = {
+type SignLayoutProps = {
     children?: React.ReactNode
     style?: React.CSSProperties
 }

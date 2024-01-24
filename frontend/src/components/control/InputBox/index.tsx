@@ -18,7 +18,7 @@ const InputWrapper = styled.div<{ height: string; width: string }>`
 const InputBox = ( props: InputProps ) => {
 
   const {
-    title, height = '30px', width = '100%', 
+    title, height = '60px', width = '100%', 
     placeholder = '내용을 입력하세요',
   } = props
 
@@ -28,7 +28,7 @@ const InputBox = ( props: InputProps ) => {
         title && 
         <div style={{ width: '30%' }}> { title } </div>
       }
-      <input style={{ width: '70%' }} placeholder={ placeholder }/>
+      <input style={{ width: '70%', fontSize: '17px' }} placeholder={ placeholder }/>
     </InputWrapper>
   )
 

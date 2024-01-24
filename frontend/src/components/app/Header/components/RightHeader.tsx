@@ -24,7 +24,7 @@ const RightHeader = () => {
   const [ isChatOpen, setIsChatOpen ] = useState<boolean>(false);
   
   const menu = 
-    isLogin ? [
+    !isLogin ? [
       { title : '회원가입', path : '/signup' },
       { title : '로그인', path : '/login' },
     ]: [
@@ -49,9 +49,8 @@ const RightHeader = () => {
       {
           menu.map(( item : MenuItemProps ) => {
             return <MenuItem 
-                key = { item?.title }
-                title ={ item?.title } path = { item?.path }
-                menus ={ item?.menus }
+                key = { item?.title } title ={ item?.title } 
+                path = { item?.path } menus ={ item?.menus }
               />
         })
       }
