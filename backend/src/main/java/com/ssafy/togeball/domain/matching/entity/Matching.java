@@ -1,6 +1,7 @@
 package com.ssafy.togeball.domain.matching.entity;
 
 import com.ssafy.togeball.domain.chatroom.entity.MatchingChatroom;
+import com.ssafy.togeball.domain.tag.entity.MatchingTag;
 import com.ssafy.togeball.domain.tag.entity.Tag;
 import com.ssafy.togeball.domain.user.entity.User;
 import jakarta.persistence.*;
@@ -24,6 +25,7 @@ public class Matching {
 
     private Integer capacity;
 
+    @Setter
     @OneToOne(mappedBy = "matching", cascade = CascadeType.PERSIST)
     private MatchingChatroom matchingChatroom;
 
