@@ -4,12 +4,17 @@ import com.ssafy.togeball.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "TBL_RECRUITCHATROOM")
-@ToString(exclude = {"manager"})
-@DiscriminatorValue("recruit")
+@ToString(exclude = {"manager", "recruitTags"})
+@DiscriminatorValue("RECRUIT")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RecruitChatroom extends Chatroom {
 
@@ -19,23 +24,28 @@ public class RecruitChatroom extends Chatroom {
     @Column(nullable = false)
     private Integer capacity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "manager_id")
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "manager_id", nullable = false)
     private User manager;
 
+    @OneToMany(mappedBy = "recruitChatroom", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecruitTag> recruitTags = new ArrayList<>();
+
     @Builder
-    public RecruitChatroom(String title, String description, Integer capacity) {
+    public RecruitChatroom(User manager, String title, String description, Integer capacity) {
+        this.manager = manager;
         this.title = title;
         this.description = description;
         this.capacity = capacity;
     }
 
-    public void changeCapacity(Integer capacity) {
-        this.capacity = capacity;
+    public void addRecruitTag(RecruitTag recruitTag) {
+        recruitTags.add(recruitTag);
     }
 
-    public void setManager(User manager) {
-        this.manager = manager;
+    public void changeCapacity(Integer capacity) {
+        this.capacity = capacity;
     }
 
 }
