@@ -39,7 +39,7 @@ const Login = () => {
         </SignButton>
         <Title type='small'>SNS 로그인</Title>
         <IconWrapper><NaverIcon /><KakaoIcon /></IconWrapper>
-        <a href='./sign'>혹시 아직 회원이 아니신가요?</a>
+        <a href='./signup'>혹시 아직 회원이 아니신가요?</a>
        </SignLayout>
       </MainLayout>
     )
