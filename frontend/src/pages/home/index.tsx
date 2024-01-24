@@ -1,7 +1,7 @@
 import { HomeLayout, MainLayout, Button,Title } from 'src/components'
 import { HomeCard, TodayGameCard, RankCard } from './components'
 import { useState } from 'react'
-import { GameType, ClubType } from 'src/model/types'
+import { GameType, ClubType } from '@/types'
 import styled from 'styled-components'
 
 const GameWrpper = styled.div`
