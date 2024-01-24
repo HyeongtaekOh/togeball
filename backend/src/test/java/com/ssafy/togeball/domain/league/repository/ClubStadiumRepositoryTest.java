@@ -39,7 +39,7 @@ public class ClubStadiumRepositoryTest {
                 .sponsorName("기업명")
                 .clubName("클럽명")
                 .logo("로고.png")
-                .ranking((byte)11)
+                .ranking(11)
                 .build();
         clubRepository.save(club);
         List<Club> clubs = new ArrayList<>();
@@ -63,14 +63,14 @@ public class ClubStadiumRepositoryTest {
                 .sponsorName("삼성")
                 .clubName("팀명1")
                 .logo("logo1.png")
-                .ranking((byte) 1)
+                .ranking(1)
                 .build();
         Club savedHomeClub = clubRepository.save(homeClub);
         Club awayClub = Club.builder()
                 .sponsorName("애플")
                 .clubName("팀명2")
                 .logo("logo2.png")
-                .ranking((byte) 2)
+                .ranking(2)
                 .build();
         Club savedAwayClub = clubRepository.save(awayClub);
 
@@ -160,7 +160,7 @@ public class ClubStadiumRepositoryTest {
         clubStadiumRepository.save(clubStadium);
 
         assertTrue(clubStadiumRepository.findByClubIdAndStadiumId(club.getId(), stadium.getId()).isPresent());
-        assertFalse(clubStadiumRepository.findByClubIdAndStadiumId(club.getId(), (byte)0).isPresent());
+        assertFalse(clubStadiumRepository.findByClubIdAndStadiumId(club.getId(), 0).isPresent());
     }
 
     @Test

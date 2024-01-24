@@ -24,7 +24,7 @@ public class CustomChatroomRepositoryImpl implements CustomChatroomRepository {
     }
 
     @Override
-    public List<RecruitChatroom> findByTagIds(List<Long> tagIds) {
+    public List<RecruitChatroom> findByTagIds(List<Integer> tagIds) {
         return queryFactory.selectFrom(QRecruitChatroom.recruitChatroom)
                 .join(QRecruitChatroom.recruitChatroom.recruitTags, QRecruitTag.recruitTag)
                 .join(QRecruitTag.recruitTag.tag, QTag.tag)

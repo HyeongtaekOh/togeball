@@ -18,7 +18,7 @@ public class UserTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_tag_id")
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id")
@@ -32,8 +32,5 @@ public class UserTag {
     public UserTag(Tag tag, User user) {
         this.tag = tag;
         this.user = user;
-
-        tag.addUserTag(this);
-        user.addUserTag(this);
     }
 }
