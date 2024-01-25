@@ -19,10 +19,9 @@ const TagItem = styled.div`
   height: 26px;
   padding: 3px 13px;
   font-size: 13px;
-  color: #9ba3a9;
-  background-color: #e5f8f0;
+  background-color: #dedcee;
   border: none;
-  border-radius: 4px;
+  border-radius: 20px;
 `;
 
 const Button = styled.button`
@@ -31,7 +30,9 @@ const Button = styled.button`
   align-items: center;
   justify-content: space-between;
   width: 15px;
+  margin-top: 3px;
   height: 15px;
+  color: #9ba3a9;
   background-color: inherit;
   border: none;
 `;
@@ -90,18 +91,17 @@ export const TagsInput = () => {
       { tagList.map(( tagItem ) => {
         return (
           <TagItem key={ tagItem }>
-            <span>{ tagItem }</span>
+            <span style={{ fontWeight: 'bold' }}>#{ tagItem }</span>
             <Button onClick={ () => deleteTagItem( tagItem ) }>X</Button>
           </TagItem>
         );
       })}
-      {/* <TagList tags = { TagItem } isRemove= { true } /> */}
       <TagInput
         type="text"
         placeholder={ placeholder }
         onKeyUp={ onKeyUp }
         onKeyDown={ onKeyDown }
-        onChange={( event ) => setTagItem(  event.target.value )}
+        onChange={( event ) => setTagItem( event.target.value )}
         value={ tagItem }
       />
     </TagsInputWrapper>

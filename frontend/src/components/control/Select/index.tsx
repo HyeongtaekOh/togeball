@@ -27,6 +27,8 @@ const LiDivWrapper = styled.div<{ width : string, background: string }>`
   padding: 10px;
   border-top: none;
   gap: 15px;
+  position: absolute;
+  z-index: 10;
 `
 
 const LiWrapper = styled.li`
