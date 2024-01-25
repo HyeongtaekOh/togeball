@@ -1,44 +1,50 @@
 import styled, { css } from 'styled-components'
 
 const size = {
-    'large' : '25px',
-    'medium' : '23px',
-    'small' : '15px'
+    'large' : '23px',
+    'medium' : '19px',
+    'small' : '13px',
 } 
 
-const TitleWrapper = styled.p<{ type : string, color : string }>`
+const TitleWrapper = styled.p<{ type : string, color : string, bold : boolean }>`
     font-size: ${( props ) => size[ props.type ]};
     color: ${ ( props ) => props.color };
     line-height: 130%;
     white-space: nowrap;
     
     ${(props) =>
-        props.type !== 'small' &&
+        ( props.type !== 'small' || props.bold ) &&
         css`
             font-weight: bold;
         `
     }
 
-
 `
 
 const Title = ( props : TitleProps ) =>{
 
-    const { type = 'large', color ='black', children, style } = props
+    const { 
+        type = 'large', color ='black', children, 
+        style, bold = false 
+    } = props
 
     return(
-        <TitleWrapper type = { type } color = { color } style= { style }>
+        <TitleWrapper 
+            type = { type } color = { color } 
+            style= { style } bold = { bold }
+        >
             { children }
         </TitleWrapper>
     )
 
 }
 
-export default Title;
+export default Title
 
 type TitleProps = {
     type?: 'large' | 'medium' | 'small',
     color?: string,
     children?: Array<string | any> | string
-    style?: React.CSSProperties
+    style?: React.CSSProperties,
+    bold?: boolean,
 }

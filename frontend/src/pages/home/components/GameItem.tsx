@@ -1,6 +1,6 @@
-import { GameType } from "src/types";
+import { GameType } from 'src/types';
 import { Title } from 'src/components'
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const GameItemWrapper = styled.div`
   display: flex;
@@ -34,7 +34,7 @@ const GameItem = ( props : GameItemProp ) => {
         <img alt={ homeClubName }></img>
         <InfomWrapper>
           <Title>VS</Title>
-          <Title type="small">{ datetime }</Title>
+          <Title type='small'>{ datetime }</Title>
         </InfomWrapper>
         <img alt={ awayClubName }></img>
     </GameItemWrapper>

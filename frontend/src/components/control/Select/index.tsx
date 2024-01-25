@@ -45,33 +45,28 @@ const SelectBox = ( props: SelectBoxProps ) => {
     setIsOpen( !isOpen )
   }
 
-  const changeHandler = ( data ) => {
+  const changeHandler = ( data : SourceData ) => {
     setSelectedValue( data?.name )
     setIsOpen( false )
   }
 
   return (
-    <div>
+    <>
     <SelectWrapper onClick= { openHandler } width = { width } background = { background }>
       { selectedValue }
       <DownIcon/>
     </SelectWrapper>
-      {
+    { 
       isOpen && dataSource &&
       <LiDivWrapper width = { width } background = { background }>
-        {
-        (
-          dataSource.map(( data : SourceData ) => {
-            return (
-              <LiWrapper onClick={() => changeHandler( data )}>{ data?.name }</LiWrapper>
-            )
-          })
-        )
-        }
-    </LiDivWrapper>
+      {(
+        dataSource.map(( data : SourceData ) => {
+          return <LiWrapper onClick={() => changeHandler( data )}>{ data?.name }</LiWrapper>
+        })
+      )}
+      </LiDivWrapper>
     }
-    </div>
-   
+    </>
   )
 
 }

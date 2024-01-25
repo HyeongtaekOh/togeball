@@ -1,11 +1,11 @@
 import { Title } from 'src/components'
-import { useCallback, useState } from "react"
+import { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import styled from "styled-components"
+import styled from 'styled-components'
 
 const MenuWrapper = styled.div`
   box-sizing: border-box;  
-  min-width: 130px;
+  min-width: 120px;
   cursor: pointer;
   height: auto;
   display: flex;
@@ -13,14 +13,17 @@ const MenuWrapper = styled.div`
   margin-top: 20px;
 `
 const LiDivWrapper = styled.div`
+  position: absolute;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   margin: 20px 0px;
-  padding-bottom: 20px;
+  padding: 20px 10px;
   cursor: pointer;
-  gap: 10px;
+  gap: 15px;
   z-index: 999;
+  background-color: white;
+  border-radius: 10px;
 `
 
 const MenuItem = ( props : MenuItemProps ) => {
@@ -41,18 +44,20 @@ const MenuItem = ( props : MenuItemProps ) => {
       onMouseLeave = {() => setIsOpen( false )}
       onClick = {() => onClick( path )}>
       <Title type='medium'>{ title }</Title>
-      <LiDivWrapper>
       {
-      isOpen && menus &&
+        isOpen && menus &&
         (
+        <LiDivWrapper>
+        {
           menus.map(( menu : menuData ) => {
             return (
               <li onClick= {() => onClick( menu?.path ) }>{ menu?.name }</li>
             )
           })
+        }
+        </LiDivWrapper>
         )
       }
-      </LiDivWrapper>
     </MenuWrapper>
 
   )

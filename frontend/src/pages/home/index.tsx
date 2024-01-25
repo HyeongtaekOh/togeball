@@ -4,30 +4,43 @@ import { useState } from 'react'
 import { GameType, ClubType } from '@/types'
 import styled from 'styled-components'
 
-const GameWrpper = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 5px 5px 5px lightGray;
-  border-radius: 10px;
-  width: 100%;
-  height: 100%;
-  padding: 0px 50px;
-  gap: 10px;
-`
+const MainComponentWrapper = styled.div`
+  display : flex;
+  width : 100%;
+  height : 100%;
+  flex-direction : column;
+  box-sizing : border-box;
+  align-items : center;
+  `
 
-const TableWrpper = styled.table`
+const TableWrapper = styled.table`
+  box-sizing: border-box;
   width: 100%;
-  height: 60%;
+  height: 50%;
   border-collapse: collapse;
   display: table;
-  margin-bottom: 10px;
   th, td {
     display:table-cell; 
     vertical-align:middle;
     padding: 6px 10px;
   }
+  margin-bottom: 10px;
 `
+
+const GameWrapper = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 5% 10%;
+  padding-bottom: 20px;
+  gap: 10px;
+  justify-content: center;
+  box-shadow: 0px 0px 5px lightGray;
+`
+
 
 const Home = () => {
 
@@ -87,18 +100,19 @@ const Home = () => {
   return (
     <MainLayout>
       <HomeLayout>
-        <TableWrpper>
+        <MainComponentWrapper>
+        <TableWrapper>
           <tbody>
             <tr>
-              <td rowSpan={2} colSpan={2} style={{ width: '60%' }}>
-                <GameWrpper>
-                  <Title color='#746E6E'>오늘의 경기</Title>
+              <td rowSpan={ 2 } colSpan={ 2 } style={{ width: '60%' }}>
+                <GameWrapper>
+                  <Title color= '#746E6E' type= 'medium'>오늘의 경기</Title>
                   <TodayGameCard gameList = { gameList }/>
-                  <Title color='#746E6E'>현재 순위</Title>
+                  <Title color='#746E6E' type= 'medium'>현재 순위</Title>
                   <RankCard clubList = { clubList }/>
-                </GameWrpper>
+                </GameWrapper>
               </td>
-              <td colSpan={2}>
+              <td colSpan={ 2 }>
                 <HomeCard 
                   title= '매칭하러 가기' 
                   type= 'main'
@@ -120,8 +134,8 @@ const Home = () => {
               </td>
             </tr>
           </tbody>
-        </TableWrpper>
-        <table>
+        </TableWrapper>
+        <table style={{ width: '99%' }}>
           <tbody>
             <tr>
               <td>
@@ -163,6 +177,7 @@ const Home = () => {
             </tr>
           </tbody>
         </table>
+        </MainComponentWrapper>
       </HomeLayout>
     </MainLayout>
   )

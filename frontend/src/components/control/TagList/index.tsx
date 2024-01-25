@@ -1,43 +1,49 @@
-import TagBtn from "../TagBtn";
-import styled from "styled-components";
-import Tag from "../Tag";
+import TagBtn from '../TagBtn';
+import styled from 'styled-components';
+import Tag from '../Tag';
 
 const TagListWrapper = styled.div`
   display: flex;
-  align-items: space-between;
-  justify-content: flex-start;
   flex-wrap: wrap;
   width: 100%;
-`;
+  gap: 15px;
+`
 
-const TagList = (props: TagListProps) => {
+const TagList = ( props: TagListProps ) => {
   const { tags, isRemove, bgColor } = props;
 
-  if (!isRemove) {
-    return (
-      <TagListWrapper>
-        { tags.map((tag, index) => (
-          <TagBtn key={ index }>{ tag.title }</TagBtn>
-        ))}
-      </TagListWrapper>
-    );
-  } else {
-    return (
-      <TagListWrapper>
-        { tags.map((tag, index) => (
-          <Tag key={ index } isRemove={ isRemove } bgColor={ bgColor }>
-            { tag.title }
-          </Tag>
-        ))}
-      </TagListWrapper>
-    );
-  }
-};
+  const tagList = 
+  !isRemove? (   
+    tags.map(( tag ) => (
+      <TagBtn key={ tag?.value } isSelect = { tag?.isSelect } >{ tag?.name }</TagBtn>
+    ))
+  ) : (
+    tags.map(( tag ) => (
+      <Tag key={ tag?.value } isRemove={ isRemove } bgColor={ bgColor }>
+        { tag?.name }
+      </Tag>
+    ))
+  )
 
-export default TagList;
+  return (
+    <TagListWrapper>
+      { tagList }
+    </TagListWrapper>
+  )
+
+}
+
+export default TagList
+
+interface tagType {
+  name : string,
+  value: number,
+  isSelect?: boolean
+}
 
 type TagListProps = {
-  tags: Array<{ title: string; }>; 
-  isRemove?: boolean; 
-  bgColor?: string;
-};
+  tags: tagType[], 
+  isRemove?: boolean, 
+  bgColor?: string,
+  onlyOne?: boolean
+}
