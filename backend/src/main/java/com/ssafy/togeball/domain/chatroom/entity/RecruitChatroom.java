@@ -2,15 +2,14 @@ package com.ssafy.togeball.domain.chatroom.entity;
 
 import com.ssafy.togeball.domain.league.entity.Club;
 import com.ssafy.togeball.domain.league.entity.Game;
+import com.ssafy.togeball.domain.tag.entity.RecruitTag;
 import com.ssafy.togeball.domain.tag.entity.Tag;
 import com.ssafy.togeball.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter

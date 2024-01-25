@@ -1,8 +1,7 @@
 package com.ssafy.togeball.domain.matching.service;
 
-import com.ssafy.togeball.domain.chatroom.service.ChatroomService;
-import com.ssafy.togeball.domain.matching.dto.MatchingPostDto;
-import com.ssafy.togeball.domain.matching.dto.MatchingResponseDto;
+import com.ssafy.togeball.domain.chatroom.entity.MatchingChatroom;
+import com.ssafy.togeball.domain.matching.dto.MatchingCreateDto;
 import com.ssafy.togeball.domain.matching.entity.Matching;
 import com.ssafy.togeball.domain.matching.repository.MatchingRepository;
 import com.ssafy.togeball.domain.tag.entity.Tag;
@@ -12,6 +11,7 @@ import com.ssafy.togeball.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -22,23 +22,26 @@ public class MatchingService {
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
 
-    private final ChatroomService chatroomService;
-
-    public Matching saveMatching(MatchingPostDto matchingDto) {
+    @Transactional
+    public Matching createMatching(MatchingCreateDto matchingDto) {
 
         Matching matching = matchingDto.toEntity();
+        MatchingChatroom matchingChatroom = MatchingChatroom.builder()
+                .matching(matching)
+                .title(matching.getTitle())
+                .build();
+        matching.setMatchingChatroom(matchingChatroom);
 
         for (Integer tagId : matchingDto.getTagIds()) {
             Tag tagProxy = tagRepository.createTagProxy(tagId);
             matching.addTag(tagProxy);
         }
-
         for (Integer userId : matchingDto.getUserIds()) {
             User userProxy = userRepository.createUserProxy(userId);
             matching.addUser(userProxy);
+            matchingChatroom.addMember(userProxy);
         }
 
-        Matching savedMatching = matchingRepository.save(matching);
-        return savedMatching;
+        return matchingRepository.save(matching);
     }
 }

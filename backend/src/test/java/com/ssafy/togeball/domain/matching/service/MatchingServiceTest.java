@@ -1,6 +1,7 @@
 package com.ssafy.togeball.domain.matching.service;
 
-import com.ssafy.togeball.domain.matching.dto.MatchingPostDto;
+import com.ssafy.togeball.domain.chatroom.repository.ChatroomRepository;
+import com.ssafy.togeball.domain.matching.dto.MatchingCreateDto;
 import com.ssafy.togeball.domain.matching.entity.Matching;
 import com.ssafy.togeball.domain.tag.entity.Tag;
 import com.ssafy.togeball.domain.tag.entity.TagType;
@@ -26,6 +27,9 @@ public class MatchingServiceTest {
 
     @Autowired
     TagRepository tagRepository;
+
+    @Autowired
+    ChatroomRepository chatroomRepository;
 
     @Test
     public void createMatchingTest() {
@@ -75,17 +79,19 @@ public class MatchingServiceTest {
         List<Integer> userIds = List.of(user1.getId(), user2.getId(), user3.getId());
         List<Integer> tagIds = List.of(tag1.getId(), tag2.getId(), tag3.getId(), tag4.getId());
 
-        MatchingPostDto matchingPostDto = new MatchingPostDto();
+        MatchingCreateDto matchingPostDto = new MatchingCreateDto();
         matchingPostDto.setTitle("test");
         matchingPostDto.setCapacity(10);
         matchingPostDto.setUserIds(userIds);
         matchingPostDto.setTagIds(tagIds);
 
-        Matching matching = matchingPostDto.toEntity();
-        Matching saved = matchingService.saveMatching(matchingPostDto);
+        Matching saved = matchingService.createMatching(matchingPostDto);
 
         log.info("saved: {}", saved);
         log.info("saved.getTags(): {}", saved.getMatchingTag().stream().map(matchingTag -> matchingTag.getTag().getId()).toList());
         log.info("saved.getUsers(): {}", saved.getMatchingUser().stream().map(matchingUser -> matchingUser.getUser().getId()).toList());
+        log.info("saved.getChatroom(): {}", saved.getMatchingChatroom().getId());
+        log.info("saved.getChatroom().getTitle(): {}", saved.getMatchingChatroom().getTitle());
+        log.info("chatroom members: {}", saved.getMatchingChatroom().getChatroomMemberships().stream().map(chatroomMembership -> chatroomMembership.getUser().getId()).toList());
     }
 }
