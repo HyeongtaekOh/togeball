@@ -17,4 +17,8 @@ public class MatchingController {
 
     private final MatchingService matchingService;
 
+    @GetMapping("/test")
+    public Map<String, Object> test() {
+        return Map.of("test", "test");
+    }
 }
