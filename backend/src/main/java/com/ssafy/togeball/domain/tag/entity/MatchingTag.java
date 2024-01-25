@@ -1,7 +1,8 @@
-package com.ssafy.togeball.domain.matching.entity;
+package com.ssafy.togeball.domain.tag.entity;
 
 import com.ssafy.togeball.domain.common.entity.AbstractJoinEntity;
 import com.ssafy.togeball.domain.common.utils.SimpleTuple;
+import com.ssafy.togeball.domain.matching.entity.Matching;
 import com.ssafy.togeball.domain.tag.entity.Tag;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
