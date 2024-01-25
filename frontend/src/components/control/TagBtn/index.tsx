@@ -23,7 +23,7 @@ const TagBtn = (props: TagBtnProps) => {
 
     const { children, isSelect } = props
 
-    const [ isClick, setIsClick ] = useState<boolean>( isSelect? true: false );
+    const [ isClick, setIsClick ] = useState<boolean>( isSelect );
     
     const backgroundColor = isClick? '#6A60A9' : '#DEDCEE';
     const letterColor = isClick? 'white' : 'black';

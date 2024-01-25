@@ -37,8 +37,8 @@ const TagList = ( props: TagListProps ) => {
 export default TagList;
 
 interface tagType {
-  name : string,
-  value: number
+  name?: string,
+  value?: number
   isSelect?: boolean
 }
 

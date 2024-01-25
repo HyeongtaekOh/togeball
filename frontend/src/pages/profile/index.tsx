@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { HomeLayout, MainLayout, TagList, Title, RadioTagList, InputBox } from 'src/components'
+import { HomeLayout, MainLayout, TagList, Title, RadioTagList, InputBox, Tag } from 'src/components'
 import styled from 'styled-components'
+import { RowTagList } from './components'
 
 const EssentialWrapper = styled.div`
   box-sizing: border-box;
@@ -108,18 +109,9 @@ const Profile = () => {
               checkMsg= '중복된 닉네임입니다.'
             />
           </RowTagListWrapper>
-          <RowTagListWrapper>
-            <TitleWrapper>
-              <Title type='small'>선호 구장</Title>
-            </TitleWrapper>
-            <TagList tags = { places } />
-          </RowTagListWrapper>
-          <RowTagListWrapper>
-            <TitleWrapper>
-              <Title type='small'>팀선택<br/>(1개만 선택)</Title>
-            </TitleWrapper>
-            <TagList tags = { teams }/>
-          </RowTagListWrapper>
+          <RowTagList title = '선호 구장' list = { places } />
+          <RowTagList title = {`팀선택${<br/>}(1개만 선택)`} list = { teams }/>
+         
         </EssentialWrapper>
         <EssentialWrapper>
           <Title type = 'medium'>직관 스타일</Title>
