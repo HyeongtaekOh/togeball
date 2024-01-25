@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "TBL_RECRUITCHATROOM")
-@ToString(exclude = {"manager", "recruitTags"})
+@ToString(callSuper = true, exclude = {"manager", "recruitTags"})
 @DiscriminatorValue("RECRUIT")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RecruitChatroom extends Chatroom {
