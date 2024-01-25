@@ -23,22 +23,7 @@ public class MatchingController {
 
     @GetMapping("/test")
     public Map<String, Object> test() {
-        Matching matching = Matching.builder()
-                .title("title")
-                .capacity(10)
-                .build();
-        MatchingChatroom matchingChatroom = MatchingChatroom.builder()
-                .matching(matching)
-                .title("title")
-                .build();
-
-        Chatroom matchingChatroomFromDB = chatroomService.saveChatroom(matchingChatroom);
-
-        return Map.of(
-                "matching", matching,
-                "matchingfromDB", matchingChatroom.getMatching(),
-                "matchingChatroomFromDB", matchingChatroomFromDB
-        );
+        return Map.of("test", "test");
     }
 
 //    @PostMapping
