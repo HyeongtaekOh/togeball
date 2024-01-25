@@ -1,11 +1,12 @@
-import { ClubType } from "src/types"
-import styled from "styled-components"
+import { ClubType } from 'src/types'
+import styled from 'styled-components'
 
 const RankItemWrapper = styled.div`
   display: flex;
   box-sizing: border-box;
   width:50%;
-  height: 40px;
+  height: 30px;
+  align-items: center;
   border-radius: 5px;
   background-color: #DEDCEE;
   gap: 40px;
@@ -20,7 +21,7 @@ const RankItem = ( props : RankItemProps ) => {
   return(
     <RankItemWrapper>
       <p style={{ fontWeight: 'bold' }}>{ ranking }</p>
-      <img style={{ width: '20px' }} alt="이미지"/>
+      <img style={{ width: '40px' }}/>
       <div style={{ width: '100%', textAlign: 'center' }}>
         <p style={{ fontWeight: 'bold' }}>{ clubName }</p>
       </div>

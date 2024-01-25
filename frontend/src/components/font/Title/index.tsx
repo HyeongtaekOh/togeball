@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components'
 
 const size = {
-    'large' : '20px',
-    'medium' : '18px',
-    'small' : '14px',
+    'large' : '23px',
+    'medium' : '19px',
+    'small' : '13px',
 } 
 
 const TitleWrapper = styled.p<{ type : string, color : string, bold : boolean }>`
@@ -18,7 +18,6 @@ const TitleWrapper = styled.p<{ type : string, color : string, bold : boolean }>
             font-weight: bold;
         `
     }
-
 
 `
 
@@ -40,7 +39,7 @@ const Title = ( props : TitleProps ) =>{
 
 }
 
-export default Title;
+export default Title
 
 type TitleProps = {
     type?: 'large' | 'medium' | 'small',

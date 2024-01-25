@@ -92,7 +92,7 @@ const Profile = () => {
           <Title type = 'medium'>필수 정보</Title>
           <RowTagListWrapper>
             <TitleWrapper type = 'value'>
-              <Title type="small">아이디</Title>
+              <Title type='small'>아이디</Title>
             </TitleWrapper>
             <Title type='small'>{ id }</Title>
           </RowTagListWrapper>

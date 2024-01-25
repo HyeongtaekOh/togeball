@@ -1,15 +1,15 @@
-import { ClubType } from "src/types"
-import { useMemo } from "react"
-import { RankItem } from "./index"
+import { ClubType } from 'src/types'
+import { useMemo } from 'react'
+import { RankItem } from './index'
 import styled from 'styled-components'
 
-const RankCardWrpper = styled.div`
+const RankCardWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   gap: 7px;
-  height: 250px;
+  height: 180px;
 `
 
 const RankCard = ( props : RankCardProps ) => {
@@ -21,7 +21,7 @@ const RankCard = ( props : RankCardProps ) => {
   )}, [ clubList ] )
 
   return(
-    <RankCardWrpper>
+    <RankCardWrapper>
       {
         rankList.map(( club, index ) => {
           return(
@@ -29,7 +29,7 @@ const RankCard = ( props : RankCardProps ) => {
           )
         })
       }
-    </RankCardWrpper>
+    </RankCardWrapper>
   )
 
 }

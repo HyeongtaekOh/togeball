@@ -1,14 +1,13 @@
-import TagBtn from "../TagBtn";
-import styled from "styled-components";
-import Tag from "../Tag";
-import { useEffect, useState } from "react";
+import TagBtn from '../TagBtn';
+import styled from 'styled-components';
+import Tag from '../Tag';
 
 const TagListWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   gap: 15px;
-`;
+`
 
 const TagList = ( props: TagListProps ) => {
   const { tags, isRemove, bgColor } = props;
@@ -30,21 +29,21 @@ const TagList = ( props: TagListProps ) => {
     <TagListWrapper>
       { tagList }
     </TagListWrapper>
-  );
+  )
 
-};
+}
 
-export default TagList;
+export default TagList
 
 interface tagType {
   name : string,
-  value: number
+  value: number,
   isSelect?: boolean
 }
 
 type TagListProps = {
-  tags: tagType[] 
+  tags: tagType[], 
   isRemove?: boolean, 
   bgColor?: string,
   onlyOne?: boolean
-};
+}
