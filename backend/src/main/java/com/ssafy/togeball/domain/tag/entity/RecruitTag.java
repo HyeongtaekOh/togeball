@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "TBL_RECRUIT_TAG", uniqueConstraints = {
-    @UniqueConstraint(name = "recruit_tag_uk", columnNames = {"chatroom_id", "tag_id"})
+    @UniqueConstraint(name = "uk_recruit_tag", columnNames = {"chatroom_id", "tag_id"})
     }, indexes = {
     @Index(name = "recruit_tag_recruit_idx", columnList = "chatroom_id"),
     @Index(name = "recruit_tag_tag_idx", columnList = "tag_id")
