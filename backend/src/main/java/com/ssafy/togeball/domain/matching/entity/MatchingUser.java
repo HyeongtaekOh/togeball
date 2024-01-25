@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "TBL_MATCHING_USER", indexes = {
     @Index(name = "matching_user_matching_idx", columnList = "matching_id")
+}, uniqueConstraints = {
+    @UniqueConstraint(name = "uk_matching_user", columnNames = {"matching_id", "user_id"})
 })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MatchingUser {

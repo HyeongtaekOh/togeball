@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "TBL_CHATROOM_MEMBERSHIP", indexes = {
     @Index(name = "chatroom_membership_idx", columnList = "chatroom_id, user_id")
+}, uniqueConstraints = {
+    @UniqueConstraint(name = "uk_chatroom_membership", columnNames = {"chatroom_id", "user_id"})
 })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChatroomMembership extends AbstractJoinEntity {
