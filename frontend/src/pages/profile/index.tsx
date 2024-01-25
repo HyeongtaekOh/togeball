@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { HomeLayout, MainLayout, TagList, Title, RadioTagList, InputBox, Tag } from 'src/components'
 import styled from 'styled-components'
-import { RowTagList } from './components'
+import { RowTagList, ColTagList } from './components'
 
-const EssentialWrapper = styled.div`
+const ProfileSettingWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -11,18 +11,10 @@ const EssentialWrapper = styled.div`
   height: 100%;
   margin: 50px;
 `
-const RowTagListWrapper = styled.div`
+const InputWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  gap: 10px;
-  margin-top: 30px;
-`
-
-const ColTagListWrapper = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
   gap: 10px;
   margin-top: 30px;
 `
@@ -36,15 +28,11 @@ const TitleWrapper = styled.div<{ type? : string } >`
   margin-left:  ${(prop) => prop.type && '-10px' };
   margin-right: 12px;
 `
-const ColTitleWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100px;
-  font-weight: bold;
-  margin-bottom: 10px;
-`
 
 const Profile = () => {
+
+  const [ selectTags, setSelectTags ] = useState([])
+  
   
   const places = [
     { name : '구척돔', value: 0 },
@@ -84,20 +72,19 @@ const Profile = () => {
 
   const [ id, setId ] = useState( '하이' )
   const [ nickName, setNickName ] = useState( '' )
-  const [ selectTags, setSelectTags ] = useState([])
 
   return(
     <MainLayout title='프로필 설정'>
       <HomeLayout style={{ paddingTop: '30px' }}>
-        <EssentialWrapper>
+        <ProfileSettingWrapper>
           <Title type = 'medium'>필수 정보</Title>
-          <RowTagListWrapper>
+          <InputWrapper>
             <TitleWrapper type = 'value'>
-              <Title type="small">아이디</Title>
+              <Title type='small'>아이디</Title>
             </TitleWrapper>
             <Title type='small'>{ id }</Title>
-          </RowTagListWrapper>
-          <RowTagListWrapper>
+          </InputWrapper>
+          <InputWrapper>
             <TitleWrapper type = 'input'>
               <Title type='small'>닉네임</Title>
             </TitleWrapper>
@@ -108,52 +95,21 @@ const Profile = () => {
               width = '300px'
               checkMsg= '중복된 닉네임입니다.'
             />
-          </RowTagListWrapper>
-          <RowTagList title = '선호 구장' list = { places } />
-          <RowTagList title = {`팀선택${<br/>}(1개만 선택)`} list = { teams }/>
-         
-        </EssentialWrapper>
-        <EssentialWrapper>
+          </InputWrapper>
+          <RowTagList list = { places } >선호 구장</RowTagList>
+          <RowTagList list = { teams }>팀선택{<br/>}(1개만 선택)</RowTagList>     
+        </ProfileSettingWrapper>
+        <ProfileSettingWrapper>
           <Title type = 'medium'>직관 스타일</Title>
           <Title type = 'small' bold><br/>나의 직관 스타일을 나타낼 수 있는 태그를 선택해주세요.(최소 5개, 최대 15개)</Title>
           <TagList tags = { selectTags } bgColor='#FBD14B' isRemove/>
-          <ColTagListWrapper>
-            <ColTitleWrapper>
-              <Title type='small'>직관응원팀</Title>
-            </ColTitleWrapper>
-            <TagList tags = { teams }/>
-          </ColTagListWrapper>
-          <ColTagListWrapper>
-            <ColTitleWrapper>
-              <Title type='small'>응원 유형</Title>
-            </ColTitleWrapper>
-            <TagList tags = { CHEERING_STYLE }/>
-          </ColTagListWrapper>
-          <ColTagListWrapper>
-            <ColTitleWrapper>
-              <Title type='small'>선호 좌석</Title>
-            </ColTitleWrapper>
-            <TagList tags = { CHEERING_STYLE }/>
-          </ColTagListWrapper>
-          <ColTagListWrapper>
-            <ColTitleWrapper>
-              <Title type='small'>MBTI</Title>
-            </ColTitleWrapper>
-            <TagList tags = { CHEERING_STYLE }/>
-          </ColTagListWrapper>
-          <ColTagListWrapper>
-            <ColTitleWrapper>
-              <Title type='small'>시즌권 보유</Title>
-            </ColTitleWrapper>
-            <TagList tags = { CHEERING_STYLE }/>
-          </ColTagListWrapper>
-           <ColTagListWrapper>
-            <ColTitleWrapper>
-              <Title type='small'>기타</Title>
-            </ColTitleWrapper>
-            <TagList tags = { CHEERING_STYLE }/>
-          </ColTagListWrapper>
-        </EssentialWrapper>
+          <ColTagList list = { teams }>직관응원팀</ColTagList>
+          <ColTagList list = { CHEERING_STYLE }>응원 유형</ColTagList>
+          <ColTagList list = { CHEERING_STYLE }>선호 좌석</ColTagList>
+          <ColTagList list = { CHEERING_STYLE }>MBTI</ColTagList>
+          <ColTagList list = { CHEERING_STYLE }>시즌권 보유</ColTagList>
+          <ColTagList list = { CHEERING_STYLE }>기타</ColTagList>
+        </ProfileSettingWrapper>
       </HomeLayout>
     </MainLayout>
   )

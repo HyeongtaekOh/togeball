@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const TagWrapper = styled.div<{ $bgColor : string }>`
   display: flex;
@@ -33,12 +33,12 @@ const CloseButton = styled.button<{ $bgColor : string }>`
   justify-content: center;
 `;
 
-const Tag = (props: TagProps) => {
-  const { children, isRemove = false, bgColor = "#DEDCEE", onDelete } = props;
+const Tag = ( props: TagProps ) => {
+  const { children, isRemove = false, bgColor = '#DEDCEE', onDelete } = props
 
-  const handleDeleteClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onDelete();
+  const handleDeleteClick = ( e: React.MouseEvent ) => {
+    e.stopPropagation()
+    onDelete()
   };
 
   return (
@@ -49,11 +49,11 @@ const Tag = (props: TagProps) => {
   );
 };
 
-export default Tag;
+export default Tag
 
 type TagProps = {
-  children?: string;
-  bgColor?: string;
-  isRemove?: boolean;
-  onDelete?: () => void;
+  children?: string,
+  bgColor?: string,
+  isRemove?: boolean,
+  onDelete?: () => void
 };

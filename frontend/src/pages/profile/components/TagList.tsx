@@ -1,6 +1,8 @@
-import TagBtn from '../TagBtn';
-import styled from 'styled-components';
-import Tag from '../Tag';
+import { TagBtn } from './index'
+import styled from 'styled-components'
+import { Tag } from 'src/components'
+import useModel from '../store'
+import { useEffect } from 'react'
 
 const TagListWrapper = styled.div`
   display: flex;
@@ -12,10 +14,11 @@ const TagListWrapper = styled.div`
 const TagList = ( props: TagListProps ) => {
   const { tags, isRemove, bgColor } = props;
 
+
   const tagList = 
   !isRemove? (   
     tags.map(( tag ) => (
-      <TagBtn key={ tag?.value } isSelect = { tag?.isSelect } >{ tag?.name }</TagBtn>
+      <TagBtn item = { tag } key={ tag?.value } isSelect = { tag?.isSelect } >{ tag?.name }</TagBtn>
     ))
   ) : (
     tags.map(( tag ) => (

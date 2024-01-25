@@ -1,4 +1,5 @@
-import { Title, TagList } from 'src/components'
+import { Title } from 'src/components'
+import { TagList } from './index'
 import styled from 'styled-components'
 
 
@@ -23,15 +24,15 @@ const TitleWrapper = styled.div<{ type? : string } >`
 
 const RowTagList = ( props : RowTagListProp ) => {
 
-  const { title, list } = props
+  const { children, list } = props
 
   return(
     <RowTagListWrapper>
-            <TitleWrapper>
-              <Title type='small'>{ title }</Title>
-            </TitleWrapper>
-            <TagList tags = { list }/>
-          </RowTagListWrapper>
+      <TitleWrapper>
+        <Title type='small'>{ children }</Title>
+      </TitleWrapper>
+      <TagList tags = { list }/>
+    </RowTagListWrapper>
   )
 }
 
@@ -44,6 +45,6 @@ interface dataSource  {
 }
 
 type RowTagListProp = {
-  title?: string,
+  children?: Array<string | any> | string,
   list?: dataSource[]
 }
