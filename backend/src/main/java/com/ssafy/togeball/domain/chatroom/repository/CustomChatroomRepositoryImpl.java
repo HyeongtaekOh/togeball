@@ -2,7 +2,7 @@ package com.ssafy.togeball.domain.chatroom.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.togeball.domain.chatroom.entity.QRecruitChatroom;
-import com.ssafy.togeball.domain.chatroom.entity.QRecruitTag;
+import com.ssafy.togeball.domain.tag.entity.QRecruitTag;
 import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
 import com.ssafy.togeball.domain.tag.entity.QTag;
 import jakarta.persistence.EntityManager;

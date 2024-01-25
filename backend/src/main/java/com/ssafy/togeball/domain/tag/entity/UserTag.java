@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table(name = "TBL_USERTAG", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"user_id", "tag_id"})
+@Table(name = "TBL_USER_TAG", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_user_tag", columnNames = {"user_id", "tag_id"})
 })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserTag {
