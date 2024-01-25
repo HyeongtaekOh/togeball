@@ -5,7 +5,7 @@ import styled from "styled-components"
 
 const MenuWrapper = styled.div`
   box-sizing: border-box;  
-  min-width: 130px;
+  min-width: 120px;
   cursor: pointer;
   height: auto;
   display: flex;

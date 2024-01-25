@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-const TagWrapper = styled.div<{ bgColor : string }>`
+const TagWrapper = styled.div<{ $bgColor : string }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: ${ ( props ) => props.bgColor };
+  background-color: ${ ( props ) => props.$bgColor };
   height: 18px;
   max-width: 100px;
   min-width: 50px;
@@ -20,10 +20,10 @@ const TagWrapper = styled.div<{ bgColor : string }>`
   border-radius: 20px;
 `;
 
-const CloseButton = styled.button<{ bgColor : string }>`
+const CloseButton = styled.button<{ $bgColor : string }>`
   height: 16px;
   width: 16px;
-  background-color: ${ (props) => props.bgColor };
+  background-color: ${ (props) => props.$bgColor };
   margin-left: 4px;
   margin-bottom: 1px;
   border-radius: 100%;
@@ -42,9 +42,9 @@ const Tag = (props: TagProps) => {
   };
 
   return (
-    <TagWrapper bgColor={ bgColor }>
+    <TagWrapper $bgColor={ bgColor }>
       <span>{ children }</span>
-      { isRemove && <CloseButton bgColor={ bgColor }>X</CloseButton> }
+      { isRemove && <CloseButton $bgColor={ bgColor }>X</CloseButton> }
     </TagWrapper>
   );
 };
