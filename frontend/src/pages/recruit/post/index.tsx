@@ -1,6 +1,6 @@
-import { InputBox, Select } from 'src/components';
+import { Button, InputBox, Select } from 'src/components';
 import { TagsInput } from './components/TagsInput';
-import { MainLayout, HomeLayout } from '../../../components'
+import { MainLayout, HomeLayout } from 'src/components'
 import { useState } from 'react';
 import { styled } from 'styled-components'
 
@@ -18,12 +18,29 @@ const MatchBtn = styled.button`
     border: 1px lightgray solid;
     font-weight: bold;
     font-size: 18px;
-    margin-top: 10px;
+    margin-top: 6px;
     margin-bottom: 10px;
+`
+
+const Input = styled.textarea<{ maxLength: string }>`
+    height: 50px;
+    width: 96%;
+    border: 1px solid lightgray;
+    border-radius: 20px;
+    padding: 20px;
 `
 
 
 const RecruitPost = () => {
+
+    let [inputCount, setInputCount] = useState(0);
+
+    const onInputHandler = (e) => {
+        setInputCount(
+            e.target.value.replace(/<br\s*V?>/gm, '\n').length
+        );
+      };
+
 
     const [teams, setTeams] = useState([
         { value: 'LG', name: 'LG' },
@@ -69,14 +86,23 @@ const RecruitPost = () => {
                     <Select dataSource={ teams } placeholder='응원하는 팀'></Select>
                     <Select dataSource={ seats } placeholder='선호하는 좌석'></Select>
                 </div>
-                <div style={{ display: 'flex', gap: '30px', marginTop: '6px'}}>
-                    <span style={{ fontSize: '20px', padding: '16px 10px 0px 0px', fontWeight: 'bold' }}>인원</span> <Select dataSource={ nums } placeholder='인원' width='140px'></Select>
+                <div style={{ display: 'flex', gap: '30px', marginTop: '6px' }}>
+                    <span style={{ fontSize: '20px', padding: '10px 10px 0px 0px', fontWeight: 'bold' }}>인원</span> <Select dataSource={ nums } placeholder='인원' width='140px'></Select>
                 </div>
                 <div style={{ display: 'flex', gap: '30px'}}>
                     <span style={{ fontSize: '20px', padding: '16px 10px 0px 0px', fontWeight: 'bold' }}>태그</span> <TagsInput></TagsInput>
                 </div>
-                <span style={{ fontSize: '20px', marginTop: '20px', fontWeight: 'bold' }}> 채팅방 소개</span>
-                <InputBox height='80px' width='100%'/>
+                <span style={{ fontSize: '20px', marginTop: '6px', fontWeight: 'bold' }}> 채팅방 소개</span>
+                <Input onChange={ onInputHandler } maxLength="300" />
+                <p style={{ textAlign: 'right' }}>
+                    <span>{ inputCount }</span>
+                    <span>/300 자</span>
+                </p>
+                <div style={{ display: 'flex', justifyContent: 'right', gap: '10px' }}>
+                    <Button type='parti' width='120px'>채팅방 만들기</Button>
+                    <Button type='reset' width='90px'>초기화</Button>
+                    <Button type='cancel' width='80px'>취소</Button>
+                </div>
             </HomeLayout>
         </MainLayout>
     )

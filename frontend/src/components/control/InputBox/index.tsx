@@ -29,7 +29,7 @@ const InputBox = ( props: InputProps ) => {
         title && 
         <div style={{ width: '30%' }}> { title } </div>
       }
-      <input style={{ width: '70%', fontSize: '17px' }} placeholder={ placeholder }/>
+      <input style={{ width: '70%', fontSize: '17px', whiteSpace: 'wrap' }} placeholder={ placeholder }/>
     </InputWrapper>
   )
 
