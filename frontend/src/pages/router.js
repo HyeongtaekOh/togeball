@@ -5,8 +5,9 @@ export const routes = [
     { path: 'login' },
     { path: 'dev' },
     { path: 'home' },
+    { path: 'recruit/post' },
     { path: 'signup' },
-    { path: 'todaygames' }
+    { path: 'profile' }
     
 ]
 

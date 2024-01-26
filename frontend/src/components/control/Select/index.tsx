@@ -6,11 +6,13 @@ const SelectWrapper = styled.div<{ width : string, background: string }>`
   display: flex;
   box-sizing: border-box;
   width: ${( props )=> props.width };
+  height: 44px;
   background: ${( props )=> props.background };
   align-items: center;
   justify-content: space-between;
   padding: 15px;
-  border-radius: 10px;
+  font-weight: bold;
+  border-radius: 20px;
   border: 1px solid lightgray;
   cursor: pointer;
 `
@@ -21,10 +23,12 @@ const LiDivWrapper = styled.div<{ width : string, background: string }>`
   width: calc(${( props )=> props.width } - 23px);
   background: ${( props )=> props.background };
   border: 1px solid lightgray;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 10px;
   border-top: none;
   gap: 15px;
+  position: absolute;
+  z-index: 10;
 `
 
 const LiWrapper = styled.li`
@@ -41,33 +45,28 @@ const SelectBox = ( props: SelectBoxProps ) => {
     setIsOpen( !isOpen )
   }
 
-  const changeHandler = ( data ) => {
+  const changeHandler = ( data : SourceData ) => {
     setSelectedValue( data?.name )
     setIsOpen( false )
   }
 
   return (
-    <div>
+    <>
     <SelectWrapper onClick= { openHandler } width = { width } background = { background }>
       { selectedValue }
       <DownIcon/>
     </SelectWrapper>
-      {
+    { 
       isOpen && dataSource &&
       <LiDivWrapper width = { width } background = { background }>
-        {
-        (
-          dataSource.map(( data : SourceData ) => {
-            return (
-              <LiWrapper onClick={() => changeHandler( data )}>{ data?.name }</LiWrapper>
-            )
-          })
-        )
-        }
-    </LiDivWrapper>
+      {(
+        dataSource.map(( data : SourceData ) => {
+          return <LiWrapper onClick={() => changeHandler( data )}>{ data?.name }</LiWrapper>
+        })
+      )}
+      </LiDivWrapper>
     }
-    </div>
-   
+    </>
   )
 
 }

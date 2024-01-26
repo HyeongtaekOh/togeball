@@ -7,9 +7,9 @@ const ButtonWrapper = styled.button<ButtonProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 20.659px;
+  height: 28px;
   border: none;
-  border-radius: 100px;
+  border-radius: 10px;
   color:white;
   padding: 15px 25px;
   font-weight: bold;
@@ -47,8 +47,8 @@ const ButtonWrapper = styled.button<ButtonProps>`
   ${(props) =>
   props.type ==='reset' &&
   css`
-    background-color: #756868;  
-    color: white;
+    background-color: #DEDCEE;  
+    color: #756868;
     &:hover{
       background-color: #EE0E2F;
     }
