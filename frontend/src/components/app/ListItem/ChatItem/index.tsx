@@ -4,9 +4,8 @@ import { Title } from "../../../font";
 const ChatWrapper = styled.div<{ width?: string}>`
     display: flex;
     Background-color: white;
-    
     border-radius: 10px;
-    border: 3px solid #6A60A9;
+    border: 2px solid #6A60A9;
     width: ${ (props) => props.width };
     height: 100px;
     justify-content: space-around;

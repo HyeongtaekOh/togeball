@@ -29,7 +29,7 @@ const Login = () => {
     return (
       <MainLayout>
         <SignLayout>
-        <Title>투게볼</Title>
+        <Title>로그인</Title>
         <InputWrapper>
           <InputBox title= '이메일' placeholder= '이메일을 입력해주세요.' />
           <InputBox title= '비밀번호' placeholder= '비밀번호를 입력해주세요.' />
