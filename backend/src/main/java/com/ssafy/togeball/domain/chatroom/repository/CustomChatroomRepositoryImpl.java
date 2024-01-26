@@ -2,8 +2,7 @@ package com.ssafy.togeball.domain.chatroom.repository;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomCreateDto;
-import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomUpdateDto;
+import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomRequest;
 import com.ssafy.togeball.domain.chatroom.entity.Chatroom;
 import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
 import com.ssafy.togeball.domain.common.repository.CustomPagingAndSortingRepository;
@@ -64,7 +63,7 @@ public class CustomChatroomRepositoryImpl extends CustomPagingAndSortingReposito
     }
 
     @Override
-    public RecruitChatroom createRecruitChatroom(RecruitChatroomCreateDto chatroomDto) throws DataIntegrityViolationException {
+    public RecruitChatroom createRecruitChatroom(RecruitChatroomRequest chatroomDto) throws DataIntegrityViolationException {
 
         User manager = em.getReference(User.class, chatroomDto.getManagerId());
         Game game = em.getReference(Game.class, chatroomDto.getGameId());
@@ -117,7 +116,7 @@ public class CustomChatroomRepositoryImpl extends CustomPagingAndSortingReposito
     }
 
     @Override
-    public RecruitChatroom updateRecruitChatroom(RecruitChatroomUpdateDto chatroomDto) {
+    public RecruitChatroom updateRecruitChatroom(RecruitChatroomRequest chatroomDto) {
         RecruitChatroom chatroom = em.find(RecruitChatroom.class, chatroomDto.getId());
         if (chatroom == null) {
             throw new EntityNotFoundException("존재하지 않는 채팅방 id입니다. id: " + chatroomDto.getId());

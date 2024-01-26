@@ -1,7 +1,7 @@
 package com.ssafy.togeball.domain.matching.repository;
 
 import com.ssafy.togeball.domain.chatroom.entity.MatchingChatroom;
-import com.ssafy.togeball.domain.matching.dto.MatchingCreateDto;
+import com.ssafy.togeball.domain.matching.dto.MatchingRequest;
 import com.ssafy.togeball.domain.matching.entity.Matching;
 import com.ssafy.togeball.domain.tag.entity.Tag;
 import com.ssafy.togeball.domain.user.entity.User;
@@ -19,7 +19,7 @@ public class CustomMatchingRepositoryImpl implements CustomMatchingRepository {
      * 매칭 엔티티를 생성하고 영속성 전이를 통해 매칭에 참여하는 유저와의 연결 엔티티와 매칭 채팅방 엔티티를 생성한다.
      */
     @Override
-    public Matching createMatchingAndChatroom(MatchingCreateDto matchingDto) {
+    public Matching createMatchingAndChatroom(MatchingRequest matchingDto) {
         Matching matching = matchingDto.toEntity();
         MatchingChatroom matchingChatroom = MatchingChatroom.builder()
                 .matching(matching)
