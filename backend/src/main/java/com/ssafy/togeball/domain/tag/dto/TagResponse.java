@@ -1,2 +1,22 @@
-package com.ssafy.togeball.domain.tag.dto;public class TagResponse {
+package com.ssafy.togeball.domain.tag.dto;
+
+import com.ssafy.togeball.domain.tag.entity.Tag;
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class TagResponse {
+    Integer id;
+    String content;
+    String type;
+
+    public static TagResponse of(Tag tag) {
+        return TagResponse.builder()
+                .id(tag.getId())
+                .content(tag.getContent())
+                .type(tag.getType().toString())
+                .build();
+    }
 }
+
