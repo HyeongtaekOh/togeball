@@ -2,15 +2,29 @@ import styled, { css } from 'styled-components';
 import { Title } from 'src/components'
 
 const HomeCardWrapper = styled.div<{ type: string, color: string }>`
-    padding: 20px;
+    box-sizing: border-box;
+    padding: 7%;
     border-radius: 10px;
     background-color: ${( props ) => props.color };
     display: flex;
     flex-direction: column;
     cursor : pointer;
-    width: 90%;
-    height: 80%;
+    width: 100%;
+    height: 100%;
     margin:0 auto;
+
+    ${(props) => 
+      props.color === '#FFFFFF' 
+      && css`
+      width: 97%;
+      height: 120px;
+      box-shadow: 0px 0px 5px lightGray;
+
+      &:hover{
+        box-shadow: 5px 5px 5px lightGray;
+      }
+      `
+    }
 
     ${( props ) => 
       props.type === 'main' 
@@ -25,8 +39,8 @@ const HomeCardWrapper = styled.div<{ type: string, color: string }>`
 
     ${( props ) => 
       props.type === 'sub' 
-      && css`
-        width: 250px;
+      && props.color !== '#FFFFFF' && css`
+        width: 97%;
         height: 120px;
         box-shadow: 2px 2px 2px lightGray;
 
@@ -40,7 +54,7 @@ const HomeCardWrapper = styled.div<{ type: string, color: string }>`
 
 const HomeCard = ( props : HomeCardProps ) => {
 
-  const { title, type, color = "#6A60A9", children } = props
+  const { title, type, color = '#6A60A9', children } = props
 
   const fontColor = color ==='#6A60A9' || type === 'main' ? '#FEFEFC' : '#746E6E'
 
@@ -49,29 +63,31 @@ const HomeCard = ( props : HomeCardProps ) => {
       <Title 
         type= { type === 'main'? 'large': 'medium' }
         color= { fontColor } 
-        style= {{ textShadow: '1px 1px 1px gray' }}
+        style= {{ textShadow: type === 'main' && '1px 1px 1px gray' }}
       > 
         { title } 
       </Title>
       <Title 
         type = 'small' 
         color= { fontColor }
-        style={{ marginTop: type==='main'? '40px': '55px' }}
+        style= {{ marginTop: type === 'main' ? '20%': '15%' }}
       > 
         { children } 
-      </Title>
-      {
+        
+        {
         type ==='main' 
         && (
           <Title 
-            type = 'medium' 
+            type = 'medium'  
             color= 'white' 
-            style ={{ position: 'absolute', margin: '140px 0px 0px 360px' }} 
+            style ={{ margin: '0% 0% 0% 85%'}} 
           >
             Go &gt;
           </Title>
         )
       }
+      </Title>
+      
     </HomeCardWrapper>
   )
 
