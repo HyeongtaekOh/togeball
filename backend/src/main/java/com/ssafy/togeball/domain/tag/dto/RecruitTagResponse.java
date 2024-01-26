@@ -1,9 +1,10 @@
 package com.ssafy.togeball.domain.tag.dto;
 
-import com.ssafy.togeball.domain.tag.entity.RecruitTag;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class RecruitTagResponse {
 
     private String id;

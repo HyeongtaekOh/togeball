@@ -1,12 +1,15 @@
 package com.ssafy.togeball.domain.user.dto;
 
+import com.ssafy.togeball.domain.user.entity.Gender;
 import com.ssafy.togeball.domain.user.entity.User;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @Builder
 public class UserResponse {
 
@@ -14,7 +17,7 @@ public class UserResponse {
     private String email;
     private String password;
     private String nickname;
-    private String gender;
+    private Gender gender;
     private LocalDateTime birthdate;
     private String phone;
     private String profileImage;
@@ -25,7 +28,7 @@ public class UserResponse {
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .nickname(user.getNickname())
-                .gender(user.getGender().toString())
+                .gender(user.getGender())
                 .birthdate(user.getBirthdate())
                 .phone(user.getPhone())
                 .profileImage(user.getProfileImage())

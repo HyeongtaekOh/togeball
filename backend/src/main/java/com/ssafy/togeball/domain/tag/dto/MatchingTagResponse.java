@@ -1,8 +1,10 @@
 package com.ssafy.togeball.domain.tag.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class MatchingTagResponse {
 
     private String id;
