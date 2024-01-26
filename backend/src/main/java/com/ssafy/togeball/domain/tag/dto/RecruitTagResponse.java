@@ -5,5 +5,6 @@ import lombok.Data;
 
 @Data
 public class RecruitTagResponse {
-    String id;
+
+    private String id;
 }

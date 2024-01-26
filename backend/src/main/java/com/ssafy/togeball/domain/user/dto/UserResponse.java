@@ -9,14 +9,15 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class UserResponse {
-    Integer id;
-    String email;
-    String password;
-    String nickname;
-    String gender;
-    LocalDateTime birthdate;
-    String phone;
-    String profileImage;
+
+    private Integer id;
+    private String email;
+    private String password;
+    private String nickname;
+    private String gender;
+    private LocalDateTime birthdate;
+    private String phone;
+    private String profileImage;
 
     public static UserResponse of(User user) {
         return UserResponse.builder()

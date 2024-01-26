@@ -7,9 +7,10 @@ import lombok.Data;
 @Data
 @Builder
 public class TagResponse {
-    Integer id;
-    String content;
-    String type;
+
+    private Integer id;
+    private String content;
+    private String type;
 
     public static TagResponse of(Tag tag) {
         return TagResponse.builder()

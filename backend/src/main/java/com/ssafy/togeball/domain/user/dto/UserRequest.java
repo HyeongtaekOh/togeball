@@ -3,18 +3,21 @@ package com.ssafy.togeball.domain.user.dto;
 
 import com.ssafy.togeball.domain.user.entity.Gender;
 import com.ssafy.togeball.domain.user.entity.User;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@Data
 public class UserRequest {
-    Integer id;
-    String email;
-    String password;
-    String nickname;
-    Gender gender;
-    LocalDateTime birthdate;
-    String phone;
-    String profileImage;
+
+    private Integer id;
+    private String email;
+    private String password;
+    private String nickname;
+    private Gender gender;
+    private LocalDateTime birthdate;
+    private String phone;
+    private String profileImage;
 
     public User toEntity() {
         return User.builder()
@@ -27,5 +30,4 @@ public class UserRequest {
                 .profileImage(profileImage)
                 .build();
     }
-
 }
