@@ -10,18 +10,20 @@ const TagListWrapper = styled.div`
 `
 
 const TagList = ( props: TagListProps ) => {
-  const { tags, isRemove, bgColor } = props;
+  const { tags, bgColor, isTag } = props;
 
   const tagList = 
-  !isRemove? (   
+  isTag? (   
     tags.map(( tag ) => (
-      <TagBtn key={ tag?.value } isSelect = { tag?.isSelect } >{ tag?.name }</TagBtn>
+      <Tag key={ tag?.value } bgColor={ bgColor }>
+        { tag?.name }
+      </Tag>
     ))
   ) : (
     tags.map(( tag ) => (
-      <Tag key={ tag?.value } isRemove={ isRemove } bgColor={ bgColor }>
+      <TagBtn key={ tag?.value } isSelect = { tag?.isSelect } >
         { tag?.name }
-      </Tag>
+      </TagBtn>
     ))
   )
 
@@ -43,7 +45,6 @@ interface tagType {
 
 type TagListProps = {
   tags: tagType[], 
-  isRemove?: boolean, 
+  isTag?: boolean, 
   bgColor?: string,
-  onlyOne?: boolean
 }

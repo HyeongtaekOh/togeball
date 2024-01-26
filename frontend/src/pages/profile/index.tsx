@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { HomeLayout, MainLayout, TagList, Title, RadioTagList, InputBox, Tag } from 'src/components'
+import { HomeLayout, MainLayout, Title, RadioTagList, InputBox, Tag } from 'src/components'
 import styled from 'styled-components'
-import { RowTagList, ColTagList } from './components'
+import { RowTagList, ColTagList, TagList } from './components'
+import useModel from './store'
 
 const ProfileSettingWrapper = styled.div`
   box-sizing: border-box;
@@ -31,9 +32,6 @@ const TitleWrapper = styled.div<{ type? : string } >`
 
 const Profile = () => {
 
-  const [ selectTags, setSelectTags ] = useState([])
-  
-  
   const places = [
     { name : '구척돔', value: 0 },
     { name : '잠실구장', value: 1 },
@@ -72,6 +70,7 @@ const Profile = () => {
 
   const [ id, setId ] = useState( '하이' )
   const [ nickName, setNickName ] = useState( '' )
+  const { selectTags } = useModel()
 
   return(
     <MainLayout title='프로필 설정'>
@@ -102,7 +101,7 @@ const Profile = () => {
         <ProfileSettingWrapper>
           <Title type = 'medium'>직관 스타일</Title>
           <Title type = 'small' bold><br/>나의 직관 스타일을 나타낼 수 있는 태그를 선택해주세요.(최소 5개, 최대 15개)</Title>
-          <TagList tags = { selectTags } bgColor='#FBD14B' isRemove/>
+          <TagList tags = { selectTags } bgColor='#FBD14B' isTag/>
           <ColTagList list = { teams }>직관응원팀</ColTagList>
           <ColTagList list = { CHEERING_STYLE }>응원 유형</ColTagList>
           <ColTagList list = { CHEERING_STYLE }>선호 좌석</ColTagList>

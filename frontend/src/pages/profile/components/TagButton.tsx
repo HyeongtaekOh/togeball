@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useModel from '../store'
-import { Tag } from 'src/types'
+import { TagType } from 'src/types'
 
 const TagBtnWrapper = styled.button<{ $bgColor: string, color: string }>`
   background-color: ${( props ) => props.$bgColor };
@@ -20,10 +20,10 @@ const TagBtnWrapper = styled.button<{ $bgColor: string, color: string }>`
   font-weight: bold;
 `
 
-const TagBtn = (props: TagBtnProps) => {
+const TagBtn = ( props: TagBtnProps ) => {
 
     const { children, isSelect, item } = props
-    const { addSelectTags, deleteTags } = useModel()
+    const { selectTags, addSelectTags, deleteTags } = useModel()
 
     const [ isClick, setIsClick ] = useState<boolean>( isSelect );
     
@@ -31,22 +31,16 @@ const TagBtn = (props: TagBtnProps) => {
     const letterColor = isClick? 'white' : 'black';
 
     const changeColor = () => {
-      setIsClick( !isClick );
+      setIsClick( !isClick )
+      !isClick ? addSelectTags( item ) : deleteTags( item ) ;
+      console.log( selectTags )
     }
 
-    useEffect(()=>{
-      isClick ?
-      addSelectTags( item ) : 
-      deleteTags( item )
-    }, [ isClick ])
-
- 
-
-      return (
-        <TagBtnWrapper onClick={ changeColor } $bgColor={ backgroundColor } color={ letterColor }>
-          #{ children }
-        </TagBtnWrapper>
-      )
+    return (
+      <TagBtnWrapper onClick={ changeColor } $bgColor={ backgroundColor } color={ letterColor }>
+        #{ children }
+      </TagBtnWrapper>
+    )
 }
 
 
@@ -55,5 +49,5 @@ export default TagBtn
 type TagBtnProps = {
     children?: string,
     isSelect?: boolean,
-    item?: Tag,
+    item?: TagType,
 }

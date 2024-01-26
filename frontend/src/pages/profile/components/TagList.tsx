@@ -1,35 +1,33 @@
 import { TagBtn } from './index'
-import styled from 'styled-components'
 import { Tag } from 'src/components'
-import useModel from '../store'
-import { useEffect } from 'react'
+import styled from 'styled-components'
 
-const TagListWrapper = styled.div`
+const TagListWrapper = styled.div<{ isTag : boolean }>`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   gap: 15px;
+  min-height: ${( prop ) => prop.isTag && '25px' }
 `
 
 const TagList = ( props: TagListProps ) => {
-  const { tags, isRemove, bgColor } = props;
-
+  const { tags, isTag, bgColor } = props;
 
   const tagList = 
-  !isRemove? (   
+  isTag? (   
     tags.map(( tag ) => (
-      <TagBtn item = { tag } key={ tag?.value } isSelect = { tag?.isSelect } >{ tag?.name }</TagBtn>
+      <Tag key={ tag?.value } bgColor={ bgColor }>
+        { tag?.name }
+      </Tag>
     ))
   ) : (
     tags.map(( tag ) => (
-      <Tag key={ tag?.value } isRemove={ isRemove } bgColor={ bgColor }>
-        { tag?.name }
-      </Tag>
+      <TagBtn item = { tag } key={ tag?.value } isSelect = { tag?.isSelect } >{ tag?.name }</TagBtn>
     ))
   )
 
   return (
-    <TagListWrapper>
+    <TagListWrapper isTag = { isTag }>
       { tagList }
     </TagListWrapper>
   )
@@ -46,7 +44,6 @@ interface tagType {
 
 type TagListProps = {
   tags: tagType[], 
-  isRemove?: boolean, 
+  isTag?: boolean, 
   bgColor?: string,
-  onlyOne?: boolean
 }

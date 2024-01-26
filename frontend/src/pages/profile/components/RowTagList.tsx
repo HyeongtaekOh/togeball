@@ -1,5 +1,4 @@
-import { Title } from 'src/components'
-import { TagList } from './index'
+import { Title, TagList } from 'src/components'
 import styled from 'styled-components'
 
 

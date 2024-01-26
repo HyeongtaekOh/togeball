@@ -1,5 +1,5 @@
 import { InputBox,SignButton, Button, Select, Title, KakaoIcon, 
-  NaverIcon, MainLayout, OpenChatCard, BoardList, ChatList, Tag, TagBtn, TagList, ProfileCard, HomeLayout } from '../../components'
+  NaverIcon, MainLayout, OpenChatCard, BoardList, ChatList, Tag, ProfileCard, HomeLayout } from '../../components'
 import { useNavigate } from 'react-router-dom'
 import { useCallback, useState } from 'react'
 import { styled } from 'styled-components'
@@ -78,8 +78,8 @@ const [ participant, setParticipant ] = useState<ParticipantsType>(
       <ProfileCard participant = { participant }></ProfileCard>
 
       {/* <TagList tags = { tags } />
-      <TagList tags = { tagsRemove } isRemove= { true } />
-      <TagList tags = { tagsRemove } bgColor= '#FBD14B' isRemove= { true } />  */}
+      <TagList tags = { tagsRemove } = { true } />
+      <TagList tags = { tagsRemove } bgColor= '#FBD14B' = { true } />  */}
 
        <BoardList board={ board } ></BoardList>
        <div>-------------------------------------------------------------------------</div>
