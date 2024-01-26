@@ -1,16 +1,17 @@
-import TagBtn from '../TagBtn';
-import styled from 'styled-components';
-import Tag from '../Tag';
+import { TagBtn } from './index'
+import { Tag } from 'src/components'
+import styled from 'styled-components'
 
-const TagListWrapper = styled.div`
+const TagListWrapper = styled.div<{ isTag : boolean }>`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   gap: 15px;
+  min-height: ${( prop ) => prop.isTag && '25px' }
 `
 
 const TagList = ( props: TagListProps ) => {
-  const { tags, bgColor, isTag } = props;
+  const { tags, isTag, bgColor } = props;
 
   const tagList = 
   isTag? (   
@@ -21,14 +22,12 @@ const TagList = ( props: TagListProps ) => {
     ))
   ) : (
     tags.map(( tag ) => (
-      <TagBtn key={ tag?.value } isSelect = { tag?.isSelect } >
-        { tag?.name }
-      </TagBtn>
+      <TagBtn item = { tag } key={ tag?.value } isSelect = { tag?.isSelect } >{ tag?.name }</TagBtn>
     ))
   )
 
   return (
-    <TagListWrapper>
+    <TagListWrapper isTag = { isTag }>
       { tagList }
     </TagListWrapper>
   )
