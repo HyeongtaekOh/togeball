@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "TBL_RECRUITCHATROOM")
 @ToString(callSuper = true, exclude = {"manager", "recruitTags"})
@@ -49,6 +48,24 @@ public class RecruitChatroom extends Chatroom {
         this.recruitTags.add(recruitTag);
     }
 
+    public void changeMetadata(String title, String description, Integer capacity) {
+        this.title = title;
+        this.description = description;
+        this.capacity = capacity;
+    }
+
+    public void changeGame(Game game) {
+        this.game = game;
+    }
+
+    public void changeCheeringClub(Club cheeringClub) {
+        this.cheeringClub = cheeringClub;
+    }
+
+    public void changeManager(User manager) {
+        this.manager = manager;
+    }
+
     @Builder
     public RecruitChatroom(User manager, Game game, Club cheeringClub, String title, String description, Integer capacity) {
         this.manager = manager;
@@ -58,9 +75,4 @@ public class RecruitChatroom extends Chatroom {
         this.description = description;
         this.capacity = capacity;
     }
-
-    public void changeCapacity(Integer capacity) {
-        this.capacity = capacity;
-    }
-
 }
