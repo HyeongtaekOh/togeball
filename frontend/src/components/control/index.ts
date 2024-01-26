@@ -5,7 +5,7 @@ import Select from './Select'
 import Tag from './Tag'
 import TagBtn from './TagBtn'
 import TagList from './TagList'
-import ProfileCard from './ProfileCard'
+import ProfileCard from '../app/ProfileCard'
 
 export { Button, InputBox, Select, SignButton, Tag, TagBtn, TagList, ProfileCard }
 
