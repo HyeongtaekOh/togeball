@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class TagCreateRequest {
+
     private String content;
     private TagType type;
 

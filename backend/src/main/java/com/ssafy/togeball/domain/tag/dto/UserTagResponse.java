@@ -4,5 +4,6 @@ import lombok.Data;
 
 @Data
 public class UserTagResponse {
-    String id;
+
+    private String id;
 }
