@@ -7,10 +7,7 @@ const BoardWrapper = styled.div<BoardListProps>`
     border-radius: 10px;
     width: 1000px;
     height: 60px;
-    &:hover{
-      background-color: #9008F2;
-      cursor: pointer;
-    } 
+    cursor: pointer;
 
     ${props =>
     props.type === "sub" &&

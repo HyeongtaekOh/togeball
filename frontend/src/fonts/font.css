@@ -11,3 +11,13 @@
     font-weight: 100;
     src: url("./SingleDay-Regular.ttf") format("woff")
 }
+
+@font-face {
+    font-family: 'Ibm-Regular';
+    src: url("./IBMPlexSansKR-Regular.ttf") format("woff")
+}
+
+@font-face {
+    font-family: 'Ibm-Medium';
+    src: url("./IBMPlexSansKR-Medium.ttf") format('woff')
+}

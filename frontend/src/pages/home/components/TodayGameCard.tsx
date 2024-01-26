@@ -12,7 +12,7 @@ const GameCard = styled.div`
   box-shadow: 1px 1px 1px lightGray;
   border-radius: 10px;
   width: 100%;
-  height: 90px;
+  height: 70px;
   padding: 0px 20px;
   border: 1px solid lightGray;
   align-items: center;
@@ -41,17 +41,15 @@ const TodayGameCard = ( props : GameCardProps ) =>{
   }, [ curIndex, gameList ] )
 
   return(
-
     <GameCard>
       <LeftIcon onClick={ onClickLeft }/>
-          <GameItem game = { curGame } onClick= {() => navigator(`/select/${ curGame?.chatroomId }`)}/>
+          <GameItem game = { curGame } onClick= {() => navigator( `/select/${ curGame?.chatroomId }` )}/>
       <RightIcon onClick={ onClickRight }/>
     </GameCard>
-    
   )
 }
 
-export default TodayGameCard;
+export default TodayGameCard
 
 type GameCardProps = {
   gameList? : GameType[]

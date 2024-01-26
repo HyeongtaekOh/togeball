@@ -33,32 +33,32 @@ const Dev = () => {
   //   navigator('/login')
   // }, [])
 
-  const [tags, setTags] = useState([
-        { title: '# LG' },
-        { title: '# KT' },
-        { title: '# SSG' },
-        { title: '# NC' },
-        { title: '# 두산' },
-        { title: '# KIA' },
-        { title: '# 롯데' },
-        { title: '# 삼성' },
-        { title: '# 한화' },
-        { title: '# 키움' },
-        { title: '# 팀무관' }
-  ])
-  const [tagsRemove, setTagsRemove] = useState([
-        { title: '# LG' },
-        { title: '# KT' },
-        { title: '# SSG' },
-        { title: '# NC' },
-        { title: '# 두산'},
-        { title: '# KIA' },
-        { title: '# 롯데' },
-        { title: '# 삼성' },
-        { title: '# 한화' },
-        { title: '# 키움' },
-        { title: '# 팀무관' }
-])
+//   const [tags, setTags] = useState([
+//         { title: '# LG' },
+//         { title: '# KT' },
+//         { title: '# SSG' },
+//         { title: '# NC' },
+//         { title: '# 두산' },
+//         { title: '# KIA' },
+//         { title: '# 롯데' },
+//         { title: '# 삼성' },
+//         { title: '# 한화' },
+//         { title: '# 키움' },
+//         { title: '# 팀무관' }
+//   ])
+//   const [tagsRemove, setTagsRemove] = useState([
+//         { title: '# LG' },
+//         { title: '# KT' },
+//         { title: '# SSG' },
+//         { title: '# NC' },
+//         { title: '# 두산'},
+//         { title: '# KIA' },
+//         { title: '# 롯데' },
+//         { title: '# 삼성' },
+//         { title: '# 한화' },
+//         { title: '# 키움' },
+//         { title: '# 팀무관' }
+// ])
   const board = { creatorName:'이운재', title: 'LG', createdTime: '2021-09-20', logo:'https://avatars.githubusercontent.com/u/10000000?v'}
 const [ participant, setParticipant ] = useState<ParticipantsType>(
   {
@@ -71,15 +71,15 @@ const [ participant, setParticipant ] = useState<ParticipantsType>(
   }
 )
 
-
+const games = { homeClubName: 'LG', awayClubName: 'LG', gameId: 1, datetime:'2024-01-02 6pm', chatroomId: 1}
   return (
     <MainLayout>
 
       <ProfileCard participant = { participant }></ProfileCard>
 
-      <TagList tags = { tags } />
+      {/* <TagList tags = { tags } />
       <TagList tags = { tagsRemove } isRemove= { true } />
-      <TagList tags = { tagsRemove } bgColor= '#FBD14B' isRemove= { true } /> 
+      <TagList tags = { tagsRemove } bgColor= '#FBD14B' isRemove= { true } />  */}
 
        <BoardList board={ board } ></BoardList>
        <div>-------------------------------------------------------------------------</div>
@@ -94,7 +94,7 @@ const [ participant, setParticipant ] = useState<ParticipantsType>(
       <Button type='reset' onClick={ participate }>초기화</Button>
       <SignButton>로그인</SignButton>
 
-      <OpenChatCard children='하이하이하이' child='바이바이바이' />
+      <OpenChatCard games = { games }/>
     </MainLayout>
   )
 }

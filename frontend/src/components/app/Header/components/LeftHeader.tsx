@@ -1,7 +1,7 @@
 import Logo from 'src/asset/images/Logo.jpg'
-import { useNavigate } from "react-router-dom"
-import { useCallback } from "react"
-import styled from "styled-components"
+import { useNavigate } from 'react-router-dom'
+import { useCallback } from 'react'
+import styled from 'styled-components'
 
 const ImgWrapper = styled.img`
   width: 100px;
@@ -40,7 +40,7 @@ const LeftHeader = (props: LeftHeaderProps) => {
   return(
     <>
     <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <BtnWrapper onClick={ onClickLogo }><ImgWrapper src= { Logo } alt="없다"/></BtnWrapper>
+      <BtnWrapper onClick={ onClickLogo }><ImgWrapper src= { Logo } alt='없다'/></BtnWrapper>
       <TitleWrapper>{ children }</TitleWrapper>
     </div>
     </>
