@@ -2,9 +2,11 @@ package com.ssafy.togeball.domain.tag.dto;
 
 import com.ssafy.togeball.domain.tag.entity.Tag;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Builder
 public class TagResponse {
 

@@ -3,11 +3,13 @@ package com.ssafy.togeball.domain.user.dto;
 
 import com.ssafy.togeball.domain.user.entity.Gender;
 import com.ssafy.togeball.domain.user.entity.User;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 public class UserRequest {
 
     private Integer id;
