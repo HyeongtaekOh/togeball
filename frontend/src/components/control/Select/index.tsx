@@ -6,7 +6,8 @@ const SelectWrapper = styled.div<{ width : string, background: string }>`
   display: flex;
   box-sizing: border-box;
   width: ${( props )=> props.width };
-  height: 44px;
+  height: calc(${( props )=> props.width } * 0.3 );
+  max-height: 40px;
   background: ${( props )=> props.background };
   align-items: center;
   justify-content: space-between;
@@ -18,17 +19,22 @@ const SelectWrapper = styled.div<{ width : string, background: string }>`
 `
 
 const LiDivWrapper = styled.div<{ width : string, background: string }>`
-  display: flex;
-  flex-direction: column;
-  width: calc(${( props )=> props.width } - 23px);
+  width: ${( props )=> props.width };
   background: ${( props )=> props.background };
   border: 1px solid lightgray;
-  border-radius: 10px;
   padding: 10px;
   border-top: none;
-  gap: 15px;
   position: absolute;
-  z-index: 10;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin: 40px 0px;
+  padding: 20px 10px;
+  cursor: pointer;
+  gap: 15px;
+  z-index: 999;
+  background-color: white;
+  border-radius: 10px;
 `
 
 const LiWrapper = styled.li`
@@ -51,7 +57,7 @@ const SelectBox = ( props: SelectBoxProps ) => {
   }
 
   return (
-    <>
+    <div style={{ display: 'flex', flexDirection: 'column'}}>
     <SelectWrapper onClick= { openHandler } width = { width } background = { background }>
       { selectedValue }
       <DownIcon/>
@@ -66,7 +72,7 @@ const SelectBox = ( props: SelectBoxProps ) => {
       )}
       </LiDivWrapper>
     }
-    </>
+    </div>
   )
 
 }

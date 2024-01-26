@@ -7,8 +7,8 @@ const MessageWrapper = styled.div`
 `
 
 const InputWrapper = styled.div<{ height: string; width: string }>`
-  height: ${( props ) => props.height};
-  width: ${( props ) => props.width};
+  height: ${( props ) => props.height };
+  width: ${( props ) => props.width };
   border: 1px solid #ccc;
   border-radius: 15px;
   box-sizing: border-box;

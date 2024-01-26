@@ -25,7 +25,7 @@ const Title = ( props : TitleProps ) =>{
 
     const { 
         type = 'large', color ='black', children, 
-        style, bold = false 
+        style, bold = false
     } = props
 
     return(
