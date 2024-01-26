@@ -1,7 +1,6 @@
 package com.ssafy.togeball.domain.chatroom.repository;
 
-import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomCreateDto;
-import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomUpdateDto;
+import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomRequest;
 import com.ssafy.togeball.domain.chatroom.entity.Chatroom;
 import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
 import org.springframework.data.domain.Page;
@@ -15,9 +14,9 @@ public interface CustomChatroomRepository {
 
     void addAllUsers(Integer chatroomId, List<Integer> userIds);
 
-    RecruitChatroom createRecruitChatroom(RecruitChatroomCreateDto chatroomDto);
+    RecruitChatroom createRecruitChatroom(RecruitChatroomRequest chatroomDto);
 
-    RecruitChatroom updateRecruitChatroom(RecruitChatroomUpdateDto recruitChatroomDto);
+    RecruitChatroom updateRecruitChatroom(RecruitChatroomRequest recruitChatroomDto);
 
     RecruitChatroom updateRecruitChatroomTags(Integer chatroomId, List<Integer> tagIds);
 

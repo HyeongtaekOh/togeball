@@ -2,14 +2,13 @@ package com.ssafy.togeball.domain.matching.dto;
 
 import com.ssafy.togeball.domain.matching.entity.Matching;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
 @Builder
-public class MatchingCreateDto {
+public class MatchingRequest {
     
     private String title;
     private Integer capacity;

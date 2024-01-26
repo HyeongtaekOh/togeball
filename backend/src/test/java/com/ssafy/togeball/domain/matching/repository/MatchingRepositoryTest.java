@@ -1,6 +1,6 @@
 package com.ssafy.togeball.domain.matching.repository;
 
-import com.ssafy.togeball.domain.matching.dto.MatchingCreateDto;
+import com.ssafy.togeball.domain.matching.dto.MatchingRequest;
 import com.ssafy.togeball.domain.matching.entity.Matching;
 import com.ssafy.togeball.domain.tag.entity.Tag;
 import com.ssafy.togeball.domain.tag.entity.TagType;
@@ -93,7 +93,7 @@ public class MatchingRepositoryTest {
         List<Integer> userIds = List.of(user1.getId(), user2.getId(), user3.getId(), 999);          // 999는 존재하지 않는 유저
         List<Integer> tagIds = List.of(tag1.getId(), tag2.getId(), tag3.getId(), tag4.getId(), 10); // 10은 존재하지 않는 태그
 
-        MatchingCreateDto matchingCreateDto = MatchingCreateDto.builder()
+        MatchingRequest matchingCreateDto = MatchingRequest.builder()
                 .title("test")
                 .capacity(10)
                 .userIds(userIds)
@@ -110,7 +110,7 @@ public class MatchingRepositoryTest {
         List<Integer> userIds = List.of(user1.getId(), user2.getId(), user3.getId());
         List<Integer> tagIds = List.of(tag1.getId(), tag2.getId(), tag3.getId(), tag4.getId());
 
-        MatchingCreateDto matchingCreateDto = MatchingCreateDto.builder()
+        MatchingRequest matchingCreateDto = MatchingRequest.builder()
                 .title("test")
                 .capacity(10)
                 .userIds(userIds)
