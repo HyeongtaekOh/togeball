@@ -1,7 +1,7 @@
 package com.ssafy.togeball.domain.chatroom.service;
 
-import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomCreateDto;
-import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomUpdateDto;
+import com.ssafy.togeball.domain.chatroom.dto.ChatroomResponse;
+import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomRequest;
 import com.ssafy.togeball.domain.chatroom.entity.Chatroom;
 import com.ssafy.togeball.domain.chatroom.entity.ChatroomMembership;
 import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -25,12 +25,18 @@ public class ChatroomService {
     private final ChatroomMembershipRepository chatroomMembershipRepository;
 
     @Transactional
-    public RecruitChatroom createRecruitChatroom(RecruitChatroomCreateDto chatroomDto) {
+    public ChatroomResponse findChatroomById(Integer chatroomId) {
+        Optional<Chatroom> chatroom = chatroomRepository.findById(chatroomId);
+        return null;
+    }
+
+    @Transactional
+    public RecruitChatroom createRecruitChatroom(RecruitChatroomRequest chatroomDto) {
         return chatroomRepository.createRecruitChatroom(chatroomDto);
     }
 
     @Transactional
-    public RecruitChatroom updateRecruitChatroom(RecruitChatroomUpdateDto chatroomDto) {
+    public RecruitChatroom updateRecruitChatroom(RecruitChatroomRequest chatroomDto) {
         return chatroomRepository.updateRecruitChatroom(chatroomDto);
     }
 
