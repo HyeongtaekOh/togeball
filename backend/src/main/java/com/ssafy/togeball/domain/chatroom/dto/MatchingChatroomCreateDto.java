@@ -1,14 +1,16 @@
 package com.ssafy.togeball.domain.chatroom.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
+
+import java.util.List;
 
 @Getter
 @Setter
-@SuperBuilder
+@Builder
 public class MatchingChatroomCreateDto {
 
-
-
+    private String title;
+    private List<Integer> userIds;
 }
