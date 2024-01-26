@@ -42,12 +42,12 @@ const InputBox = ( props: InputProps ) => {
     <InputWrapper height={ height } width={ width }>
       {
         title && 
-        <div style={{ width: '30%' }}> { title } </div>
+        <div style={{ width: '30%', paddingLeft : '10px' }}> { title } </div>
       }
       <input 
         value = { inputValue } 
         onChange={(e) => onChange( e.target.value )} 
-        style={{ width: '70%', fontSize: '17px' }} 
+        style={{ width: '70%', fontSize: '12px' }} 
         placeholder={ placeholder }
       />  
     </InputWrapper>

@@ -2,12 +2,12 @@ import { TagBtn } from './index'
 import { Tag } from 'src/components'
 import styled from 'styled-components'
 
-const TagListWrapper = styled.div<{ isTag : boolean }>`
+const TagListWrapper = styled.div<{ $isTag : boolean }>`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   gap: 15px;
-  min-height: ${( prop ) => prop.isTag && '25px' }
+  min-height: ${( prop ) => prop.$isTag && '25px' }
 `
 
 const TagList = ( props: TagListProps ) => {
@@ -27,7 +27,7 @@ const TagList = ( props: TagListProps ) => {
   )
 
   return (
-    <TagListWrapper isTag = { isTag }>
+    <TagListWrapper $isTag = { isTag }>
       { tagList }
     </TagListWrapper>
   )
