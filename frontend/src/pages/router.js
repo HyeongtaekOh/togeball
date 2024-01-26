@@ -6,6 +6,7 @@ export const routes = [
     { path: 'dev' },
     { path: 'home' },
     { path: 'signup' },
+    { path: 'todaygames' }
     
 ]
 

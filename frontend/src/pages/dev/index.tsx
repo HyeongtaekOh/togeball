@@ -71,7 +71,7 @@ const [ participant, setParticipant ] = useState<ParticipantsType>(
   }
 )
 
-
+const games = { homeClubName: 'LG', awayClubName: 'LG', gameId: 1, datetime:'2024-01-02 6pm', chatroomId: 1}
   return (
     <MainLayout>
 
@@ -94,7 +94,7 @@ const [ participant, setParticipant ] = useState<ParticipantsType>(
       <Button type='reset' onClick={ participate }>초기화</Button>
       <SignButton>로그인</SignButton>
 
-      <OpenChatCard children='하이하이하이' child='바이바이바이' />
+      <OpenChatCard games = { games }/>
     </MainLayout>
   )
 }

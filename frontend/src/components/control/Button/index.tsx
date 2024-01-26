@@ -18,7 +18,7 @@ const ButtonWrapper = styled.button<ButtonProps>`
   margin: 10px 0px 10px 0px;
   transition: background-color 0.3s, color 0.3s;
   &:hover {
-    background-color: #FABE01; 
+    background-color: #EE0E2F; 
     color: white; 
   }
 
@@ -28,7 +28,7 @@ const ButtonWrapper = styled.button<ButtonProps>`
     background-color: #FBD14B;  
     color: white;
     &hover{
-      background-color: #F9B303;
+      background-color: #FBD14B;
     }
   `}
 
