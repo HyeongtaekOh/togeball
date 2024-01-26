@@ -14,8 +14,8 @@ FROM openjdk:17-ea-4-jdk-slim
 WORKDIR /app
 
 # 빌더 이미지에서 jar 파일만 복사
-# COPY --from=builder /build/build/libs/*-SNAPSHOT.jar ./app.jar
-COPY --from=builder /build/build/libs/*SNAPSHOT.jar .
+# COPY --from=builder /build/build/libs/togeball-1.0.0-SNAPSHOT.jar ./app.jar
+COPY --from=builder /build/build/libs/togeball-1.0.0-SNAPSHOT.jar .
 
 EXPOSE 8080
 
@@ -26,5 +26,5 @@ ENTRYPOINT [                                                \
    "-jar",                                                 \
    "-Djava.security.egd=file:/dev/./urandom",              \
    "-Dsun.net.inetaddr.ttl=0",                             \
-   "*SNAPSHOT.jar"                             \
+   "togeball-1.0.0-SNAPSHOT.jar"                             \
 ]
