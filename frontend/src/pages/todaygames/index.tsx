@@ -20,11 +20,11 @@ const NogameWrapper = styled.div`
 
 const Todaygames = () => {
 
-  const games = [ {gameId: 1, datetime: '20240101', homeClubName: '두산', awayClubName: '롯데'},
-  {gameId: 2, datetime: '20240101', homeClubName: '두산', awayClubName: '롯데'},
-  {gameId: 3, datetime: '20240101', homeClubName: '두산', awayClubName: '롯데'},
-  {gameId: 0, datetime: '20240101', homeClubName: '두산', awayClubName: '롯데'},
-  {gameId: 4, datetime: '20240101', homeClubName: '두산', awayClubName: '롯데'},
+  const games = [ { gameId: 1, datetime: '20240101', homeClubName: '두산', awayClubName: '롯데' },
+  { gameId: 2, datetime: '20240101', homeClubName: '두산', awayClubName: '롯데' },
+  { gameId: 3, datetime: '20240101', homeClubName: '두산', awayClubName: '롯데' },
+  { gameId: 0, datetime: '20240101', homeClubName: '두산', awayClubName: '롯데' },
+  { gameId: 4, datetime: '20240101', homeClubName: '두산', awayClubName: '롯데 '},
     
 ]
 
@@ -34,9 +34,9 @@ const Todaygames = () => {
       <HomeLayout>
 
       <WrapgameWrapper>
-      {games.length > 0 ? (        
-        games.map((game, index) => (
-          <OpenChatCard games = { game } key={index}></OpenChatCard>
+      { games.length > 0 ? (        
+        games.map(( game, index ) => (
+          <OpenChatCard games = { game } key={ index }></OpenChatCard>
           ))     
           
           ): (
