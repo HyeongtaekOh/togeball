@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class MatchingChatroomCreateDto {
+public class MatchingChatroomRequest {
 
     private String title;
     private List<Integer> userIds;
