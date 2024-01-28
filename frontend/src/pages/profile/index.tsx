@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { HomeLayout, MainLayout, Title, RadioTagList, InputBox, Tag } from 'src/components'
+import { HomeLayout, MainLayout, Title, RadioTagList, InputBox, Tag, Button } from 'src/components'
 import styled from 'styled-components'
 import { RowTagList, ColTagList, TagList } from './components'
 import useModel from './store'
+import ImgUpload from './components/ImgUpload'
 
 const ProfileSettingWrapper = styled.div`
   box-sizing: border-box;
@@ -28,6 +29,12 @@ const TitleWrapper = styled.div<{ type? : string } >`
   font-weight: bold;
   margin-left:  ${(prop) => prop.type && '-10px' };
   margin-right: 12px;
+`
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 50px;
 `
 
 const Profile = () => {
@@ -83,6 +90,7 @@ const Profile = () => {
             </TitleWrapper>
             <Title type='small'>{ id }</Title>
           </InputWrapper>
+          <ImgUpload/>
           <InputWrapper>
             <TitleWrapper type = 'input'>
               <Title type='small'>닉네임</Title>
@@ -109,6 +117,10 @@ const Profile = () => {
           <ColTagList list = { CHEERING_STYLE }>시즌권 보유</ColTagList>
           <ColTagList list = { CHEERING_STYLE }>기타</ColTagList>
         </ProfileSettingWrapper>
+        <ButtonWrapper>
+          <Button type = 'save'>저장</Button>
+          <Button type = 'cancel'>취소</Button>
+        </ButtonWrapper>
       </HomeLayout>
     </MainLayout>
   )
