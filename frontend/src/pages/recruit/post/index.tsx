@@ -1,8 +1,7 @@
 import { Button, InputBox, Select, MainLayout, HomeLayout, Title } from 'src/components';
-import { TagsInput } from './components/TagsInput';
+import { TagsInput } from '../components';
 import { useState } from 'react';
 import { styled } from 'styled-components'
-
 
 const MatchBtn = styled.button`
     width: 430px;

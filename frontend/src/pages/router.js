@@ -6,6 +6,7 @@ export const routes = [
     { path: 'dev' },
     { path: 'home' },
     { path: 'recruit/post' },
+    { path: 'recruit' },
     { path: 'signup' },
     { path: 'profile' }
     
