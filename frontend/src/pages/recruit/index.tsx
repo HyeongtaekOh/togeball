@@ -125,8 +125,8 @@ const RecruitPost = () => {
                 <FilterButton>내 글만 보기</FilterButton>
                 { chats.map((chat, index) => {
                     return (
-                        <ChatItem title={ chat.chatrooms[0].title } tags={ chat.chatrooms[0].tags }
-                            numberofuser={ chat.chatrooms[0].participants.length } capacity={ chat.chatrooms[0].capacity } />
+                        <ChatItem key = {index} chatList= { chat }/>
+                        // title={ chat.chatrooms[0].title } tags={ chat.chatrooms[0].tags }numberofuser={ chat.chatrooms[0].participants.length } capacity={ chat.chatrooms[0].capacity } />
                     )
                 })}
             </HomeLayout>
