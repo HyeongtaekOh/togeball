@@ -7,12 +7,12 @@ import lombok.Data;
 @Builder
 public class StadiumResponse {
 
-    private Integer stadiumId;
+    private Integer id;
     private String name;
 
     public static StadiumResponse of(Stadium stadium) {
         return StadiumResponse.builder()
-                .stadiumId(stadium.getId())
+                .id(stadium.getId())
                 .name(stadium.getName())
                 .build();
     }

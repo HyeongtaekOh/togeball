@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 public class GameResponse {
 
-    private Integer gameId;
+    private Integer id;
     private String stadiumName;
     private String homeClubName;
     private String awayClubName;
@@ -18,7 +18,7 @@ public class GameResponse {
 
     public static GameResponse of(Game game) {
         return GameResponse.builder()
-                .gameId(game.getId())
+                .id(game.getId())
                 .datetime(game.getDatetime())
                 .homeClubName(game.getHomeClub().getClubName())
                 .awayClubName(game.getAwayClub().getClubName())
