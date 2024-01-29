@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Table(name = "tbl_game")
+@Table(name = "TBL_GAME")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Game {
 
