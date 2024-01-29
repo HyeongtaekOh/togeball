@@ -1,14 +1,7 @@
-import { Button, InputBox, Select } from 'src/components';
-import { TagsInput } from './components/TagsInput';
-import { MainLayout, HomeLayout } from 'src/components'
+import { Button, InputBox, Select, MainLayout, HomeLayout, Title } from 'src/components';
+import { TagsInput } from '../components';
 import { useState } from 'react';
 import { styled } from 'styled-components'
-
-const Title = styled.div`
-    font-weight: bold;
-    font-size: 18px;
-    margin-top: 20px;
-`
 
 const MatchBtn = styled.button`
     width: 430px;
@@ -18,16 +11,25 @@ const MatchBtn = styled.button`
     border: 1px lightgray solid;
     font-weight: bold;
     font-size: 18px;
-    margin-top: 6px;
-    margin-bottom: 10px;
+`
+
+const Contents = styled.div`
+    display: flex;
+    gap: 30px;
 `
 
 const Input = styled.textarea<{ maxLength: string }>`
-    height: 50px;
+    height: 60px;
     width: 96%;
     border: 1px solid lightgray;
     border-radius: 20px;
     padding: 20px;
+`
+
+const Buttons = styled.div`
+    display: flex;
+    justify-content: right;
+    gap: 10px;
 `
 
 
@@ -79,30 +81,31 @@ const RecruitPost = () => {
     return (
         <MainLayout title='직관 메이트 모집하기 '>  
             <HomeLayout>
-                <Title>제목(최대 60자)</Title>
+                <Title style={{ marginTop: '20px', marginLeft: '20px'}}>제목(최대 60자)</Title>
                 <InputBox height='20px' width='100%'/>
                 <MatchBtn>경기를 선택하세요</MatchBtn>
-                <div style={{ display: 'flex', gap: '30px' }}>
-                    <Select dataSource={ teams } placeholder='응원하는 팀'></Select>
-                    <Select dataSource={ seats } placeholder='선호하는 좌석'></Select>
-                </div>
-                <div style={{ display: 'flex', gap: '30px', marginTop: '6px' }}>
-                    <span style={{ fontSize: '20px', padding: '10px 10px 0px 0px', fontWeight: 'bold' }}>인원</span> <Select dataSource={ nums } placeholder='인원' width='140px'></Select>
-                </div>
-                <div style={{ display: 'flex', gap: '30px'}}>
-                    <span style={{ fontSize: '20px', padding: '16px 10px 0px 0px', fontWeight: 'bold' }}>태그</span> <TagsInput></TagsInput>
-                </div>
-                <span style={{ fontSize: '20px', marginTop: '6px', fontWeight: 'bold' }}> 채팅방 소개</span>
+                <Contents>
+                    <Select dataSource={ teams } placeholder='응원하는 팀' height= '40px'></Select>
+                    <Select dataSource={ seats } placeholder='선호하는 좌석' height= '40px'></Select>
+                </Contents>
+                <Contents>
+                    <Title type='medium' style={{ marginTop: '6px'}}>인원</Title>
+                    <Select dataSource={ nums } placeholder='인원' width='120px' height='36px'></Select>
+                </Contents>
+                <Contents>
+                    <Title type='medium'>태그</Title><TagsInput></TagsInput>
+                </Contents>
+                    <Title type='medium'>채팅방 소개</Title>
                 <Input onChange={ onInputHandler } maxLength="300" />
                 <p style={{ textAlign: 'right' }}>
                     <span>{ inputCount }</span>
                     <span>/300 자</span>
                 </p>
-                <div style={{ display: 'flex', justifyContent: 'right', gap: '10px' }}>
+                <Buttons>
                     <Button type='parti' width='120px'>채팅방 만들기</Button>
                     <Button type='reset' width='90px'>초기화</Button>
                     <Button type='cancel' width='80px'>취소</Button>
-                </div>
+                </Buttons>
             </HomeLayout>
         </MainLayout>
     )

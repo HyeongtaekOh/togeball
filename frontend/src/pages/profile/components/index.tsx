@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import styled, { css } from 'styled-components';
 import { Tag, TagBtn, Title } from 'src/components'
 import { useNavigate } from 'react-router-dom';
@@ -113,3 +114,11 @@ const TicketProfile = ( () => {
 })
 
 export default TicketProfile
+=======
+import RowTagList from './RowTagList'
+import ColTagList from './ColTagList'
+import TagBtn from './TagButton'
+import TagList from './TagList'
+
+export { RowTagList, ColTagList, TagBtn, TagList }
+>>>>>>> 426b51fd1672252d39f7974728b3e0411ecda701

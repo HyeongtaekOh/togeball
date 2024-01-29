@@ -1,4 +1,4 @@
-import { Tag, TagList } from '../../../../components/'
+import { Tag, TagList } from '../../../components'
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -7,8 +7,7 @@ const TagsInputWrapper = styled.div`
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
-  min-height: 36px;
-  margin-top: 10px;
+  margin-top: 5px;
 `;
 
 const TagItem = styled.div`

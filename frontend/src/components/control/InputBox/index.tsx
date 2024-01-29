@@ -7,8 +7,8 @@ const MessageWrapper = styled.div`
 `
 
 const InputWrapper = styled.div<{ height: string; width: string }>`
-  height: ${( props ) => props.height};
-  width: ${( props ) => props.width};
+  height: ${( props ) => props.height };
+  width: ${( props ) => props.width };
   border: 1px solid #ccc;
   border-radius: 15px;
   box-sizing: border-box;
@@ -42,12 +42,12 @@ const InputBox = ( props: InputProps ) => {
     <InputWrapper height={ height } width={ width }>
       {
         title && 
-        <div style={{ width: '30%' }}> { title } </div>
+        <div style={{ width: '30%', paddingLeft : '10px' }}> { title } </div>
       }
       <input 
         value = { inputValue } 
         onChange={(e) => onChange( e.target.value )} 
-        style={{ width: '70%', fontSize: '17px' }} 
+        style={{ width: '70%', fontSize: '12px' }} 
         placeholder={ placeholder }
       />  
     </InputWrapper>

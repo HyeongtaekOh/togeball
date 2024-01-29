@@ -1,5 +1,5 @@
 import { InputBox,SignButton, Button, Select, Title, KakaoIcon, 
-  NaverIcon, MainLayout, OpenChatCard, BoardList, ChatList, Tag, TagBtn, TagList, ProfileCard, HomeLayout } from '../../components'
+  NaverIcon, MainLayout, OpenChatCard, BoardList, ChatItem, Tag, ProfileCard, HomeLayout } from '../../components'
 import { useNavigate } from 'react-router-dom'
 import { useCallback, useState } from 'react'
 import { styled } from 'styled-components'
@@ -78,15 +78,12 @@ const games = { homeClubName: 'LG', awayClubName: 'LG', gameId: 1, datetime:'202
       <ProfileCard participant = { participant }></ProfileCard>
 
       {/* <TagList tags = { tags } />
-      <TagList tags = { tagsRemove } isRemove= { true } />
-      <TagList tags = { tagsRemove } bgColor= '#FBD14B' isRemove= { true } />  */}
+      <TagList tags = { tagsRemove } = { true } />
+      <TagList tags = { tagsRemove } bgColor= '#FBD14B' = { true } />  */}
 
        <BoardList board={ board } ></BoardList>
        <div>-------------------------------------------------------------------------</div>
-       <ChatList></ChatList>
-      
-      
-      <ChatList title='1/30 두산vs기아 18:00' mbti='#estp' numberofuser='3/4명' content='어디야?' ></ChatList>
+    
 
        <Button type='cancel'>취소</Button>
       <Button type='parti'  onClick={ participate }>참가하기</Button>
