@@ -6,4 +6,3 @@ spring:
     password: ssafy
   config:
     import: optional:properties/jpa.yml
-

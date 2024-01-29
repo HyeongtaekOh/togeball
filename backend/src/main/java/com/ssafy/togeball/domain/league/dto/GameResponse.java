@@ -11,19 +11,18 @@ import java.time.LocalDateTime;
 public class GameResponse {
 
     private Integer gameId;
-    private Integer stadiumId;
     private String stadiumName;
-    private Integer homeClubId;
     private String homeClubName;
-    private Integer awayClubId;
     private String awayClubName;
     private LocalDateTime datetime;
 
-    public Game toEntity(GameResponse gameResponse) {
-        return Game.builder().build();
-    }
-
     public static GameResponse of(Game game) {
-        return GameResponse.builder().build();
+        return GameResponse.builder()
+                .gameId(game.getId())
+                .datetime(game.getDatetime())
+                .homeClubName(game.getHomeClub().getClubName())
+                .awayClubName(game.getAwayClub().getClubName())
+                .stadiumName(game.getStadium().getName())
+                .build();
     }
 }
