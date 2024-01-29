@@ -43,6 +43,9 @@ public class User extends BaseEntity {
 
     private String profileImage;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private Club club;
@@ -76,7 +79,7 @@ public class User extends BaseEntity {
     }
 
     @Builder
-    public User(String email, String password, String nickname, Gender gender, LocalDateTime birthdate, String phone, String profileImage, Club club) {
+    public User(String email, String password, String nickname, Gender gender, LocalDateTime birthdate, String phone, String profileImage, Club club, Role role) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
@@ -85,5 +88,6 @@ public class User extends BaseEntity {
         this.phone = phone;
         this.profileImage = profileImage;
         this.club = club;
+        this.role = role;
     }
 }
