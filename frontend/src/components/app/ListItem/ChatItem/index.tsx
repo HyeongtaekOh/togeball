@@ -12,13 +12,12 @@ const ChatWrapper = styled.div<{ width?: string}>`
     &:hover{
       background-color: #E4E2DD;
       cursor: pointer;
-    }     
+    }
 `
 const TextWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    
     width: 70%
     
     `
@@ -31,9 +30,6 @@ const ChatList = (props: ChatListProps) => {
   const {
     children, chatList, onClick, content, width
   } = props
-
-
-  console.log(chatList['chatrooms'][0].title)
 
   return(
    <ChatWrapper width='1000px'>

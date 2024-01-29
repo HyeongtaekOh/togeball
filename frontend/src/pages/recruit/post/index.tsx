@@ -2,6 +2,7 @@ import { Button, InputBox, Select, MainLayout, HomeLayout, Title } from 'src/com
 import { TagsInput } from '../components';
 import { useState } from 'react';
 import { styled } from 'styled-components'
+import { createPortal } from 'react-dom';
 
 const MatchBtn = styled.button`
     width: 430px;
@@ -11,6 +12,7 @@ const MatchBtn = styled.button`
     border: 1px lightgray solid;
     font-weight: bold;
     font-size: 18px;
+    cursor: pointer;
 `
 
 const Contents = styled.div`
@@ -31,17 +33,47 @@ const Buttons = styled.div`
     justify-content: right;
     gap: 10px;
 `
-
+const ModalBackground = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 400;
+`
+const Modal = styled.div`
+    width: 700px;
+    height: 400px;
+    background-color: #DEDCEE;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    z-index: 1000;
+`
 
 const RecruitPost = () => {
-
-    let [inputCount, setInputCount] = useState(0);
+    const [inputCount, setInputCount] = useState(0);
+    const [isModalOpened, setIsModalOpened] = useState(false);
 
     const onInputHandler = (e) => {
         setInputCount(
             e.target.value.replace(/<br\s*V?>/gm, '\n').length
         );
-      };
+    };
+
+    const html = document.querySelector('html');
+
+    const openModal = () => {
+        setIsModalOpened(true);
+        html?.classList.add('scroll-locked');
+    };
+        
+    const closeModal = () => {
+        setIsModalOpened(false);
+        html?.classList.remove('scroll-locked');
+    };
 
 
     const [teams, setTeams] = useState([
@@ -74,42 +106,48 @@ const RecruitPost = () => {
         { value: '6', name: '6' },
         { value: '7', name: '7' },
         { value: '8', name: '8' },
-        { value: '9', name: '9' },
+       { value: '9', name: '9' },
         { value: '10', name: '10' }
     ])
 
-    return (
-        <MainLayout title='직관 메이트 모집하기 '>  
-            <HomeLayout>
-                <Title style={{ marginTop: '20px', marginLeft: '20px'}}>제목(최대 60자)</Title>
-                <InputBox height='20px' width='100%'/>
-                <MatchBtn>경기를 선택하세요</MatchBtn>
-                <Contents>
-                    <Select dataSource={ teams } placeholder='응원하는 팀' height= '40px'></Select>
-                    <Select dataSource={ seats } placeholder='선호하는 좌석' height= '40px'></Select>
-                </Contents>
-                <Contents>
-                    <Title type='medium' style={{ marginTop: '6px'}}>인원</Title>
-                    <Select dataSource={ nums } placeholder='인원' width='120px' height='36px'></Select>
-                </Contents>
-                <Contents>
-                    <Title type='medium'>태그</Title><TagsInput />
-                </Contents>
-                    <Title type='medium'>채팅방 소개</Title>
-                <Input onChange={ onInputHandler } maxLength="300" />
-                <p style={{ textAlign: 'right' }}>
-                    <span>{ inputCount }</span>
-                    <span>/300 자</span>
-                </p>
-                <Buttons>
-                    <Button type='parti' width='120px'>채팅방 만들기</Button>
-                    <Button type='reset' width='90px'>초기화</Button>
-                    <Button type='cancel' width='80px'>취소</Button>
-                </Buttons>
-            </HomeLayout>
-        </MainLayout>
-    )
-}
+        return (
+            <MainLayout title='직관 메이트 모집하기 '>  
+                <HomeLayout>
+                    <Title style={{ marginTop: '20px', marginLeft: '20px'}}>제목(최대 60자)</Title>
+                    <InputBox height='20px' width='100%'/>
+                    <MatchBtn onClick={ openModal }>경기를 선택하세요</MatchBtn>
+                    { isModalOpened && createPortal(
+                        <ModalBackground onClick={ closeModal }>
+                            <Modal>123</Modal>
+                        </ModalBackground>,
+                        document.body,
+                    )}
+                    <Contents>
+                        <Select dataSource={ teams } placeholder='응원하는 팀' height= '40px'></Select>
+                        <Select dataSource={ seats } placeholder='선호하는 좌석' height= '40px'></Select>
+                    </Contents>
+                    <Contents>
+                        <Title type='medium' style={{ marginTop: '6px'}}>인원</Title>
+                        <Select dataSource={ nums } placeholder='인원' width='120px' height='36px'></Select>
+                    </Contents>
+                    <Contents>
+                        <Title type='medium'>태그</Title><TagsInput />
+                    </Contents>
+                        <Title type='medium'>채팅방 소개</Title>
+                    <Input onChange={ onInputHandler } maxLength="300" />
+                    <p style={{ textAlign: 'right' }}>
+                        <span>{ inputCount }</span>
+                        <span>/300 자</span>
+                    </p>
+                    <Buttons>
+                        <Button type='parti' width='120px'>채팅방 만들기</Button>
+                        <Button type='reset' width='90px'>초기화</Button>
+                        <Button type='cancel' width='80px'>취소</Button>
+                    </Buttons>
+                </HomeLayout>
+            </MainLayout>
+        )
+    }
 
 
-export default RecruitPost
+    export default RecruitPost
