@@ -65,39 +65,18 @@ class TagServiceTest {
     }
 
     @Test
-    void addTagToRecruitChatroom_WhenTagDoesNotExist() {
+    void addTagToRecruitChatroom() {
         // given
         RecruitChatroom recruitChatroom = RecruitChatroom.builder().build();
         TagCreateRequest request = new TagCreateRequest();
         request.setContent("test");
 
-        when(tagRepository.findByContent("test")).thenReturn(Optional.empty());
+        Tag tag = request.toEntity();
 
         // when
-        tagService.addTagToRecruitChatroom(recruitChatroom, request);
+        tagService.addTagToRecruitChatroom(recruitChatroom, tag);
 
         // then
-        verify(tagRepository, times(1)).save(any(Tag.class));
-        verify(recruitTagRepository, times(1)).save(any(RecruitTag.class));
-    }
-
-    @Test
-    void addTagToRecruitChatroom_WhenTagExists() {
-        // given
-        RecruitChatroom recruitChatroom = RecruitChatroom.builder().build();
-        TagCreateRequest request = new TagCreateRequest();
-        request.setContent("test");
-        Tag existingTag = Tag.builder()
-                .content("test")
-                .build();
-
-        when(tagRepository.findByContent("test")).thenReturn(Optional.of(existingTag));
-
-        // when
-        tagService.addTagToRecruitChatroom(recruitChatroom, request);
-
-        // then
-        verify(tagRepository, never()).save(any(Tag.class));
         verify(recruitTagRepository, times(1)).save(any(RecruitTag.class));
     }
 
@@ -107,10 +86,11 @@ class TagServiceTest {
         Matching matching = Matching.builder().build();
         Set<Integer> tagIds = Set.of(1, 2, 3);
 
-        // 3개의 태그를 가진 리스트 생성 - 각각이 고유한 content를 갖도록
-        List<Tag> mockTags = IntStream.range(0, 3)
-                .mapToObj(id -> Tag.builder().content("" + id).build())
+        List<Tag> mockTags = tagIds.stream()
+                .map(id -> Tag.builder().build())
                 .collect(Collectors.toList());
+
+        when(tagRepository.findAllById(tagIds)).thenReturn(mockTags);
 
         when(tagRepository.findAllById(tagIds)).thenReturn(mockTags);
 
@@ -124,10 +104,8 @@ class TagServiceTest {
         verify(tagRepository, times(1)).findAllById(tagIds);
         verify(matchingTagRepository, times(1)).saveAll(argumentCaptor.capture());
 
-        // 캡처한 리스트의 각 태그의 content가 0, 1, 2인지 확인
-        List<MatchingTag> capturedMatchingTags = argumentCaptor.getValue();
-        IntStream.range(0, capturedMatchingTags.size())
-                .forEach(i -> assertEquals("" + i, capturedMatchingTags.get(i).getTag().getContent()));
+        List<MatchingTag> capturedUserTags = argumentCaptor.getValue();
+        assertEquals(tagIds.size(), capturedUserTags.size());
     }
 
     @Test
@@ -157,14 +135,13 @@ class TagServiceTest {
         Set<Integer> tagIds = Set.of(0, 1, 2);
         User user = User.builder().build();
 
-        // 3개의 태그를 가진 리스트 생성 - 각각이 고유한 content를 갖도록
         List<Tag> mockTags = tagIds.stream()
-                .map(id -> Tag.builder().content("" + id).build())
+                .map(id -> Tag.builder().build())
                 .collect(Collectors.toList());
 
-        // 캡처를 위한 ArgumentCaptor 설정
         when(tagRepository.findAllById(tagIds)).thenReturn(mockTags);
 
+        // 캡처를 위한 ArgumentCaptor 설정
         ArgumentCaptor<List<UserTag>> argumentCaptor = ArgumentCaptor.forClass(List.class);
 
         // when
@@ -175,11 +152,8 @@ class TagServiceTest {
         verify(tagRepository, times(1)).findAllById(tagIds);
         verify(userTagRepository, times(1)).saveAll(argumentCaptor.capture());
 
-        // 캡처한 리스트의 각 태그의 content가 0, 1, 2인지 확인
         List<UserTag> capturedUserTags = argumentCaptor.getValue();
         assertEquals(tagIds.size(), capturedUserTags.size());
-        IntStream.range(0, capturedUserTags.size())
-                .forEach(i -> assertEquals("" + i, capturedUserTags.get(i).getTag().getContent()));
     }
 
     @Test

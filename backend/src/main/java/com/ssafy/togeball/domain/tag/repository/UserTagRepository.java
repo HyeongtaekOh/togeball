@@ -10,7 +10,6 @@ import java.util.Set;
 
 public interface UserTagRepository extends JpaRepository<UserTag, Integer> {
 
-    @Query("select ut from UserTag ut where ut.tag.id = :tagId and ut.user.id = :userId")
     Optional<UserTag> findByTagIdAndUserId(Integer tagId, Integer userId);
 
     List<UserTag> findByUserId(Integer userId);

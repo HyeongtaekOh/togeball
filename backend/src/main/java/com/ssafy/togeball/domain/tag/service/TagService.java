@@ -36,12 +36,7 @@ public class TagService {
 
     // 모집 채팅방에 태그 추가
     @Transactional
-    public void addTagToRecruitChatroom(RecruitChatroom recruitChatroom, TagCreateRequest newTag) {
-        Tag tag = tagRepository.findByContent(newTag.getContent())
-                .orElseGet(() -> tagRepository.save(
-                        newTag.toEntity()
-                ));
-
+    public void addTagToRecruitChatroom(RecruitChatroom recruitChatroom, Tag tag) {
         RecruitTag recruitTag = RecruitTag.builder()
                 .recruitChatroom(recruitChatroom)
                 .tag(tag)
@@ -72,7 +67,14 @@ public class TagService {
 
         recruitTagRepository.deleteByRecruitChatroomId(chatroomId);
 
-        newTags.forEach(newTag -> addTagToRecruitChatroom(recruitChatroom, newTag));
+        // 없는 태그일 경우, 추가
+        newTags.forEach(newTag -> {
+            Tag tag = tagRepository.findByContent(newTag.getContent())
+                    .orElseGet(() -> tagRepository.save(
+                            newTag.toEntity()
+                    ));
+            addTagToRecruitChatroom(recruitChatroom, tag);
+        });
     }
 
     // 회원 해시태그 수정
