@@ -5,6 +5,7 @@ const MainWrapper = styled.div`
     box-sizing: border-box;
     display: flex;
     width: 100%;
+    height: 100%;
     flex-direction: column;
     padding-bottom: 30px;
     align-items: center;
