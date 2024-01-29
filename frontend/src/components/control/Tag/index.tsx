@@ -23,15 +23,9 @@ const TagWrapper = styled.div<{ $bgColor : string, width : string, height : stri
 const Tag = ( props: TagProps ) => {
   const { children, isRemove = false, bgColor = '#DEDCEE', onDelete, width, height='18px' } = props
 
-  const handleDeleteClick = ( e: React.MouseEvent ) => {
-    e.stopPropagation()
-    onDelete()
-  };
-
   return (
     <TagWrapper $bgColor={ bgColor } width={ width } height={ height } >
-      <span>{ children }</span>
-      { isRemove && <CloseButton $bgColor={ bgColor }>X</CloseButton> }
+     { children }
     </TagWrapper>
   );
 };

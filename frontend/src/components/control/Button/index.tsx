@@ -32,8 +32,6 @@ const ButtonWrapper = styled.button<ButtonProps>`
     }
   `}
 
-  
-
   ${(props) =>
   props.type ==='parti' &&
   css`
@@ -58,16 +56,16 @@ const ButtonWrapper = styled.button<ButtonProps>`
 const Button = ( props: ButtonProps ) => {
 
   const { 
-    children, type = 'parti', color = 'lightgrey', width = '100px',
+    children, style, 
+    type = 'parti', color = 'lightgrey', width = '100px',
     onClick 
   } = props
 
-  
-
   return (
-    <ButtonWrapper onClick={ onClick } type={ type } color={ color } width={ width }>
-      { children }
-    </ButtonWrapper>
+    <ButtonWrapper 
+      onClick={ onClick } style={ style } type={ type } 
+      color={ color } width={ width }
+    >{ children }</ButtonWrapper>
   )
 
 }
@@ -79,5 +77,6 @@ type ButtonProps = {
   color?: string,
   type?:'cancel' |'save' | 'reset' | 'parti'
   width?: string,
-  onClick?: () => void
+  onClick?: () => void,
+  style?: React.CSSProperties
 }
