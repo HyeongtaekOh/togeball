@@ -1,6 +1,7 @@
 package com.ssafy.togeball.domain.league.repository;
 
 import com.ssafy.togeball.domain.league.entity.Club;
+import com.ssafy.togeball.domain.league.entity.Game;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,5 +15,5 @@ public interface ClubRepository extends JpaRepository<Club, Integer> {
 
     Optional<Club> findBySponsorName(@Param("sponsorName") String sponsorName);
 
-//    List<Club> sortByRanking();
+    List<Club> findAllByOrderByRankingAsc();
 }
