@@ -93,7 +93,7 @@ const RecruitPost = () => {
                     <Select dataSource={ nums } placeholder='인원' width='120px' height='36px'></Select>
                 </Contents>
                 <Contents>
-                    <Title type='medium'>태그</Title><TagsInput></TagsInput>
+                    <Title type='medium'>태그</Title><TagsInput />
                 </Contents>
                     <Title type='medium'>채팅방 소개</Title>
                 <Input onChange={ onInputHandler } maxLength="300" />

@@ -126,7 +126,7 @@ const RecruitPost = () => {
                 { chats.map((chat, index) => {
                     return (
                         <ChatItem title={ chat.chatrooms[0].title } tags={ chat.chatrooms[0].tags }
-                            numberofuser={ chat.chatrooms[0].participants.length } capacity={ chat.chatrooms[0].capacity }></ChatItem>
+                            numberofuser={ chat.chatrooms[0].participants.length } capacity={ chat.chatrooms[0].capacity } />
                     )
                 })}
             </HomeLayout>
