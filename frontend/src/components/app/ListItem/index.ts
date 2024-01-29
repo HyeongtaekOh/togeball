@@ -1,5 +1,5 @@
 import BoardList from "./BoardItem";
-import ChatList from "./ChatItem";
+import ChatItem from "./ChatItem";
 
 
-export { BoardList, ChatList }
+export { BoardList, ChatItem }

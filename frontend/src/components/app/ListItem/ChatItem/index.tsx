@@ -29,20 +29,20 @@ const TextWrapper = styled.div`
 const ChatList = (props: ChatListProps) => {
 
   const {
-    children, title, logo, mbti, content, numberofuser, onClick, width='1000px'
+    children, title, logo, tags, capacity, content, numberofuser, onClick, width='1000px'
   } = props
 
 
   return(
    <ChatWrapper width='1000px'>
-    <img src="" alt="로고"/>
+    <img src={ logo } alt="로고"/>
     <TextWrapper>
       
-      <Title type="medium">gd</Title>
-      <Title type="small" style={{ marginBottom: '10px' }}>#entj</Title>
-      <p style={{ marginBottom: "10px" }}>어디야?</p>
+      <Title type='medium'>{ title }</Title>
+      <p style={{ marginBottom: "10px" }}>{ content }</p>
+      <Title type='small'>{ tags }</Title>
     </TextWrapper>
-    <p style={{ paddingTop: "40px" }}>4/10명</p>
+    <p style={{ paddingTop: '40px' }}>{ numberofuser }/ { capacity }명</p>
 
 
 
@@ -55,11 +55,11 @@ export default ChatList
 type ChatListProps = {
   children?: React.ReactNode,
   title?: string,
-  mbti?: string,
-  numberofuser?: string,
+  tags?: string[],
+  numberofuser?: number,
+  capacity?: number,
   onClick?: () => void,
   logo?: string,
   content?: string,
   width? : string,
-
 }
