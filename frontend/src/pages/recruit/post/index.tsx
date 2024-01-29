@@ -1,8 +1,7 @@
 import { Button, InputBox, Select, MainLayout, HomeLayout, Title } from 'src/components';
-import { TagsInput } from './components/TagsInput';
+import { TagsInput } from '../components';
 import { useState } from 'react';
 import { styled } from 'styled-components'
-
 
 const MatchBtn = styled.button`
     width: 430px;
@@ -86,12 +85,12 @@ const RecruitPost = () => {
                 <InputBox height='20px' width='100%'/>
                 <MatchBtn>경기를 선택하세요</MatchBtn>
                 <Contents>
-                    <Select dataSource={ teams } placeholder='응원하는 팀'></Select>
-                    <Select dataSource={ seats } placeholder='선호하는 좌석'></Select>
+                    <Select dataSource={ teams } placeholder='응원하는 팀' height= '40px'></Select>
+                    <Select dataSource={ seats } placeholder='선호하는 좌석' height= '40px'></Select>
                 </Contents>
                 <Contents>
                     <Title type='medium' style={{ marginTop: '6px'}}>인원</Title>
-                    <Select dataSource={ nums } placeholder='인원' width='120px'></Select>
+                    <Select dataSource={ nums } placeholder='인원' width='120px' height='36px'></Select>
                 </Contents>
                 <Contents>
                     <Title type='medium'>태그</Title><TagsInput></TagsInput>
