@@ -35,14 +35,14 @@ const ChatList = (props: ChatListProps) => {
 
   return(
    <ChatWrapper width='1000px'>
-    <img src="" alt="로고"/>
+    <img src={ logo } alt="로고"/>
     <TextWrapper>
       
-      <Title type="medium">{ title }</Title>
+      <Title type='medium'>{ title }</Title>
       <p style={{ marginBottom: "10px" }}>{ content }</p>
-      <Title type="small">{ tags }</Title>
+      <Title type='small'>{ tags }</Title>
     </TextWrapper>
-    <p style={{ paddingTop: "40px" }}>{ numberofuser }/ { capacity }명</p>
+    <p style={{ paddingTop: '40px' }}>{ numberofuser }/ { capacity }명</p>
 
 
 

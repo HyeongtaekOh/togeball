@@ -44,7 +44,7 @@ const RecruitPost = () => {
         { value: '삼성', name: '삼성' },
         { value: '한화', name: '한화' },
         { value: '키움', name: '키움' },
-        { value: '팀무관', name: '팀무관' }
+        { value: '팀무관', name: '팀무관' } 
     ])
 
     const [seats, setSeats] = useState([
