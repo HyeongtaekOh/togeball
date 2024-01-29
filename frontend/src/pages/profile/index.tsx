@@ -1,10 +1,5 @@
 import { useState } from 'react'
-<<<<<<< HEAD
-import { HomeLayout, MainLayout, TagList, Title, RadioTagList, InputBox } from 'src/components'
-import TicketProfile from './components'
-=======
 import { HomeLayout, MainLayout, Title, RadioTagList, InputBox, Tag, Button } from 'src/components'
->>>>>>> 426b51fd1672252d39f7974728b3e0411ecda701
 import styled from 'styled-components'
 import { RowTagList, ColTagList, TagList } from './components'
 import useModel from './store'
@@ -87,12 +82,7 @@ const Profile = () => {
   return(
     <MainLayout title='프로필 설정'>
       <HomeLayout style={{ paddingTop: '30px' }}>
-<<<<<<< HEAD
-        <EssentialWrapper>
-          <TicketProfile></TicketProfile>
-=======
         <ProfileSettingWrapper>
->>>>>>> 426b51fd1672252d39f7974728b3e0411ecda701
           <Title type = 'medium'>필수 정보</Title>
           <InputWrapper>
             <TitleWrapper type = 'value'>
