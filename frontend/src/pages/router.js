@@ -9,8 +9,12 @@ export const routes = [
     { path: 'recruit' },
     { path: 'signup' },
     { path: 'profile' },
+    { path: 'todaygames' },
+    { path: 'boards' },
+    
     { path: 'calender' },
-    { path: 'calender/week'}
+    { path: 'calender/week'},
+    { path: 'mypage'}
 
 ]
 
