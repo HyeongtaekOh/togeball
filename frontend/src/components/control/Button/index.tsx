@@ -7,7 +7,7 @@ const ButtonWrapper = styled.button<ButtonProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 28px;
+  height: 42px;
   border: none;
   border-radius: 10px;
   color:white;

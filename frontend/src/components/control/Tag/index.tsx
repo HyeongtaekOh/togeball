@@ -1,22 +1,22 @@
 import styled from 'styled-components';
 
-const TagWrapper = styled.div<{ $bgColor : string }>`
+const TagWrapper = styled.div<{ $bgColor : string, width : string, height : string }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: ${ ( props ) => props.$bgColor };
-  height: 18px;
+  width: ${ ( props ) => props.width };
+  height: ${ ( props ) => props.height };
   max-width: 100px;
-  min-width: 50px;
   border: none;
   color: black;
-  padding: 5px 10px 5px 20px;
+  padding: 5px 10px 5px 10px;
   line-height: 18px;
   text-align: center;
   text-decoration: none;
   font-size: 10px;
   font-weight: bolder;
-  margin: 10px 5px 10px 5px;
+  margin: 1px 5px 1px 5px;
   border-radius: 20px;
 `;
 
@@ -34,7 +34,7 @@ const CloseButton = styled.button<{ $bgColor : string }>`
 `;
 
 const Tag = ( props: TagProps ) => {
-  const { children, isRemove = false, bgColor = '#DEDCEE', onDelete } = props
+  const { children, isRemove = false, bgColor = '#DEDCEE', onDelete, width, height='18px' } = props
 
   const handleDeleteClick = ( e: React.MouseEvent ) => {
     e.stopPropagation()
@@ -42,7 +42,7 @@ const Tag = ( props: TagProps ) => {
   };
 
   return (
-    <TagWrapper $bgColor={ bgColor }>
+    <TagWrapper $bgColor={ bgColor } width={ width } height={ height } >
       <span>{ children }</span>
       { isRemove && <CloseButton $bgColor={ bgColor }>X</CloseButton> }
     </TagWrapper>
@@ -56,4 +56,6 @@ type TagProps = {
   bgColor?: string,
   isRemove?: boolean,
   onDelete?: () => void
+  width?: string,
+  height?: string
 };

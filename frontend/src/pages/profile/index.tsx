@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { HomeLayout, MainLayout, TagList, Title, RadioTagList, InputBox } from 'src/components'
+import TicketProfile from './components'
 import styled from 'styled-components'
 
 const EssentialWrapper = styled.div`
@@ -89,6 +90,7 @@ const Profile = () => {
     <MainLayout title='프로필 설정'>
       <HomeLayout style={{ paddingTop: '30px' }}>
         <EssentialWrapper>
+          <TicketProfile></TicketProfile>
           <Title type = 'medium'>필수 정보</Title>
           <RowTagListWrapper>
             <TitleWrapper type = 'value'>
