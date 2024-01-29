@@ -9,7 +9,8 @@ export const routes = [
     { path: 'recruit' },
     { path: 'signup' },
     { path: 'profile' },
-    { path: 'calender' }
+    { path: 'calender' },
+    { path: 'calender/week'}
 
 ]
 

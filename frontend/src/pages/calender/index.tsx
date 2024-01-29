@@ -1,30 +1,33 @@
-import { useState } from 'react'
-import { addDays, addMonths, endOfMonth, endOfWeek, format, startOfMonth, startOfWeek, subMonths } from 'date-fns'
-import { HomeLayout, LeftIcon, MainLayout, RightIcon } from 'src/components'
-import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
+import { addDays, addMonths, format, subMonths } from 'date-fns'
+import { Button, HomeLayout, LeftIcon, MainLayout, RightIcon, Title } from 'src/components'
 import { DateList, DayList }  from './components/index'
+import useDate from 'src/util/date'
+import styled from 'styled-components'
 
 const CalenderWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
-  margin: auto;
-  width: 500px;
-  height: 500px;
-  border: 1px solid lightgrey;
+  width: 100%;
+  height: 100%;
   align-items: center;
-  padding: 10px;
   flex-direction: column
+`
+
+const CalenderHeaderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px; 
+  margin-top: 10px;
 `
 
 const Calender = () => {
 
-  const [ currentMonth, setCurrentMonth ] = useState( new Date() )
-  const date = [ '일', '월', '화', '수', '목', '금', '토' ]
+  const navigator = useNavigate()
 
-  const monthStart = startOfMonth( currentMonth ) //1월1일
-  const monthEnd = endOfMonth( monthStart ) //1월31일
-  const startDate = startOfWeek( monthStart ) // 12월31일
-  const endDate = endOfWeek( monthEnd ) //12월 3일
+  const { currentMonth, setCurrentMonth, calculateDateRange } = useDate()
+  const { startDate, endDate } = calculateDateRange()
 
   const days = []
   
@@ -34,9 +37,6 @@ const Calender = () => {
     day = addDays( day, 1 )
   }
 
-  console.log(days)
-
-
   const movePrevMonth = () =>{
     setCurrentMonth( subMonths( currentMonth, 1) )
   }
@@ -44,20 +44,30 @@ const Calender = () => {
   const moveNextMonth = () => {
     setCurrentMonth( addMonths( currentMonth, 1) )
   }
+
+  const onMoveHandler = () => {
+    navigator( 'week' )
+  }
  
   return(
     <MainLayout>
       <HomeLayout>
         <CalenderWrapper>
-          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-            <LeftIcon onClick={ movePrevMonth }/>
-                { format( currentMonth, 'yyyy' )}년 { format( currentMonth, 'M') }월
-            <RightIcon onClick={ moveNextMonth }/>
-          </div>
+          <CalenderHeaderWrapper>
+            <LeftIcon size= {20} onClick={ movePrevMonth }/>
+                <Title>{ format( currentMonth, 'yyyy' )}년 { format( currentMonth, 'M' )}월</Title>
+            <RightIcon size= {20} onClick={ moveNextMonth }/>
+          </CalenderHeaderWrapper>
+          <Button 
+            type="parti" 
+            style={{ marginTop : '-10px', alignSelf: 'flex-end' }}
+            onClick={ onMoveHandler }
+          >
+            주별 보기
+          </Button>
           <DateList/>
           <DayList list = { days }/>
         </CalenderWrapper>
-        
       </HomeLayout>
     </MainLayout>
   )
