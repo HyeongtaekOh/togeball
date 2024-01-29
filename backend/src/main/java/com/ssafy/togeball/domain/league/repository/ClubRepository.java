@@ -14,5 +14,5 @@ public interface ClubRepository extends JpaRepository<Club, Integer> {
 
     Optional<Club> findBySponsorName(@Param("sponsorName") String sponsorName);
 
-    List<Club> sortByRanking();
+//    List<Club> sortByRanking();
 }

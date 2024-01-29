@@ -21,6 +21,7 @@ public class LeagueController {
 
     @GetMapping("/games")
     public ResponseEntity<List<GameResponse>> findByDate(Date startDate, Date endDate) {
+        System.out.println(startDate + " " + endDate);
         List<GameResponse> games = leagueService.findByDate(startDate, endDate);
         return new ResponseEntity<>(games, HttpStatus.OK);
     }
