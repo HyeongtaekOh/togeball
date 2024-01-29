@@ -1,5 +1,5 @@
-import { Title } from "src/components";
-import styled from "styled-components";
+import { Title } from "src/components"
+import styled from "styled-components"
 
 const ChatWrapper = styled.div<{ width?: string}>`
     display: flex;
@@ -37,35 +37,18 @@ const ChatList = (props: ChatListProps) => {
 
   return(
    <ChatWrapper width='1000px'>
-     <img src={ chatList['chatrooms'][0].cheeringTeamImageUrl } alt="로고"/> 
+     <img src={ chatList['chatrooms'][0].cheeringTeamImageUrl } alt='로고'/> 
     <TextWrapper>
       <Title type='medium'>{ chatList['chatrooms'][0].title }</Title>
       <p style={{ marginBottom: "10px" }}>{ content }</p>
       <Title type='small'>{ chatList['chatrooms'][0].tags }</Title>
     </TextWrapper>
-    <p style={{ paddingTop: '40px' }}>{chatList['chatrooms'][0].participants.length }/ {chatList['chatrooms'][0].capacity }명</p> 
+    <p style={{ paddingTop: '40px' }}>{ chatList['chatrooms'][0].participants.length }/ { chatList['chatrooms'][0].capacity }명</p> 
    </ChatWrapper>
   )
 }
 
 export default ChatList
-
-// type chatroomProps = {
-//   participants: Array<{ userId: string, email: string, nickname: string }>,
-//   title: string,
-//   tags: Array<string>,
-//   manager: Array<{userId: string, email: string, nickname: string}>,
-//   gameId: number,
-//   capacity: number,
-//   cheeringTeamImageUrl: string
-// }
-
-// type chatItemProps = {
-//   chatrooms: chatroomProps[],
-//   totalCount: number,
-//   pageSize: number,
-//   pageNo: number
-// }
 
 type ChatListProps = {
   children?: React.ReactNode,

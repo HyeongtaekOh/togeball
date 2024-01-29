@@ -1,5 +1,5 @@
-import { Select, MainLayout, ChatItem, HomeLayout } from 'src/components';
-import { useState } from 'react';
+import { Select, MainLayout, ChatItem, HomeLayout } from 'src/components'
+import { useState } from 'react'
 import { styled } from 'styled-components'
 
 const SettingWrapper = styled.div`
@@ -125,7 +125,7 @@ const RecruitPost = () => {
                 <FilterButton>내 글만 보기</FilterButton>
                 { chats.map((chat, index) => {
                     return (
-                        <ChatItem key = {index} chatList= { chat }/>
+                        <ChatItem key = { index } chatList= { chat }/>
                         // title={ chat.chatrooms[0].title } tags={ chat.chatrooms[0].tags }numberofuser={ chat.chatrooms[0].participants.length } capacity={ chat.chatrooms[0].capacity } />
                     )
                 })}
