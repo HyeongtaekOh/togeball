@@ -72,7 +72,7 @@ const ImgUpload = () => {
   return (
     <ImgUploadWrapper>
       <ImgWrapper src={ imgSrc }/>
-      <input style= {{ display: 'none' }} type= 'file' accept= 'image/*' id= 'file' ref={ inputRef } onChange={ onUploadImage }/>
+      <input style= {{ display: 'none' }} type= 'file' accept= 'image/*' id= 'files' ref={ inputRef } onChange={ onUploadImage }/>
       <div style= {{ display: 'flex', flexDirection: 'column' }}>
         <LabberWrapper htmlFor= 'files'>변경</LabberWrapper>
         <Title type = 'small' color = 'gray'>
