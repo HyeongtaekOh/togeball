@@ -1,9 +1,9 @@
-import { PersonIcon, ChatIcon } from 'src/components';
+import { useState } from 'react'
+import { PersonIcon, ChatIcon } from 'src/components'
 import { MenuItem, HeaderChat } from './index'
+import type { MenuItemProps } from './MenuItem'
 import useStore from 'src/store'
 import styled from 'styled-components'
-import type { MenuItemProps } from './MenuItem'
-import { useState } from 'react';
 
 const HeaderMenuWrapper = styled.div`
   box-sizing: border-box;  
@@ -11,7 +11,7 @@ const HeaderMenuWrapper = styled.div`
   flex-direction: row;
   height: 60px;
 `
-const HeaderIconWrapper = styled(HeaderMenuWrapper)`
+const HeaderIconWrapper = styled( HeaderMenuWrapper )`
   gap: 40px;
   display: flex;
   align-items: center;
@@ -37,7 +37,7 @@ const RightHeader = () => {
         menus : [ 
           { name : '오픈 채팅방', path : '/service' },
           { name : '메이트 채팅방', path : '/service' },
-          { name : '경기 일정', path : '/service' },
+          { name : '경기 일정', path : '/calender' },
         ] 
       }
     ]
@@ -46,28 +46,23 @@ const RightHeader = () => {
 
     <HeaderMenuWrapper>
       {
-          menu.map(( item : MenuItemProps ) => {
-            return <MenuItem 
-                key = { item?.title } title ={ item?.title } 
-                path = { item?.path } menus ={ item?.menus }
-              />
-        })
-      }
+        menu.map(( item : MenuItemProps ) => {
+          return <MenuItem 
+              key = { item?.title } title ={ item?.title } 
+              path = { item?.path } menus ={ item?.menus }
+            />
+      })}
       {
         !isLogin &&  (
-          <HeaderIconWrapper>
-            <ChatIcon onClick = {() => setIsChatOpen( !isChatOpen )}/>
-            {
-              isChatOpen && <HeaderChat />
-            }
-            <PersonIcon />
-          </HeaderIconWrapper>
-        )
-      }
+        <HeaderIconWrapper>
+          <ChatIcon onClick = {() => setIsChatOpen( !isChatOpen )}/>
+          { isChatOpen && <HeaderChat /> }
+          <PersonIcon />
+        </HeaderIconWrapper>
+      )}
     </HeaderMenuWrapper>
-
+    
   )
-
 }
 
 export default RightHeader
