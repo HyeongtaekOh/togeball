@@ -1,8 +1,9 @@
 import { Button, InputBox, Select, MainLayout, HomeLayout, Title } from 'src/components';
 import { TagsInput } from '../components';
+import WeekCalender from 'src/pages/calender/week'
 import { useState } from 'react';
-import { styled } from 'styled-components'
 import { createPortal } from 'react-dom';
+import { styled } from 'styled-components'
 
 const MatchBtn = styled.button`
     width: 430px;
@@ -46,9 +47,8 @@ const Modal = styled.div`
     height: 400px;
     background-color: #DEDCEE;
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 25%;
+    left: 25%;
     border-radius: 20px;
     z-index: 1000;
 `
@@ -74,6 +74,19 @@ const RecruitPost = () => {
         setIsModalOpened(false);
         html?.classList.remove('scroll-locked');
     };
+
+    const ModalPortal = ({ children, onClose  }) => {
+      const el = document.body
+      const handleBackgroundClick = (e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      };
+        return createPortal(<ModalBackground onClick={ handleBackgroundClick }>
+            <Modal>{children}</Modal>
+          </ModalBackground>,
+          el);
+      };
 
 
     const [teams, setTeams] = useState([
@@ -106,20 +119,20 @@ const RecruitPost = () => {
         { value: '6', name: '6' },
         { value: '7', name: '7' },
         { value: '8', name: '8' },
-       { value: '9', name: '9' },
+        { value: '9', name: '9' },
         { value: '10', name: '10' }
     ])
 
         return (
             <MainLayout title='직관 메이트 모집하기 '>  
                 <HomeLayout>
-                    <Title style={{ marginTop: '20px', marginLeft: '20px'}}>제목(최대 60자)</Title>
+                    <Title style={{ marginTop: '20px', marginLeft: '20px' }}>제목(최대 60자)</Title>
                     <InputBox height='20px' width='100%'/>
                     <MatchBtn onClick={ openModal }>경기를 선택하세요</MatchBtn>
                     { isModalOpened && createPortal(
-                        <ModalBackground onClick={ closeModal }>
-                            <Modal>123</Modal>
-                        </ModalBackground>,
+                        <ModalPortal onClose={ closeModal }>
+                            <Modal><WeekCalender/></Modal>
+                        </ModalPortal>,
                         document.body,
                     )}
                     <Contents>
@@ -127,7 +140,7 @@ const RecruitPost = () => {
                         <Select dataSource={ seats } placeholder='선호하는 좌석' height= '40px'></Select>
                     </Contents>
                     <Contents>
-                        <Title type='medium' style={{ marginTop: '6px'}}>인원</Title>
+                        <Title type='medium' style={{ marginTop: '6px' }}>인원</Title>
                         <Select dataSource={ nums } placeholder='인원' width='120px' height='36px'></Select>
                     </Contents>
                     <Contents>
