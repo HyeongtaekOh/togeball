@@ -20,4 +20,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     // 특정 단어가 게시물 내용 필드에 포함된 게시물을 검색
     @Query("SELECT p FROM Post p WHERE p.content LIKE %:keyword%")
     List<Post> findByContentLike(@Param("keyword") String keyword);
+
+    @Query("SELECT p FROM Post p WHERE :key LIKE %:value%")
+    List<Post> findBySearchCondition(@Param("key") String key, @Param("value") String value);
 }
