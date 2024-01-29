@@ -1,4 +1,4 @@
-import { Select, MainLayout, BoardList, HomeLayout } from 'src/components';
+import { Select, MainLayout, ChatItem, HomeLayout } from 'src/components';
 import { useState } from 'react';
 import { styled } from 'styled-components'
 
@@ -7,7 +7,6 @@ const SettingWrapper = styled.div`
     justify-content: left;
     gap: 10px;
     margin-top: 50px;
-    margin-left: -80px;
 `
 
 const MatchBtn = styled.button`
@@ -55,7 +54,60 @@ const RecruitPost = () => {
         { value: 'outfieldSeat', name: '외야석' }
     ])
 
-    const board = { creatorName:'이운재', title: 'LG', createdTime: '2021-09-20', logo:'https://avatars.githubusercontent.com/u/10000000?v'}
+    const chats = [
+        {
+            "chatrooms" : [
+              {
+                 "participants": [
+                   {
+                      "userId": 'user1',
+                      "email": 'user1@example.com',
+                      "nickname": 'user1'
+                   },
+                 ],
+                 "title": "타이틀!!",
+                 "tags": ["#LG", "#KT", "#SSG", "#NC", "#KIA",],
+                 "manager": {
+                      "userId": 3,
+                      "email": 'tmp@gmail.com',
+                      "nickname": 'tmp'
+                  },
+                  "gameId": 23,
+                  "capacity": 4,
+                  "cheeringTeamImageUrl": "httpURL"
+                  }
+              ],
+              "totalCount": 20,
+              "pageSize": 10,
+              "pageNo": 1
+          },
+          {
+            "chatrooms" : [
+              {
+                 "participants": [
+                   {
+                      "userId": 'user1',
+                      "email": 'user1@example.com',
+                      "nickname": 'user1'
+                   },
+                 ],
+                 "title": "타이틀2!!",
+                 "tags": ["#LG", "#KT", "#SSG", "#NC", "#KIA",],
+                 "manager": {
+                      "userId": 3,
+                      "email": 'tmp@gmail.com',
+                      "nickname": 'tmp'
+                  },
+                  "gameId": 23,
+                  "capacity": 4,
+                  "cheeringTeamImageUrl": "httpURL"
+                  }
+              ],
+              "totalCount": 20,
+              "pageSize": 10,
+              "pageNo": 1
+          }
+    ]
 
 
     const FilterMine = () => {
@@ -67,11 +119,16 @@ const RecruitPost = () => {
             <HomeLayout>
                 <SettingWrapper>
                     <MatchBtn >경기를 선택하세요</MatchBtn>
-                    <Select dataSource={ teams } placeholder='응원팀' background='#DEDCEE' width='100px'></Select>
-                    <Select dataSource={ seats } placeholder='선호 좌석' background='#DEDCEE' width='120px'></Select>
+                    <Select dataSource={ teams } placeholder='응원팀' background='#DEDCEE' width='100px' height='36px'></Select>
+                    <Select dataSource={ seats } placeholder='선호 좌석' background='#DEDCEE' width='120px' height='36px'></Select>
                 </SettingWrapper>
                 <FilterButton>내 글만 보기</FilterButton>
-                <BoardList board={ board } type='sub'></BoardList> 
+                { chats.map((chat, index) => {
+                    return (
+                        <ChatItem title={ chat.chatrooms[0].title } tags={ chat.chatrooms[0].tags }
+                            numberofuser={ chat.chatrooms[0].participants.length } capacity={ chat.chatrooms[0].capacity }></ChatItem>
+                    )
+                })}
             </HomeLayout>
         </MainLayout>
     )

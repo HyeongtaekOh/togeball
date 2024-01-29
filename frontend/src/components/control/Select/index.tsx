@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { DownIcon } from 'src/components/icon'
 import styled from 'styled-components'
 
-const SelectWrapper = styled.div<{ width : string, background: string }>`
+const SelectWrapper = styled.div<{ width : string, height : string, background: string }>`
   display: flex;
   box-sizing: border-box;
   width: ${( props )=> props.width };
-  height: calc(${( props )=> props.width } * 0.3 );
+  height: ${( props )=> props.height };
   max-height: 40px;
   background: ${( props )=> props.background };
   align-items: center;
@@ -21,7 +21,7 @@ const SelectWrapper = styled.div<{ width : string, background: string }>`
 const LiDivWrapper = styled.div<{ width : string, background: string }>`
   width: ${( props )=> props.width };
   background: ${( props )=> props.background };
-  border: 1px solid lightgray;
+  border: 1px solid #DEDCEE;
   padding: 10px;
   border-top: none;
   position: absolute;
@@ -32,7 +32,7 @@ const LiDivWrapper = styled.div<{ width : string, background: string }>`
   padding: 20px 10px;
   cursor: pointer;
   gap: 15px;
-  z-index: 999;
+  z-index: 333;
   background-color: white;
   border-radius: 10px;
 `
@@ -43,7 +43,7 @@ const LiWrapper = styled.li`
 
 const SelectBox = ( props: SelectBoxProps ) => {
 
-  const { width = '200px', dataSource, placeholder = '선택해주세요', background = 'white' } = props
+  const { width = '200px', dataSource, placeholder = '선택해주세요', background = 'white', height = '60px' } = props
   const [ isOpen, setIsOpen ] = useState<boolean>( false )
   const [ selectedValue, setSelectedValue ] = useState<string>( placeholder )
 
@@ -58,7 +58,7 @@ const SelectBox = ( props: SelectBoxProps ) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column'}}>
-    <SelectWrapper onClick= { openHandler } width = { width } background = { background }>
+    <SelectWrapper onClick= { openHandler } width = { width } height = { height } background = { background }>
       { selectedValue }
       <DownIcon/>
     </SelectWrapper>
@@ -86,6 +86,7 @@ type SourceData = {
 
 type SelectBoxProps = {
   width?: string,
+  height?: string,
   dataSource: SourceData[],
   placeholder?: string,
   background?: string
