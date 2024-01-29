@@ -24,7 +24,6 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -108,10 +107,9 @@ class TagServiceTest {
         Matching matching = Matching.builder().build();
         Set<Integer> tagIds = Set.of(1, 2, 3);
 
-        // 4개의 태그를 가진 리스트 생성 - 각각이 고유한 content를 갖도록
-        AtomicInteger k = new AtomicInteger();
-        List<Tag> mockTags = IntStream.range(1, 4)
-                .mapToObj(id -> Tag.builder().content("" + k.getAndIncrement()).build())
+        // 3개의 태그를 가진 리스트 생성 - 각각이 고유한 content를 갖도록
+        List<Tag> mockTags = IntStream.range(0, 3)
+                .mapToObj(id -> Tag.builder().content("" + id).build())
                 .collect(Collectors.toList());
 
         when(tagRepository.findAllById(tagIds)).thenReturn(mockTags);
@@ -156,13 +154,12 @@ class TagServiceTest {
     @Test
     void updateUserTags() {
         // given
-        Set<Integer> tagIds = Set.of(1, 2, 3);
+        Set<Integer> tagIds = Set.of(0, 1, 2);
         User user = User.builder().build();
 
-        // 4개의 태그를 가진 리스트 생성 - 각각이 고유한 content를 갖도록
-        AtomicInteger k = new AtomicInteger();
+        // 3개의 태그를 가진 리스트 생성 - 각각이 고유한 content를 갖도록
         List<Tag> mockTags = tagIds.stream()
-                .map(id -> Tag.builder().content("" + k.getAndIncrement()).build())
+                .map(id -> Tag.builder().content("" + id).build())
                 .collect(Collectors.toList());
 
         // 캡처를 위한 ArgumentCaptor 설정
