@@ -20,11 +20,6 @@ public class LeagueService {
     private final ClubRepository clubRepository;
     private final GameRepository gameRepository;
 
-//    @Override
-//    public List<Integer> findAll() {
-//        return gameRepository.findAll().stream().map(g -> g.getId()).toList();
-//    }
-
     public List<GameResponse> findBySponsorName(String sponsorName) {
         List<Game> games = gameRepository.findBySponsorName(sponsorName);
         return games.stream()
