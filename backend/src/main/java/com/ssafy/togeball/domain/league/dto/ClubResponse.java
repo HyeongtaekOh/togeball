@@ -8,7 +8,7 @@ import lombok.Data;
 @Builder
 public class ClubResponse {
 
-    private Integer clubId;
+    private Integer id;
     private String sponsorName;
     private String clubName;
     private String logo;
@@ -16,7 +16,7 @@ public class ClubResponse {
 
     public static ClubResponse of(Club club) {
         return ClubResponse.builder()
-                .clubId(club.getId())
+                .id(club.getId())
                 .sponsorName(club.getSponsorName())
                 .clubName(club.getClubName())
                 .logo(club.getLogo())
