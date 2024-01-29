@@ -1,4 +1,4 @@
-import { Tag, TagList } from '../../../components'
+import { Tag, TagList } from 'src/components'
 import { useState } from "react";
 import styled from "styled-components";
 

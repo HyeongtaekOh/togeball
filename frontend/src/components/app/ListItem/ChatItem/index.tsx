@@ -1,5 +1,5 @@
-import styled, { css } from "styled-components";
-import { Title } from "../../../font";
+import { Title } from "src/components"
+import styled from "styled-components"
 
 const ChatWrapper = styled.div<{ width?: string}>`
     display: flex;
@@ -29,23 +29,21 @@ const TextWrapper = styled.div`
 const ChatList = (props: ChatListProps) => {
 
   const {
-    children, title, logo, tags, capacity, content, numberofuser, onClick, width='1000px'
+    children, chatList, onClick, content, width
   } = props
 
 
+  console.log(chatList['chatrooms'][0].title)
+
   return(
    <ChatWrapper width='1000px'>
-    <img src={ logo } alt="로고"/>
+     <img src={ chatList['chatrooms'][0].cheeringTeamImageUrl } alt='로고'/> 
     <TextWrapper>
-      
-      <Title type='medium'>{ title }</Title>
+      <Title type='medium'>{ chatList['chatrooms'][0].title }</Title>
       <p style={{ marginBottom: "10px" }}>{ content }</p>
-      <Title type='small'>{ tags }</Title>
+      <Title type='small'>{ chatList['chatrooms'][0].tags }</Title>
     </TextWrapper>
-    <p style={{ paddingTop: '40px' }}>{ numberofuser }/ { capacity }명</p>
-
-
-
+    <p style={{ paddingTop: '40px' }}>{ chatList['chatrooms'][0].participants.length }/ { chatList['chatrooms'][0].capacity }명</p> 
    </ChatWrapper>
   )
 }
@@ -54,12 +52,8 @@ export default ChatList
 
 type ChatListProps = {
   children?: React.ReactNode,
-  title?: string,
-  tags?: string[],
-  numberofuser?: number,
-  capacity?: number,
+  chatList: object,
   onClick?: () => void,
-  logo?: string,
   content?: string,
   width? : string,
 }
