@@ -1,26 +1,31 @@
 import styled from 'styled-components';
 
-const TagWrapper = styled.div<{ $bgColor : string }>`
+const TagWrapper = styled.div<{ $bgColor : string, width : string, height : string }>`
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: ${ ( props ) => props.$bgColor };
-  height: 30px;
+  width: ${ ( props ) => props.width };
+  height: ${ ( props ) => props.height };
   max-width: 100px;
-  min-width: 70px;
   border: none;
+  color: black;
+  padding: 5px 10px 5px 10px;
+  line-height: 18px;
+  text-align: center;
+  text-decoration: none;
   font-size: 10px;
   font-weight: bolder;
-  margin: 10px -10px -15px 5px;
+  margin: 1px 5px 1px 5px;
   border-radius: 20px;
 `;
 
 const Tag = ( props: TagProps ) => {
-  const { children, bgColor = '#DEDCEE' } = props
+  const { children, isRemove = false, bgColor = '#DEDCEE', onDelete, width, height='18px' } = props
 
   return (
-    <TagWrapper $bgColor={ bgColor }>
-      { children }
+    <TagWrapper $bgColor={ bgColor } width={ width } height={ height } >
+     { children }
     </TagWrapper>
   );
 };
@@ -30,4 +35,8 @@ export default Tag
 type TagProps = {
   children?: string,
   bgColor?: string,
+  isRemove?: boolean,
+  onDelete?: () => void
+  width?: string,
+  height?: string
 };
