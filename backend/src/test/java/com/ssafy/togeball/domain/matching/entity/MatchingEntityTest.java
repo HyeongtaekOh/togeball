@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Slf4j
 @DataJpaTest
-public class MatchingEntityTest {
+class MatchingEntityTest {
 
     @Autowired
     private TestEntityManager entityManager;

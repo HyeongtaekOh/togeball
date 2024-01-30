@@ -35,7 +35,7 @@ public class PostResponse {
                 .userNickname(post.getUser().getNickname())
                 .title(post.getTitle())
                 .content(post.getContent())
-                .regdate(post.getRegDate())
+                .regdate(post.getRegdate())
                 .build();
     }
 }

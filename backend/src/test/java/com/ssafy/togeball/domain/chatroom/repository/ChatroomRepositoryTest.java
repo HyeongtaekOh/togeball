@@ -1,5 +1,7 @@
 package com.ssafy.togeball.domain.chatroom.repository;
 
+import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomRequest;
+import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomSearchCondition;
 import com.ssafy.togeball.domain.chatroom.entity.Chatroom;
 import com.ssafy.togeball.domain.chatroom.entity.GameChatroom;
 import com.ssafy.togeball.domain.chatroom.entity.MatchingChatroom;
@@ -10,11 +12,11 @@ import com.ssafy.togeball.domain.league.entity.Stadium;
 import com.ssafy.togeball.domain.matching.entity.Matching;
 import com.ssafy.togeball.domain.tag.entity.Tag;
 import com.ssafy.togeball.domain.tag.entity.TagType;
+import com.ssafy.togeball.domain.tag.repository.RecruitTagRepository;
 import com.ssafy.togeball.domain.tag.repository.TagRepository;
 import com.ssafy.togeball.domain.user.entity.User;
 import com.ssafy.togeball.domain.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +25,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 @DataJpaTest
@@ -57,6 +59,9 @@ class ChatroomRepositoryTest {
 
     @Autowired
     private TagRepository tagRepository;
+
+    @Autowired
+    private RecruitTagRepository recruitTagRepository;
 
     private User manager;
     private User user1;
@@ -130,6 +135,29 @@ class ChatroomRepositoryTest {
         entityManager.persist(matching);
         entityManager.flush();
         entityManager.clear();
+    }
+
+    @Test
+    void findUsersByChatroomId() {
+
+            // given
+            RecruitChatroom recruitChatroom = RecruitChatroom.builder()
+                    .manager(manager)
+                    .game(game)
+                    .cheeringClub(homeClub)
+                    .title("recruit chatroom")
+                    .description("description")
+                    .capacity(10)
+                    .build();
+            chatroomRepository.save(recruitChatroom);
+            chatroomRepository.addParticipants(recruitChatroom.getId(), List.of(user1.getId(), user2.getId(), user3.getId()));
+
+            // when
+            List<User> found = chatroomRepository.findParticipantsByChatroomId(recruitChatroom.getId());
+            found.forEach(user -> log.info("user: {}", user.getNickname()));
+
+            // then
+            assertEquals(3, found.size());
     }
 
     @Test
@@ -256,52 +284,7 @@ class ChatroomRepositoryTest {
                 assertEquals(matchingChatroom.getTitle(), chatroom.getTitle());
             }
         });
-    }
-
-    @Test
-    void findByTagIds() {
-
-        // given
-        RecruitChatroom recruitChatroom1 = RecruitChatroom.builder()
-                .manager(manager)
-                .game(game)
-                .cheeringClub(homeClub)
-                .title("recruit chatroom 1")
-                .description("description")
-                .capacity(10)
-                .build();
-
-        Tag tag1 = Tag.builder()
-                .content("SSG랜더스필드")
-                .type(TagType.PREFERRED_STADIUM)
-                .build();
-        Tag tag2 = Tag.builder()
-                .content("응원지정석")
-                .type(TagType.PREFERRED_SEAT)
-                .build();
-        Tag tag3 = Tag.builder()
-                .content("SSG랜더스")
-                .type(TagType.PREFERRED_TEAM)
-                .build();
-
-        recruitChatroom1.addTag(tag1);
-        recruitChatroom1.addTag(tag2);
-        recruitChatroom1.addTag(tag3);
-
-        // when
-        userRepository.save(manager);
-        tagRepository.save(tag1);
-        tagRepository.save(tag2);
-        tagRepository.save(tag3);
-        chatroomRepository.save(recruitChatroom1);
-
-        Pageable pageable = PageRequest.of(0, 10);
-        List<RecruitChatroom> found1 = chatroomRepository.findByTagIds(List.of(tag1.getId(), tag2.getId()), pageable).getContent();
-
-        // then
-        log.info("found1: {}", found1);
-        assertEquals(1, found1.size());
-        assertEquals(recruitChatroom1.getTitle(), found1.get(0).getTitle());
+        log.info("chatroom type: {}", chatrooms.stream().map(Chatroom::getType).toList());
     }
 
     @Test
@@ -384,15 +367,15 @@ class ChatroomRepositoryTest {
         chatroomRepository.save(recruitChatroom2);
         chatroomRepository.save(gameChatroom1);
         chatroomRepository.save(matchingChatroom1);
-        chatroomRepository.addAllUsers(recruitChatroom1.getId(), List.of(user1.getId(), user2.getId()));
-        chatroomRepository.addAllUsers(recruitChatroom2.getId(), List.of(user1.getId(), user3.getId()));
-        chatroomRepository.addAllUsers(gameChatroom1.getId(), List.of(user1.getId(), user2.getId(), user3.getId()));
-        chatroomRepository.addAllUsers(matchingChatroom1.getId(), List.of(user1.getId(), user2.getId(), user3.getId()));
+        chatroomRepository.addParticipants(recruitChatroom1.getId(), List.of(user1.getId(), user2.getId()));
+        chatroomRepository.addParticipants(recruitChatroom2.getId(), List.of(user1.getId(), user3.getId()));
+        chatroomRepository.addParticipants(gameChatroom1.getId(), List.of(user1.getId(), user2.getId(), user3.getId()));
+        chatroomRepository.addParticipants(matchingChatroom1.getId(), List.of(user1.getId(), user2.getId(), user3.getId()));
 
         Pageable pageable = PageRequest.of(0, 10);
 
-        List<Chatroom> found1 = chatroomRepository.findAllChatroomsByUserId(user1.getId(), pageable).getContent();
-        List<Chatroom> found2 = chatroomRepository.findAllChatroomsByUserId(user2.getId(), pageable).getContent();
+        List<Chatroom> found1 = chatroomRepository.findChatroomsByUserId(user1.getId(), pageable).getContent();
+        List<Chatroom> found2 = chatroomRepository.findChatroomsByUserId(user2.getId(), pageable).getContent();
 
         // then
         assertEquals(4, found1.size());
@@ -492,9 +475,9 @@ class ChatroomRepositoryTest {
         chatroomRepository.save(recruitChatroom4);
         Pageable pageable = PageRequest.of(0, 10);
 
-        Page<RecruitChatroom> found1 = chatroomRepository.findAllRecruitChatroomsByManagerId(manager.getId(), pageable);
-        Page<RecruitChatroom> found2 = chatroomRepository.findAllRecruitChatroomsByManagerId(user1.getId(), pageable);
-        Page<RecruitChatroom> found3 = chatroomRepository.findAllRecruitChatroomsByManagerId(user2.getId(), pageable);
+        Page<RecruitChatroom> found1 = chatroomRepository.findRecruitChatroomsByManagerId(manager.getId(), pageable);
+        Page<RecruitChatroom> found2 = chatroomRepository.findRecruitChatroomsByManagerId(user1.getId(), pageable);
+        Page<RecruitChatroom> found3 = chatroomRepository.findRecruitChatroomsByManagerId(user2.getId(), pageable);
 
         // then
         log.info("found1 result: {}", found1.getContent());
@@ -503,5 +486,234 @@ class ChatroomRepositoryTest {
         assertEquals(2, found1.getContent().size());
         assertEquals(1, found2.getContent().size());
         assertEquals(1, found3.getContent().size());
+    }
+
+    @Test
+    void createRecruitChatroom() {
+
+        Tag tag1 = tagRepository.save(Tag.builder().content("SSG랜더스필드").type(TagType.PREFERRED_STADIUM).build());
+        Tag tag2 = tagRepository.save(Tag.builder().content("응원지정석").type(TagType.PREFERRED_SEAT).build());
+        Tag tag3 = tagRepository.save(Tag.builder().content("SSG랜더스").type(TagType.PREFERRED_TEAM).build());
+
+        RecruitChatroomRequest chatroomDto = RecruitChatroomRequest.builder()
+                .managerId(manager.getId())
+                .gameId(game.getId())
+                .cheeringClubId(homeClub.getId())
+                .title("recruit chatroom 1")
+                .description("description")
+                .capacity(10)
+                .tagIds(List.of(tag1.getId(), tag2.getId(), tag3.getId()))
+                .build();
+        log.info("chatroomDto: {}", chatroomDto);
+        RecruitChatroom recruitChatroom = chatroomRepository.createRecruitChatroom(chatroomDto);
+        assertAll(
+                () -> assertEquals(chatroomDto.getManagerId(), recruitChatroom.getManager().getId()),
+                () -> assertEquals(chatroomDto.getGameId(), recruitChatroom.getGame().getId()),
+                () -> assertEquals(chatroomDto.getCheeringClubId(), recruitChatroom.getCheeringClub().getId()),
+                () -> assertEquals(chatroomDto.getTitle(), recruitChatroom.getTitle()),
+                () -> assertEquals(chatroomDto.getDescription(), recruitChatroom.getDescription()),
+                () -> assertEquals(chatroomDto.getCapacity(), recruitChatroom.getCapacity()),
+                () -> assertEquals(3, recruitChatroom.getRecruitTags().size())
+        );
+    }
+
+    @Test
+    void createRecruitChatroomFailed() {
+
+        RecruitChatroomRequest chatroomDto = RecruitChatroomRequest.builder()
+                .managerId(manager.getId())
+                .gameId(game.getId())
+                .cheeringClubId(0)
+                .title("recruit chatroom 1")
+                .description("description")
+                .capacity(10)
+                .build();
+
+        assertThrows(JpaObjectRetrievalFailureException.class, () -> chatroomRepository.createRecruitChatroom(chatroomDto));
+    }
+
+    @Test
+    void updateRecruitChatroom() {
+
+        // given
+        Tag tag1 = tagRepository.save(Tag.builder().content("SSG랜더스필드").type(TagType.PREFERRED_STADIUM).build());
+        Tag tag2 = tagRepository.save(Tag.builder().content("응원지정석").type(TagType.PREFERRED_SEAT).build());
+        Tag tag3 = tagRepository.save(Tag.builder().content("SSG랜더스").type(TagType.PREFERRED_TEAM).build());
+        RecruitChatroomRequest chatroomDto = RecruitChatroomRequest.builder()
+                .managerId(manager.getId())
+                .gameId(game.getId())
+                .cheeringClubId(homeClub.getId())
+                .title("recruit chatroom 1")
+                .description("description")
+                .capacity(10)
+                .tagIds(List.of(tag1.getId(), tag2.getId()))
+                .build();
+        RecruitChatroom recruitChatroom = chatroomRepository.createRecruitChatroom(chatroomDto);
+
+        // when
+        log.info("업데이트 전");
+        RecruitChatroomRequest updateDto = RecruitChatroomRequest.builder()
+                .id(recruitChatroom.getId())
+                .managerId(user1.getId())
+                .gameId(game.getId())
+                .cheeringClubId(awayClub.getId())
+                .title("recruit chatroom 2")
+                .description("description 2")
+                .capacity(15)
+                .tagIds(List.of(tag2.getId(), tag3.getId()))
+                .build();
+        chatroomRepository.updateRecruitChatroom(updateDto);
+
+        // then
+        log.info("업데이트 후");
+        RecruitChatroom found = (RecruitChatroom) chatroomRepository.findById(recruitChatroom.getId()).orElse(null);
+        assertAll(
+                () -> assertEquals(user1.getId(), found.getManager().getId()),
+                () -> assertEquals(updateDto.getGameId(), found.getGame().getId()),
+                () -> assertEquals(updateDto.getCheeringClubId(), found.getCheeringClub().getId()),
+                () -> assertEquals(updateDto.getTitle(), found.getTitle()),
+                () -> assertEquals(updateDto.getDescription(), found.getDescription()),
+                () -> assertEquals(updateDto.getCapacity(), found.getCapacity()),
+                () -> assertEquals(2, found.getRecruitTags().size())
+        );
+        log.info("manager : {}", found.getManager().getNickname());
+        log.info("game : {}", found.getGame().getHomeClub().getClubName());
+        log.info("cheeringClub : {}", found.getCheeringClub().getClubName());
+        log.info("title : {}", found.getTitle());
+        log.info("description : {}", found.getDescription());
+        log.info("capacity : {}", found.getCapacity());
+        log.info("tags : {}", found.getRecruitTags().stream().map(tag -> tag.getTag().getContent()).toList());
+    }
+
+    @Test
+    void deleteChatroom() {
+
+        // given
+        Tag tag1 = tagRepository.save(Tag.builder().content("SSG랜더스필드").type(TagType.PREFERRED_STADIUM).build());
+        Tag tag2 = tagRepository.save(Tag.builder().content("응원지정석").type(TagType.PREFERRED_SEAT).build());
+        Tag tag3 = tagRepository.save(Tag.builder().content("SSG랜더스").type(TagType.PREFERRED_TEAM).build());
+        RecruitChatroomRequest chatroomDto = RecruitChatroomRequest.builder()
+                .managerId(manager.getId())
+                .gameId(game.getId())
+                .cheeringClubId(homeClub.getId())
+                .title("recruit chatroom 1")
+                .description("description")
+                .capacity(10)
+                .tagIds(List.of(tag1.getId(), tag2.getId(), tag3.getId()))
+                .build();
+        RecruitChatroom recruitChatroom = chatroomRepository.createRecruitChatroom(chatroomDto);
+        RecruitChatroom found = (RecruitChatroom) chatroomRepository.findById(recruitChatroom.getId()).orElse(null);
+        assertEquals(3, found.getRecruitTags().size());
+
+        // when
+        chatroomRepository.delete(recruitChatroom);
+
+        // then
+        assertNull(chatroomRepository.findById(recruitChatroom.getId()).orElse(null));
+        assertAll(
+                () -> assertNull(chatroomRepository.findById(recruitChatroom.getId()).orElse(null)),
+                () -> assertEquals(0, recruitTagRepository.findAllByRecruitChatroomId(recruitChatroom.getId()).size())
+        );
+    }
+
+    @Test
+    void findRecruitChatroomsByCondition() {
+
+        // given
+        Tag tag1 = tagRepository.save(Tag.builder().content("SSG랜더스필드").type(TagType.PREFERRED_STADIUM).build());
+        Tag tag2 = tagRepository.save(Tag.builder().content("응원지정석").type(TagType.PREFERRED_SEAT).build());
+        Tag tag3 = tagRepository.save(Tag.builder().content("SSG랜더스").type(TagType.PREFERRED_TEAM).build());
+        Tag tag4 = tagRepository.save(Tag.builder().content("롯데자이언츠").type(TagType.PREFERRED_TEAM).build());
+        Tag tag5 = tagRepository.save(Tag.builder().content("문학경기장").type(TagType.PREFERRED_STADIUM).build());
+        Tag tag6 = tagRepository.save(Tag.builder().content("외야일반석").type(TagType.PREFERRED_SEAT).build());
+        RecruitChatroomRequest chatroomDto1 = RecruitChatroomRequest.builder()
+                .managerId(manager.getId())
+                .gameId(game.getId())
+                .cheeringClubId(homeClub.getId())
+                .title("recruit chatroom 1")
+                .description("description")
+                .capacity(10)
+                .tagIds(List.of(tag1.getId(), tag2.getId(), tag3.getId()))
+                .build();
+        RecruitChatroomRequest chatroomDto2 = RecruitChatroomRequest.builder()
+                .managerId(manager.getId())
+                .gameId(game.getId())
+                .cheeringClubId(homeClub.getId())
+                .title("recruit chatroom 2")
+                .description("description")
+                .capacity(10)
+                .tagIds(List.of(tag1.getId(), tag2.getId(), tag4.getId()))
+                .build();
+        RecruitChatroomRequest chatroomDto3 = RecruitChatroomRequest.builder()
+                .managerId(manager.getId())
+                .gameId(game.getId())
+                .cheeringClubId(homeClub.getId())
+                .title("recruit chatroom 3")
+                .description("description")
+                .capacity(10)
+                .tagIds(List.of(tag1.getId(), tag2.getId(), tag4.getId(), tag5.getId()))
+                .build();
+        RecruitChatroomRequest chatroomDto4 = RecruitChatroomRequest.builder()
+                .managerId(manager.getId())
+                .gameId(game.getId())
+                .cheeringClubId(homeClub.getId())
+                .title("recruit chatroom 4")
+                .description("description")
+                .tagIds(List.of(tag1.getId(), tag2.getId(), tag4.getId(), tag5.getId(), tag6.getId()))
+                .capacity(10)
+                .build();
+        RecruitChatroomRequest chatroomDto5 = RecruitChatroomRequest.builder()
+                .managerId(manager.getId())
+                .gameId(game.getId())
+                .cheeringClubId(homeClub.getId())
+                .title("recruit chatroom 5")
+                .description("description")
+                .capacity(10)
+                .tagIds(List.of(tag1.getId(), tag2.getId(), tag4.getId(), tag5.getId(), tag6.getId()))
+                .build();
+        RecruitChatroomRequest chatroomDto6 = RecruitChatroomRequest.builder()
+                .managerId(manager.getId())
+                .gameId(game.getId())
+                .cheeringClubId(homeClub.getId())
+                .title("recruit chatroom 6")
+                .description("description")
+                .capacity(10)
+                .tagIds(List.of(tag1.getId(), tag2.getId(), tag4.getId(), tag5.getId(), tag6.getId()))
+                .build();
+
+        chatroomRepository.createRecruitChatroom(chatroomDto1);
+        chatroomRepository.createRecruitChatroom(chatroomDto2);
+        chatroomRepository.createRecruitChatroom(chatroomDto3);
+        chatroomRepository.createRecruitChatroom(chatroomDto4);
+        chatroomRepository.createRecruitChatroom(chatroomDto5);
+        chatroomRepository.createRecruitChatroom(chatroomDto6);
+
+
+        RecruitChatroomSearchCondition condition1 = RecruitChatroomSearchCondition.builder()
+                .keyword("descrip")
+                .build();
+
+        RecruitChatroomSearchCondition condition2 = RecruitChatroomSearchCondition.builder()
+                .managerId(manager.getId())
+                .cheeringClubId(homeClub.getId())
+                .gameId(game.getId())
+                .build();
+        RecruitChatroomSearchCondition condition3 = RecruitChatroomSearchCondition.builder()
+                .managerId(manager.getId())
+                .cheeringClubId(homeClub.getId())
+                .gameId(game.getId())
+                .tagIds(List.of(tag2.getId(), tag4.getId(), tag5.getId()))
+                .build();
+
+        Page<RecruitChatroom> found1 = chatroomRepository.findRecruitChatroomsByCondition(condition1, PageRequest.of(0, 10));
+        Page<RecruitChatroom> found2 = chatroomRepository.findRecruitChatroomsByCondition(condition2, PageRequest.of(0, 10));
+        Page<RecruitChatroom> found3 = chatroomRepository.findRecruitChatroomsByCondition(condition3, PageRequest.of(0, 10));
+        log.info("found1 tags: {}", found1.getContent().stream().map(chatroom -> chatroom.getRecruitTags().stream().map(recruitTag -> recruitTag.getTag().getContent()).toList()).toList());
+        // then
+        assertAll(
+                () -> assertEquals(6, found1.getTotalElements()),
+                () -> assertEquals(6, found2.getTotalElements()),
+                () -> assertEquals(4, found3.getTotalElements())
+        );
     }
 }
