@@ -102,12 +102,20 @@ public class PostRepositoryTest {
     }
 
     @Test
+    void findByUserNicknameTest() {
+
+        dataInit();
+        List<Post> posts = postRepository.findByUserNicknameContaining("유");
+        assertEquals(1, posts.size());
+    }
+
+    @Test
     void findByTitleLikeTest() {
 
         dataInit();
-        List<Post> ykPosts = postRepository.findByTitleLike("유경");
+        List<Post> ykPosts = postRepository.findByTitleContaining("유경");
         assertEquals(1, ykPosts.size());
-        List<Post> allPosts = postRepository.findByTitleLike("제목");
+        List<Post> allPosts = postRepository.findByTitleContaining("제목");
         assertEquals(2, allPosts.size());
     }
 
@@ -115,9 +123,9 @@ public class PostRepositoryTest {
     void findByContentLikeTest() {
 
         dataInit();
-        List<Post> htPosts = postRepository.findByContentLike("형택");
+        List<Post> htPosts = postRepository.findByContentContaining("형택");
         assertEquals(1, htPosts.size());
-        List<Post> allPosts = postRepository.findByContentLike("내용");
+        List<Post> allPosts = postRepository.findByContentContaining("내용");
         assertEquals(2, allPosts.size());
     }
 }
