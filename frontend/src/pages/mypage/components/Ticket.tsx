@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Tag, TagBtn, Title } from 'src/components'
 import { useNavigate } from 'react-router-dom';
+import { TagList } from './index';
 import lufi from 'src/asset/images/lufi.jpg'
 import lgtwinslogo from'src/asset/images/lgtwinslogo.jpg'
 import barcode from 'src/asset/images/barcode.jpg'
@@ -81,13 +82,7 @@ const Ticket = ( () => {
             <IndexWrapper>닉네임:  <ValueWrapper>{ user.nickName }</ValueWrapper></IndexWrapper>
             
         </div>
-        <div style={{ display: 'flex', paddingLeft: '120px', flexWrap: 'wrap', width: '100%' }}>
-            { user.tag.length > 0 ? (
-                user.tag.map(( tag, index ) => (
-                    <Tag key={ index } height='10px'>{ tag }</Tag>  
-                ))) 
-            : null }
-        </div>
+        <TagList/>
         </div>
         <div style={{ width: '40%', height: '100%' }}>
             <img src={ lgtwinslogo } style={{ width: '100%', height: '100%', opacity: '0.5'}}/>

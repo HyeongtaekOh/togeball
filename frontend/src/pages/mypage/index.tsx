@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
-import { Tag, TagBtn, Title, HomeLayout, MainLayout, BoardItem, ChatItem } from 'src/components'
+import { TagBtn, Title, HomeLayout, MainLayout, BoardItem, ChatItem } from 'src/components'
 import { useNavigate } from 'react-router-dom'
-import Ticket from './components'
+import { Ticket } from './components'
 
 
 const MainWrapper= styled.div`
