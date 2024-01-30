@@ -5,6 +5,7 @@ import lombok.*;
 
 @Entity
 @Getter
+@Table(name = "TBL_AUTH")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Auth {
 
@@ -13,10 +14,10 @@ public class Auth {
     @Column(name = "auth_id")
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private Integer userId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Enumerated(EnumType.STRING)

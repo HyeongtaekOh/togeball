@@ -1,9 +1,18 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-#    url : jdbc:mariadb://localhost:3307/togeball
+#    url: jdbc:mariadb://localhost:3306/togeball
     url: jdbc:mariadb://i10a610.p.ssafy.io:3306/togeball
     username: root
     password: ssafy
   config:
     import: optional:properties/jpa.yml
+
+jwt:
+  secretKey: eyJhbGciOiJIUzI1NiJ9eyJSb2xlIjoiQWRtaiwrdOoPcAKmUzNa1srrRfxZVGL
+  access:
+    expiration: 360000
+    header: Authorization
+  refresh:
+    expiration: 1209600000
+    header: Authorization-refresh
