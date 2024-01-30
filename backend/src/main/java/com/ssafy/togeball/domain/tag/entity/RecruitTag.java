@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@Getter
 @Table(name = "TBL_RECRUIT_TAG", uniqueConstraints = {
     @UniqueConstraint(name = "uk_recruit_tag", columnNames = {"chatroom_id", "tag_id"})
     }, indexes = {
