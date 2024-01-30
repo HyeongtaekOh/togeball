@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "TBL_MATCHING")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(exclude = {"matchingChatroom", "matchingUser", "matchingTag"})
+@ToString(exclude = {"matchingChatroom", "matchingUsers", "matchingTags"})
 public class Matching {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,17 +30,17 @@ public class Matching {
     private MatchingChatroom matchingChatroom;
 
     @OneToMany(mappedBy = "matching", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MatchingUser> matchingUser = new ArrayList<>();
+    private List<MatchingUser> matchingUsers = new ArrayList<>();
 
     @OneToMany(mappedBy = "matching", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MatchingTag> matchingTag = new ArrayList<>();
+    private List<MatchingTag> matchingTags = new ArrayList<>();
 
     public void addUser(User user) {
         MatchingUser matchingUser = MatchingUser.builder()
                 .matching(this)
                 .user(user)
                 .build();
-        this.matchingUser.add(matchingUser);
+        this.matchingUsers.add(matchingUser);
     }
 
     public void addTag(Tag tag) {
@@ -48,7 +48,7 @@ public class Matching {
                 .matching(this)
                 .tag(tag)
                 .build();
-        this.matchingTag.add(matchingTag);
+        this.matchingTags.add(matchingTag);
     }
 
     @Builder

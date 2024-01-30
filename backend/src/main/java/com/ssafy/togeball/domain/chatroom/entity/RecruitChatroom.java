@@ -22,7 +22,7 @@ public class RecruitChatroom extends Chatroom {
     @Column
     private String description;
 
-    @Column(nullable = false)
+    @Column
     private Integer capacity;
 
     @ManyToOne(fetch = FetchType.LAZY)
