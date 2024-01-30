@@ -90,7 +90,7 @@ public class PostRepositoryTest {
         assertNotNull(saved.getUser().getId());
         assertEquals("저녁 뭐 먹지", saved.getTitle());
         assertEquals("메뉴 추천 부탁요", saved.getContent());
-        assertEquals(now, saved.getRegDate().toLocalDate());
+        assertEquals(now, saved.getRegdate().toLocalDate());
     }
 
     @Test

@@ -1,16 +1,50 @@
 package com.ssafy.togeball.domain.league.service;
 
+import com.ssafy.togeball.domain.league.dto.ClubResponse;
 import com.ssafy.togeball.domain.league.dto.GameResponse;
+import com.ssafy.togeball.domain.league.entity.Club;
 import com.ssafy.togeball.domain.league.entity.Game;
+import com.ssafy.togeball.domain.league.repository.ClubRepository;
+import com.ssafy.togeball.domain.league.repository.GameRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public interface LeagueService {
+@Service
+@RequiredArgsConstructor
+public class LeagueService {
 
-    List<GameResponse> findBySponsorName(String sponsorName); //기업 이름으로 경기 찾기
+    private final ClubRepository clubRepository;
+    private final GameRepository gameRepository;
 
-    List<GameResponse> findByDate(Date startDate, Date endDate); //날짜로 경기 찾기
+    public List<GameResponse> findBySponsorName(String sponsorName) {
+        List<Game> games = gameRepository.findBySponsorName(sponsorName);
+        return games.stream()
+                .map(GameResponse::of)
+                .toList();
+    }
 
-    List<GameResponse> convertToDtoList(List<Game> games);
+    public List<GameResponse> findByDate(Date startDate, Date endDate) {
+        List<Game> games = gameRepository.findByDate(startDate, endDate);
+        return games.stream()
+                .map(GameResponse::of)
+                .toList();
+    }
+
+    public List<GameResponse> findBySponsorNameAndDate(Date date, String sponsorName) {
+        List<Game> games = gameRepository.findBySponsorNameAndDate(date, sponsorName);
+        return games.stream()
+                .map(GameResponse::of)
+                .toList();
+    }
+
+    public List<ClubResponse> sortByRanking() {
+        List<Club> clubs = clubRepository.findAllByOrderByRankingAsc();
+        return clubs.stream()
+                .map(ClubResponse::of)
+                .toList();
+    }
 }

@@ -12,5 +12,6 @@ import java.util.List;
 public class MatchingChatroomRequest {
 
     private String title;
+    private Integer capacity;
     private List<Integer> userIds;
 }

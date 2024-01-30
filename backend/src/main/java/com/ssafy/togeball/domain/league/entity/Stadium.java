@@ -36,10 +36,10 @@ public class Stadium {
     private List<Game> games;
 
     @Column
-    private double latitude;
+    private Double latitude;
 
     @Column
-    private double longitude;
+    private Double longitude;
 
     public Stadium(List<Club> clubs, String name) {
         this.clubs = clubs;
