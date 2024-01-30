@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class CustomJsonUsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-    private static final String DEFAULT_LOGIN_REQUEST_URL = "/login";
+    private static final String DEFAULT_LOGIN_REQUEST_URL = "/api/auth/login";
     private static final String HTTP_METHOD = "POST";
     private static final String CONTENT_TYPE = "application/json";
     private static final String USERNAME_KEY = "email";
@@ -41,10 +41,10 @@ public class CustomJsonUsernamePasswordAuthenticationFilter extends AbstractAuth
 
         String messageBody = StreamUtils.copyToString(request.getInputStream(), StandardCharsets.UTF_8);
 
-        Map<String, String> usernamePasswordMap = objectMapper.readValue(messageBody, Map.class);
+        Map<?, ?> usernamePasswordMap = objectMapper.readValue(messageBody, Map.class);
 
-        String email = usernamePasswordMap.get(USERNAME_KEY);
-        String password = usernamePasswordMap.get(PASSWORD_KEY);
+        String email = (String) usernamePasswordMap.get(USERNAME_KEY);
+        String password = (String) usernamePasswordMap.get(PASSWORD_KEY);
 
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);//principal 과 credentials 전달
 

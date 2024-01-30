@@ -8,28 +8,26 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/sign-up")
+    @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody UserSignUpRequest userSignUpRequest) throws Exception {
         try {
             userService.signUp(userSignUpRequest);
-            return ResponseEntity.ok().body("회원 가입");
+            return ResponseEntity.ok().build();
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
 
-    @GetMapping("/jwt-test")
+    @GetMapping("/test")
     public ResponseEntity<?> jwtTest() {
         return ResponseEntity.ok().body("jwt test 성공");
     }

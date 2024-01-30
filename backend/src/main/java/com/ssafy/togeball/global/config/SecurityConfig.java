@@ -5,6 +5,8 @@ import com.ssafy.togeball.domain.auth.handler.LoginFailureHandler;
 import com.ssafy.togeball.domain.auth.handler.LoginSuccessHandler;
 import com.ssafy.togeball.domain.auth.service.AuthService;
 import com.ssafy.togeball.domain.auth.repository.AuthRepository;
+import com.ssafy.togeball.domain.security.filter.CustomAccessDeniedHandler;
+import com.ssafy.togeball.domain.security.filter.CustomAuthenticationEntryPoint;
 import com.ssafy.togeball.domain.security.filter.CustomJsonUsernamePasswordAuthenticationFilter;
 import com.ssafy.togeball.domain.security.filter.JwtAuthenticationProcessingFilter;
 import com.ssafy.togeball.domain.security.jwt.JwtService;
@@ -35,16 +37,27 @@ public class SecurityConfig {
     private final AuthService authService;
     private final UserRepository userRepository;
     private final AuthRepository authRepository;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .headers(AbstractHttpConfigurer::disable) // 개발 단계에서만 사용하기!
-                .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/", "/oauth2/**", "/login/**", "/h2-console/**", "/sign-up").permitAll()
+                /*
+                 * 로그인 여부에 상관없이 접근이 가능하게 하기 위해선 다음과 같이 설정해주세요.
+                 * .requestMatchers("/api/for-anyone").permitAll()
+                 */
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/", "/oauth2/**", "/h2-console/**", "/error").permitAll()
+                        .requestMatchers("/api/auth/login", "/api/auth/reissue", "/api/user/signup").permitAll()
+                        .requestMatchers("/api/league/**").permitAll()
                         .anyRequest().authenticated())
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
+                )
                 .logout(AbstractHttpConfigurer::disable);
 
         http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);

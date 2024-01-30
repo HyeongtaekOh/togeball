@@ -39,9 +39,8 @@ public class AuthService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // TODO : 예외 관련 처리 필요
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("해당 이메일이 존재하지 않습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("해당 이메일이 존재하지 않습니다."));
 
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())
@@ -51,26 +50,23 @@ public class AuthService implements UserDetailsService {
     }
 
     public void reissueAccessToken(HttpServletRequest request, HttpServletResponse response) {
-        Optional<String> refreshTokenOptional = jwtService.extractRefreshToken(request);
+        // TODO : 예외 재설정 필요
+        String refreshToken = jwtService.extractRefreshToken(request).orElseThrow(EntityNotFoundException::new);
 
-        refreshTokenOptional.ifPresent(refreshToken -> {
-            if (jwtService.isTokenValid(refreshToken)) {
-                authRepository.findByRefreshToken(refreshToken).ifPresent(auth -> {
-                    String newAccessToken = jwtService.createAccessToken(auth.getEmail());
-                    jwtService.sendAccessToken(response, newAccessToken);
-                });
-            } else {
-                throw new EntityNotFoundException("Invalid refresh token");
-            }
-        });
+        if (jwtService.isTokenValid(refreshToken)) {
+            authRepository.findByRefreshToken(refreshToken).ifPresent(auth -> {
+                String newAccessToken = jwtService.createAccessToken(auth.getEmail());
+                jwtService.sendAccessToken(response, newAccessToken);
+            });
+        } else {
+            throw new EntityNotFoundException("Invalid refresh token");
+        }
     }
 
     public void logout(HttpServletRequest request) {
-        Optional<String> refreshTokenOptional = jwtService.extractRefreshToken(request);
-
-        refreshTokenOptional.flatMap(authRepository::findByRefreshToken).ifPresent(auth -> {
-            auth.setRefreshToken(null);
-            authRepository.save(auth);
-        });
+        String refreshToken = jwtService.extractRefreshToken(request).orElseThrow(EntityNotFoundException::new);
+        Auth auth = authRepository.findByRefreshToken(refreshToken).orElseThrow(EntityNotFoundException::new);
+        auth.setRefreshToken(null);
+        authRepository.save(auth);
     }
 }
