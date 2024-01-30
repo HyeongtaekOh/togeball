@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 @DataJpaTest
-public class ChatroomEntityTest {
+class ChatroomEntityTest {
 
     @Autowired
     private TestEntityManager entityManager;

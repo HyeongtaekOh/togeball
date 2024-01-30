@@ -4,6 +4,9 @@ import com.ssafy.togeball.domain.common.entity.BaseEntity;
 import com.ssafy.togeball.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.HQLSelect;
+import org.hibernate.annotations.SQLJoinTableRestriction;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,6 +17,7 @@ import java.util.Set;
 @Entity
 @Table(name = "TBL_CHATROOM")
 @DiscriminatorColumn(name = "type")
+@SQLRestriction("is_deleted = false")
 @ToString(exclude = {"chatroomMemberships"})
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,9 +39,10 @@ public class Chatroom extends BaseEntity {
 
     public void addMember(User member) {
         ChatroomMembership chatroomMembership = ChatroomMembership.builder()
-            .chatroom(this)
-            .user(member)
-            .build();
+                .chatroom(this)
+                .user(member)
+                .build();
         chatroomMemberships.add(chatroomMembership);
     }
 }
+

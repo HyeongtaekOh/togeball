@@ -18,4 +18,8 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 
     @Query("SELECT g FROM Game g WHERE DATE(g.datetime) BETWEEN :startDate AND :endDate")
     List<Game> findByDate(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+    @Query("SELECT g FROM Game g WHERE DATE(g.datetime)=:date " +
+            "AND (g.homeClub.sponsorName=:sponsorName OR g.awayClub.sponsorName=:sponsorName)")
+    List<Game> findBySponsorNameAndDate(@Param("date") Date date, @Param("sponsorName") String sponsorName);
 }
