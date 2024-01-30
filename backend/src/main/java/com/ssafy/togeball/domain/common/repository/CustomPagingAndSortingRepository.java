@@ -14,7 +14,7 @@ public class CustomPagingAndSortingRepository {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-        long total = query.fetchCount();
+        long total = query.fetch().size();
         return new PageImpl<>(content, pageable, total);
     }
 }

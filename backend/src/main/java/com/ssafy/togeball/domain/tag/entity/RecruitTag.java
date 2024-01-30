@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
 @Getter
 @Table(name = "TBL_RECRUIT_TAG", uniqueConstraints = {

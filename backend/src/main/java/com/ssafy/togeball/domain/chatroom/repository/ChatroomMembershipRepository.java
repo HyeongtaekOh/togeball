@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface ChatroomMembershipRepository extends JpaRepository<ChatroomMembership, Integer> {
 
     Optional<ChatroomMembership> findByUserIdAndChatroomId(Integer userId, Integer chatroomId);
+
+    Integer countByChatroomId(Integer chatroomId);
 }

@@ -17,9 +17,13 @@ public class MatchingChatroom extends Chatroom {
     @JoinColumn(name = "matching_id")
     private Matching matching;
 
+    @Column
+    private Integer capacity;
+
     @Builder
     public MatchingChatroom(String title, Matching matching) {
         this.title = title;
         this.matching = matching;
+        this.capacity = matching != null ? matching.getCapacity() : null;
     }
 }
