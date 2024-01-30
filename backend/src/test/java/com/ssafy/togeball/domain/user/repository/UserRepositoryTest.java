@@ -62,7 +62,7 @@ class UserRepositoryTest {
         assertEquals("password", saved.getPassword());
         assertEquals("nickname", saved.getNickname());
         assertEquals("profile.jpg", saved.getProfileImage());
-        assertEquals(now, saved.getRegDate().toLocalDate());
+        assertEquals(now, saved.getRegdate().toLocalDate());
         assertFalse(saved.isDeleted());
     }
 

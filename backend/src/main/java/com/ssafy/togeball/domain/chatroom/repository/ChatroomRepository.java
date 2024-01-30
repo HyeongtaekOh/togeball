@@ -13,6 +13,6 @@ import java.util.List;
 public interface ChatroomRepository extends JpaRepository<Chatroom, Integer>, CustomChatroomRepository {
 
     Page<Chatroom> findAllByTitleContaining(String title, Pageable pageable);
-
     Page<Chatroom> findAllByType(String type, Pageable pageable);
+    Integer findCapacityById(Integer id);
 }
