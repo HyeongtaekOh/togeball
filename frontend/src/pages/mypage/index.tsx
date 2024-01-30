@@ -43,10 +43,10 @@ const MyPage = ( () => {
           "pageSize": 10,
           "pageNo": 1
       }
-    // console.log(chatlist.chatrooms[3])
+   
     return (
         <MainLayout title='마이 페이지'>
-            <Ticket></Ticket>
+            <Ticket/>
                 <Title type='large'>
                     내가 모집중인 채팅방
                     </Title>

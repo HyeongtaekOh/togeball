@@ -33,7 +33,7 @@ const ChatItem = (props: ChatListProps) => {
   } = props
 
 
-  console.log(item['chatrooms'][0].title)
+  
  
 
   return(
