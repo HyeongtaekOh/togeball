@@ -1,6 +1,6 @@
 import { Button, InputBox, Select, MainLayout, HomeLayout, Title } from 'src/components';
 import { TagsInput } from '../components';
-import WeekCalender from 'src/pages/calender/week'
+import { DateList, DayList, WeekCalender } from '../components'
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { styled } from 'styled-components'
@@ -43,14 +43,14 @@ const ModalBackground = styled.div`
     z-index: 400;
 `
 const Modal = styled.div`
-    width: 700px;
-    height: 400px;
-    background-color: #DEDCEE;
+    width: 900px;
+    height: 36 0px;
+    background-color: #FFF;
     position: fixed;
     top: 25%;
-    left: 25%;
+    left: 20%;
+    border: 1px solid lightgray;    
     border-radius: 20px;
-    z-index: 1000;
 `
 
 const RecruitPost = () => {
