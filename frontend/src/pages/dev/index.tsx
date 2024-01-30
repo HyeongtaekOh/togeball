@@ -1,5 +1,5 @@
 import { InputBox,SignButton, Button, Select, Title, KakaoIcon, 
-  NaverIcon, MainLayout, OpenChatCard, BoardList, ChatItem, Tag, ProfileCard, HomeLayout } from '../../components'
+  NaverIcon, MainLayout, OpenChatCard, BoardItem, ChatItem, Tag, ProfileCard, HomeLayout } from '../../components'
 import { useNavigate } from 'react-router-dom'
 import { useCallback, useState } from 'react'
 import { styled } from 'styled-components'
@@ -81,7 +81,7 @@ const games = { homeClubName: 'LG', awayClubName: 'LG', gameId: 1, datetime:'202
       <TagList tags = { tagsRemove } = { true } />
       <TagList tags = { tagsRemove } bgColor= '#FBD14B' = { true } />  */}
 
-       <BoardList board={ board } ></BoardList>
+       <BoardItem board={ board } ></BoardItem>
        <div>-------------------------------------------------------------------------</div>
     
 

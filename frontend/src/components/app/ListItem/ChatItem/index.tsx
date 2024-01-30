@@ -26,33 +26,34 @@ const TextWrapper = styled.div`
 
 
 
-const ChatList = (props: ChatListProps) => {
+const ChatItem = (props: ChatListProps) => {
 
   const {
-    children, chatList, onClick, content, width
+    children, item, onClick, content, width
   } = props
 
 
-  console.log(chatList['chatrooms'][0].title)
+  
+ 
 
   return(
    <ChatWrapper width='1000px'>
-     <img src={ chatList['chatrooms'][0].cheeringTeamImageUrl } alt='로고'/> 
+     <img src={ item['chatrooms'][0].cheeringTeamImageUrl } alt='로고'/> 
     <TextWrapper>
-      <Title type='medium'>{ chatList['chatrooms'][0].title }</Title>
+      <Title type='medium'>{ item['chatrooms'][0].title }</Title>
       <p style={{ marginBottom: "10px" }}>{ content }</p>
-      <Title type='small'>{ chatList['chatrooms'][0].tags }</Title>
+      <Title type='small'>{ item['chatrooms'][0].tags }</Title>
     </TextWrapper>
-    <p style={{ paddingTop: '40px' }}>{ chatList['chatrooms'][0].participants.length }/ { chatList['chatrooms'][0].capacity }명</p> 
+    <p style={{ paddingTop: '40px' }}>{ item['chatrooms'][0].participants.length }/ { item['chatrooms'][0].capacity }명</p> 
    </ChatWrapper>
   )
 }
 
-export default ChatList
+export default ChatItem
 
 type ChatListProps = {
   children?: React.ReactNode,
-  chatList: object,
+  item: object,
   onClick?: () => void,
   content?: string,
   width? : string,
