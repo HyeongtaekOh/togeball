@@ -1,10 +1,12 @@
 package com.ssafy.togeball.domain.matching.repository;
 
+import com.ssafy.togeball.domain.chatroom.entity.MatchingChatroom;
 import com.ssafy.togeball.domain.matching.dto.MatchingRequest;
 import com.ssafy.togeball.domain.matching.entity.Matching;
 import com.ssafy.togeball.domain.tag.entity.Tag;
 import com.ssafy.togeball.domain.tag.entity.TagType;
 import com.ssafy.togeball.domain.user.entity.User;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 
 import java.util.List;
 
@@ -20,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Slf4j
 @DataJpaTest
-public class MatchingRepositoryTest {
+class MatchingRepositoryTest {
 
     @Autowired
     private TestEntityManager em;
@@ -100,9 +103,9 @@ public class MatchingRepositoryTest {
                 .tagIds(tagIds)
                 .build();
 
-        assertThrows(DataIntegrityViolationException.class, () -> {
-            matchingRepository.createMatchingAndChatroom(matchingCreateDto);
-        });
+        /* 원래 메서드에서 throw된 EntityNotFoundException은 Spring ExceptionTranslator에 의해 JpaObjectRetrievalFailureException로 변환된다. */
+        assertThrows(JpaObjectRetrievalFailureException.class, () ->
+                matchingRepository.createMatchingAndChatroom(matchingCreateDto));
     }
 
     @Test
@@ -118,18 +121,21 @@ public class MatchingRepositoryTest {
                 .build();
 
         Matching saved = matchingRepository.createMatchingAndChatroom(matchingCreateDto);
+        MatchingChatroom singleResult = em.getEntityManager().createQuery("select mc from MatchingChatroom mc where mc.type = 'MATCHING'", MatchingChatroom.class).getSingleResult();
 
         log.info("saved: {}", saved);
-        log.info("saved.getTags(): {}", saved.getMatchingTag().stream().map(matchingTag -> matchingTag.getTag().getId()).toList());
-        log.info("saved.getUsers(): {}", saved.getMatchingUser().stream().map(matchingUser -> matchingUser.getUser().getId()).toList());
+        log.info("saved.getId(): {}", saved.getId());
+        log.info("saved.getTags(): {}", saved.getMatchingTags().stream().map(matchingTag -> matchingTag.getTag().getId()).toList());
+        log.info("saved.getUsers(): {}", saved.getMatchingUsers().stream().map(matchingUser -> matchingUser.getUser().getId()).toList());
+        log.info("saved.getMatchingTags(): {}", saved.getMatchingTags());
         log.info("saved.getChatroom(): {}", saved.getMatchingChatroom().getId());
         log.info("saved.getChatroom().getTitle(): {}", saved.getMatchingChatroom().getTitle());
-        log.info("chatroom members: {}", saved.getMatchingChatroom().getChatroomMemberships().stream().map(chatroomMembership -> chatroomMembership.getUser().getId()).toList());
         assertEquals(saved.getTitle(), matchingCreateDto.getTitle());
         assertEquals(saved.getMatchingChatroom().getTitle(), matchingCreateDto.getTitle());
-        assertEquals(saved.getMatchingTag().stream().map(matchingTag -> matchingTag.getTag().getId()).toList(), tagIds);
-        assertEquals(saved.getMatchingUser().stream().map(matchingUser -> matchingUser.getUser().getId()).toList(), userIds);
-        assertEquals(saved.getMatchingChatroom().getChatroomMemberships().stream().map(chatroomMembership -> chatroomMembership.getUser().getId()).toList(), userIds);
-
+        assertEquals(saved.getMatchingTags().stream().map(matchingTag -> matchingTag.getTag().getId()).toList(), tagIds);
+        assertEquals(saved.getMatchingUsers().stream().map(matchingUser -> matchingUser.getUser().getId()).toList(), userIds);
+        log.info("singleResult: {}", singleResult);
+        assertEquals(singleResult.getMatching().getId(), saved.getId());
+        log.info("singleResult type: {}", singleResult.getType());
     }
 }
