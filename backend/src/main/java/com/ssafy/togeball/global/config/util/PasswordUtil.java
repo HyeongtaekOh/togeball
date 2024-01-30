@@ -4,6 +4,10 @@ import java.util.Random;
 
 public class PasswordUtil {
 
+    /*
+     * 소셜 사용자를 위한 랜덤 비밀번호 생성기
+     */
+
     public static String generateRandomPassword() {
         int index;
         char[] charSet = new char[] {
