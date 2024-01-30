@@ -72,17 +72,17 @@ const Ticket = ( () => {
     <MyinfoWrapper>
         <div style={{ width: '60%', height: '100%', display: 'flex', flexWrap: 'wrap' }}>
             <div style={{ width:'30%'}}>
-        <PictureWrapper src={ lufi }></PictureWrapper>
+                <PictureWrapper src={ lufi }/>
             </div>
-        <div style={{ width: '70%', display: 'flex', flexDirection:'column',
+            <div style={{ width: '70%', display: 'flex', flexDirection:'column',
                     justifyContent:'space-evenly', flexWrap:'wrap' }}>
-            <IndexWrapper>아이디:  <ValueWrapper>{ user.id }</ValueWrapper></IndexWrapper>
-            <IndexWrapper>응원팀:  <ValueWrapper>{ user.myTeam } </ValueWrapper></IndexWrapper>
-            <IndexWrapper>선호구장:  <ValueWrapper>{ user.stadium }</ValueWrapper></IndexWrapper>
-            <IndexWrapper>닉네임:  <ValueWrapper>{ user.nickName }</ValueWrapper></IndexWrapper>
+                <IndexWrapper>아이디:  <ValueWrapper>{ user.id }</ValueWrapper></IndexWrapper>
+                <IndexWrapper>응원팀:  <ValueWrapper>{ user.myTeam } </ValueWrapper></IndexWrapper>
+                <IndexWrapper>선호구장:  <ValueWrapper>{ user.stadium }</ValueWrapper></IndexWrapper>
+                <IndexWrapper>닉네임:  <ValueWrapper>{ user.nickName }</ValueWrapper></IndexWrapper>
             
-        </div>
-        <TagList/>
+            </div>
+            <TagList/>
         </div>
         <div style={{ width: '40%', height: '100%' }}>
             <img src={ lgtwinslogo } style={{ width: '100%', height: '100%', opacity: '0.5'}}/>
