@@ -5,8 +5,10 @@ import com.ssafy.togeball.domain.tag.entity.Tag;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
 @Table(name = "TBL_RECRUIT_TAG", uniqueConstraints = {
     @UniqueConstraint(name = "uk_recruit_tag", columnNames = {"chatroom_id", "tag_id"})

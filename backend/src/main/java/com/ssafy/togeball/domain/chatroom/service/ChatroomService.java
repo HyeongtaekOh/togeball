@@ -1,12 +1,11 @@
 package com.ssafy.togeball.domain.chatroom.service;
 
-import com.ssafy.togeball.domain.chatroom.dto.ChatroomResponse;
-import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomRequest;
-import com.ssafy.togeball.domain.chatroom.entity.Chatroom;
-import com.ssafy.togeball.domain.chatroom.entity.ChatroomMembership;
-import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
+import com.ssafy.togeball.domain.chatroom.dto.*;
+import com.ssafy.togeball.domain.chatroom.entity.*;
 import com.ssafy.togeball.domain.chatroom.repository.ChatroomMembershipRepository;
 import com.ssafy.togeball.domain.chatroom.repository.ChatroomRepository;
+import com.ssafy.togeball.domain.user.dto.UserResponse;
+import com.ssafy.togeball.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -14,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -24,20 +24,50 @@ public class ChatroomService {
     private final ChatroomRepository chatroomRepository;
     private final ChatroomMembershipRepository chatroomMembershipRepository;
 
-    @Transactional
+    public Chatroom getTestChatroom() {
+        return chatroomRepository.findById(1).orElseThrow();
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserResponse> findParticipantsByChatroomId(Integer chatroomId) {
+        List<User> participants =  chatroomRepository.findParticipantsByChatroomId(chatroomId);
+        return participants.stream().map(UserResponse::of).toList();
+    }
+
+    @Transactional(readOnly = true)
     public ChatroomResponse findChatroomById(Integer chatroomId) {
-        Optional<Chatroom> chatroom = chatroomRepository.findById(chatroomId);
-        return null;
+        Optional<Chatroom> optional = chatroomRepository.findById(chatroomId);
+        if (optional.isEmpty()) {
+            return null;
+        }
+        Chatroom chatroom = optional.get();
+        return convertChatroomResponse(chatroom);
+    }
+
+
+
+    @Transactional(readOnly = true)
+    public Page<ChatroomResponse> findChatroomsByUserId(Integer userId, Pageable pageable) {
+        Page<Chatroom> chatrooms = chatroomRepository.findChatroomsByUserId(userId, pageable);
+        return getChatroomResponses(chatrooms);
+    }
+
+
+    @Transactional(readOnly = true)
+    public Page<RecruitChatroomResponse> findRecruitChatroomsByCondition(RecruitChatroomSearchCondition condition, Pageable pageable) {
+        Page<RecruitChatroom> chatrooms = chatroomRepository.findRecruitChatroomsByCondition(condition, pageable);
+        return chatrooms.map(RecruitChatroomResponse::of);
     }
 
     @Transactional
-    public RecruitChatroom createRecruitChatroom(RecruitChatroomRequest chatroomDto) {
-        return chatroomRepository.createRecruitChatroom(chatroomDto);
+    public Integer createRecruitChatroom(RecruitChatroomRequest chatroomDto) {
+        return chatroomRepository.createRecruitChatroom(chatroomDto).getId();
     }
 
     @Transactional
-    public RecruitChatroom updateRecruitChatroom(RecruitChatroomRequest chatroomDto) {
-        return chatroomRepository.updateRecruitChatroom(chatroomDto);
+    public RecruitChatroomResponse updateRecruitChatroom(RecruitChatroomRequest chatroomDto) {
+        RecruitChatroom recruitChatroom = chatroomRepository.updateRecruitChatroom(chatroomDto);
+        return RecruitChatroomResponse.of(recruitChatroom);
     }
 
     @Transactional
@@ -46,8 +76,12 @@ public class ChatroomService {
     }
 
     @Transactional
-    public void joinChatroom(Integer userId, Integer chatroomId) {
-        chatroomRepository.addUser(chatroomId, userId);
+    public boolean joinChatroom(Integer userId, Integer chatroomId) {
+
+        if (chatroomRepository.findCapacityById(chatroomId) > chatroomMembershipRepository.countByChatroomId(chatroomId)) {
+            return false;
+        }
+        return chatroomRepository.addParticipant(chatroomId, userId);
     }
 
     @Transactional
@@ -57,19 +91,30 @@ public class ChatroomService {
         chatroomMembershipRepository.delete(membership);
     }
 
-    public Page<Chatroom> findAllChatroomsByTitleContaining(String title, Pageable pageable) {
-        return chatroomRepository.findAllByTitleContaining(title, pageable);
+    public Page<ChatroomResponse> findAllChatroomsByType(String type, Pageable pageable) {
+        Page<Chatroom> chatrooms = chatroomRepository.findAllByType(type, pageable);
+        return getChatroomResponses(chatrooms);
     }
 
-    public Page<Chatroom> findAllChatroomsByType(String type, Pageable pageable) {
-        return chatroomRepository.findAllByType(type, pageable);
+    public Page<RecruitChatroomResponse> findAllRecruitChatroomsByManagerId(Integer managerId, Pageable pageable) {
+        Page<RecruitChatroom> chatrooms = chatroomRepository.findRecruitChatroomsByManagerId(managerId, pageable);
+        return chatrooms.map(RecruitChatroomResponse::of);
     }
 
-    public Page<Chatroom> findAllChatroomsByUserId(Integer userId, Pageable pageable) {
-        return chatroomRepository.findAllChatroomsByUserId(userId, pageable);
+    private ChatroomResponse convertChatroomResponse(Chatroom chatroom) {
+        if (chatroom instanceof RecruitChatroom) {
+            return RecruitChatroomResponse.of((RecruitChatroom) chatroom);
+        } else if (chatroom instanceof GameChatroom) {
+            return GameChatroomResponse.of((GameChatroom) chatroom);
+        } else if (chatroom instanceof MatchingChatroom) {
+            return MatchingChatroomResponse.of((MatchingChatroom) chatroom);
+        }
+
+        return null;
     }
 
-    public Page<RecruitChatroom> findAllRecruitChatroomsByManagerId(Integer managerId, Pageable pageable) {
-        return chatroomRepository.findAllRecruitChatroomsByManagerId(managerId, pageable);
+    private Page<ChatroomResponse> getChatroomResponses(Page<Chatroom> chatrooms) {
+        Page<ChatroomResponse> page = chatrooms.map(this::convertChatroomResponse);
+        return page;
     }
 }
