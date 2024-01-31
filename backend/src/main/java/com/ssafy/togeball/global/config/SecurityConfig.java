@@ -11,6 +11,7 @@ import com.ssafy.togeball.domain.security.filter.CustomJsonUsernamePasswordAuthe
 import com.ssafy.togeball.domain.security.filter.JwtAuthenticationProcessingFilter;
 import com.ssafy.togeball.domain.security.jwt.JwtService;
 import com.ssafy.togeball.domain.user.repository.UserRepository;
+import com.ssafy.togeball.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,8 +36,8 @@ public class SecurityConfig {
     private final ObjectMapper objectMapper;
     private final JwtService jwtService;
     private final AuthService authService;
-    private final UserRepository userRepository;
-    private final AuthRepository authRepository;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
@@ -51,7 +52,7 @@ public class SecurityConfig {
                  */
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/oauth2/**", "/h2-console/**", "/error").permitAll()
-                        .requestMatchers("/api/auth/login", "/api/auth/reissue", "/api/user/signup").permitAll()
+                        .requestMatchers("/api/auth/login", "/api/auth/reissue", "/api/users/signup").permitAll()
                         .requestMatchers("/api/league/**").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(exceptionHandling -> exceptionHandling
@@ -67,21 +68,16 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
-
-    @Bean
     public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(passwordEncoder());
+        provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(authService);
         return new ProviderManager(provider);
     }
 
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler(jwtService, authRepository);
+        return new LoginSuccessHandler(jwtService, authService);
     }
 
     @Bean
@@ -101,6 +97,6 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthenticationProcessingFilter jwtAuthenticationProcessingFilter() {
-        return new JwtAuthenticationProcessingFilter(jwtService, userRepository);
+        return new JwtAuthenticationProcessingFilter(jwtService, userService);
     }
 }
