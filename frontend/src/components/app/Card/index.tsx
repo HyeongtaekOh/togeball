@@ -43,7 +43,7 @@ const OpenChatCard = ( props: Textprops ) => {
        games, child,
     } = props
 
-    const { gameId, chatroomId, datetime, homeClubName, awayClubName } = games
+    const { datetime, homeClubName, awayClubName } = games
 
     return(
         <Mainwrapper>
