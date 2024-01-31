@@ -6,6 +6,7 @@ import com.ssafy.togeball.domain.security.exception.JwtAuthenticationException;
 import com.ssafy.togeball.domain.security.jwt.JwtService;
 import com.ssafy.togeball.domain.user.entity.User;
 import com.ssafy.togeball.domain.user.repository.UserRepository;
+import com.ssafy.togeball.domain.user.service.UserService;
 import com.ssafy.togeball.global.config.util.PasswordUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -33,19 +34,26 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     private static final String NO_CHECK_URL = "/api/auth/login";
 
     private final JwtService jwtService;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (!request.getRequestURI().equals(NO_CHECK_URL)) {
-            Optional<String> accessTokenOptional = jwtService.extractAccessToken(request);
 
-            if (accessTokenOptional.isPresent() && jwtService.isTokenValid(accessTokenOptional.get())) {
-                jwtService.extractEmail(accessTokenOptional.get())
-                        .flatMap(userRepository::findByEmail)
-                        .ifPresent(this::saveAuthentication);
+        if (!request.getRequestURI().equals(NO_CHECK_URL)) {
+            String accessToken = jwtService.extractAccessToken(request)
+                    .filter(jwtService::isTokenValid)
+                    .flatMap(jwtService::extractEmail)
+                    .orElse(null);
+
+            if (accessToken != null) {
+                User user = userService.findUserByEmail(accessToken);
+                if (user != null) {
+                    saveAuthentication(user);
+                } else {
+                    log.warn("User not found for email in access token in request to {}", request.getRequestURI());
+                }
             } else {
                 log.warn("Invalid or missing access token in request to {}", request.getRequestURI());
             }
@@ -55,6 +63,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     }
 
     public void saveAuthentication(User myUser) {
+
         String password = myUser.getPassword();
         if (password == null) {
             password = PasswordUtil.generateRandomPassword();
