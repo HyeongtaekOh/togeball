@@ -10,12 +10,11 @@ import lombok.Setter;
 public class TagCreateRequest {
 
     private String content;
-    private TagType type;
 
     public Tag toEntity() {
         return Tag.builder()
                 .content(content)
-                .type(type)
+                .type(TagType.CUSTOM)
                 .build();
     }
 }
