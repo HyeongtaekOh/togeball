@@ -9,13 +9,10 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostRequest {
 
-    @JsonProperty
     private int userId;
 
-    @JsonProperty
     private String title;
 
-    @JsonProperty
     private String content;
 
     public Post toEntity(User user) {
