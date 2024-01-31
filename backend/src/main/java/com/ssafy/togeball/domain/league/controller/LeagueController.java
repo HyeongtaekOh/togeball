@@ -24,7 +24,7 @@ public class LeagueController {
 
     //기간(시작일, 마지막일)으로 경기 조회
     @GetMapping("/games")
-    public ResponseEntity<List<GameResponse>> searchByDate(@RequestParam(name="startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+    public ResponseEntity<?> searchByDate(@RequestParam(name="startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
                                                          @RequestParam(name="endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
         List<GameResponse> games = leagueService.findByDate(startDate, endDate);
         return new ResponseEntity<>(games, HttpStatus.OK);
@@ -32,14 +32,14 @@ public class LeagueController {
 
     //기업명(팀명)으로 경기 조회
     @GetMapping("/clubgames")
-    public ResponseEntity<List<GameResponse>> searchBySponsorName(@RequestParam(name="sponsorName") String sponsorName) {
+    public ResponseEntity<?> searchBySponsorName(@RequestParam(name="sponsorName") String sponsorName) {
         List<GameResponse> games = leagueService.findBySponsorName(sponsorName);
         return new ResponseEntity<>(games, HttpStatus.OK);
     }
 
     //날짜와 팀명으로 경기 조회
     @GetMapping("/clubgame")
-    public ResponseEntity<List<GameResponse>> searchByDateAndSponsorName(@RequestParam(name="date") Date date,
+    public ResponseEntity<?> searchByDateAndSponsorName(@RequestParam(name="date") Date date,
             @RequestParam(name="sponsorName") String sponsorName) {
         List<GameResponse> games = leagueService.findBySponsorNameAndDate(date, sponsorName);
         return new ResponseEntity<>(games, HttpStatus.OK);
@@ -47,7 +47,7 @@ public class LeagueController {
 
     //순위에 따라 팀 정렬하여 조회
     @GetMapping("/clubs")
-    public ResponseEntity<List<ClubResponse>> sortByRanking() {
+    public ResponseEntity<?> sortByRanking() {
         List<ClubResponse> clubs = leagueService.sortByRanking();
         return new ResponseEntity<>(clubs, HttpStatus.OK);
     }

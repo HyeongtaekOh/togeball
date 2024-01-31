@@ -8,8 +8,8 @@ import com.ssafy.togeball.domain.league.repository.ClubRepository;
 import com.ssafy.togeball.domain.league.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +20,7 @@ public class LeagueService {
     private final ClubRepository clubRepository;
     private final GameRepository gameRepository;
 
+    @Transactional(readOnly = true)
     public List<GameResponse> findBySponsorName(String sponsorName) {
         List<Game> games = gameRepository.findBySponsorName(sponsorName);
         return games.stream()
@@ -27,6 +28,7 @@ public class LeagueService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<GameResponse> findByDate(Date startDate, Date endDate) {
         List<Game> games = gameRepository.findByDate(startDate, endDate);
         return games.stream()
@@ -34,6 +36,7 @@ public class LeagueService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<GameResponse> findBySponsorNameAndDate(Date date, String sponsorName) {
         List<Game> games = gameRepository.findBySponsorNameAndDate(date, sponsorName);
         return games.stream()
@@ -41,6 +44,7 @@ public class LeagueService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<ClubResponse> sortByRanking() {
         List<Club> clubs = clubRepository.findAllByOrderByRankingAsc();
         return clubs.stream()
