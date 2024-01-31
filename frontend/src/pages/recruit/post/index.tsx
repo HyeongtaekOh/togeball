@@ -43,12 +43,12 @@ const ModalBackground = styled.div`
     z-index: 400;
 `
 const Modal = styled.div`
-    width: 900px;
+    width: 1100px;
     height: 36 0px;
     background-color: #FFF;
     position: fixed;
     top: 25%;
-    left: 20%;
+    left: 15%;
     border: 1px solid lightgray;    
     border-radius: 20px;
 `

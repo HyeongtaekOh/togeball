@@ -43,11 +43,11 @@ export const WeekCalender = () => {
       day = addDays( day, 1 )
     }
     const movePrevWeek = () =>{
-        setCurrentMonth( subDays( currentMonth, 7) )
+        setCurrentMonth(subDays(currentMonth, 7))
       }
     
       const moveNextWeek = () => {
-        setCurrentMonth( addDays( currentMonth, 7) )
+        setCurrentMonth(addDays(currentMonth, 7))
       }
 
 
