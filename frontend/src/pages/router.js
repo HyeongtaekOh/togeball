@@ -17,6 +17,8 @@ export const routes = [
     { path: 'mypage'},
     { path: 'matching' },
 
+    { path: 'chat', dynamicPath: 'chat/:chatroomId' },
+
 ]
 
 const lazyModules = routes.map( ( { path, dynamicPath } ) => useRouter( path, dynamicPath ) )
