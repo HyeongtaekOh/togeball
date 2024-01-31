@@ -4,14 +4,15 @@ import com.ssafy.togeball.domain.post.dto.PostRequest;
 import com.ssafy.togeball.domain.post.dto.PostResponse;
 import com.ssafy.togeball.domain.post.entity.Post;
 import com.ssafy.togeball.domain.post.repository.PostRepository;
+import com.ssafy.togeball.domain.user.entity.User;
+import com.ssafy.togeball.domain.user.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +20,8 @@ import java.util.Optional;
 public class PostService {
 
     private final PostRepository postRepository;
+
+    private final UserRepository userRepository;
 
     @Transactional
     public Page<PostResponse> showAllPosts(Pageable pageable) {
@@ -29,13 +32,14 @@ public class PostService {
     @Transactional
     public PostResponse showPost(int postId) {
         Optional<Post> post = postRepository.findById(postId);
-        if (post.isPresent()) return PostResponse.of(post.get());
-        else return null;
+        return PostResponse.of(post.get());
     }
 
+    //TODO: 익셉션 어떡하죠
     @Transactional
     public int writePost(PostRequest postRequest) {
-        Post post = PostRequest.toEntity(postRequest);
+        User user = userRepository.findById(postRequest.getUserId()).orElseThrow(EntityNotFoundException::new);
+        Post post = postRequest.toEntity(user);
         Post savedPost = postRepository.save(post);
         return savedPost.getId();
     }
