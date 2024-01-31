@@ -240,7 +240,7 @@ class TagServiceTest {
                         .user(User.builder().build())
                         .tag(Tag.builder().build())
                         .build())
-                .collect(Collectors.toList());
+                .toList();
     }
 
     List<MatchingTag> generateMatchingTags() {
@@ -249,7 +249,7 @@ class TagServiceTest {
                         .matching(Matching.builder().build())
                         .tag(Tag.builder().build())
                         .build())
-                .collect(Collectors.toList());
+                .toList();
     }
 
     List<RecruitTag> generateRecruitTags() {
@@ -258,6 +258,6 @@ class TagServiceTest {
                         .recruitChatroom(RecruitChatroom.builder().build())
                         .tag(Tag.builder().build())
                         .build())
-                .collect(Collectors.toList());
+                .toList();
     }
 }
