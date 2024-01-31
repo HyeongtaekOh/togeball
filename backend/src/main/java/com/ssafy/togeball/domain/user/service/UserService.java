@@ -19,7 +19,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final AuthService authService;
 
-    public void signUp(UserSignUpRequest userSignUpRequest) throws Exception {
+    public Integer signUp(UserSignUpRequest userSignUpRequest) {
 
         // TODO : 예외 재설정 필요
         if (userRepository.findByEmail(userSignUpRequest.getEmail()).isPresent()) {
@@ -40,5 +40,11 @@ public class UserService {
 
         User saved = userRepository.save(user);
         authService.saveAuth(saved);
+
+        return saved.getId();
+    }
+
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
     }
 }

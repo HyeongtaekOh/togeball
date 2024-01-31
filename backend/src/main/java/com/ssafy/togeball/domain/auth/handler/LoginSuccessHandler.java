@@ -1,7 +1,9 @@
 package com.ssafy.togeball.domain.auth.handler;
 
 import com.ssafy.togeball.domain.auth.repository.AuthRepository;
+import com.ssafy.togeball.domain.auth.service.AuthService;
 import com.ssafy.togeball.domain.security.jwt.JwtService;
+import com.ssafy.togeball.domain.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +17,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtService jwtService;
-    private final AuthRepository authRepository;
+    private final AuthService authService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -27,11 +29,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         jwtService.sendAccessToken(response, accessToken);
         jwtService.sendRefreshToken(response, refreshToken);
 
-        authRepository.findByEmail(email)
-                        .ifPresent(auth ->{
-                            auth.setRefreshToken(refreshToken);
-                            authRepository.saveAndFlush(auth);
-        });
+        authService.updateRefreshToken(email, refreshToken);
     }
 
     private String extractUsername(Authentication authentication) {
