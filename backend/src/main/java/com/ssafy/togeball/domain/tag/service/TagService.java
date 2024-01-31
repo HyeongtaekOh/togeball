@@ -54,7 +54,7 @@ public class TagService {
                         .matching(matching)
                         .tag(tag)
                         .build())
-                .collect(Collectors.toList());
+                        .toList();
 
         matchingTagRepository.saveAll(matchingTags);
     }
