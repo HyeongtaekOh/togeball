@@ -43,11 +43,11 @@ export const WeekCalender = () => {
       day = addDays( day, 1 )
     }
     const movePrevWeek = () =>{
-        setCurrentMonth(subDays(currentMonth, 7))
+        setCurrentMonth( subDays( currentMonth, 7 ))
       }
     
       const moveNextWeek = () => {
-        setCurrentMonth(addDays(currentMonth, 7))
+        setCurrentMonth( addDays( currentMonth, 7 ))
       }
 
 
@@ -56,7 +56,7 @@ export const WeekCalender = () => {
         <CalenderWrapper>
             <CalenderHeaderWrapper>
                 <LeftIcon size= { 20 } onClick={ movePrevWeek }/>
-                <Title>{ format( currentMonth, 'yyyy' )}년 { format( currentMonth, 'M') }월 { weeksPassed }주</Title>
+                <Title>{ format( currentMonth, 'yyyy' )}년 { format( currentMonth, 'M' ) }월 { weeksPassed }주</Title>
                 <RightIcon size= { 20 } onClick={ moveNextWeek }/>
             </CalenderHeaderWrapper>
             <CalenderBodyWrapper>

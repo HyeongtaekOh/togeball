@@ -1,3 +1,4 @@
+import { GameType }  from 'src/types'
 import { format } from 'date-fns'
 import { styled, css } from 'styled-components'
 
@@ -25,7 +26,7 @@ const DayWrapper = styled.div<{ index: number }>`
   }
 `
 
-const ShowGames = styled.div`
+const ShowGamesWrapper = styled.div`
   display: flex;
   justify-content: center;
   gap: 2px;
@@ -46,30 +47,22 @@ export const Day = (props: DayProps) =>{
 
     return(
         <DayWrapper index={ index }>
-            { format(day, 'd')}
+            { format(day, 'd') }
             { games.map((game, index) => {
                 return(
-                    <ShowGames onClick={ selectMatch }>
+                    <ShowGamesWrapper onClick={ selectMatch }>
                         { game.homeClubName } VS { game.awayClubName }
-                    </ShowGames>
+                    </ShowGamesWrapper>
                 )
             })}
         </DayWrapper>
     )
 }
 
-type Game = {
-        gameId : number,
-        chatroomId : number,
-        datetime : string,
-        homeClubName : string,
-        awayClubName : string,
-        stadiumName : string
-}
 
 type DayProps = {
     children?: React.ReactNode
     index?: number,
     day?: string,
-    gamelist?: Game[]
+    gamelist?: GameType[]
 }
