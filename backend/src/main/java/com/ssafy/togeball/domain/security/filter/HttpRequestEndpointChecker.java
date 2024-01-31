@@ -2,11 +2,13 @@ package com.ssafy.togeball.domain.security.filter;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.HandlerExecutionChain;
 import org.springframework.web.servlet.HandlerMapping;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class HttpRequestEndpointChecker {
@@ -16,7 +18,7 @@ public class HttpRequestEndpointChecker {
     public boolean isEndpointExist(HttpServletRequest request) {
 
         if (servlet.getHandlerMappings() == null) return false;
-        System.out.println(servlet.getHandlerMappings());
+        log.info("servlet.getHandlerMappings : {}", servlet.getHandlerMappings());
 
         for (HandlerMapping handlerMapping : servlet.getHandlerMappings()) {
             try {

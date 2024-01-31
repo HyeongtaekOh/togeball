@@ -21,12 +21,17 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/signup")
+    @PostMapping("/")
     public ResponseEntity<?> signUp(@RequestBody UserSignUpRequest userSignUpRequest) throws Exception {
         try {
             Integer userId = userService.signUp(userSignUpRequest);
-            return ResponseEntity.ok().body(Map.of("id", userId));
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{userId}")
+                    .buildAndExpand(userId)
+                    .toUri();
+            return ResponseEntity.created(location).body(Map.of("id", userId));
         } catch (RuntimeException e) {
+            // TODO : Exception 처리
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }

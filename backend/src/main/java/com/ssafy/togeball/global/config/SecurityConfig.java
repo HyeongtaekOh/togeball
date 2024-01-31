@@ -15,6 +15,7 @@ import com.ssafy.togeball.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -52,7 +53,7 @@ public class SecurityConfig {
                  */
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/oauth2/**", "/h2-console/**", "/error").permitAll()
-                        .requestMatchers("/api/auth/login", "/api/auth/reissue", "/api/users/signup").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/reissue", "/api/users/").permitAll()
                         .requestMatchers("/api/league/**").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(exceptionHandling -> exceptionHandling
