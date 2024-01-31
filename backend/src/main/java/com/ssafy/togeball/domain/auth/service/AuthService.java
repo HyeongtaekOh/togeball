@@ -72,8 +72,10 @@ public class AuthService implements UserDetailsService {
     }
 
     public void logout(HttpServletRequest request) {
-        String refreshToken = jwtService.extractRefreshToken(request).orElseThrow(EntityNotFoundException::new);
-        Auth auth = authRepository.findByRefreshToken(refreshToken).orElseThrow(EntityNotFoundException::new);
+        // TODO : 예외 재설정 필요
+        String accessToken = jwtService.extractAccessToken(request).orElseThrow(EntityNotFoundException::new);
+        String email = jwtService.extractEmail(accessToken).orElseThrow(EntityNotFoundException::new);
+        Auth auth = authRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
         auth.setRefreshToken(null);
         authRepository.save(auth);
     }
