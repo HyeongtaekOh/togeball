@@ -37,6 +37,14 @@ public class AuthService implements UserDetailsService {
         authRepository.save(auth);
     }
 
+    public void updateRefreshToken(String email, String refreshToken) {
+        authRepository.findByEmail(email)
+                .ifPresent(auth -> {
+                    auth.setRefreshToken(refreshToken);
+                    authRepository.saveAndFlush(auth);
+                });
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email)
