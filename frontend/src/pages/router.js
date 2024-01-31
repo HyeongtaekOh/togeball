@@ -14,7 +14,8 @@ export const routes = [
     
     { path: 'calender' },
     { path: 'calender/week'},
-    { path: 'mypage'}
+    { path: 'mypage'},
+    { path: 'matching' },
 
 ]
 
