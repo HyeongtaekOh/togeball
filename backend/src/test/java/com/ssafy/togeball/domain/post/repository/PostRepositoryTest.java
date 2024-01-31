@@ -92,40 +92,4 @@ public class PostRepositoryTest {
         assertEquals("메뉴 추천 부탁요", saved.getContent());
         assertEquals(now, saved.getRegdate().toLocalDate());
     }
-
-//    @Test
-//    void findByUserIdTest() {
-//
-//        dataInit();
-//        List<Post> posts = postRepository.findByUserId(user1.getId());
-//        assertEquals(1, posts.size());
-//    }
-//
-//    @Test
-//    void findByUserNicknameTest() {
-//
-//        dataInit();
-//        List<Post> posts = postRepository.findByUserNicknameContaining("유");
-//        assertEquals(1, posts.size());
-//    }
-//
-//    @Test
-//    void findByTitleLikeTest() {
-//
-//        dataInit();
-//        List<Post> ykPosts = postRepository.findByTitleContaining("유경");
-//        assertEquals(1, ykPosts.size());
-//        List<Post> allPosts = postRepository.findByTitleContaining("제목");
-//        assertEquals(2, allPosts.size());
-//    }
-//
-//    @Test
-//    void findByContentLikeTest() {
-//
-//        dataInit();
-//        List<Post> htPosts = postRepository.findByContentContaining("형택");
-//        assertEquals(1, htPosts.size());
-//        List<Post> allPosts = postRepository.findByContentContaining("내용");
-//        assertEquals(2, allPosts.size());
-//    }
 }
