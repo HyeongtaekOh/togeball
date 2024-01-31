@@ -1,6 +1,7 @@
 import { Button, InputBox, Select, MainLayout, HomeLayout, Title } from 'src/components';
 import { TagsInput } from '../components';
-import { DateList, DayList, WeekCalender } from '../components'
+import useStore from '../store'
+import { WeekCalendar } from '../components'
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { styled } from 'styled-components'
@@ -57,6 +58,8 @@ const RecruitPost = () => {
     const [inputCount, setInputCount] = useState(0);
     const [isModalOpened, setIsModalOpened] = useState(false);
 
+    const { match } = useStore()
+
     const onInputHandler = (e) => {
         setInputCount(
             e.target.value.replace(/<br\s*V?>/gm, '\n').length
@@ -83,7 +86,7 @@ const RecruitPost = () => {
         }
       };
         return createPortal(<ModalBackground onClick={ handleBackgroundClick }>
-            <Modal>{children}</Modal>
+            <Modal>{ children }</Modal>
           </ModalBackground>,
           el);
       };
@@ -128,10 +131,12 @@ const RecruitPost = () => {
                 <HomeLayout>
                     <Title style={{ marginTop: '20px', marginLeft: '20px' }}>제목(최대 60자)</Title>
                     <InputBox height='20px' width='100%'/>
-                    <MatchBtn onClick={ openModal }>경기를 선택하세요</MatchBtn>
+                    <MatchBtn onClick={ openModal }>
+                    { match ? match : '경기를 선택하세요' }
+                    </MatchBtn>
                     { isModalOpened && createPortal(
                         <ModalPortal onClose={ closeModal }>
-                            <Modal><WeekCalender/></Modal>
+                            <Modal><WeekCalendar/></Modal>
                         </ModalPortal>,
                         document.body,
                     )}

@@ -2,6 +2,6 @@ import { TagsInput } from './TagsInput'
 import { DateList } from './DateList'
 import { DayList } from './DayList'
 import { Day } from './Day'
-import { WeekCalender } from './WeekCalender'
+import { WeekCalendar } from './WeekCalendar'
 
-export { TagsInput, DateList, DayList, Day, WeekCalender }
+export { TagsInput, DateList, DayList, Day, WeekCalendar }

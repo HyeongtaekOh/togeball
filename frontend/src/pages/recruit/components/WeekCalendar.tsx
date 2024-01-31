@@ -1,11 +1,11 @@
 import useDate from 'src/util/date'
 import { LeftIcon, RightIcon, Title } from "src/components";
-import { DateList, DayList } from '../components'
+import { DateList, DayList } from '.'
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { addDays, addMonths, format, subDays, subMonths } from "date-fns";
 
-const CalenderWrapper = styled.div`
+const CalendarWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   margin-top: 20px  ;
@@ -16,13 +16,13 @@ const CalenderWrapper = styled.div`
   flex-direction: column;
 `
 
-const CalenderHeaderWrapper = styled.div`
+const CalendarHeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
 `
 
-const CalenderBodyWrapper = styled.div`
+const CalendarBodyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 95%;
@@ -30,7 +30,7 @@ const CalenderBodyWrapper = styled.div`
   gap: 30px;
 `
 
-export const WeekCalender = () => {
+export const WeekCalendar = () => {
 
     const { currentMonth, setCurrentMonth, calculateDateRange } = useDate();
     const { weeksPassed, thisStartDate, thisEndDate } = calculateDateRange();
@@ -53,17 +53,17 @@ export const WeekCalender = () => {
 
     return (
       <>
-        <CalenderWrapper>
-            <CalenderHeaderWrapper>
+        <CalendarWrapper>
+            <CalendarHeaderWrapper>
                 <LeftIcon size= { 20 } onClick={ movePrevWeek }/>
                 <Title>{ format( currentMonth, 'yyyy' )}년 { format( currentMonth, 'M' ) }월 { weeksPassed }주</Title>
                 <RightIcon size= { 20 } onClick={ moveNextWeek }/>
-            </CalenderHeaderWrapper>
-            <CalenderBodyWrapper>
+            </CalendarHeaderWrapper>
+            <CalendarBodyWrapper>
             <DateList/>
             <DayList list={ days }/>
-            </CalenderBodyWrapper>
-        </CalenderWrapper>
+            </CalendarBodyWrapper>
+        </CalendarWrapper>
       </>
     )
 }
