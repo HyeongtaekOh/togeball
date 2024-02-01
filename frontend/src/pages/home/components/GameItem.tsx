@@ -26,7 +26,7 @@ const GameItem = ( props : GameItemProp ) => {
   const { game, onClick } = props;
 
   const { 
-    gameId, chatroomId, datetime, 
+    datetime, 
     homeClubName, awayClubName, stadiumName } = game
 
   return(

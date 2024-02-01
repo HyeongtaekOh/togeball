@@ -43,7 +43,9 @@ const TodayGameCard = ( props : GameCardProps ) =>{
   return(
     <GameCard>
       <LeftIcon onClick={ onClickLeft }/>
-          <GameItem game = { curGame } onClick= {() => navigator( `/select/${ curGame?.chatroomId }` )}/>
+          <GameItem game = { curGame } 
+            // onClick= {() => navigator( `/select/${ curGame?.chatroomId }` )}
+          />
       <RightIcon onClick={ onClickRight }/>
     </GameCard>
   )

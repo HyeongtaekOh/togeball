@@ -3,6 +3,7 @@ import { HomeCard, TodayGameCard, RankCard } from './components'
 import { useState } from 'react'
 import { GameType, ClubType } from '@/types'
 import styled from 'styled-components'
+import { getAxios } from 'src/api/util'
 
 const MainComponentWrapper = styled.div`
   display : flex;
@@ -46,21 +47,24 @@ const Home = () => {
 
   const [ gameList, setGameList ] = useState<GameType[]>([
     {
-      gameId: 0,
-      chatroomId: 0,
+      id: 0,
+      // chatroomId: 0,
       datetime: '20240101',
       homeClubName: 'lg',
       awayClubName: 'kt',
       stadiumName: '잠실',
     },{
-      gameId: 0,
-      chatroomId: 0,
+      id: 1,
+      // chatroomId: 0,
       datetime: '20240101',
       homeClubName: 'a',
       awayClubName: 'b',
       stadiumName: '잠실',
     }
   ])
+
+  const game 
+    = getAxios('/api/league/games',{ startDate: '2024-03-03', endDate: '2024-03-30'})
 
   const [ clubList, setClubList ] = useState<ClubType[]>([
     {
