@@ -14,7 +14,6 @@ public class UserRequest {
 
     private Integer id;
     private String email;
-    private String password;
     private String nickname;
     private Gender gender;
     private LocalDateTime birthdate;
@@ -24,7 +23,6 @@ public class UserRequest {
     public User toEntity() {
         return User.builder()
                 .email(email)
-                .password(password)
                 .nickname(nickname)
                 .gender(gender)
                 .birthdate(birthdate)

@@ -10,6 +10,7 @@ import com.ssafy.togeball.domain.user.entity.User;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class TagService {
 
@@ -66,6 +68,7 @@ public class TagService {
         Integer chatroomId = recruitChatroom.getId();
 
         recruitTagRepository.deleteByRecruitChatroomId(chatroomId);
+        recruitTagRepository.flush();
 
         // 없는 태그일 경우, 추가
         newTags.forEach(newTag -> {
@@ -81,6 +84,7 @@ public class TagService {
     @Transactional
     public void updateUserTags(User user, Set<Integer> tagIds) {
         userTagRepository.deleteByUserId(user.getId());
+        userTagRepository.flush();
 
         List<Tag> tags = tagRepository.findAllById(tagIds);
         List<UserTag> userTags = tags.stream()

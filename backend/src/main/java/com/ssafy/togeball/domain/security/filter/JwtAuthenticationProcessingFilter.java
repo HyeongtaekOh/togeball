@@ -2,6 +2,7 @@ package com.ssafy.togeball.domain.security.filter;
 
 import com.ssafy.togeball.domain.auth.entity.Auth;
 import com.ssafy.togeball.domain.auth.repository.AuthRepository;
+import com.ssafy.togeball.domain.auth.service.AuthService;
 import com.ssafy.togeball.domain.security.exception.JwtAuthenticationException;
 import com.ssafy.togeball.domain.security.jwt.JwtService;
 import com.ssafy.togeball.domain.user.entity.User;
@@ -35,6 +36,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserService userService;
+    private final AuthService authService;
 
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
@@ -49,10 +51,12 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
             if (accessToken != null) {
                 User user = userService.findUserByEmail(accessToken);
-                if (user != null) {
-                    saveAuthentication(user);
+                Auth auth = authService.findAuthByEmail(accessToken);
+
+                if (user != null && auth != null) {
+                    saveAuthentication(user, auth);
                 } else {
-                    log.warn("User not found for email in access token in request to {}", request.getRequestURI());
+                    log.warn("User or Auth not found for email in access token in request to {}", request.getRequestURI());
                 }
             } else {
                 log.warn("Invalid or missing access token in request to {}", request.getRequestURI());
@@ -62,9 +66,9 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    public void saveAuthentication(User myUser) {
+    public void saveAuthentication(User myUser, Auth auth) {
 
-        String password = myUser.getPassword();
+        String password = auth.getPassword();
         if (password == null) {
             password = PasswordUtil.generateRandomPassword();
         }

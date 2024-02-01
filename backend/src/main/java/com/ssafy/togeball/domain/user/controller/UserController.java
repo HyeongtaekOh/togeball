@@ -1,6 +1,7 @@
 package com.ssafy.togeball.domain.user.controller;
 
 import com.ssafy.togeball.domain.auth.dto.UserSignUpRequest;
+import com.ssafy.togeball.domain.tag.dto.TagIdsRequest;
 import com.ssafy.togeball.domain.user.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/users")
@@ -21,7 +23,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<?> signUp(@RequestBody UserSignUpRequest userSignUpRequest) throws Exception {
         try {
             Integer userId = userService.signUp(userSignUpRequest);
@@ -36,8 +38,22 @@ public class UserController {
         }
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<?> jwtTest() {
-        return ResponseEntity.ok().body("jwt test 성공");
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> findUserById(@PathVariable(name = "userId") Integer userId) {
+        try {
+            return ResponseEntity.ok(userService.findUserById(userId));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/{userId}/tags")
+    public ResponseEntity<?> updateUserTags(@PathVariable(name = "userId") Integer userId, @RequestBody TagIdsRequest tagIdsRequest) {
+        try {
+            userService.updateUserTags(userId, tagIdsRequest.getTagIds());
+            return ResponseEntity.ok().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
