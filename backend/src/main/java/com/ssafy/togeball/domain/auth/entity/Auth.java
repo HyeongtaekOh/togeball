@@ -20,6 +20,9 @@ public class Auth {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private String password;
+
     @Enumerated(EnumType.STRING)
     private SocialType socialType; // KAKAO, GOOGLE
 
@@ -29,9 +32,10 @@ public class Auth {
     private String refreshToken;
 
     @Builder
-    public Auth(Integer userId, String email, String refreshToken, SocialType socialType, String socialId) {
+    public Auth(Integer userId, String email, String password, String refreshToken, SocialType socialType, String socialId) {
         this.userId = userId;
         this.email = email;
+        this.password = password;
         this.refreshToken = refreshToken;
         this.socialType = socialType;
         this.socialId = socialId;

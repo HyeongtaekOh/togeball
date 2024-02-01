@@ -53,7 +53,8 @@ public class SecurityConfig {
                  */
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/oauth2/**", "/h2-console/**", "/error").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/reissue", "/api/users/").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/reissue", "/api/users").permitAll()
+                        .requestMatchers("/api/users/**").permitAll() // 개발용
                         .requestMatchers("/api/league/**").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(exceptionHandling -> exceptionHandling
@@ -98,6 +99,6 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthenticationProcessingFilter jwtAuthenticationProcessingFilter() {
-        return new JwtAuthenticationProcessingFilter(jwtService, userService);
+        return new JwtAuthenticationProcessingFilter(jwtService, userService, authService);
     }
 }

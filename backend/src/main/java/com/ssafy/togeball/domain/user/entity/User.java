@@ -28,9 +28,6 @@ public class User extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private String password;
-
     @Column(nullable = false, unique = true)
     private String nickname;
 
@@ -64,10 +61,6 @@ public class User extends BaseEntity {
         this.profileImage = profileImage;
     }
 
-    public void changePassword(String password) {
-        this.password = password;
-    }
-
     public void changeNickname(String nickname) {
         this.nickname = nickname;
     }
@@ -79,9 +72,8 @@ public class User extends BaseEntity {
     }
 
     @Builder
-    public User(String email, String password, String nickname, Gender gender, LocalDateTime birthdate, String phone, String profileImage, Club club, Role role) {
+    public User(String email, String nickname, Gender gender, LocalDateTime birthdate, String phone, String profileImage, Club club, Role role) {
         this.email = email;
-        this.password = password;
         this.nickname = nickname;
         this.birthdate = birthdate;
         this.gender = gender;

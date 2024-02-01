@@ -17,7 +17,6 @@ public class UserResponse {
 
     private Integer id;
     private String email;
-    private String password;
     private String nickname;
     private Gender gender;
     private LocalDateTime birthdate;
@@ -33,7 +32,6 @@ public class UserResponse {
         return UserResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
-                .password(user.getPassword())
                 .nickname(user.getNickname())
                 .gender(user.getGender())
                 .birthdate(user.getBirthdate())

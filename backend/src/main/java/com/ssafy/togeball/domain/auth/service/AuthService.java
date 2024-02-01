@@ -28,13 +28,21 @@ public class AuthService implements UserDetailsService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
 
-    public void saveAuth(User user) {
+    public void createAuth(Integer userId, String password) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 유저가 존재하지 않습니다."));
+
         Auth auth = Auth.builder()
                 .userId(user.getId())
                 .email(user.getEmail())
+                .password(password)
                 .build();
 
         authRepository.save(auth);
+    }
+
+    public Auth findAuthByEmail(String email) {
+        return authRepository.findByEmail(email).orElse(null);
     }
 
     public void updateRefreshToken(String email, String refreshToken) {
@@ -50,9 +58,12 @@ public class AuthService implements UserDetailsService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("해당 이메일이 존재하지 않습니다."));
 
+        Auth auth = authRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("해당 이메일이 존재하지 않습니다."));
+
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())
-                .password(user.getPassword())
+                .password(auth.getPassword())
                 .roles(user.getRole().name())
                 .build();
     }
