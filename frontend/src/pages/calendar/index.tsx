@@ -1,10 +1,11 @@
-import { useNavigate } from 'react-router-dom'
 import { addDays, addMonths, format, subMonths } from 'date-fns'
 import { Button, HomeLayout, LeftIcon, MainLayout, RightIcon, Title } from 'src/components'
 import { DateList, DayList }  from './components/index'
+import useStore from './store'
 import useDate from 'src/util/date'
 import styled from 'styled-components'
 import { useState } from 'react'
+import WeekCalendar from './week'
 
 const CalendarWrapper = styled.div`
   box-sizing: border-box;
@@ -25,14 +26,14 @@ const CalendarHeaderWrapper = styled.div`
 
 const Calendar = () => {
 
-  const navigator = useNavigate()
+  const{ isVisible, setIsVisible } = useStore();
 
   const { currentMonth, setCurrentMonth, calculateDateRange } = useDate()
   const { startDate, endDate } = calculateDateRange()
 
   const days = []
-  
   let day = startDate
+
   while( day < endDate ){
     days.push( day )
     day = addDays( day, 1 )
@@ -47,7 +48,7 @@ const Calendar = () => {
   }
 
   const onMoveHandler = () => {
-    navigator( 'week' )
+    setIsVisible()
   }
 
   const [games, setGames] = useState([
@@ -134,22 +135,21 @@ const gameItem = games[0].games
   return(
     <MainLayout>
       <HomeLayout>
+        { isVisible ? (
         <CalendarWrapper>
           <CalendarHeaderWrapper>
             <LeftIcon size= {20} onClick={ movePrevMonth }/>
-                <Title>{ format( currentMonth, 'yyyy' )}년 { format( currentMonth, 'M' )}월</Title>
+            <Title>{ format( currentMonth, 'yyyy' )}년 { format( currentMonth, 'M' )}월</Title>
             <RightIcon size= {20} onClick={ moveNextMonth }/>
           </CalendarHeaderWrapper>
-          <Button 
-            type="parti" 
-            style={{ marginTop : '-10px', alignSelf: 'flex-end' }}
-            onClick={ onMoveHandler }
-          >
-            주별 보기
+          <Button type="parti" onClick={ onMoveHandler }
+            style={{ marginTop : '-10px', alignSelf: 'flex-end' }}>
+          주별 보기
           </Button>
           <DateList/>
           <DayList list = { days } games= { gameItem }/>
-        </CalendarWrapper>
+        </CalendarWrapper>)
+        :( <WeekCalendar/> )}
       </HomeLayout>
     </MainLayout>
   )

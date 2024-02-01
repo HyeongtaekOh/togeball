@@ -12,7 +12,7 @@ const WeekWrapper = styled.div`
 
 export const DayList = ( props ) => {
   
-    const { list, isOpen } = props
+    const { list } = props
   
     const cal = [];
     for(let i = 0; i < list.length; i++) {
