@@ -1,4 +1,4 @@
-import { format } from 'date-fns'
+import { Day } from '../components';
 import styled from 'styled-components'
 
 
@@ -32,7 +32,7 @@ const DayWrapper = styled.div<{ index: number }>`
 
 const DayList = ( props ) => {
   
-  const { list } = props
+  const { list, games } = props
 
   const cal = []
   for(let i = 0; i < list.length; i++) {
@@ -45,9 +45,8 @@ const DayList = ( props ) => {
       { cal.map(( day, index ) => (
           <WeekWrapper key={ index }>
             { day.map( ( day, index ) => (
-                  <DayWrapper key={ index } index= { index }>
-                    { format( day, 'd' ) }
-                  </DayWrapper>
+                  <Day day= { day } index={ index } key={ index } 
+                  gamelist= { games }/>
             ))}
           </WeekWrapper>
       ))}

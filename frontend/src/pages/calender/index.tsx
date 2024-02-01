@@ -4,6 +4,7 @@ import { Button, HomeLayout, LeftIcon, MainLayout, RightIcon, Title } from 'src/
 import { DateList, DayList }  from './components/index'
 import useDate from 'src/util/date'
 import styled from 'styled-components'
+import { useState } from 'react'
 
 const CalenderWrapper = styled.div`
   box-sizing: border-box;
@@ -48,6 +49,87 @@ const Calender = () => {
   const onMoveHandler = () => {
     navigator( 'week' )
   }
+
+  const [games, setGames] = useState([
+    {
+        games : [
+          { 
+            gameId : 30,
+            chatroomId : 12,
+            datetime : '2024-02-01 18:00:00',
+            homeClubName : '기아',
+            awayClubName : '넥슨',
+            stadiumName : '!!스타디움'
+          },
+          { 
+            gameId : 31,
+            chatroomId : 1111,
+            datetime : '2024-02-01 18:00:00',
+            homeClubName : '기아',
+            awayClubName : '넥슨',
+            stadiumName : '!!스타디움'
+          },
+          { 
+            gameId : 32,
+            chatroomId : 1222,
+            datetime : '2024-02-01 18:00:00',
+            homeClubName : '기아',
+            awayClubName : '넥슨',
+            stadiumName : '!!스타디움'
+          },
+          { 
+            gameId : 33,
+            chatroomId : 1234,
+            datetime : '2024-03-28 18:00:00',
+            homeClubName : '기아',
+            awayClubName : '넥슨',
+            stadiumName : '!!스타디움'
+          },
+          { 
+            gameId : 34,
+            chatroomId : 1236,
+            datetime : '2024-03-28 18:00:00',
+            homeClubName : '삼성',
+            awayClubName : '롯데',
+            stadiumName : '부산사직구장'
+          },
+          { 
+            gameId : 35,
+            chatroomId : 1237,
+            datetime : '2024-03-28 18:00:00',
+            homeClubName : '삼성2',
+            awayClubName : '롯데2',
+            stadiumName : '부산사직구장'
+          },
+          { 
+            gameId : 36,
+            chatroomId : 1238,
+            datetime : '2024-03-28 18:00:00',
+            homeClubName : '삼성3',
+            awayClubName : '롯데3',
+            stadiumName : '부산사직구장'
+          },
+          { 
+            gameId : 37,
+            chatroomId : 1235,
+            datetime : '2024-03-28 18:00:00',
+            homeClubName : '삼성4',
+            awayClubName : '롯데4',
+            stadiumName : '부산사직구장'
+          },
+          { 
+            gameId : 40,
+            chatroomId : 1235,
+            datetime : '2024-03-29 18:00:00',
+            homeClubName : '삼성4',
+            awayClubName : '롯데4',
+            stadiumName : '부산사직구장'
+          }
+        ]
+    }
+])
+
+const gameItem = games[0].games
  
   return(
     <MainLayout>
@@ -66,7 +148,7 @@ const Calender = () => {
             주별 보기
           </Button>
           <DateList/>
-          <DayList list = { days }/>
+          <DayList list = { days } games= { gameItem }/>
         </CalenderWrapper>
       </HomeLayout>
     </MainLayout>
