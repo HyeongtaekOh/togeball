@@ -14,7 +14,7 @@ const ButttonWrapper = styled.button<{ size : number }>`
 
 const RightIcon = ( props: IconProps ) => {
 
-    const { size = 40, onClick } = props
+    const { size = 40, onClick, disabled= false } = props
 
     return(
         <ButttonWrapper size={ size } onClick={ onClick }>
@@ -28,4 +28,5 @@ export default RightIcon
 type IconProps = {
     size?: number,
     onClick?: () => void,
+    disabled?: boolean
 }
