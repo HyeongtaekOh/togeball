@@ -12,21 +12,24 @@ const PageWrapper = styled.div`
 
 const itemsPerPage = 5;
 
-const Pagination = ({ chats }) => {
-  const [ currentPage, setCurrentPage ] = useState( 1 );
+const Pagination = ( props ) => {
 
-  const totalPages = Math.ceil( chats.length / itemsPerPage );
+  const { chats } = props;
+
+  const [ currentPage, setCurrentPage ] = useState( 1 )
+
+  const totalPages = Math.ceil( chats.length / itemsPerPage )
 
   const handleClick = ( page ) => {
-    setCurrentPage( page );
+    setCurrentPage( page )
   };
 
   const handlePrevClick = () => {
-    setCurrentPage(( prevPage ) => Math.max( prevPage - 1, 1 ));
+    setCurrentPage(( prevPage ) => Math.max( prevPage - 1, 1 ))
   };
 
   const handleNextClick = () => {
-    setCurrentPage(( prevPage ) => Math.min( prevPage + 1, totalPages ));
+    setCurrentPage(( prevPage ) => Math.min( prevPage + 1, totalPages ))
   };
 
   const renderPagination = () => {
@@ -47,9 +50,9 @@ const Pagination = ({ chats }) => {
   };
 
   const renderItems = () => {
-    const startIndex = ( currentPage - 1 ) * itemsPerPage;
+    const startIndex = ( currentPage - 1 ) * itemsPerPage
     const endIndex = startIndex + itemsPerPage;
-    return chats.slice(startIndex, endIndex).map((chat, index) => (
+    return chats.slice( startIndex, endIndex ).map(( chat, index ) => (
         <div key={ index }>
           { chat.chatrooms.map(( chatroom, roomIndex ) => (
             <ChatItem key = { chatroom } item= { chat }/>
