@@ -1,6 +1,6 @@
 import { format } from 'date-fns'
 import { GameType }  from 'src/types'
-import  styled from 'styled-components'
+import styled from 'styled-components'
 
 
 const DayWrapper = styled.div<{ index: number }>`
@@ -26,16 +26,15 @@ const ShowGamesWrapper = styled.div`
   `
 
 
-const Day = (props: DayProps) =>{
+const Day = ( props: DayProps ) =>{
 
     const { index, day, gamelist } = props
-    console.log(format(day, 'MM-dd'))
-    const games= gamelist.filter((game) => game.datetime.substring(5,10) === format(day, 'MM-dd'))
+    const games= gamelist.filter(( game ) => game.datetime.substring( 5, 10 ) === format( day, 'MM-dd' ))
     
     return(
         <DayWrapper index={ index }>
-            { format(day, 'd') }
-            { games.map((game) => {
+            { format( day, 'd' ) }
+            { games.map(( game ) => {
                 return(
                     <ShowGamesWrapper>
                         { game.homeClubName } VS { game.awayClubName }

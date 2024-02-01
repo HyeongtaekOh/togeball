@@ -78,7 +78,6 @@ export const DayList = ( props ) => {
   ])
   
   const gameItem = games[0].games
-  // console.log(gameItem)
   
     return(
       <>

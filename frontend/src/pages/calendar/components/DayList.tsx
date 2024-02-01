@@ -17,19 +17,6 @@ const WeekWrapper = styled.div`
   flex-direction: row;
 `
 
-const DayWrapper = styled.div<{ index: number }>`
-  display: flex;
-  box-sizing: border-box;
-  width: 15%;
-  height: 200px;
-  text-align: right;
-  border: 1px solid #DEDCEE;
-  padding: 10px;
-  border-radius:7px;
-  margin: 2px;
-  color: ${(props) => props.index === 0? 'red' : ( props.index === 6? 'blue': 'black')}
-`
-
 const DayList = ( props ) => {
   
   const { list, games } = props
@@ -37,14 +24,14 @@ const DayList = ( props ) => {
   const cal = []
   for(let i = 0; i < list.length; i++) {
       i % 7 === 0  && cal.push([])
-      cal[cal.length - 1].push( list[i] )
+      cal[ cal.length - 1 ].push( list[i] )
   }
   
   return(
     <DayListWrapper>
       { cal.map(( day, index ) => (
           <WeekWrapper key={ index }>
-            { day.map( ( day, index ) => (
+            { day.map(( day, index ) => (
                   <Day day= { day } index={ index } key={ index } 
                   gamelist= { games }/>
             ))}

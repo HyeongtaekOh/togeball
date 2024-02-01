@@ -186,7 +186,7 @@ const Home = () => {
                   title= '경기일정' 
                   type= 'sub'
                   color= '#DEDCEE'
-                  path='/calender'
+                  path='/calendar'
                 >
                   오늘 경기 외에 모든<br/> 
                   경기 일정을 확인해보세요.
