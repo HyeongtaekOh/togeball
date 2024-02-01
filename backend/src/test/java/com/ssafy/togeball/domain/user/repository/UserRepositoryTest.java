@@ -25,7 +25,6 @@ class UserRepositoryTest {
 
         User user1 = User.builder()
                 .email("aycho@ssafy.com")
-                .password("p1")
                 .nickname("아영")
                 .profileImage("profile.jpg")
                 .build();
@@ -34,7 +33,6 @@ class UserRepositoryTest {
 
         User user2 = User.builder()
                 .email("htoh@ssafy.com")
-                .password("p2")
                 .nickname("형택")
                 .profileImage("profile.jpg")
                 .build();
@@ -49,7 +47,6 @@ class UserRepositoryTest {
 
         User user = User.builder()
                 .email("email@gmail.com")
-                .password("password")
                 .nickname("nickname")
                 .profileImage("profile.jpg")
                 .build();
@@ -59,7 +56,6 @@ class UserRepositoryTest {
         assertNotNull(saved.getId());
 
         assertEquals("email@gmail.com", saved.getEmail());
-        assertEquals("password", saved.getPassword());
         assertEquals("nickname", saved.getNickname());
         assertEquals("profile.jpg", saved.getProfileImage());
         assertEquals(now, saved.getRegdate().toLocalDate());
@@ -73,7 +69,6 @@ class UserRepositoryTest {
 
         User user1 = User.builder()
                 .email(email)
-                .password("password")
                 .nickname("nickname")
                 .profileImage("profile.jpg")
                 .build();
@@ -82,7 +77,6 @@ class UserRepositoryTest {
 
         User user2 = User.builder()
                 .email(email)
-                .password("password")
                 .nickname("nickname2")
                 .profileImage("profile.jpg")
                 .build();
@@ -98,7 +92,6 @@ class UserRepositoryTest {
 
         User user1 = User.builder()
                 .email("email@gmail.com")
-                .password("password")
                 .nickname(nickname)
                 .profileImage("profile.jpg")
                 .build();
@@ -107,7 +100,6 @@ class UserRepositoryTest {
 
         User user2 = User.builder()
                 .email("email2@gmail.com")
-                .password("password")
                 .nickname(nickname)
                 .profileImage("profile.jpg")
                 .build();

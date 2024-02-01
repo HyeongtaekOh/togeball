@@ -13,7 +13,6 @@ public class PostTest {
         //Given
         User user = User.builder()
                 .email("aycho3030@gmail.com")
-                .password("1234")
                 .nickname("아영")
                 .gender(Gender.FEMALE)
                 .birthdate(LocalDateTime.of(1994,4,30,0,0,0))

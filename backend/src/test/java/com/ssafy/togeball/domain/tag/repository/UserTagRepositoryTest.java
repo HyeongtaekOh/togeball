@@ -105,7 +105,6 @@ class UserTagRepositoryTest {
 
         User user2 = User.builder()
                 .email("test2@gmail.com")
-                .password("password2")
                 .nickname("nickname2")
                 .build();
         userRepository.save(user2);
@@ -143,7 +142,6 @@ class UserTagRepositoryTest {
 
         User user2 = User.builder()
                 .email("test2@gmail.com")
-                .password("password2")
                 .nickname("nickname2")
                 .build();
         userRepository.save(user2);
@@ -162,7 +160,6 @@ class UserTagRepositoryTest {
 
         user = User.builder()
                 .email("test@gmail.com")
-                .password("password")
                 .nickname("nickname")
                 .build();
         userRepository.save(user);

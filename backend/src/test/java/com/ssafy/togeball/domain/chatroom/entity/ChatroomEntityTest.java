@@ -39,7 +39,6 @@ class ChatroomEntityTest {
     private void dataInit() {
         manager = User.builder()
                 .email("test@gmail.com")
-                .password("password")
                 .nickname("nickname")
                 .build();
         homeClub = Club.builder()
@@ -113,12 +112,10 @@ class ChatroomEntityTest {
         User user1 = User.builder()
                 .email("test2@test.com")
                 .nickname("nickname2")
-                .password("password")
                 .build();
         User user2 = User.builder()
                 .email("test3@test.com")
                 .nickname("nickname3")
-                .password("password")
                 .build();
 
         Tag tag1 = Tag.builder()
