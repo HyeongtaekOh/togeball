@@ -1,9 +1,10 @@
 import { HomeLayout, MainLayout, Button,Title } from 'src/components'
 import { HomeCard, TodayGameCard, RankCard } from './components'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { GameType, ClubType } from '@/types'
 import styled from 'styled-components'
 import { getAxios } from 'src/api/util'
+import { getTodayGames } from './api/getTodayGames'
 
 const MainComponentWrapper = styled.div`
   display : flex;
@@ -45,26 +46,17 @@ const GameWrapper = styled.div`
 
 const Home = () => {
 
-  const [ gameList, setGameList ] = useState<GameType[]>([
-    {
-      id: 0,
-      // chatroomId: 0,
-      datetime: '20240101',
-      homeClubName: 'lg',
-      awayClubName: 'kt',
-      stadiumName: '잠실',
-    },{
-      id: 1,
-      // chatroomId: 0,
-      datetime: '20240101',
-      homeClubName: 'a',
-      awayClubName: 'b',
-      stadiumName: '잠실',
-    }
-  ])
+  const [ gameList, setGameList ] = useState<GameType[]>( null )
 
-  const game 
-    = getAxios('/api/league/games',{ startDate: '2024-03-03', endDate: '2024-03-30'})
+  useEffect(()=>{
+
+    const getGames = async() =>{
+      const game : GameType[] = await getTodayGames()
+      setGameList( game )
+    }
+    getGames()
+
+  },[])
 
   const [ clubList, setClubList ] = useState<ClubType[]>([
     {
@@ -131,9 +123,9 @@ const Home = () => {
               <td rowSpan={ 2 } colSpan={ 2 } style={{ width: '60%' }}>
                 <GameWrapper>
                   <Title color= '#746E6E' type= 'medium'>오늘의 경기</Title>
-                  <TodayGameCard gameList = { gameList }/>
+                    <TodayGameCard gameList = { gameList }/>
                   <Title color='#746E6E' type= 'medium'>현재 순위</Title>
-                  <RankCard clubList = { clubList }/>
+                    <RankCard clubList = { clubList }/>
                 </GameWrapper>
               </td>
               <td colSpan={ 2 }>

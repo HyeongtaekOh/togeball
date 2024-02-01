@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { GameType } from 'src/types'
-import { LeftIcon, RightIcon} from 'src/components'
+import { LeftIcon, RightIcon, Title} from 'src/components'
 import { GameItem } from './index'
-import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 const GameCard = styled.div`
@@ -23,13 +22,14 @@ const TodayGameCard = ( props : GameCardProps ) =>{
 
   const { gameList } =  props
 
-  const navigator = useNavigate();
+  console.log( gameList )
 
   const [ curIndex, setCurIndex ] = useState<number>(0)
-  const [ curGame, setCurGame ] = useState<GameType>( gameList[ curIndex ] )
+  const [ curGame, setCurGame ] = useState<GameType>( gameList && gameList[0] )
 
   const onClickRight = () => {
-    curIndex < gameList.length - 1 && setCurIndex(curIndex + 1)
+    curIndex < gameList.length - 1 && 
+    setCurIndex(curIndex + 1)
   }
 
   const onClickLeft = () => {
@@ -37,15 +37,18 @@ const TodayGameCard = ( props : GameCardProps ) =>{
   }
 
   useEffect(()=>{
-    setCurGame( gameList[ curIndex ] )
+    gameList && setCurGame( gameList[ curIndex ] )
   }, [ curIndex, gameList ] )
 
   return(
     <GameCard>
       <LeftIcon onClick={ onClickLeft }/>
-          <GameItem game = { curGame } 
-            // onClick= {() => navigator( `/select/${ curGame?.chatroomId }` )}
-          />
+      { gameList && gameList.length > 0 ? 
+         ( <GameItem game = { curGame } 
+          // onClick= {() => navigator( `/select/${ curGame?.chatroomId }` )}
+        /> ): 
+        ( <Title color= '#746E6E' type='medium' >오늘의 경기가 없습니다.</Title> )
+      }
       <RightIcon onClick={ onClickRight }/>
     </GameCard>
   )
