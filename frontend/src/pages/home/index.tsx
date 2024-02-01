@@ -1,8 +1,10 @@
 import { HomeLayout, MainLayout, Button,Title } from 'src/components'
 import { HomeCard, TodayGameCard, RankCard } from './components'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { GameType, ClubType } from '@/types'
 import styled from 'styled-components'
+import { getAxios } from 'src/api/util'
+import { getTodayGames } from './api/getTodayGames'
 
 const MainComponentWrapper = styled.div`
   display : flex;
@@ -44,23 +46,17 @@ const GameWrapper = styled.div`
 
 const Home = () => {
 
-  const [ gameList, setGameList ] = useState<GameType[]>([
-    {
-      gameId: 0,
-      chatroomId: 0,
-      datetime: '20240101',
-      homeClubName: 'lg',
-      awayClubName: 'kt',
-      stadiumName: '잠실',
-    },{
-      gameId: 0,
-      chatroomId: 0,
-      datetime: '20240101',
-      homeClubName: 'a',
-      awayClubName: 'b',
-      stadiumName: '잠실',
+  const [ gameList, setGameList ] = useState<GameType[]>( null )
+
+  useEffect(()=>{
+
+    const getGames = async() =>{
+      const game : GameType[] = await getTodayGames()
+      setGameList( game )
     }
-  ])
+    getGames()
+
+  },[])
 
   const [ clubList, setClubList ] = useState<ClubType[]>([
     {
@@ -127,9 +123,9 @@ const Home = () => {
               <td rowSpan={ 2 } colSpan={ 2 } style={{ width: '60%' }}>
                 <GameWrapper>
                   <Title color= '#746E6E' type= 'medium'>오늘의 경기</Title>
-                  <TodayGameCard gameList = { gameList }/>
+                    <TodayGameCard gameList = { gameList }/>
                   <Title color='#746E6E' type= 'medium'>현재 순위</Title>
-                  <RankCard clubList = { clubList }/>
+                    <RankCard clubList = { clubList }/>
                 </GameWrapper>
               </td>
               <td colSpan={ 2 }>
@@ -182,7 +178,7 @@ const Home = () => {
                   title= '경기일정' 
                   type= 'sub'
                   color= '#DEDCEE'
-                  path='/calender'
+                  path='/calendar'
                 >
                   오늘 경기 외에 모든<br/> 
                   경기 일정을 확인해보세요.

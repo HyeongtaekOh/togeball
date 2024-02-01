@@ -12,8 +12,8 @@ export const routes = [
     { path: 'todaygames' },
     { path: 'boards' },
     
-    { path: 'calender' },
-    { path: 'calender/week'},
+    { path: 'calendar' },
+    { path: 'calendar/week'},
     { path: 'mypage'},
     { path: 'matching' },
 
