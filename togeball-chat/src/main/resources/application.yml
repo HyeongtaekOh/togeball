@@ -9,7 +9,7 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/togeball_chat_2
+      uri: mongodb://127.0.0.1:27017/togeball_chat_2
   rabbitmq:
     host: localhost
     port: 4672
