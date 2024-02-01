@@ -1,7 +1,6 @@
 import useDate from 'src/util/date'
 import { LeftIcon, RightIcon, Title } from "src/components";
 import { DateList, DayList } from '.'
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { addDays, addMonths, format, subDays, subMonths } from "date-fns";
 
