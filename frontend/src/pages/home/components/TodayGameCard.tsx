@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { GameType } from 'src/types'
 import { LeftIcon, RightIcon, Title} from 'src/components'
 import { GameItem } from './index'
-import styled from 'styled-components'
-import { getTodayGames } from '../api/getTodayGames'
+import { getTodayGames } from '../api'
 import { useQuery } from 'react-query'
+import styled from 'styled-components'
 
 const GameCard = styled.div`
   box-sizing: border-box;
@@ -44,7 +44,7 @@ const TodayGameCard = () =>{
     <GameCard>
       <LeftIcon onClick={ onClickLeft }/>
       { isLoading ? (
-        <Title color="#746E6E" type="medium">
+        <Title color='#746E6E' type='medium'>
           로딩 중...
         </Title>
       ) : todayGames && todayGames.length > 0 ? (
@@ -53,7 +53,7 @@ const TodayGameCard = () =>{
           // onClick={() => navigator(`/select/${curGame?.chatroomId}`)}
         />
       ) : (
-        <Title color="#746E6E" type="medium">
+        <Title color='#746E6E' type='medium'>
           오늘의 경기가 없습니다.
         </Title>
       )}

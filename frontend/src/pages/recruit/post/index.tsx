@@ -16,24 +16,16 @@ const MatchBtn = styled.button`
     font-size: 18px;
     cursor: pointer;
 `
-
 const Contents = styled.div`
     display: flex;
     gap: 30px;
 `
-
 const Input = styled.textarea<{ maxLength: string }>`
     height: 60px;
     width: 96%;
     border: 1px solid lightgray;
     border-radius: 20px;
     padding: 20px;
-`
-
-const Buttons = styled.div`
-    display: flex;
-    justify-content: right;
-    gap: 10px;
 `
 const ModalBackground = styled.div`
     position: fixed;
@@ -55,42 +47,41 @@ const Modal = styled.div`
 `
 
 const RecruitPost = () => {
-    const [inputCount, setInputCount] = useState(0);
+    const [inputCount, setInputCount] = useState(0)
     // const [isModalOpened, setIsModalOpened] = useState(false);
 
-    const { match, isModalOpened, setModal } = useStore()
+    const { match, isModalOpened, updateModal } = useStore()
 
     const onInputHandler = (e) => {
         setInputCount(
             e.target.value.replace(/<br\s*V?>/gm, '\n').length
-        );
-    };
+        )
+    }
 
     const html = document.querySelector('html');
 
     const openModal = () => {
-        setModal();
-        html?.classList.add('scroll-locked');
-    };
+        updateModal()
+        html?.classList.add('scroll-locked')
+    }
         
     const closeModal = () => {
-        setModal();
-        html?.classList.remove('scroll-locked');
-    };
+        updateModal();
+        html?.classList.remove('scroll-locked')
+    }
 
     const ModalPortal = ({ children, onClose  }) => {
-      const el = document.body
       const handleBackgroundClick = (e) => {
-        if (e.target === e.currentTarget) {
-          onClose();
-        }
-      };
-        return createPortal(<ModalBackground onClick={ handleBackgroundClick }>
-            <Modal>{ children }</Modal>
-          </ModalBackground>,
-          el);
-      };
+        (e.target === e.currentTarget) && onClose()
+      }
 
+      return createPortal(
+        <ModalBackground onClick={ handleBackgroundClick }>
+          <Modal>{ children }</Modal>
+        </ModalBackground>,
+        document.body
+      )
+    }
 
     const [teams, setTeams] = useState([
         { value: 'LG', name: 'LG' },
@@ -126,46 +117,48 @@ const RecruitPost = () => {
         { value: '10', name: '10' }
     ])
 
-        return (
-            <MainLayout title='직관 메이트 모집하기 '>  
-                <HomeLayout>
-                    <Title style={{ marginTop: '20px', marginLeft: '20px' }}>제목(최대 60자)</Title>
-                    <InputBox height='20px' width='100%'/>
-                    <MatchBtn onClick={ openModal }>
-                    { match ? match : '경기를 선택하세요' }
-                    </MatchBtn>
-                    { isModalOpened && createPortal(
-                        <ModalPortal onClose={ closeModal }>
-                            <Modal><WeekCalendar/></Modal>
-                        </ModalPortal>,
-                        document.body,
-                    )}
-                    <Contents>
-                        <Select dataSource={ teams } placeholder='응원하는 팀' height= '40px'></Select>
-                        <Select dataSource={ seats } placeholder='선호하는 좌석' height= '40px'></Select>
-                    </Contents>
-                    <Contents>
-                        <Title type='medium' style={{ marginTop: '6px' }}>인원</Title>
-                        <Select dataSource={ nums } placeholder='인원' width='120px' height='36px'></Select>
-                    </Contents>
-                    <Contents>
-                        <Title type='medium'>태그</Title><TagsInput />
-                    </Contents>
-                        <Title type='medium'>채팅방 소개</Title>
-                    <Input onChange={ onInputHandler } maxLength="300" />
-                    <p style={{ textAlign: 'right' }}>
-                        <span>{ inputCount }</span>
-                        <span>/300 자</span>
-                    </p>
-                    <Buttons>
-                        <Button type='parti' width='120px'>채팅방 만들기</Button>
-                        <Button type='reset' width='90px'>초기화</Button>
-                        <Button type='cancel' width='80px'>취소</Button>
-                    </Buttons>
-                </HomeLayout>
-            </MainLayout>
-        )
-    }
+    return (
+      <MainLayout title='직관 메이트 모집하기 '>  
+          <HomeLayout>
+            <Title style={{ marginTop: '20px', marginLeft: '20px' }}>제목(최대 60자)</Title>
+            <InputBox height='20px' width='100%'/>
+            <MatchBtn onClick={ openModal }>
+                { match ? match : '경기를 선택하세요' }
+            </MatchBtn>
+            { 
+                isModalOpened 
+                && createPortal(
+                  <ModalPortal onClose={ closeModal }>
+                    <Modal><WeekCalendar/></Modal>
+                  </ModalPortal>,
+                  document.body )
+            }
+            <Contents>
+                <Select dataSource={ teams } placeholder='응원하는 팀' height= '40px'></Select>
+                <Select dataSource={ seats } placeholder='선호하는 좌석' height= '40px'></Select>
+            </Contents>
+            <Contents>
+                <Title type='medium' style={{ marginTop: '6px' }}>인원</Title>
+                <Select dataSource={ nums } placeholder='인원' width='120px' height='36px'></Select>
+            </Contents>
+            <Contents>
+                <Title type='medium'>태그</Title><TagsInput />
+            </Contents>
+                <Title type='medium'>채팅방 소개</Title>
+            <Input onChange={ onInputHandler } maxLength="300" />
+            <p style={{ textAlign: 'right' }}>
+                <span>{ inputCount }</span>
+                <span>/300 자</span>
+            </p>
+            <div style={{ display:'flex', justifyContent: 'right', gap: '10px' }}>
+                <Button type='parti' width='120px'>채팅방 만들기</Button>
+                <Button type='reset' width='90px'>초기화</Button>
+                <Button type='cancel' width='80px'>취소</Button>
+            </div>
+          </HomeLayout>
+        </MainLayout>
+    )
+}
 
 
-    export default RecruitPost
+export default RecruitPost
