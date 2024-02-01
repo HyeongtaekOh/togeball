@@ -1,13 +1,13 @@
 import { create } from 'zustand'
 
 const useStore = create<Model>(( update ) => ({
-    isVisible: true,
-    setIsVisible: () => update(( state ) => ({ isVisible: !state.isVisible })),
+    isMonth: true,
+    setIsMonth: () => update(( state ) => ({ isMonth: !state.isMonth })),
 }));
 
 export interface Model{
-    isVisible : boolean
-    setIsVisible: () => void
+    isMonth : boolean
+    setIsMonth: () => void
 }
 
  

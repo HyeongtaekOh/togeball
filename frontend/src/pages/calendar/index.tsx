@@ -26,7 +26,7 @@ const CalendarHeaderWrapper = styled.div`
 
 const Calendar = () => {
 
-  const{ isVisible, setIsVisible } = useStore();
+  const{ isMonth, setIsMonth } = useStore();
 
   const { currentMonth, setCurrentMonth, calculateDateRange } = useDate()
   const { startDate, endDate } = calculateDateRange()
@@ -48,7 +48,7 @@ const Calendar = () => {
   }
 
   const onMoveHandler = () => {
-    setIsVisible()
+    setIsMonth()
   }
 
   const [games, setGames] = useState([
@@ -135,12 +135,12 @@ const gameItem = games[0].games
   return(
     <MainLayout>
       <HomeLayout>
-        { isVisible ? (
+        { isMonth ? (
         <CalendarWrapper>
           <CalendarHeaderWrapper>
-            <LeftIcon size= {20} onClick={ movePrevMonth }/>
+            <LeftIcon size= { 20 } onClick={ movePrevMonth }/>
             <Title>{ format( currentMonth, 'yyyy' )}년 { format( currentMonth, 'M' )}월</Title>
-            <RightIcon size= {20} onClick={ moveNextMonth }/>
+            <RightIcon size= { 20 } onClick={ moveNextMonth }/>
           </CalendarHeaderWrapper>
           <Button type="parti" onClick={ onMoveHandler }
             style={{ marginTop : '-10px', alignSelf: 'flex-end' }}>

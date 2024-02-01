@@ -35,7 +35,7 @@ const CalendarBodyWrapper = styled.div`
 
 const WeekCalendar = () => {
 
-  const{ setIsVisible } = useStore();
+  const{ setIsMonth } = useStore();
 
  
   const { currentMonth, setCurrentMonth, calculateDateRange } = useDate();
@@ -58,7 +58,7 @@ const WeekCalendar = () => {
   }
 
   const onMoveHandler = () => {
-    setIsVisible()
+    setIsMonth()
   }
 
   const [games, setGames ] = useState([
