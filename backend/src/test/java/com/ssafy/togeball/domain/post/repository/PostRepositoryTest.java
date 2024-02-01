@@ -36,7 +36,6 @@ public class PostRepositoryTest {
 
         user1 = User.builder()
                 .email("ykyang@ssafy.com")
-                .password("1004")
                 .nickname("유경")
                 .profileImage("ykprofile.png")
                 .build();
@@ -49,7 +48,6 @@ public class PostRepositoryTest {
         postRepository.save(post1);
         user2 = User.builder()
                 .email("htoh@ssafy.com")
-                .password("2008")
                 .nickname("형택")
                 .profileImage("htprofile.png")
                 .build();
@@ -68,7 +66,6 @@ public class PostRepositoryTest {
         LocalDate now = LocalDate.now();
         User user = User.builder()
                 .email("aycho3030@gmail.com")
-                .password("1234")
                 .nickname("아영")
                 .gender(Gender.FEMALE)
                 .birthdate(LocalDateTime.of(1994,4,30,0,0,0))

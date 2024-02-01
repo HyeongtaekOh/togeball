@@ -12,3 +12,12 @@ spring:
         show_sql: true
         use_sql_comments: true
     open-in-view: false
+
+jwt:
+  secretKey: eyJhbGciOiJIUzI1NiJ9eyJSb2xlIjoiQWRtaiwrdOoPcAKmUzNa1srrRfxZVGL
+  access:
+    expiration: 3600000 # 3600000 : 60(분) * 60(초) * 1000 -> 1 시간
+    header: Authorization
+  refresh:
+    expiration: 1209600000 # 2주
+    header: Authorization-refresh
