@@ -1,10 +1,7 @@
 package com.ssafy.togeball.domain.user.service;
 
-import com.ssafy.togeball.domain.auth.dto.UserSignUpRequest;
-import com.ssafy.togeball.domain.auth.entity.Auth;
+import com.ssafy.togeball.domain.user.dto.UserSignUpRequest;
 import com.ssafy.togeball.domain.auth.service.AuthService;
-import com.ssafy.togeball.domain.tag.entity.Tag;
-import com.ssafy.togeball.domain.tag.repository.TagRepository;
 import com.ssafy.togeball.domain.tag.service.TagService;
 import com.ssafy.togeball.domain.user.dto.UserResponse;
 import com.ssafy.togeball.domain.user.entity.Role;
@@ -16,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Set;
 
 @Service

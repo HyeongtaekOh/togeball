@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -115,7 +116,7 @@ class UserTagRepositoryTest {
                 .build();
         userTagRepository.save(userTag3);
 
-        List<UserTag> found = userTagRepository.findByUserId(user.getId());
+        Set<UserTag> found = userTagRepository.findByUserId(user.getId());
         assertEquals(2, found.size());
     }
 
@@ -152,7 +153,7 @@ class UserTagRepositoryTest {
                 .build();
         userTagRepository.save(userTag3);
 
-        List<UserTag> found = userTagRepository.findByTagId(tag.getId());
+        Set<UserTag> found = userTagRepository.findByTagId(tag.getId());
         assertEquals(2, found.size());
     }
 

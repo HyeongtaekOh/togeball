@@ -1,4 +1,4 @@
-package com.ssafy.togeball.domain.auth.dto;
+package com.ssafy.togeball.domain.user.dto;
 
 import lombok.Getter;
 
