@@ -9,8 +9,8 @@ services:
       RABBITMQ_DEFAULT_USER: "ssafy"
       RABBITMQ_DEFAULT_PASS: "ssafy"
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "4672:5672"
+      - "16672:15672"
       - "61613:61613"
     volumes:
       - ./etc/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
