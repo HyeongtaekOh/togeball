@@ -39,19 +39,20 @@ const ShowGamesWrapper = styled.div`
 export const Day = (props: DayProps) =>{
 
     const { index, day, gamelist } = props
-    const setMatch = useStore((state) => state.setMatch);
+    const { setMatch, setModal } = useStore()
 
     const games= gamelist.filter((game) => game.datetime.substring(8,10) === format(day, 'd'))
     
     function selectMatch(e): void {
         const match = e.currentTarget.innerHTML
-        setMatch(match)
+        setMatch( match )
+        setModal()
     }
 
     return(
         <DayWrapper index={ index }>
             { format(day, 'd') }
-            { games.map((game) => {
+            { games.map(( game ) => {
                 return(
                     <ShowGamesWrapper onClick={ selectMatch }>
                         { game.homeClubName } VS { game.awayClubName }

@@ -29,7 +29,9 @@ const CalendarBodyWrapper = styled.div`
   gap: 30px;
 `
 
-export const WeekCalendar = () => {
+export const WeekCalendar = (props) => {
+
+    const { isOpen } = props
 
     const { currentMonth, setCurrentMonth, calculateDateRange } = useDate();
     const { weeksPassed, thisStartDate, thisEndDate } = calculateDateRange();
@@ -37,10 +39,12 @@ export const WeekCalendar = () => {
     const days = []
     
     let day = thisStartDate
+
     while( day < thisEndDate ){
       days.push( day )
       day = addDays( day, 1 )
     }
+
     const movePrevWeek = () =>{
         setCurrentMonth( subDays( currentMonth, 7 ))
       }
