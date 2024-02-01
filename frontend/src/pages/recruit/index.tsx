@@ -1,4 +1,4 @@
-import { Select, MainLayout, ChatItem, HomeLayout } from 'src/components'
+import { Select, MainLayout, HomeLayout, Pagination } from 'src/components'
 import { useState } from 'react'
 import { styled } from 'styled-components'
 
@@ -31,7 +31,7 @@ const FilterButton = styled.button`
     margin-right: 10px;
 `
 
-const RecruitPost = () => {
+const RecruitList = () => {
 
     const [teams, setTeams] = useState([
         { value: 'LG', name: 'LG' },
@@ -106,8 +106,141 @@ const RecruitPost = () => {
               "totalCount": 20,
               "pageSize": 10,
               "pageNo": 1
-          }
+          },
+          {
+            "chatrooms" : [
+              {
+                 "participants": [
+                   {
+                      "userId": 'user1',
+                      "email": 'user1@example.com',
+                      "nickname": 'user1'
+                   },
+                 ],
+                 "title": "타이틀3!!",
+                 "tags": ["#LG", "#KT", "#SSG", "#NC", "#KIA",],
+                 "manager": {
+                      "userId": 3,
+                      "email": 'tmp@gmail.com',
+                      "nickname": 'tmp'
+                  },
+                  "gameId": 23,
+                  "capacity": 4,
+                  "cheeringTeamImageUrl": "httpURL"
+                  }
+              ],
+              "totalCount": 20,
+              "pageSize": 10,
+              "pageNo": 1
+          },
+          {
+            "chatrooms" : [
+              {
+                 "participants": [
+                   {
+                      "userId": 'user1',
+                      "email": 'user1@example.com',
+                      "nickname": 'user1'
+                   },
+                 ],
+                 "title": "타이틀4!!",
+                 "tags": ["#LG", "#KT", "#SSG", "#NC", "#KIA",],
+                 "manager": {
+                      "userId": 3,
+                      "email": 'tmp@gmail.com',
+                      "nickname": 'tmp'
+                  },
+                  "gameId": 23,
+                  "capacity": 4,
+                  "cheeringTeamImageUrl": "httpURL"
+                  }
+              ],
+              "totalCount": 20,
+              "pageSize": 10,
+              "pageNo": 1
+          ,
+        },
+        {
+          "chatrooms" : [
+            {
+               "participants": [
+                 {
+                    "userId": 'user1',
+                    "email": 'user1@example.com',
+                    "nickname": 'user1'
+                 },
+               ],
+               "title": "타이틀5!!",
+               "tags": ["#LG", "#KT", "#SSG", "#NC", "#KIA",],
+               "manager": {
+                    "userId": 3,
+                    "email": 'tmp@gmail.com',
+                    "nickname": 'tmp'
+                },
+                "gameId": 23,
+                "capacity": 4,
+                "cheeringTeamImageUrl": "httpURL"
+                }
+            ],
+            "totalCount": 20,
+            "pageSize": 10,
+            "pageNo": 1
+        },
+        {
+          "chatrooms" : [
+            {
+               "participants": [
+                 {
+                    "userId": 'user1',
+                    "email": 'user1@example.com',
+                    "nickname": 'user1'
+                 },
+               ],
+               "title": "타이틀6!!",
+               "tags": ["#LG", "#KT", "#SSG", "#NC", "#KIA",],
+               "manager": {
+                    "userId": 3,
+                    "email": 'tmp@gmail.com',
+                    "nickname": 'tmp'
+                },
+                "gameId": 23,
+                "capacity": 4,
+                "cheeringTeamImageUrl": "httpURL"
+                }
+            ],
+            "totalCount": 20,
+            "pageSize": 10,
+            "pageNo": 1
+        },
+        {
+          "chatrooms" : [
+            {
+               "participants": [
+                 {
+                    "userId": 'user1',
+                    "email": 'user1@example.com',
+                    "nickname": 'user1'
+                 },
+               ],
+               "title": "타이틀7!!",
+               "tags": ["#LG", "#KT", "#SSG", "#NC", "#KIA",],
+               "manager": {
+                    "userId": 3,
+                    "email": 'tmp@gmail.com',
+                    "nickname": 'tmp'
+                },
+                "gameId": 23,
+                "capacity": 4,
+                "cheeringTeamImageUrl": "httpURL"
+                }
+            ],
+            "totalCount": 20,
+            "pageSize": 10,
+            "pageNo": 1
+        ,
+      }
     ]
+    console.log(chats.length)
 
 
     const FilterMine = () => {
@@ -123,16 +256,13 @@ const RecruitPost = () => {
                     <Select dataSource={ seats } placeholder='선호 좌석' background='#DEDCEE' width='120px' height='36px'></Select>
                 </SettingWrapper>
                 <FilterButton>내 글만 보기</FilterButton>
-                { chats.map((chat, index) => {
-                    return (
-                        <ChatItem key = { index } item= { chat }/>
-                        // title={ chat.chatrooms[0].title } tags={ chat.chatrooms[0].tags }numberofuser={ chat.chatrooms[0].participants.length } capacity={ chat.chatrooms[0].capacity } />
-                    )
-                })}
+                <div>
+                    <Pagination chats={ chats } />
+                </div>
             </HomeLayout>
         </MainLayout>
     )
 }
 
 
-export default RecruitPost
+export default RecruitList
