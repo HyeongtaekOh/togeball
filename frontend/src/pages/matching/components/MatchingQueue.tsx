@@ -17,7 +17,7 @@ const MatchingQueue = ( props ) => {
 
     const newBubbleData = data.hashtags.map(( tagName ) => ({
       label: tagName,
-      value: data.counts[ tagName ] || 0,
+      value: data?.counts[ tagName ],
     }));
 
     setBubbleData( newBubbleData )
