@@ -51,7 +51,6 @@ const useAxios = axios.create({
 export const getAxios =  async ( url: string, params?: any )  => {
     try {
       const response = await useAxios.get( url, { params } )
-      console.log(response.data)
       return response.data;
     } catch( error ){
       return Promise.reject(error)

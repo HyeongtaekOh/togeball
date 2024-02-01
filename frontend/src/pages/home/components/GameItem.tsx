@@ -10,6 +10,8 @@ const GameItemWrapper = styled.div`
   height: 80px;
   align-items: center;
   justify-content: space-around;
+  gap: 5px;
+  text-align: center;
 `
 
 const InfomWrapper = styled.div`
@@ -25,18 +27,18 @@ const GameItem = ( props : GameItemProp ) => {
 
   const { game, onClick } = props;
 
-  const { 
-    datetime, 
-    homeClubName, awayClubName, stadiumName } = game
+  console.log(game)
 
   return(
     <GameItemWrapper onClick={ onClick }>
-        <img alt={ homeClubName }></img>
+        {/* <img style={{ width : '30%' }} alt={ game?.homeClubName }></img> */}
+        <Title style={{ width : '30%' }}>{ game?.homeClubName }</Title> 
         <InfomWrapper>
           <Title>VS</Title>
-          <Title type='small'>{ datetime }</Title>
+          <Title type='small'>{ game?.datetime }</Title>
         </InfomWrapper>
-        <img alt={ awayClubName }></img>
+        {/* <img style={{ width : '30%' }} alt={ game?.awayClubName }></img> */}
+        <Title style={{ width : '30%' }}>{ game?.awayClubName }</Title> 
     </GameItemWrapper>
   )
 }
