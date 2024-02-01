@@ -43,6 +43,14 @@ dependencies {
 	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+	// Spring Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-oauth2-client'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	// JWT
+	implementation 'com.auth0:java-jwt:4.2.1'
 }
 
 tasks.named('test') {
