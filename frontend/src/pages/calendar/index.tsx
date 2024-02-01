@@ -1,11 +1,13 @@
 import { addDays, addMonths, format, subMonths } from 'date-fns'
 import { Button, HomeLayout, LeftIcon, MainLayout, RightIcon, Title } from 'src/components'
 import { DateList, DayList }  from './components/index'
-import useStore from './store'
+import { useEffect } from 'react'
+import { getGames } from './api'
+import { useQuery } from 'react-query'
 import useDate from 'src/util/date'
-import styled from 'styled-components'
-import { useState } from 'react'
+import useStore from './store'
 import WeekCalendar from './week'
+import styled from 'styled-components'
 
 const CalendarWrapper = styled.div`
   box-sizing: border-box;
@@ -26,9 +28,11 @@ const CalendarHeaderWrapper = styled.div`
 
 const Calendar = () => {
 
-  const{ isMonth, setIsMonth } = useStore();
+  const{ isMonth, updateIsMonth } = useStore()
 
   const { currentMonth, setCurrentMonth, calculateDateRange } = useDate()
+  //gameList를 DayList에서 주는 것 나중에 시도할 것
+  // const { currentMonth, updateCurrentMonth } = useStore()
   const { startDate, endDate } = calculateDateRange()
 
   const days = []
@@ -39,117 +43,39 @@ const Calendar = () => {
     day = addDays( day, 1 )
   }
 
-  const movePrevMonth = () =>{
-    setCurrentMonth( subMonths( currentMonth, 1) )
+  const movePrevMonth = () =>{ setCurrentMonth( subMonths( currentMonth, 1) ) }
+  const moveNextMonth = () => { setCurrentMonth( addMonths( currentMonth, 1) ) }
+  const onMoveHandler = () => { updateIsMonth() }
+
+  const param = {
+    startDate: `${format(days[0], 'yyyy-MM-dd')}`,
+    endDate: `${format(days[days.length-1], 'yyyy-MM-dd')}`,
   }
-
-  const moveNextMonth = () => {
-    setCurrentMonth( addMonths( currentMonth, 1) )
-  }
-
-  const onMoveHandler = () => {
-    setIsMonth()
-  }
-
-  const [games, setGames] = useState([
-    {
-        games : [
-          { 
-            gameId : 30,
-            chatroomId : 12,
-            datetime : '2024-02-01 18:00:00',
-            homeClubName : '기아',
-            awayClubName : '넥슨',
-            stadiumName : '!!스타디움'
-          },
-          { 
-            gameId : 31,
-            chatroomId : 1111,
-            datetime : '2024-02-01 18:00:00',
-            homeClubName : '기아',
-            awayClubName : '넥슨',
-            stadiumName : '!!스타디움'
-          },
-          { 
-            gameId : 32,
-            chatroomId : 1222,
-            datetime : '2024-02-01 18:00:00',
-            homeClubName : '기아',
-            awayClubName : '넥슨',
-            stadiumName : '!!스타디움'
-          },
-          { 
-            gameId : 33,
-            chatroomId : 1234,
-            datetime : '2024-03-28 18:00:00',
-            homeClubName : '기아',
-            awayClubName : '넥슨',
-            stadiumName : '!!스타디움'
-          },
-          { 
-            gameId : 34,
-            chatroomId : 1236,
-            datetime : '2024-03-28 18:00:00',
-            homeClubName : '삼성',
-            awayClubName : '롯데',
-            stadiumName : '부산사직구장'
-          },
-          { 
-            gameId : 35,
-            chatroomId : 1237,
-            datetime : '2024-03-28 18:00:00',
-            homeClubName : '삼성2',
-            awayClubName : '롯데2',
-            stadiumName : '부산사직구장'
-          },
-          { 
-            gameId : 36,
-            chatroomId : 1238,
-            datetime : '2024-03-28 18:00:00',
-            homeClubName : '삼성3',
-            awayClubName : '롯데3',
-            stadiumName : '부산사직구장'
-          },
-          { 
-            gameId : 37,
-            chatroomId : 1235,
-            datetime : '2024-03-28 18:00:00',
-            homeClubName : '삼성4',
-            awayClubName : '롯데4',
-            stadiumName : '부산사직구장'
-          },
-          { 
-            gameId : 40,
-            chatroomId : 1235,
-            datetime : '2024-03-29 18:00:00',
-            homeClubName : '삼성4',
-            awayClubName : '롯데4',
-            stadiumName : '부산사직구장'
-          }
-        ]
-    }
-])
-
-const gameItem = games[0].games
+  const { data: game, refetch } = useQuery(['game', param ], () => getGames( param ))
+  useEffect(() => { refetch() }, [ currentMonth, refetch ])
  
   return(
     <MainLayout>
       <HomeLayout>
-        { isMonth ? (
-        <CalendarWrapper>
-          <CalendarHeaderWrapper>
-            <LeftIcon size= { 20 } onClick={ movePrevMonth }/>
-            <Title>{ format( currentMonth, 'yyyy' )}년 { format( currentMonth, 'M' )}월</Title>
-            <RightIcon size= { 20 } onClick={ moveNextMonth }/>
-          </CalendarHeaderWrapper>
-          <Button type="parti" onClick={ onMoveHandler }
-            style={{ marginTop : '-10px', alignSelf: 'flex-end' }}>
-          주별 보기
-          </Button>
-          <DateList/>
-          <DayList list = { days } games= { gameItem }/>
-        </CalendarWrapper>)
-        :( <WeekCalendar/> )}
+        { isMonth ? 
+        ( 
+          <CalendarWrapper>
+            <CalendarHeaderWrapper>
+              <LeftIcon size= { 20 } onClick={ movePrevMonth }/>
+              <Title>{ format( currentMonth, 'yyyy' )}년 { format( currentMonth, 'M' )}월</Title>
+              <RightIcon size= { 20 } onClick={ moveNextMonth }/>
+            </CalendarHeaderWrapper>
+            <Button 
+              type= 'parti' onClick={ onMoveHandler }
+              style={{ marginTop : '-10px', alignSelf: 'flex-end' }}>
+                주별 보기
+            </Button>
+            <DateList/>
+            <DayList list = { days } games= { game }/>
+          </CalendarWrapper>
+        )
+        : ( <WeekCalendar/> )
+      }
       </HomeLayout>
     </MainLayout>
   )

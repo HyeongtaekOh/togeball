@@ -24,7 +24,6 @@ const DayWrapper = styled.div<{ index: number }>`
     `
   }
 `
-
 const ShowGamesWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,18 +32,17 @@ const ShowGamesWrapper = styled.div`
   margin: 5px 5px 0 5px;
 `
 
-
 const Day = ( props: DayProps ) =>{
 
     const { index, day, gamelist } = props
-    const games= gamelist.filter(( game ) => game.datetime.substring( 8,10 ) === format( day, 'd' ))
+    const games= gamelist?.filter(( game ) => game.datetime.substring(8,10) === format( day, 'dd' ))
     
     return(
         <DayWrapper index={ index }>
             <div style={{ marginRight: '40px' }}>
-            { format( day, 'd' )}
+            { format( day, 'd' ) }
             </div>
-            { games.map(( game ) => {
+            { games?.map(( game ) => {
                 return(
                     <ShowGamesWrapper>
                         <div>
@@ -65,7 +63,6 @@ const Day = ( props: DayProps ) =>{
 }
 
 export default Day;
-
 
 type DayProps = {
     children?: React.ReactNode

@@ -1,10 +1,13 @@
 import useDate from 'src/util/date'
 import useStore from '../store'
 import { Button, LeftIcon, RightIcon, Title } from 'src/components'
-import styled from 'styled-components'
 import { addDays, format, subDays } from 'date-fns'
 import { DateList, DayList } from './components'
-import { useState } from 'react'
+import { useEffect } from 'react'
+import { useQuery } from 'react-query'
+import { getGames } from '../api'
+import { GameType } from 'src/types'
+import styled from 'styled-components'
 
 const CalendarWrapper = styled.div`
   box-sizing: border-box;
@@ -17,14 +20,12 @@ const CalendarWrapper = styled.div`
   flex-direction: column;
   margin-bottom : 100px;
 `
-
 const CalendarHeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 30px; 
 `
-
 const CalendarBodyWrapper = styled.div`
   display: flex;
   width: 95%;
@@ -35,11 +36,9 @@ const CalendarBodyWrapper = styled.div`
 
 const WeekCalendar = () => {
 
-  const{ setIsMonth } = useStore();
-
- 
-  const { currentMonth, setCurrentMonth, calculateDateRange } = useDate();
-  const { weeksPassed, thisStartDate, thisEndDate } = calculateDateRange();
+  const{ updateIsMonth } = useStore()
+  const { currentMonth, setCurrentMonth, calculateDateRange } = useDate()
+  const { weeksPassed, thisStartDate, thisEndDate } = calculateDateRange()
 
   const days = []
   
@@ -49,75 +48,17 @@ const WeekCalendar = () => {
     day = addDays( day, 1 )
   }
 
-  const movePrevWeek = () =>{
-    setCurrentMonth( subDays( currentMonth, 7) )
+  const movePrevWeek = () => { setCurrentMonth( subDays( currentMonth, 7 )) }
+  const moveNextWeek = () => { setCurrentMonth( addDays( currentMonth, 7 )) }
+  const onMoveHandler = () => { updateIsMonth() }
+
+  const param = {
+    startDate: `${format(days[0], 'yyyy-MM-dd')}`,
+    endDate: `${format(days[ days.length-1 ], 'yyyy-MM-dd')}`,
   }
+  const { data: game, refetch } = useQuery<GameType[]>(['game', param ], () => getGames( param ))
+  useEffect(() => { refetch() }, [ currentMonth, refetch ])
 
-  const moveNextWeek = () => {
-    setCurrentMonth( addDays( currentMonth, 7) )
-  }
-
-  const onMoveHandler = () => {
-    setIsMonth()
-  }
-
-  const [games, setGames ] = useState([
-    {
-        games : [
-          { 
-            gameId : 33,
-            chatroomId : 1234,
-            datetime : '2024-03-28 18:00:00',
-            homeClubName : '기아',
-            awayClubName : '넥슨',
-            stadiumName : '!!스타디움'
-          },
-          { 
-            gameId : 34,
-            chatroomId : 1236,
-            datetime : '2024-03-28 18:00:00',
-            homeClubName : '삼성',
-            awayClubName : '롯데',
-            stadiumName : '부산사직구장'
-          },
-          { 
-            gameId : 35,
-            chatroomId : 1237,
-            datetime : '2024-03-28 18:00:00',
-            homeClubName : '삼성2',
-            awayClubName : '롯데2',
-            stadiumName : '부산사직구장'
-          },
-          { 
-            gameId : 36,
-            chatroomId : 1238,
-            datetime : '2024-03-28 18:00:00',
-            homeClubName : '삼성3',
-            awayClubName : '롯데3',
-            stadiumName : '부산사직구장'
-          },
-          { 
-            gameId : 37,
-            chatroomId : 1235,
-            datetime : '2024-03-28 18:00:00',
-            homeClubName : '삼성4',
-            awayClubName : '롯데4',
-            stadiumName : '부산사직구장'
-          },
-          { 
-            gameId : 40,
-            chatroomId : 1235,
-            datetime : '2024-03-29 18:00:00',
-            homeClubName : '삼성4',
-            awayClubName : '롯데4',
-            stadiumName : '부산사직구장'
-          }
-        ]
-    }
-])
-
-const gameItem = games[0].games
- 
   return(
     <CalendarWrapper>
       <CalendarHeaderWrapper>
@@ -125,13 +66,15 @@ const gameItem = games[0].games
         <Title>{ format( currentMonth, 'yyyy' )}년 { format( currentMonth, 'M') }월 { weeksPassed }주째</Title>
         <RightIcon size= { 20 } onClick={ moveNextWeek }/>
       </CalendarHeaderWrapper>
-      <Button type="parti" onClick={ onMoveHandler }
-        style={{ marginTop : '-10px', alignSelf: 'flex-end' }}>
-      월별 보기
+      <Button 
+        type= 'parti' onClick={ onMoveHandler }
+        style={{ marginTop : '-10px', alignSelf: 'flex-end' }}
+      >
+        월별 보기
       </Button>
       <CalendarBodyWrapper>
-        <DateList/>
-        <DayList list= { days } games= { gameItem }/>
+        <DateList />
+        <DayList list= { days } games= { game }/>
       </CalendarBodyWrapper>
     </CalendarWrapper>
   )
