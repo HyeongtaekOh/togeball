@@ -56,9 +56,9 @@ const Modal = styled.div`
 
 const RecruitPost = () => {
     const [inputCount, setInputCount] = useState(0);
-    const [isModalOpened, setIsModalOpened] = useState(false);
+    // const [isModalOpened, setIsModalOpened] = useState(false);
 
-    const { match } = useStore()
+    const { match, isModalOpened, setModal } = useStore()
 
     const onInputHandler = (e) => {
         setInputCount(
@@ -69,12 +69,12 @@ const RecruitPost = () => {
     const html = document.querySelector('html');
 
     const openModal = () => {
-        setIsModalOpened(true);
+        setModal();
         html?.classList.add('scroll-locked');
     };
         
     const closeModal = () => {
-        setIsModalOpened(false);
+        setModal();
         html?.classList.remove('scroll-locked');
     };
 

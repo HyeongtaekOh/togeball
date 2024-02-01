@@ -15,7 +15,7 @@ const DateList = () => {
 
   return(
     <DateListWrapper>
-      { date.map( ( day, index ) => {
+      { date.map(( day, index ) => {
         return(
           <div key={ index }>
             { day }
