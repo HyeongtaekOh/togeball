@@ -13,7 +13,6 @@ export const routes = [
     { path: 'boards' },
     
     { path: 'calendar' },
-    { path: 'calendar/week'},
     { path: 'mypage'},
 
     { path: 'chat', dynamicPath: 'chat/:chatroomId' },

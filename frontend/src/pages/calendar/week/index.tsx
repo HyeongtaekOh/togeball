@@ -1,6 +1,6 @@
 import useDate from 'src/util/date'
-import { useNavigate } from 'react-router-dom'
-import { Button, HomeLayout, LeftIcon, MainLayout, RightIcon, Title } from 'src/components'
+import useStore from '../store'
+import { Button, LeftIcon, RightIcon, Title } from 'src/components'
 import styled from 'styled-components'
 import { addDays, format, subDays } from 'date-fns'
 import { DateList, DayList } from './components'
@@ -35,7 +35,8 @@ const CalendarBodyWrapper = styled.div`
 
 const WeekCalendar = () => {
 
-  const navigator = useNavigate()
+  const{ setIsMonth } = useStore();
+
  
   const { currentMonth, setCurrentMonth, calculateDateRange } = useDate();
   const { weeksPassed, thisStartDate, thisEndDate } = calculateDateRange();
@@ -57,10 +58,10 @@ const WeekCalendar = () => {
   }
 
   const onMoveHandler = () => {
-    navigator( '/calendar' )
+    setIsMonth()
   }
 
-  const [games, setGames] = useState([
+  const [games, setGames ] = useState([
     {
         games : [
           { 
@@ -118,28 +119,21 @@ const WeekCalendar = () => {
 const gameItem = games[0].games
  
   return(
-    <MainLayout>
-      <HomeLayout>
-        <CalendarWrapper>
-          <CalendarHeaderWrapper>
-            <LeftIcon size= { 20 } onClick={ movePrevWeek }/>
-            <Title>{ format( currentMonth, 'yyyy' )}년 { format( currentMonth, 'M') }월 { weeksPassed }주째</Title>
-            <RightIcon size= { 20 } onClick={ moveNextWeek }/>
-          </CalendarHeaderWrapper>
-          <Button 
-            type="parti" 
-            style={{ marginTop : '-10px', alignSelf: 'flex-end' }}
-            onClick={ onMoveHandler }
-          >
-            월별 보기
-          </Button>
-          <CalendarBodyWrapper>
-            <DateList/>
-            <DayList list= { days } games= { gameItem }/>
-          </CalendarBodyWrapper>
-        </CalendarWrapper>
-      </HomeLayout>
-    </MainLayout>
+    <CalendarWrapper>
+      <CalendarHeaderWrapper>
+        <LeftIcon size= { 20 } onClick={ movePrevWeek }/>
+        <Title>{ format( currentMonth, 'yyyy' )}년 { format( currentMonth, 'M') }월 { weeksPassed }주째</Title>
+        <RightIcon size= { 20 } onClick={ moveNextWeek }/>
+      </CalendarHeaderWrapper>
+      <Button type="parti" onClick={ onMoveHandler }
+        style={{ marginTop : '-10px', alignSelf: 'flex-end' }}>
+      월별 보기
+      </Button>
+      <CalendarBodyWrapper>
+        <DateList/>
+        <DayList list= { days } games= { gameItem }/>
+      </CalendarBodyWrapper>
+    </CalendarWrapper>
   )
 }
 

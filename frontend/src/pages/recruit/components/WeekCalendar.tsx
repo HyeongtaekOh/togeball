@@ -31,8 +31,6 @@ const CalendarBodyWrapper = styled.div`
 
 export const WeekCalendar = (props) => {
 
-    const { isOpen } = props
-
     const { currentMonth, setCurrentMonth, calculateDateRange } = useDate();
     const { weeksPassed, thisStartDate, thisEndDate } = calculateDateRange();
   
