@@ -23,6 +23,8 @@
     "react-cookie": "^7.0.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.3",
+    "react-query": "^3.39.3",
+    
     "react-scripts": "5.0.1",
     "react-wordcloud": "^1.2.7",
     "sockjs-client": "^1.6.1",

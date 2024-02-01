@@ -1,10 +1,8 @@
-import { HomeLayout, MainLayout, Button,Title } from 'src/components'
+import { HomeLayout, MainLayout, Title } from 'src/components'
 import { HomeCard, TodayGameCard, RankCard } from './components'
 import { useEffect, useState } from 'react'
-import { GameType, ClubType } from '@/types'
+import { ClubType } from '@/types'
 import styled from 'styled-components'
-import { getAxios } from 'src/api/util'
-import { getTodayGames } from './api/getTodayGames'
 
 const MainComponentWrapper = styled.div`
   display : flex;
@@ -45,18 +43,6 @@ const GameWrapper = styled.div`
 
 
 const Home = () => {
-
-  const [ gameList, setGameList ] = useState<GameType[]>( null )
-
-  useEffect(()=>{
-
-    const getGames = async() =>{
-      const game : GameType[] = await getTodayGames()
-      setGameList( game )
-    }
-    getGames()
-
-  },[])
 
   const [ clubList, setClubList ] = useState<ClubType[]>([
     {
@@ -123,7 +109,7 @@ const Home = () => {
               <td rowSpan={ 2 } colSpan={ 2 } style={{ width: '60%' }}>
                 <GameWrapper>
                   <Title color= '#746E6E' type= 'medium'>오늘의 경기</Title>
-                    <TodayGameCard gameList = { gameList }/>
+                    <TodayGameCard/>
                   <Title color='#746E6E' type= 'medium'>현재 순위</Title>
                     <RankCard clubList = { clubList }/>
                 </GameWrapper>
