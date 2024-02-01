@@ -10,7 +10,6 @@ class UserTest {
     void userBuilderTest() {
         User user = User.builder()
                 .email("email@gmail.com")
-                .password("password")
                 .nickname("nickname")
                 .birthdate(LocalDateTime.of(1999, 4, 23, 0, 0, 0))
                 .gender(Gender.FEMALE)
@@ -19,7 +18,6 @@ class UserTest {
                 .build();
 
         System.out.println("user.email : " + user.getEmail());
-        System.out.println("user.password : " + user.getPassword());
         System.out.println("user.nickname : " + user.getNickname());
         System.out.println("user.birthdate : " + user.getBirthdate());
         System.out.println("user.gender : " + user.getGender());

@@ -24,7 +24,6 @@ class UserTagTest {
 
         User user = User.builder()
                 .email("test@gmail.com")
-                .password("password")
                 .nickname("nickname")
                 .build();
 
@@ -64,7 +63,6 @@ class UserTagTest {
 
         User user = User.builder()
                 .email("test@gmail.com")
-                .password("password")
                 .nickname("nickname")
                 .build();
 

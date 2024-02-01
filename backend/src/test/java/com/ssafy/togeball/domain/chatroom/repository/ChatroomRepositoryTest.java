@@ -81,22 +81,18 @@ class ChatroomRepositoryTest {
     private void dataInit() {
         manager = User.builder()
                 .email("test@gmail.com")
-                .password("password")
                 .nickname("nickname")
                 .build();
         user1 = User.builder()
                 .email("user1@test.com")
-                .password("user1")
                 .nickname("user1")
                 .build();
         user2 = User.builder()
                 .email("user2@test.com")
-                .password("user2")
                 .nickname("user2")
                 .build();
         user3 = User.builder()
                 .email("user3@test.com")
-                .password("user3")
                 .nickname("user3")
                 .build();
         homeClub = Club.builder()

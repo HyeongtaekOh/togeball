@@ -49,17 +49,14 @@ class MatchingRepositoryTest {
         user1 = User.builder()
                 .email("test@TEST")
                 .nickname("nickname")
-                .password("password")
                 .build();
         user2 = User.builder()
                 .email("test@TES2T")
                 .nickname("nickname2")
-                .password("password")
                 .build();
         user3 = User.builder()
                 .email("test@TES3T")
                 .nickname("nickname3")
-                .password("password")
                 .build();
 
 
