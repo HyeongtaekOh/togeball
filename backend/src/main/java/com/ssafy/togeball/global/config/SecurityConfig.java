@@ -55,6 +55,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/oauth2/**", "/h2-console/**", "/error").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/reissue", "/api/users").permitAll()
                         .requestMatchers("/api/users/**").permitAll() // 개발용
+                        .requestMatchers("/api/hashtags/**").permitAll() // 개발용
                         .requestMatchers("/api/league/**").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(exceptionHandling -> exceptionHandling
