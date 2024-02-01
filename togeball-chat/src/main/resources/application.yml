@@ -1,0 +1,53 @@
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  port: 8081
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/togeball_chat_2
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: ssafy
+    password: ssafy
+  cloud:
+    aws:
+      credentials:
+        access-key: ${AWS_ACCESS_KEY}
+        secret-key: ${AWS_SECRET_KEY}
+      region:
+        static: ap-northeast-2
+      s3:
+        bucket: togeball-bucket
+  servlet:
+    multipart:
+      max-file-size: 100MB
+  config:
+    import: optional:env/s3.yml
+
+logging:
+  level:
+    org:
+      springframework:
+        messaging: DEBUG
+        web:
+          socket: DEBUG
+    io:
+      awspring:
+        cloud: DEBUG
+
+websocket:
+  relay:
+    host: localhost
+    port: 61613
+    client:
+      login: ssafy
+      passcode: ssafy
+    system:
+      login: ssafy
+      passcode: ssafy
