@@ -3,6 +3,8 @@ import { GameType } from 'src/types'
 import { LeftIcon, RightIcon, Title} from 'src/components'
 import { GameItem } from './index'
 import styled from 'styled-components'
+import { getTodayGames } from '../api/getTodayGames'
+import { useQuery } from 'react-query'
 
 const GameCard = styled.div`
   box-sizing: border-box;
@@ -18,17 +20,15 @@ const GameCard = styled.div`
   justify-content: space-around;
   cursor: pointer;
   `
-const TodayGameCard = ( props : GameCardProps ) =>{
+const TodayGameCard = () =>{
 
-  const { gameList } =  props
-
-  console.log( gameList )
-
+  const { data: todayGames, isLoading } = useQuery( 'todayGames', getTodayGames )
+  
   const [ curIndex, setCurIndex ] = useState<number>(0)
-  const [ curGame, setCurGame ] = useState<GameType>( gameList && gameList[0] )
+  const [ curGame, setCurGame ] = useState<GameType>( todayGames && todayGames[0] )
 
   const onClickRight = () => {
-    curIndex < gameList.length - 1 && 
+    curIndex < todayGames.length - 1 && 
     setCurIndex(curIndex + 1)
   }
 
@@ -37,25 +37,29 @@ const TodayGameCard = ( props : GameCardProps ) =>{
   }
 
   useEffect(()=>{
-    gameList && setCurGame( gameList[ curIndex ] )
-  }, [ curIndex, gameList ] )
+    todayGames && setCurGame( todayGames[ curIndex ] )
+  }, [ curIndex, todayGames ] )
 
   return(
     <GameCard>
       <LeftIcon onClick={ onClickLeft }/>
-      { gameList && gameList.length > 0 ? 
-         ( <GameItem game = { curGame } 
-          // onClick= {() => navigator( `/select/${ curGame?.chatroomId }` )}
-        /> ): 
-        ( <Title color= '#746E6E' type='medium' >오늘의 경기가 없습니다.</Title> )
-      }
+      { isLoading ? (
+        <Title color="#746E6E" type="medium">
+          로딩 중...
+        </Title>
+      ) : todayGames && todayGames.length > 0 ? (
+        <GameItem
+          game={curGame}
+          // onClick={() => navigator(`/select/${curGame?.chatroomId}`)}
+        />
+      ) : (
+        <Title color="#746E6E" type="medium">
+          오늘의 경기가 없습니다.
+        </Title>
+      )}
       <RightIcon onClick={ onClickRight }/>
     </GameCard>
   )
 }
 
 export default TodayGameCard
-
-type GameCardProps = {
-  gameList? : GameType[]
-}
