@@ -89,7 +89,11 @@ class TagServiceTest {
         Set<Integer> tagIds = Set.of(1, 2, 3);
 
         Set<Tag> mockTags = tagIds.stream()
-                .map(id -> Tag.builder().content("" + id).build())
+                .map(id -> {
+                    Tag t = Tag.builder().build();
+                    ReflectionTestUtils.setField(t, "id", id);
+                    return t;
+                })
                 .collect(Collectors.toSet());
 
         when(tagRepository.findAllByIdIn(tagIds)).thenReturn(mockTags);
@@ -224,14 +228,20 @@ class TagServiceTest {
     @Test
     void findAllTagsByUserIds() {
         Set<Integer> userIds = Set.of(1, 2, 3);
-        Set<UserTag> userTags = generateUserTags(); // UserTag 객체 생성
+        Set<Tag> tags = generateTags(); // UserTag 객체 생성
 
-        when(userTagRepository.findByUserIdIn(userIds)).thenReturn(userTags);
+        when(tagRepository.findTagsByUserIds(userIds)).thenReturn(tags);
 
         Set<TagResponse> result = tagService.findAllTagsByUserIds(userIds);
 
-        assertEquals(userTags.size(), result.size());
-        verify(userTagRepository, times(1)).findByUserIdIn(userIds);
+        assertEquals(tags.size(), result.size());
+        verify(tagRepository, times(1)).findTagsByUserIds(userIds);
+    }
+
+    Set<Tag> generateTags() {
+        return IntStream.range(0, 3)
+                .mapToObj(i -> Tag.builder().build())
+                .collect(Collectors.toSet());
     }
 
     Set<UserTag> generateUserTags() {

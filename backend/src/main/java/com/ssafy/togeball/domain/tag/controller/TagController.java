@@ -53,12 +53,13 @@ public class TagController {
 
     @GetMapping("/users")
     public ResponseEntity<?> findTagsByUserIds(@RequestBody UserIdsRequest userIdsRequest) {
+        log.info("userIdsRequest: {}", userIdsRequest);
         Set<TagResponse> tags = tagService.findAllTagsByUserIds(userIdsRequest.getUserIds());
         return ResponseEntity.ok(tags);
     }
 
-    @GetMapping("/keyword/{keyword}")
-    public ResponseEntity<?> findTagsByKeyword(@PathVariable(value = "keyword") String keyword) {
+    @GetMapping
+    public ResponseEntity<?> findTagsByKeyword(@RequestParam(value = "keyword") String keyword) {
         List<TagResponse> tags = tagService.findTagsStartingWithKeyword(keyword);
         return ResponseEntity.ok(tags);
     }

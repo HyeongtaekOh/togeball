@@ -16,7 +16,5 @@ public interface UserTagRepository extends JpaRepository<UserTag, Integer> {
 
     Set<UserTag> findByTagId(Integer tagId);
 
-    Set<UserTag> findByUserIdIn(Set<Integer> userIds);
-
     void deleteByUserId(Integer userId);
 }
