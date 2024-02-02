@@ -3,14 +3,15 @@ package com.ssafy.togeball.global.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.togeball.domain.auth.handler.LoginFailureHandler;
 import com.ssafy.togeball.domain.auth.handler.LoginSuccessHandler;
+import com.ssafy.togeball.domain.auth.handler.OAuth2LoginFailureHandler;
+import com.ssafy.togeball.domain.auth.handler.OAuth2LoginSuccessHandler;
 import com.ssafy.togeball.domain.auth.service.AuthService;
-import com.ssafy.togeball.domain.auth.repository.AuthRepository;
+import com.ssafy.togeball.domain.auth.service.CustomOAuth2UserService;
 import com.ssafy.togeball.domain.security.filter.CustomAccessDeniedHandler;
 import com.ssafy.togeball.domain.security.filter.CustomAuthenticationEntryPoint;
 import com.ssafy.togeball.domain.security.filter.CustomJsonUsernamePasswordAuthenticationFilter;
 import com.ssafy.togeball.domain.security.filter.JwtAuthenticationProcessingFilter;
 import com.ssafy.togeball.domain.security.jwt.JwtService;
-import com.ssafy.togeball.domain.user.repository.UserRepository;
 import com.ssafy.togeball.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -23,9 +24,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 
@@ -38,6 +37,9 @@ public class SecurityConfig {
     private final JwtService jwtService;
     private final AuthService authService;
     private final UserService userService;
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+    private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
+    private final CustomOAuth2UserService customOAuth2UserService;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
@@ -52,11 +54,18 @@ public class SecurityConfig {
                  * .requestMatchers("/api/for-anyone").permitAll()
                  */
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/oauth2/**", "/h2-console/**", "/error").permitAll()
+                        .requestMatchers("/", "/oauth2/**", "/h2-console/**", "/error", "/login/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/reissue", "/api/users").permitAll()
                         .requestMatchers("/api/users/**").permitAll() // 개발용
                         .requestMatchers("/api/league/**").permitAll()
+                        .requestMatchers("/social/**").permitAll()
                         .anyRequest().authenticated())
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .successHandler(oAuth2LoginSuccessHandler)
+                        .failureHandler(oAuth2LoginFailureHandler)
+                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
+                                .userService(customOAuth2UserService)
+                        ))
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
                         .accessDeniedHandler(customAccessDeniedHandler)
