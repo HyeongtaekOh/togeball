@@ -2,6 +2,7 @@ package com.ssafy.togeball.domain.tag.service;
 
 import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
 import com.ssafy.togeball.domain.matching.entity.Matching;
+import com.ssafy.togeball.domain.tag.dto.TagCountResponse;
 import com.ssafy.togeball.domain.tag.dto.TagCreateRequest;
 import com.ssafy.togeball.domain.tag.dto.TagResponse;
 import com.ssafy.togeball.domain.tag.entity.*;
@@ -31,9 +32,9 @@ public class TagService {
 
     // 사용자 정의 태그 추가
     @Transactional
-    public Tag createCustomTag(TagCreateRequest request) {
+    public Integer createCustomTag(TagCreateRequest request) {
         Tag tag = request.toEntity();
-        return tagRepository.save(tag);
+        return tagRepository.save(tag).getId();
     }
 
     // 모집 채팅방에 태그 추가
@@ -49,18 +50,17 @@ public class TagService {
     // 매칭에 태그 추가
     @Transactional
     public void addTagsToMatching(Matching matching, Set<Integer> tagIds) {
-        List<Tag> tags = tagRepository.findAllById(tagIds);
+        Set<Tag> tags = tagRepository.findAllByIdIn(tagIds);
 
-        List<MatchingTag> matchingTags = tags.stream()
+        Set<MatchingTag> matchingTags = tags.stream()
                 .map(tag -> MatchingTag.builder()
                         .matching(matching)
                         .tag(tag)
                         .build())
-                        .toList();
+                        .collect(Collectors.toSet());
 
         matchingTagRepository.saveAll(matchingTags);
     }
-
 
     // 모집 채팅방 태그 수정
     @Transactional
@@ -86,13 +86,13 @@ public class TagService {
         userTagRepository.deleteByUserId(user.getId());
         userTagRepository.flush();
 
-        List<Tag> tags = tagRepository.findAllById(tagIds);
-        List<UserTag> userTags = tags.stream()
+        Set<Tag> tags = tagRepository.findAllByIdIn(tagIds);
+        Set<UserTag> userTags = tags.stream()
                 .map(tag -> UserTag.builder()
                         .user(user)
                         .tag(tag)
                         .build())
-                .toList();
+                .collect(Collectors.toSet());
         userTagRepository.saveAll(userTags);
     }
 
@@ -101,6 +101,23 @@ public class TagService {
     public TagResponse findTagById(Integer tagId) {
         Tag tag = tagRepository.findById(tagId).orElseThrow(EntityNotFoundException::new);
         return TagResponse.of(tag);
+    }
+
+    // 내용으로 태그 찾기
+    @Transactional
+    public TagResponse findTagByContent(String content) {
+        Tag tag = tagRepository.findByContent(content).orElse(null);
+        if (tag == null) return null;
+        return TagResponse.of(tag);
+    }
+
+    // keyword로 시작하는 태그 목록
+    @Transactional
+    public List<TagResponse> findTagsStartingWithKeyword(String keyword) {
+        return tagRepository.findByContentStartingWith(keyword)
+                .stream()
+                .map(TagResponse::of)
+                .toList();
     }
 
     // 태그 전체 목록 보기
@@ -113,7 +130,7 @@ public class TagService {
     // 해당하는 회원의 태그 목록
     @Transactional
     public Set<TagResponse> findAllTagsByUserId(Integer userId) {
-        List<UserTag> userTags = userTagRepository.findByUserId(userId);
+        Set<UserTag> userTags = userTagRepository.findByUserId(userId);
 
         return userTags.stream()
                 .map(UserTag::getTag)
@@ -124,7 +141,7 @@ public class TagService {
     // 모집 채팅방 id로 태그 목록
     @Transactional
     public Set<TagResponse> findAllTagsByRecruitChatroomId(Integer chatroomId) {
-        List<RecruitTag> recruitTags = recruitTagRepository.findAllByRecruitChatroomId(chatroomId);
+        Set<RecruitTag> recruitTags = recruitTagRepository.findAllByRecruitChatroomId(chatroomId);
 
         return recruitTags.stream()
                 .map(RecruitTag::getTag)
@@ -135,7 +152,7 @@ public class TagService {
     // 매칭 id로 태그 목록
     @Transactional
     public Set<TagResponse> findAllTagsByMatchingId(Integer matchingId) {
-        List<MatchingTag> matchingTags = matchingTagRepository.findAllByMatchingId(matchingId);
+        Set<MatchingTag> matchingTags = matchingTagRepository.findAllByMatchingId(matchingId);
 
         return matchingTags.stream()
                 .map(MatchingTag::getTag)
@@ -146,12 +163,15 @@ public class TagService {
     // 회원 아이디 목록에 해당하는 태그 목록 구하기
     @Transactional
     public Set<TagResponse> findAllTagsByUserIds(Set<Integer> userIds) {
-        List<UserTag> userTags = userTagRepository.findByUserIdIn(userIds);
-
-        return userTags.stream()
-                .map(UserTag::getTag)
-//                .distinct()
+        return tagRepository.findTagsByUserIds(userIds)
+                .stream()
                 .map(TagResponse::of)
                 .collect(Collectors.toSet());
+    }
+
+    // 회원 아이디 목록에 해당하는 태그 목록을 개수와 함께
+    @Transactional
+    public List<TagCountResponse> findTagsByUserIdsWithCount(Set<Integer> userIds) {
+        return tagRepository.findTagsByUserIdsWithCount(userIds);
     }
 }

@@ -1,11 +1,9 @@
 package com.ssafy.togeball.domain.user.controller;
 
-import com.ssafy.togeball.domain.auth.dto.UserSignUpRequest;
+import com.ssafy.togeball.domain.user.dto.UserSignUpRequest;
 import com.ssafy.togeball.domain.tag.dto.TagIdsRequest;
 import com.ssafy.togeball.domain.user.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +12,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.Map;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/users")
