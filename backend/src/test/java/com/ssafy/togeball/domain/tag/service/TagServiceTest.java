@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -47,22 +48,23 @@ class TagServiceTest {
     @Test
     void createCustomTag() {
         // given
-        Tag tag = Tag.builder()
-                .content("test")
-                .type(TagType.CUSTOM)
-                .build();
+        Tag tag = Tag.builder().build();
+
+        // ReflectionTestUtils를 사용하여 Tag 객체에 id 설정
+        ReflectionTestUtils.setField(tag, "id", 1);
 
         when(tagRepository.save(any(Tag.class))).thenReturn(tag);
 
         TagCreateRequest request = new TagCreateRequest();
-        request.setContent("test");
 
         // when
-        Tag result = tagService.createCustomTag(request);
+        Integer resultTagId = tagService.createCustomTag(request);
 
-        assertEquals(tag.getContent(), result.getContent());
-        assertEquals(tag.getType(), result.getType());
+        // then
+        assertNotNull(resultTagId);
+        assertEquals(Integer.valueOf(1), resultTagId);
     }
+
 
     @Test
     void addTagToRecruitChatroom() {
@@ -86,25 +88,27 @@ class TagServiceTest {
         Matching matching = Matching.builder().build();
         Set<Integer> tagIds = Set.of(1, 2, 3);
 
-        List<Tag> mockTags = tagIds.stream()
-                .map(id -> Tag.builder().build())
-                .collect(Collectors.toList());
+        Set<Tag> mockTags = tagIds.stream()
+                .map(id -> {
+                    Tag t = Tag.builder().build();
+                    ReflectionTestUtils.setField(t, "id", id);
+                    return t;
+                })
+                .collect(Collectors.toSet());
 
-        when(tagRepository.findAllById(tagIds)).thenReturn(mockTags);
-
-        when(tagRepository.findAllById(tagIds)).thenReturn(mockTags);
+        when(tagRepository.findAllByIdIn(tagIds)).thenReturn(mockTags);
 
         // 캡처를 위한 ArgumentCaptor 설정
-        ArgumentCaptor<List<MatchingTag>> argumentCaptor = ArgumentCaptor.forClass(List.class);
+        ArgumentCaptor<Set<MatchingTag>> argumentCaptor = ArgumentCaptor.forClass(Set.class);
 
         // when
         tagService.addTagsToMatching(matching, tagIds);
 
         // then
-        verify(tagRepository, times(1)).findAllById(tagIds);
+        verify(tagRepository, times(1)).findAllByIdIn(tagIds);
         verify(matchingTagRepository, times(1)).saveAll(argumentCaptor.capture());
 
-        List<MatchingTag> capturedUserTags = argumentCaptor.getValue();
+        Set<MatchingTag> capturedUserTags = argumentCaptor.getValue();
         assertEquals(tagIds.size(), capturedUserTags.size());
     }
 
@@ -135,24 +139,24 @@ class TagServiceTest {
         Set<Integer> tagIds = Set.of(0, 1, 2);
         User user = User.builder().build();
 
-        List<Tag> mockTags = tagIds.stream()
+        Set<Tag> mockTags = tagIds.stream()
                 .map(id -> Tag.builder().build())
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
 
-        when(tagRepository.findAllById(tagIds)).thenReturn(mockTags);
+        when(tagRepository.findAllByIdIn(tagIds)).thenReturn(mockTags);
 
         // 캡처를 위한 ArgumentCaptor 설정
-        ArgumentCaptor<List<UserTag>> argumentCaptor = ArgumentCaptor.forClass(List.class);
+        ArgumentCaptor<Set<UserTag>> argumentCaptor = ArgumentCaptor.forClass(Set.class);
 
         // when
         tagService.updateUserTags(user, tagIds);
 
         // then
         verify(userTagRepository, times(1)).deleteByUserId(user.getId());
-        verify(tagRepository, times(1)).findAllById(tagIds);
+        verify(tagRepository, times(1)).findAllByIdIn(tagIds);
         verify(userTagRepository, times(1)).saveAll(argumentCaptor.capture());
 
-        List<UserTag> capturedUserTags = argumentCaptor.getValue();
+        Set<UserTag> capturedUserTags = argumentCaptor.getValue();
         assertEquals(tagIds.size(), capturedUserTags.size());
     }
 
@@ -187,7 +191,7 @@ class TagServiceTest {
     @Test
     void findAllTagsByUserId() {
         Integer userId = 1;
-        List<UserTag> userTags = generateUserTags();
+        Set<UserTag> userTags = generateUserTags();
 
         when(userTagRepository.findByUserId(userId)).thenReturn(userTags);
 
@@ -200,7 +204,7 @@ class TagServiceTest {
     @Test
     void findAllTagsByRecruitChatroomId() {
         Integer chatroomId = 1;
-        List<RecruitTag> recruitTags = generateRecruitTags();
+        Set<RecruitTag> recruitTags = generateRecruitTags();
         when(recruitTagRepository.findAllByRecruitChatroomId(chatroomId)).thenReturn(recruitTags);
 
         Set<TagResponse> result = tagService.findAllTagsByRecruitChatroomId(chatroomId);
@@ -212,7 +216,7 @@ class TagServiceTest {
     @Test
     void findAllTagsByMatchingId() {
         Integer matchingId = 1;
-        List<MatchingTag> matchingTags = generateMatchingTags();
+        Set<MatchingTag> matchingTags = generateMatchingTags();
         when(matchingTagRepository.findAllByMatchingId(matchingId)).thenReturn(matchingTags);
 
         Set<TagResponse> result = tagService.findAllTagsByMatchingId(matchingId);
@@ -224,40 +228,46 @@ class TagServiceTest {
     @Test
     void findAllTagsByUserIds() {
         Set<Integer> userIds = Set.of(1, 2, 3);
-        List<UserTag> userTags = generateUserTags(); // UserTag 객체 생성
+        Set<Tag> tags = generateTags(); // UserTag 객체 생성
 
-        when(userTagRepository.findByUserIdIn(userIds)).thenReturn(userTags);
+        when(tagRepository.findTagsByUserIds(userIds)).thenReturn(tags);
 
         Set<TagResponse> result = tagService.findAllTagsByUserIds(userIds);
 
-        assertEquals(userTags.size(), result.size());
-        verify(userTagRepository, times(1)).findByUserIdIn(userIds);
+        assertEquals(tags.size(), result.size());
+        verify(tagRepository, times(1)).findTagsByUserIds(userIds);
     }
 
-    List<UserTag> generateUserTags() {
+    Set<Tag> generateTags() {
+        return IntStream.range(0, 3)
+                .mapToObj(i -> Tag.builder().build())
+                .collect(Collectors.toSet());
+    }
+
+    Set<UserTag> generateUserTags() {
         return IntStream.range(0, 3)
                 .mapToObj(i -> UserTag.builder()
                         .user(User.builder().build())
                         .tag(Tag.builder().build())
                         .build())
-                .toList();
+                .collect(Collectors.toSet());
     }
 
-    List<MatchingTag> generateMatchingTags() {
+    Set<MatchingTag> generateMatchingTags() {
         return IntStream.range(0, 3)
                 .mapToObj(i -> MatchingTag.builder()
                         .matching(Matching.builder().build())
                         .tag(Tag.builder().build())
                         .build())
-                .toList();
+                .collect(Collectors.toSet());
     }
 
-    List<RecruitTag> generateRecruitTags() {
+    Set<RecruitTag> generateRecruitTags() {
         return IntStream.range(0, 3)
                 .mapToObj(i -> RecruitTag.builder()
                         .recruitChatroom(RecruitChatroom.builder().build())
                         .tag(Tag.builder().build())
                         .build())
-                .toList();
+                .collect(Collectors.toSet());
     }
 }

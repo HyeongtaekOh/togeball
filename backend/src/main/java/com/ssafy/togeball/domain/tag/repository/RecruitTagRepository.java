@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface RecruitTagRepository extends JpaRepository<RecruitTag, Integer> {
 
@@ -15,5 +16,5 @@ public interface RecruitTagRepository extends JpaRepository<RecruitTag, Integer>
 
     void deleteByRecruitChatroomId(Integer chatroomId);
 
-    List<RecruitTag> findAllByRecruitChatroomId(Integer recruitChatroomId);
+    Set<RecruitTag> findAllByRecruitChatroomId(Integer recruitChatroomId);
 }

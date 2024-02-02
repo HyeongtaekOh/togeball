@@ -12,12 +12,9 @@ public interface UserTagRepository extends JpaRepository<UserTag, Integer> {
 
     Optional<UserTag> findByTagIdAndUserId(Integer tagId, Integer userId);
 
-    List<UserTag> findByUserId(Integer userId);
+    Set<UserTag> findByUserId(Integer userId);
 
-    List<UserTag> findByTagId(Integer tagId);
-
-    @Query("select ut from UserTag ut where ut.user.id in :userIds")
-    List<UserTag> findByUserIdIn(Set<Integer> userIds);
+    Set<UserTag> findByTagId(Integer tagId);
 
     void deleteByUserId(Integer userId);
 }
