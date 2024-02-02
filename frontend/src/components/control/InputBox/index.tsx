@@ -26,16 +26,10 @@ const InputBox = ( props: InputProps ) => {
 
   const {
     title, height = '60px', width = '100%', 
-    placeholder = '내용을 입력하세요', value, checkMsg
+    placeholder = '내용을 입력하세요', value, 
+    onChange
   } = props
 
-  const [ inputValue, setInputValue ] = useState<string>( value )
-  const [ checkMessage, setCheckMessage ] = useState<boolean>( false )
-
-  const onChange = ( value ) => {
-    setInputValue( value )
-    //중복 확인하는 로직
-  }
 
   return (
     <MessageWrapper>
@@ -45,13 +39,12 @@ const InputBox = ( props: InputProps ) => {
         <div style={{ width: '30%', paddingLeft : '10px' }}> { title } </div>
       }
       <input 
-        value = { inputValue } 
-        onChange={(e) => onChange( e.target.value )} 
+        value = { value } 
+        onChange={ onChange } 
         style={{ width: '70%', fontSize: '12px' }} 
         placeholder={ placeholder }
       />  
     </InputWrapper>
-      { checkMessage && <Title type= 'small' color='red'>{ checkMsg }</Title> }
     </MessageWrapper>
   )
 
@@ -66,5 +59,5 @@ export type InputProps = {
   icon?: React.ReactNode,
   placeholder?: string,
   value? : string,
-  checkMsg? :string
+  onChange? : ( value?: any ) => void
 }

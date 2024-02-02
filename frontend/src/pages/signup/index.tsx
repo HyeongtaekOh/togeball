@@ -1,8 +1,9 @@
 import { InputBox, Title, KakaoIcon, 
-    NaverIcon, MainLayout, SignLayout, SignButton, HomeLayout } from '../../components'
-import { useNavigate } from 'react-router-dom'
-import { useCallback } from 'react'
+    NaverIcon, MainLayout, SignLayout, SignButton } from '../../components'
+import { useCallback, useState } from 'react'
 import { styled } from 'styled-components'
+import { signup } from './api'
+import { useMutation } from 'react-query'
   
 const InputWrapper = styled.div`
     box-sizing: border-box;
@@ -12,35 +13,73 @@ const InputWrapper = styled.div`
     width : 100%;
     gap: 10px;
   `
-  
 const IconWrapper = styled.div`
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
     gap: 10px;
   `
+const MsgWrapper = styled.p`
+  color: red;
+  font-size: 12px;
+  margin-top: -10px;
+  align-self: flex-end;
+  `
   
 const SignUp = () => {
-  
-    const onSignUp = useCallback(() => {
-      
-    }, [])
+
+    const [ email, setEmail ] = useState()
+    const [ password, setPassword ] = useState()
+    const [ checkMsg , setCheckMsg ] = useState('')
+
+    const mutation = useMutation( signup )
+
+    const data = {
+      email : email,
+      password : password,
+      nickname: 'hi'
+    }
+
+    const onSignUp = () => {
+      checkMsg === '' ?
+      mutation.mutateAsync( data ) :
+      alert( '비밀번호가 일치하지 않습니다' )
+    }
+
+    const isCheck = ( pwd : string ) => {
+      const match = pwd === password;
+      setCheckMsg(match ? '' : '비밀번호가 동일하지 않습니다.');
+    }
   
     return (
       <MainLayout>
         <SignLayout>
         <Title>회원가입</Title>
         <InputWrapper>
-          <InputBox title= '이메일' placeholder= 'ex) hongildong@gamli.com' />
-          <InputBox title= '비밀번호' placeholder= '비밀번호를 입력해주세요.' />
-          <InputBox title= '비밀번호 확인' placeholder= '동일한 비밀번호를 입력해주세요.' />
+          <InputBox 
+            title= '이메일' 
+            placeholder= 'ex) hongildong@gamli.com' 
+            value={ email }
+            onChange={(e) => { setEmail( e.target.value )}}
+          />
+          <InputBox 
+            title= '비밀번호' 
+            placeholder= '비밀번호를 입력해주세요.'
+            value={ password }
+            onChange={(e) => { setPassword( e.target.value )}}
+          />
+          <InputBox 
+            title= '비밀번호 확인' 
+            placeholder= '동일한 비밀번호를 입력해주세요.' 
+            onChange={(e) => { isCheck( e.target.value )}}
+          />
+          <MsgWrapper>{ checkMsg }</MsgWrapper>
         </InputWrapper>
         <SignButton onClick={ onSignUp }>
           회원가입
         </SignButton>
         <Title type='small'>SNS 회원가입</Title>
         <IconWrapper><NaverIcon /><KakaoIcon /></IconWrapper>
-        
        </SignLayout>
       </MainLayout>
     )
