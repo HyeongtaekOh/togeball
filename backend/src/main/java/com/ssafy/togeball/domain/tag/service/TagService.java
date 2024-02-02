@@ -62,7 +62,6 @@ public class TagService {
         matchingTagRepository.saveAll(matchingTags);
     }
 
-
     // 모집 채팅방 태그 수정
     @Transactional
     public void updateRecruitChatroomTags(RecruitChatroom recruitChatroom, Set<TagCreateRequest> newTags) {
@@ -164,10 +163,8 @@ public class TagService {
     // 회원 아이디 목록에 해당하는 태그 목록 구하기
     @Transactional
     public Set<TagResponse> findAllTagsByUserIds(Set<Integer> userIds) {
-        Set<UserTag> userTags = userTagRepository.findByUserIdIn(userIds);
-
-        return userTags.stream()
-                .map(UserTag::getTag)
+        return tagRepository.findTagsByUserIds(userIds)
+                .stream()
                 .map(TagResponse::of)
                 .collect(Collectors.toSet());
     }

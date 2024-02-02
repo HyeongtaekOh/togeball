@@ -13,6 +13,7 @@ import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -63,5 +64,18 @@ public class CustomTagRepositoryImpl implements CustomTagRepository {
                     .count(count.intValue())
                     .build();
         }).toList();
+    }
+
+    @Override
+    public Set<Tag> findTagsByUserIds(Set<Integer> userIds) {
+        QTag qTag = QTag.tag;
+        QUserTag qUserTag = QUserTag.userTag;
+
+        return new HashSet<>(queryFactory
+                .select(qUserTag.tag)
+                .from(qUserTag)
+                .join(qUserTag.tag, qTag)
+                .where(qUserTag.user.id.in(userIds))
+                .fetch());
     }
 }

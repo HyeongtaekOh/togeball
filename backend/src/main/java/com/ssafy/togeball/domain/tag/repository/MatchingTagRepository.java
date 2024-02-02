@@ -8,6 +8,4 @@ import java.util.Set;
 
 public interface MatchingTagRepository extends JpaRepository<MatchingTag, Integer> {
     Set<MatchingTag> findAllByMatchingId(Integer matchingId);
-
-    void saveAll(Set<MatchingTag> matchingTags);
 }
