@@ -9,6 +9,7 @@ const DayListWrapper = styled.div`
   width: 100%;
   justify-content: space-around;
   margin-top: 10px;
+  padding-bottom: 50px;
 `
 
 const WeekWrapper = styled.div`

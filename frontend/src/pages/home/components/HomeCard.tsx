@@ -18,7 +18,6 @@ const HomeCardWrapper = styled.div<{ type: string, color: string }>`
       props.color === '#FFFFFF' 
       && css`
       width: 97%;
-      height: 120px;
       box-shadow: 0px 0px 5px lightGray;
 
       &:hover{
@@ -42,7 +41,6 @@ const HomeCardWrapper = styled.div<{ type: string, color: string }>`
       props.type === 'sub' 
       && props.color !== '#FFFFFF' && css`
         width: 97%;
-        height: 120px;
         box-shadow: 2px 2px 2px lightGray;
 
         &:hover{
