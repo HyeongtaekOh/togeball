@@ -11,6 +11,7 @@ const MainComponentWrapper = styled.div`
   flex-direction : column;
   box-sizing : border-box;
   align-items : center;
+  justify-content : center;
   `
 
 const TableWrapper = styled.table`

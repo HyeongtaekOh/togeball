@@ -6,7 +6,8 @@ const DayWrapper = styled.div<{ index: number }>`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  height: 80px;
+  height: 30%;
+  min-height: 80px;
   border: 1px solid #DEDCEE;
   padding: 10px 30px 10px 10px;
   border-radius:7px;
