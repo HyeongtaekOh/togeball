@@ -2,7 +2,6 @@ package com.ssafy.togeball.domain.league.dto;
 
 import com.ssafy.togeball.domain.league.entity.Stadium;
 import lombok.Builder;
-import lombok.Data;
 
 @Builder
 public class StadiumResponse {

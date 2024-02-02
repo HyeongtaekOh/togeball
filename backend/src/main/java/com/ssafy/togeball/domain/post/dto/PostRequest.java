@@ -1,6 +1,5 @@
 package com.ssafy.togeball.domain.post.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssafy.togeball.domain.post.entity.Post;
 import com.ssafy.togeball.domain.user.entity.User;
 import lombok.*;

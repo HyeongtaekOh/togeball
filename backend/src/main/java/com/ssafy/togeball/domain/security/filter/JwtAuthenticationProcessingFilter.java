@@ -1,12 +1,9 @@
 package com.ssafy.togeball.domain.security.filter;
 
 import com.ssafy.togeball.domain.auth.entity.Auth;
-import com.ssafy.togeball.domain.auth.repository.AuthRepository;
 import com.ssafy.togeball.domain.auth.service.AuthService;
-import com.ssafy.togeball.domain.security.exception.JwtAuthenticationException;
 import com.ssafy.togeball.domain.security.jwt.JwtService;
 import com.ssafy.togeball.domain.user.entity.User;
-import com.ssafy.togeball.domain.user.repository.UserRepository;
 import com.ssafy.togeball.domain.user.service.UserService;
 import com.ssafy.togeball.global.config.util.PasswordUtil;
 import jakarta.servlet.FilterChain;
@@ -17,16 +14,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
