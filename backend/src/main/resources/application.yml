@@ -32,13 +32,19 @@ spring:
             scope:
               - profile_nickname
               - account_email
+              
 server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
   port: 8080
   ssl:
-    enbaleed: true
+    enabled: true
     enabled-protocols:
       - TLSv1.1
-       - TLSv1.2
+      - TLSv1.2
     key-store: "classpath:ssl/keystore.p12"
     key-store-password: "togeball"
     key-store-type: "PKCS12"
