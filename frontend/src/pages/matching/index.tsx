@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Stomp from 'stompjs';
-import   { MatchingQueue, Timer }   from './components';
+import   { MatchingQueue, Timer, MatchingModal, MatchingProfile }   from './components';
 import { Title } from 'src/components'
+import { set } from 'date-fns';
 
 // const WebSocketComponent = () => {
 //   const [matchingQueue, setMatchingQueue] = useState([]);
@@ -81,6 +82,15 @@ const Matching: React.FC = () => {
     // 컴포넌트가 언마운트되면 interval 해제
     return () => clearInterval(intervalId);
   }, []);
+  const [isModalOpened, setIsModalOpened] = useState( true )
+
+  const closeModal = () => {
+    setIsModalOpened( false )
+  }
+
+  const openModal = () => {
+    setIsModalOpened (true )
+  }
 
   return (
     <div>
@@ -89,7 +99,7 @@ const Matching: React.FC = () => {
         <Timer duration={ 180 }/>
       </div>
       <MatchingQueue data={ matchingData }/>
-
+      { isModalOpened && <MatchingModal isOpen={ isModalOpened } onClose={ closeModal } />}
     </div>
   );
 };
