@@ -22,7 +22,7 @@ public class OAuth2Controller {
     @GetMapping("/oauth2/authorize/{provider}")
     public RedirectView redirectToOAuth2Provider(@PathVariable(name = "provider") String provider) {
         System.out.println("hey hey!");
-        String url = "http://localhost:8080/oauth2/authorization/" + provider;
+        String url = "/oauth2/authorization/" + provider;
         return new RedirectView(url);
     }
 }
