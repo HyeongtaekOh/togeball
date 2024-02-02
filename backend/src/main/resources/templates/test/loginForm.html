@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Social Login</title>
+    <style>
+        .login-button {
+            padding: 10px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .kakao-login {
+            background-color: #FEE500;
+        }
+
+        .google-login {
+            background-color: #DB4437;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<h2>Social Login</h2>
+
+<!-- 카카오 로그인 버튼 -->
+<a th:href="@{/social/oauth2/authorize/kakao}">
+    <button class="login-button kakao-login">카카오 로그인</button>
+</a>
+
+<!-- 구글 로그인 버튼 -->
+<a th:href="@{/social/oauth2/authorize/google}">
+    <button class="login-button google-login">구글 로그인</button>
+</a>
+</body>
+</html>
