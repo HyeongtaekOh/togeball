@@ -1,7 +1,6 @@
 package com.ssafy.togeball.domain.tag.repository;
 
 import com.ssafy.togeball.domain.tag.dto.TagCountResponse;
-import com.ssafy.togeball.domain.tag.dto.TagResponse;
 import com.ssafy.togeball.domain.tag.entity.Tag;
 
 import java.util.List;

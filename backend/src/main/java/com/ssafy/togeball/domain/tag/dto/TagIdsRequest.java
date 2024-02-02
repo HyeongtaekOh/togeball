@@ -1,6 +1,5 @@
 package com.ssafy.togeball.domain.tag.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
