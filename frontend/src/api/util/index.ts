@@ -49,18 +49,19 @@ const useAxios = axios.create({
 // }
 
 export const getAxios =  async ( url: string, params?: any )  => {
-    try {
-      const response = await useAxios.get( url, { params } )
-      return response.data;
-    } catch( error ){
-      return Promise.reject(error)
-    }
+  try {
+    const response = await useAxios.get( url, { params } )
+    return response.data
+  } catch( error ){
+    return Promise.reject(error)
+  }
 } 
 
 export const postAxios =  async( url: string, data?: any )  =>{
   try{
     const response = await useAxios.post( url, data )
-    return response.data
+    console.log(response)
+    return response
   } catch( error ){
     return Promise.reject( error )
   }

@@ -100,7 +100,6 @@ const Profile = () => {
               placeholder = '닉네임을 입력하세요' 
               height = '40px' 
               width = '300px'
-              checkMsg= '중복된 닉네임입니다.'
             />
           </InputWrapper>
           <RowTagList list = { places } >선호 구장</RowTagList>
