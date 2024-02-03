@@ -19,7 +19,7 @@ class WaitingQueueServiceTest {
 
 //    WaitingQueueService service = new MemoryWaitingQueueService();
     @Autowired
-    RedisWaitingQueueService service;
+    WaitingQueueService service;
 
     static UserTag userTag1;
     static UserTag userTag2;
