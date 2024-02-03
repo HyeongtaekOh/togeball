@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -88,5 +87,29 @@ public class PostRepositoryTest {
         assertEquals("저녁 뭐 먹지", saved.getTitle());
         assertEquals("메뉴 추천 부탁요", saved.getContent());
         assertEquals(now, saved.getRegdate().toLocalDate());
+    }
+
+    @Test
+    void postFindAllTest() {
+
+    }
+
+    @Test
+    void postFindByUserIdTest() {
+
+    }
+    @Test
+    void postFindByUserNicknameContaining() {
+
+    }
+
+    @Test
+    void postFindByTitleContaining() {
+
+    }
+
+    @Test
+    void postFindByContentContaining() {
+
     }
 }

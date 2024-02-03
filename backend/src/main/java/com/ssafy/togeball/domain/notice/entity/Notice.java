@@ -1,6 +1,7 @@
 package com.ssafy.togeball.domain.notice.entity;
 
 import com.ssafy.togeball.domain.common.entity.BaseEntity;
+import com.ssafy.togeball.domain.matching.entity.Matching;
 import com.ssafy.togeball.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,15 +19,22 @@ public class Notice extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User user; //알림을 받을 회원
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @Column(name = "matching_id", nullable = false)
-//    private Matching matching;
-//
-//    @Builder
-//    public Notice(User user, Matching matching) {
-//        this.user = user;
-//        this.matching = matching;
-//    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "matching_id", nullable = false)
+    private Matching matching;
+
+    private boolean isRead = false;
+
+    @Builder
+    public Notice(User user, Matching matching, Boolean isRead) {
+        this.user = user;
+        this.matching = matching;
+        this.isRead = isRead;
+    }
+
+    public void read() {
+        this.isRead = true;
+    }
 }
