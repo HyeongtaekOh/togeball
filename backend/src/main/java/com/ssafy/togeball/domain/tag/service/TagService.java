@@ -81,12 +81,18 @@ public class TagService {
     }
 
     // 회원 해시태그 수정
+    // TODO : 없는 태그가 포함되어 있어도 오류를 띄우지 않음!
     @Transactional
     public void updateUserTags(User user, Set<Integer> tagIds) {
+
         userTagRepository.deleteByUserId(user.getId());
         userTagRepository.flush();
 
         Set<Tag> tags = tagRepository.findAllByIdIn(tagIds);
+        if (tags.size() != tagIds.size()) {
+            throw new IllegalArgumentException("하나 이상의 태그 ID가 유효하지 않습니다.");
+        }
+
         Set<UserTag> userTags = tags.stream()
                 .map(tag -> UserTag.builder()
                         .user(user)
