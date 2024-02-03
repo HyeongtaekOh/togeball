@@ -2,6 +2,7 @@ package com.ssafy.togeballmatching.service;
 
 import com.ssafy.togeballmatching.dto.MatchingUser;
 import com.ssafy.togeballmatching.dto.UserTag;
+import com.ssafy.togeballmatching.service.queue.WaitingQueueService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -19,7 +20,7 @@ class WaitingQueueServiceTest {
 
 //    WaitingQueueService service = new MemoryWaitingQueueService();
     @Autowired
-    WaitingQueueService service;
+WaitingQueueService service;
 
     static UserTag userTag1;
     static UserTag userTag2;
