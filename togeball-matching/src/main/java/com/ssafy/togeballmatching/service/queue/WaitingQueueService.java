@@ -1,4 +1,4 @@
-package com.ssafy.togeballmatching.service;
+package com.ssafy.togeballmatching.service.queue;
 
 import com.ssafy.togeballmatching.dto.MatchingUser;
 
