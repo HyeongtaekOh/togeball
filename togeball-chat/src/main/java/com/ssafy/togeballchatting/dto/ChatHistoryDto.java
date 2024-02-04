@@ -14,14 +14,14 @@ public class ChatHistoryDto {
 
     private Integer userId;
     private Integer roomId;
-    private Instant firstMessageTimestamp;
+    private Instant enteredTimestamp;
     private Instant lastReadTimestamp;
 
     public static ChatHistoryDto of(ChatHistory chatHistory) {
         return ChatHistoryDto.builder()
                 .userId(chatHistory.getUserId())
                 .roomId(chatHistory.getRoomId())
-                .firstMessageTimestamp(chatHistory.getFirstMessageTimestamp())
+                .enteredTimestamp(chatHistory.getEnteredTimestamp())
                 .lastReadTimestamp(chatHistory.getLastReadTimestamp())
                 .build();
     }
@@ -30,7 +30,7 @@ public class ChatHistoryDto {
         return ChatHistory.builder()
                 .userId(userId)
                 .roomId(roomId)
-                .firstMessageTimestamp(firstMessageTimestamp)
+                .enteredTimestamp(enteredTimestamp)
                 .lastReadTimestamp(lastReadTimestamp)
                 .build();
     }
