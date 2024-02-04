@@ -36,14 +36,11 @@ public class PostController {
     public ResponseEntity<?> writePost(@RequestBody PostRequest postRequest) {
 
         int postId = postService.writePost(postRequest);
-        if (postId>0) {
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{postId}")
                 .buildAndExpand(postId)
                 .toUri();
-            return ResponseEntity.created(location).build();
-        }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.created(location).build();
     }
 
     @GetMapping("/search")
