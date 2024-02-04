@@ -1,9 +1,11 @@
 import { Button, InputBox, Select, MainLayout, HomeLayout, Title } from 'src/components';
-import { TagsInput } from '../components';
+import { TagsInput, WeekCalendar } from '../components';
+import { postRecruit } from './api';
+import { getGames } from '../api';
 import useStore from '../store'
-import { WeekCalendar } from '../components'
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useMutation } from 'react-query'
 import { styled } from 'styled-components'
 
 const MatchBtn = styled.button`
@@ -47,10 +49,14 @@ const Modal = styled.div`
 `
 
 const RecruitPost = () => {
-    const [inputCount, setInputCount] = useState(0)
+    const [ inputCount, setInputCount ] = useState(0)
+    const [ title, setTitle ] = useState('')
+    const [selectedCheeringTeams, setSelectedCheeringTeams] = useState([]);
     // const [isModalOpened, setIsModalOpened] = useState(false);
 
     const { match, isModalOpened, updateModal } = useStore()
+
+    const recruitMutation = useMutation( postRecruit );
 
     const onInputHandler = (e) => {
         setInputCount(
@@ -117,11 +123,25 @@ const RecruitPost = () => {
         { value: '10', name: '10' }
     ])
 
+    const data = {
+        title: title,
+        gameId: 2,
+        cheeringTeam: "LG",
+        preferSeats: "123",
+        personnel: 2,
+        tags: ["22", "222"],
+        describe: "12312312"
+    }
+
+    const makeChatting = () => {
+        recruitMutation.mutateAsync( data )
+    }
+
     return (
       <MainLayout title='직관 메이트 모집하기 '>  
           <HomeLayout>
             <Title style={{ marginTop: '20px', marginLeft: '20px' }}>제목(최대 60자)</Title>
-            <InputBox height='20px' width='100%'/>
+            <InputBox height='20px' width='100%' value={ title } onChange={(e) => { setTitle( e.target.value )}}/>
             <MatchBtn onClick={ openModal }>
                 { match ? match : '경기를 선택하세요' }
             </MatchBtn>
@@ -134,7 +154,7 @@ const RecruitPost = () => {
                   document.body )
             }
             <Contents>
-                <Select dataSource={ teams } placeholder='응원하는 팀' height= '40px'></Select>
+                <Select dataSource={ teams } placeholder='응원하는 팀' height= '40px' ></Select>
                 <Select dataSource={ seats } placeholder='선호하는 좌석' height= '40px'></Select>
             </Contents>
             <Contents>
@@ -151,7 +171,7 @@ const RecruitPost = () => {
                 <span>/300 자</span>
             </p>
             <div style={{ display:'flex', justifyContent: 'right', gap: '10px' }}>
-                <Button type='parti' width='120px'>채팅방 만들기</Button>
+                <Button type='parti' width='120px' onClick= { makeChatting }>채팅방 만들기</Button>
                 <Button type='reset' width='90px'>초기화</Button>
                 <Button type='cancel' width='80px'>취소</Button>
             </div>
