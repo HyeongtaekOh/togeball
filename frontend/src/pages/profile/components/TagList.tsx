@@ -6,7 +6,8 @@ const TagListWrapper = styled.div<{ $isTag : boolean }>`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  gap: 15px;
+  height: auto;
+  gap: 12px;
   min-height: ${( prop ) => prop.$isTag && '25px' }
 `
 

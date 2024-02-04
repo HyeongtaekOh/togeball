@@ -7,7 +7,6 @@ import ImgUpload from './components/ImgUpload'
 
 const ProfileSettingWrapper = styled.div`
   box-sizing: border-box;
-  display: flex;
   flex-direction: column;
   width: 95%;
   height: 100%;
