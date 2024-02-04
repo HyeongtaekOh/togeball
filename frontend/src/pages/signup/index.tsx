@@ -32,7 +32,7 @@ const SignUp = () => {
     const [ password, setPassword ] = useState()
     const [ checkMsg , setCheckMsg ] = useState('')
 
-    const mutation = useMutation( signup )
+    const signMutation = useMutation( signup )
 
     const data = {
       email : email,
@@ -42,7 +42,7 @@ const SignUp = () => {
 
     const onSignUp = () => {
       checkMsg === '' ?
-      mutation.mutateAsync( data ) :
+      signMutation.mutateAsync( data ) :
       alert( '비밀번호가 일치하지 않습니다' )
     }
 
