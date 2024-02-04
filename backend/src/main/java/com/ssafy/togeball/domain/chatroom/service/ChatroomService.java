@@ -2,8 +2,11 @@ package com.ssafy.togeball.domain.chatroom.service;
 
 import com.ssafy.togeball.domain.chatroom.dto.*;
 import com.ssafy.togeball.domain.chatroom.entity.*;
+import com.ssafy.togeball.domain.chatroom.exception.ChatroomErrorCode;
+import com.ssafy.togeball.domain.chatroom.exception.ChatroomNotFoundException;
 import com.ssafy.togeball.domain.chatroom.repository.ChatroomMembershipRepository;
 import com.ssafy.togeball.domain.chatroom.repository.ChatroomRepository;
+import com.ssafy.togeball.domain.common.exception.ApiException;
 import com.ssafy.togeball.domain.user.dto.UserResponse;
 import com.ssafy.togeball.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -44,14 +47,11 @@ public class ChatroomService {
         return convertChatroomResponse(chatroom);
     }
 
-
-
     @Transactional(readOnly = true)
     public Page<ChatroomResponse> findChatroomsByUserId(Integer userId, Pageable pageable) {
         Page<Chatroom> chatrooms = chatroomRepository.findChatroomsByUserId(userId, pageable);
         return getChatroomResponses(chatrooms);
     }
-
 
     @Transactional(readOnly = true)
     public Page<RecruitChatroomResponse> findRecruitChatroomsByCondition(RecruitChatroomSearchCondition condition, Pageable pageable) {
@@ -66,12 +66,14 @@ public class ChatroomService {
 
     @Transactional
     public RecruitChatroomResponse updateRecruitChatroom(RecruitChatroomRequest chatroomDto) {
+        chatroomRepository.findById(chatroomDto.getId()).orElseThrow(ChatroomNotFoundException::new);
         RecruitChatroom recruitChatroom = chatroomRepository.updateRecruitChatroom(chatroomDto);
         return RecruitChatroomResponse.of(recruitChatroom);
     }
 
     @Transactional
     public void deleteChatroom(Integer chatroomId) {
+        chatroomRepository.findById(chatroomId).orElseThrow(ChatroomNotFoundException::new);
         chatroomRepository.deleteById(chatroomId);
     }
 
@@ -79,7 +81,7 @@ public class ChatroomService {
     public boolean joinChatroom(Integer userId, Integer chatroomId) {
 
         if (chatroomRepository.findCapacityById(chatroomId) > chatroomMembershipRepository.countByChatroomId(chatroomId)) {
-            return false;
+            throw new ApiException(ChatroomErrorCode.CHATROOM_JOIN_FAILED);
         }
         return chatroomRepository.addParticipant(chatroomId, userId);
     }
@@ -87,7 +89,7 @@ public class ChatroomService {
     @Transactional
     public void leaveChatroom(Integer userId, Integer chatroomId) {
         ChatroomMembership membership = chatroomMembershipRepository
-                .findByUserIdAndChatroomId(userId, chatroomId).orElseThrow();
+                .findByUserIdAndChatroomId(userId, chatroomId).orElseThrow(ChatroomNotFoundException::new);
         chatroomMembershipRepository.delete(membership);
     }
 
@@ -110,7 +112,7 @@ public class ChatroomService {
             return MatchingChatroomResponse.of((MatchingChatroom) chatroom);
         }
 
-        return null;
+        throw new ApiException(ChatroomErrorCode.INVALID_CHATROOM_TYPE);
     }
 
     private Page<ChatroomResponse> getChatroomResponses(Page<Chatroom> chatrooms) {

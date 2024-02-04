@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 public enum PostErrorCode implements ErrorCode {
 
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "Post is not found"),
+    DELETE_POST_FAILED(HttpStatus.BAD_REQUEST, "Failed to delete the post")
     ;
 
     private final HttpStatus httpStatus;

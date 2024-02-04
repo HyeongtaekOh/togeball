@@ -1,11 +1,14 @@
 package com.ssafy.togeball.domain.auth.service;
 
 import com.ssafy.togeball.domain.auth.entity.Auth;
+import com.ssafy.togeball.domain.auth.exception.AuthNotFoundException;
+import com.ssafy.togeball.domain.auth.exception.InvalidTokenException;
 import com.ssafy.togeball.domain.auth.repository.AuthRepository;
 import com.ssafy.togeball.domain.common.exception.ApiException;
 import com.ssafy.togeball.domain.security.jwt.JwtService;
 import com.ssafy.togeball.domain.user.entity.User;
 import com.ssafy.togeball.domain.user.exception.UserErrorCode;
+import com.ssafy.togeball.domain.user.exception.UserNotFoundException;
 import com.ssafy.togeball.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,7 +36,7 @@ public class AuthService implements UserDetailsService {
 
     public void createAuth(Integer userId, String password) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ApiException(UserErrorCode.USER_NOT_FOUND));
+                .orElseThrow(UserNotFoundException::new);
 
         Auth auth = Auth.builder()
                 .userId(user.getId())
@@ -59,10 +62,10 @@ public class AuthService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("해당 이메일이 존재하지 않습니다."));
+                .orElseThrow(UserNotFoundException::new);
 
         Auth auth = authRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("해당 이메일이 존재하지 않습니다."));
+                .orElseThrow(AuthNotFoundException::new);
 
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())
@@ -72,8 +75,7 @@ public class AuthService implements UserDetailsService {
     }
 
     public void reissueAccessToken(HttpServletRequest request, HttpServletResponse response) {
-        // TODO : 예외 재설정 필요
-        String refreshToken = jwtService.extractRefreshToken(request).orElseThrow(EntityNotFoundException::new);
+        String refreshToken = jwtService.extractRefreshToken(request).orElseThrow(InvalidTokenException::new);
 
         if (jwtService.isTokenValid(refreshToken)) {
             authRepository.findByRefreshToken(refreshToken).ifPresent(auth -> {
@@ -81,12 +83,12 @@ public class AuthService implements UserDetailsService {
                 jwtService.sendAccessToken(response, newAccessToken);
             });
         } else {
-            throw new EntityNotFoundException("Invalid refresh token");
+            throw new InvalidTokenException();
         }
     }
 
     public void setTokensForUser(Integer userId, HttpServletResponse response) {
-        Auth auth = authRepository.findByUserId(userId).orElseThrow();
+        Auth auth = authRepository.findByUserId(userId).orElseThrow(AuthNotFoundException::new);
         String email = auth.getEmail();
 
         String accessToken = jwtService.createAccessToken(email);
@@ -99,10 +101,9 @@ public class AuthService implements UserDetailsService {
     }
 
     public void logout(HttpServletRequest request) {
-        // TODO : 예외 재설정 필요
-        String accessToken = jwtService.extractAccessToken(request).orElseThrow(EntityNotFoundException::new);
-        String email = jwtService.extractEmail(accessToken).orElseThrow(EntityNotFoundException::new);
-        Auth auth = authRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
+        String accessToken = jwtService.extractAccessToken(request).orElseThrow(InvalidTokenException::new);
+        String email = jwtService.extractEmail(accessToken).orElseThrow(InvalidTokenException::new);
+        Auth auth = authRepository.findByEmail(email).orElseThrow(AuthNotFoundException::new);
         auth.setRefreshToken(null);
         authRepository.save(auth);
     }

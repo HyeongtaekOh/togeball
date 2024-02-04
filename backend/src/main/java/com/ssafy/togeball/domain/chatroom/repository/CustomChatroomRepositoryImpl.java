@@ -10,17 +10,21 @@ import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomSearchCondition;
 import com.ssafy.togeball.domain.chatroom.entity.Chatroom;
 import com.ssafy.togeball.domain.chatroom.entity.MatchingChatroom;
 import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
+import com.ssafy.togeball.domain.chatroom.exception.ChatroomNotFoundException;
 import com.ssafy.togeball.domain.common.repository.CustomPagingAndSortingRepository;
 import com.ssafy.togeball.domain.league.entity.Club;
 import com.ssafy.togeball.domain.league.entity.Game;
+import com.ssafy.togeball.domain.league.exception.ClubNotFoundException;
+import com.ssafy.togeball.domain.league.exception.GameNotFoundException;
 import com.ssafy.togeball.domain.league.repository.ClubRepository;
 import com.ssafy.togeball.domain.league.repository.GameRepository;
 import com.ssafy.togeball.domain.tag.entity.Tag;
+import com.ssafy.togeball.domain.tag.exception.TagNotFoundException;
 import com.ssafy.togeball.domain.tag.repository.TagRepository;
 import com.ssafy.togeball.domain.user.entity.User;
+import com.ssafy.togeball.domain.user.exception.UserNotFoundException;
 import com.ssafy.togeball.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -145,11 +149,11 @@ public class CustomChatroomRepositoryImpl extends CustomPagingAndSortingReposito
     public RecruitChatroom createRecruitChatroom(RecruitChatroomRequest chatroomDto) throws DataIntegrityViolationException {
 
         User manager = userRepository.findById(chatroomDto.getManagerId())
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저 id입니다. id: " + chatroomDto.getManagerId()));
+                .orElseThrow(UserNotFoundException::new);
         Game game = gameRepository.findById(chatroomDto.getGameId())
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 게임 id입니다. id: " + chatroomDto.getGameId()));
+                .orElseThrow(GameNotFoundException::new);
         Club cheeringClub = clubRepository.findById(chatroomDto.getCheeringClubId())
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 클럽 id입니다. id: " + chatroomDto.getCheeringClubId()));
+                .orElseThrow(ClubNotFoundException::new);
 
         RecruitChatroom recruitChatroom = RecruitChatroom.builder()
                 .title(chatroomDto.getTitle())
@@ -162,7 +166,7 @@ public class CustomChatroomRepositoryImpl extends CustomPagingAndSortingReposito
 
         List<Tag> tags = tagRepository.findAllById(chatroomDto.getTagIds());
         if (tags.size() != chatroomDto.getTagIds().size()) {
-            throw new EntityNotFoundException("존재하지 않는 태그 id가 포함되어 있습니다.");
+            throw new TagNotFoundException();
         }
         for (Tag tag : tags) {
             recruitChatroom.addTag(tag);
@@ -189,22 +193,22 @@ public class CustomChatroomRepositoryImpl extends CustomPagingAndSortingReposito
 
         RecruitChatroom chatroom = em.find(RecruitChatroom.class, chatroomDto.getId());
         if (chatroom == null) {
-            throw new EntityNotFoundException("존재하지 않는 채팅방 id입니다. id: " + chatroomDto.getId());
+            throw new ChatroomNotFoundException();
         }
         chatroom.changeMetadata(chatroomDto.getTitle(), chatroomDto.getDescription(), chatroomDto.getCapacity());
         if (chatroomDto.getManagerId() != null && !chatroomDto.getManagerId().equals(chatroom.getManager().getId())) {
             User manager = userRepository.findById(chatroomDto.getManagerId())
-                    .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저 id입니다. id: " + chatroomDto.getManagerId()));
+                    .orElseThrow(UserNotFoundException::new);
             chatroom.changeManager(manager);
         }
         if (chatroomDto.getGameId() != null && !chatroomDto.getGameId().equals(chatroom.getGame().getId())) {
             Game game = gameRepository.findById(chatroomDto.getGameId())
-                    .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 게임 id입니다. id: " + chatroomDto.getGameId()));
+                    .orElseThrow(GameNotFoundException::new);
             chatroom.changeGame(game);
         }
         if (chatroomDto.getCheeringClubId() != null && !chatroomDto.getCheeringClubId().equals(chatroom.getCheeringClub().getId())) {
             Club club = clubRepository.findById(chatroomDto.getCheeringClubId())
-                    .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 클럽 id입니다. id: " + chatroomDto.getCheeringClubId()));
+                    .orElseThrow(ClubNotFoundException::new);
             chatroom.changeCheeringClub(club);
         }
         if (chatroomDto.getTagIds() != null) {
@@ -218,12 +222,12 @@ public class CustomChatroomRepositoryImpl extends CustomPagingAndSortingReposito
     public void updateRecruitChatroomTags(Integer chatroomId, List<Integer> tagIds) {
         RecruitChatroom chatroom = em.find(RecruitChatroom.class, chatroomId);
         if (chatroom == null) {
-            throw new EntityNotFoundException("존재하지 않는 채팅방 id입니다. id: " + chatroomId);
+            throw new ChatroomNotFoundException();
         }
         chatroom.getRecruitTags().clear();
         List<Tag> tags = tagRepository.findAllById(tagIds);
         if (tags.size() != tagIds.size()) {
-            throw new EntityNotFoundException("존재하지 않는 태그 id가 포함되어 있습니다.");
+            throw new TagNotFoundException();
         }
         for (Tag tag : tags) {
             chatroom.addTag(tag);

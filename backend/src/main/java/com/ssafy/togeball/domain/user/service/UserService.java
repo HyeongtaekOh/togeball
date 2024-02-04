@@ -7,6 +7,7 @@ import com.ssafy.togeball.domain.tag.service.TagService;
 import com.ssafy.togeball.domain.user.entity.Role;
 import com.ssafy.togeball.domain.user.entity.User;
 import com.ssafy.togeball.domain.user.exception.UserErrorCode;
+import com.ssafy.togeball.domain.user.exception.UserNotFoundException;
 import com.ssafy.togeball.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -62,7 +63,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public void updateUserTags(Integer userId, Set<Integer> tagIds) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ApiException(UserErrorCode.USER_NOT_FOUND));
+                .orElseThrow(UserNotFoundException::new);
         tagService.updateUserTags(user, tagIds);
     }
 }
