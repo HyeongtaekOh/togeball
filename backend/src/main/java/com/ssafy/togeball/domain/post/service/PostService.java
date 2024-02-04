@@ -42,7 +42,7 @@ public class PostService {
     @Transactional
     public int writePost(PostRequest postRequest) {
         User user = userRepository.findById(postRequest.getUserId()).orElseThrow(() ->
-                new ApiException(UserErrorCode.INVALID_USER_ID));
+                new ApiException(UserErrorCode.USER_NOT_FOUND));
         Post savedPost = postRepository.save(postRequest.toEntity(user));
         return savedPost.getId();
     }
