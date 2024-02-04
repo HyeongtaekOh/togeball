@@ -1,14 +1,16 @@
 package com.ssafy.togeball.domain.tag.service;
 
 import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
+import com.ssafy.togeball.domain.common.exception.ApiException;
 import com.ssafy.togeball.domain.matching.entity.Matching;
 import com.ssafy.togeball.domain.tag.dto.TagCountResponse;
 import com.ssafy.togeball.domain.tag.dto.TagCreateRequest;
-import com.ssafy.togeball.domain.tag.dto.TagResponse;
 import com.ssafy.togeball.domain.tag.entity.*;
+import com.ssafy.togeball.domain.tag.exception.TagErrorCode;
 import com.ssafy.togeball.domain.tag.repository.*;
 import com.ssafy.togeball.domain.user.entity.User;
-import jakarta.persistence.EntityNotFoundException;
+import com.ssafy.togeball.domain.user.exception.UserErrorCode;
+import com.ssafy.togeball.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 public class TagService {
 
     private final TagRepository tagRepository;
+    private final UserRepository userRepository;
     private final UserTagRepository userTagRepository;
     private final MatchingTagRepository matchingTagRepository;
     private final RecruitTagRepository recruitTagRepository;
@@ -33,6 +36,10 @@ public class TagService {
     // 사용자 정의 태그 추가
     @Transactional
     public Integer createCustomTag(TagCreateRequest request) {
+        if (tagRepository.existsByContent(request.getContent())) {
+            throw new ApiException(TagErrorCode.DUPLICATE_TAG);
+        }
+
         Tag tag = request.toEntity();
         return tagRepository.save(tag).getId();
     }
@@ -81,7 +88,6 @@ public class TagService {
     }
 
     // 회원 해시태그 수정
-    // TODO : 없는 태그가 포함되어 있어도 오류를 띄우지 않음!
     @Transactional
     public void updateUserTags(User user, Set<Integer> tagIds) {
 
@@ -90,7 +96,7 @@ public class TagService {
 
         Set<Tag> tags = tagRepository.findAllByIdIn(tagIds);
         if (tags.size() != tagIds.size()) {
-            throw new IllegalArgumentException("하나 이상의 태그 ID가 유효하지 않습니다.");
+            throw new ApiException(TagErrorCode.TAG_NOT_FOUND);
         }
 
         Set<UserTag> userTags = tags.stream()
@@ -104,75 +110,64 @@ public class TagService {
 
     // id로 태그 찾기
     @Transactional
-    public TagResponse findTagById(Integer tagId) {
-        Tag tag = tagRepository.findById(tagId).orElseThrow(EntityNotFoundException::new);
-        return TagResponse.of(tag);
+    public Tag findTagById(Integer tagId) {
+        return tagRepository.findById(tagId).orElseThrow(() -> new ApiException(TagErrorCode.TAG_NOT_FOUND));
     }
 
     // 내용으로 태그 찾기
     @Transactional
-    public TagResponse findTagByContent(String content) {
-        Tag tag = tagRepository.findByContent(content).orElse(null);
-        if (tag == null) return null;
-        return TagResponse.of(tag);
+    public Tag findTagByContent(String content) {
+        return tagRepository.findByContent(content).orElseThrow(() -> new ApiException(TagErrorCode.TAG_NOT_FOUND));
     }
 
     // keyword로 시작하는 태그 목록
     @Transactional
-    public List<TagResponse> findTagsStartingWithKeyword(String keyword) {
-        return tagRepository.findByContentStartingWith(keyword)
-                .stream()
-                .map(TagResponse::of)
-                .toList();
+    public Set<Tag> findTagsStartingWithKeyword(String keyword) {
+        return tagRepository.findByContentStartingWith(keyword);
     }
 
     // 태그 전체 목록 보기
     @Transactional
-    public Page<TagResponse> findAllTags(Pageable pageable) {
-        return tagRepository.findAll(pageable)
-                .map(TagResponse::of);
+    public Page<Tag> findAllTags(Pageable pageable) {
+        return tagRepository.findAll(pageable);
     }
 
     // 해당하는 회원의 태그 목록
     @Transactional
-    public Set<TagResponse> findAllTagsByUserId(Integer userId) {
+    public Set<Tag> findAllTagsByUserId(Integer userId) {
+        userRepository.findById(userId).orElseThrow(() ->
+                new ApiException(UserErrorCode.USER_NOT_FOUND));
         Set<UserTag> userTags = userTagRepository.findByUserId(userId);
 
         return userTags.stream()
                 .map(UserTag::getTag)
-                .map(TagResponse::of)
                 .collect(Collectors.toSet());
     }
 
     // 모집 채팅방 id로 태그 목록
     @Transactional
-    public Set<TagResponse> findAllTagsByRecruitChatroomId(Integer chatroomId) {
+    public Set<Tag> findAllTagsByRecruitChatroomId(Integer chatroomId) {
         Set<RecruitTag> recruitTags = recruitTagRepository.findAllByRecruitChatroomId(chatroomId);
 
         return recruitTags.stream()
                 .map(RecruitTag::getTag)
-                .map(TagResponse::of)
                 .collect(Collectors.toSet());
     }
 
     // 매칭 id로 태그 목록
     @Transactional
-    public Set<TagResponse> findAllTagsByMatchingId(Integer matchingId) {
+    public Set<Tag> findAllTagsByMatchingId(Integer matchingId) {
         Set<MatchingTag> matchingTags = matchingTagRepository.findAllByMatchingId(matchingId);
 
         return matchingTags.stream()
                 .map(MatchingTag::getTag)
-                .map(TagResponse::of)
                 .collect(Collectors.toSet());
     }
 
     // 회원 아이디 목록에 해당하는 태그 목록 구하기
     @Transactional
-    public Set<TagResponse> findAllTagsByUserIds(Set<Integer> userIds) {
-        return tagRepository.findTagsByUserIds(userIds)
-                .stream()
-                .map(TagResponse::of)
-                .collect(Collectors.toSet());
+    public Set<Tag> findAllTagsByUserIds(Set<Integer> userIds) {
+        return tagRepository.findTagsByUserIds(userIds);
     }
 
     // 회원 아이디 목록에 해당하는 태그 목록을 개수와 함께

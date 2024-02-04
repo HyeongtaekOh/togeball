@@ -13,7 +13,6 @@ public enum UserErrorCode implements ErrorCode {
     CONFLICT_EMAIL(HttpStatus.CONFLICT, "Email is already registered"),
     CONFLICT_NICKNAME(HttpStatus.CONFLICT, "Nickname is already registered"),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "User is not found"),
-
     ;
 
     private final HttpStatus httpStatus;
