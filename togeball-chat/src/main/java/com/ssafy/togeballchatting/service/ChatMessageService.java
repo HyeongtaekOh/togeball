@@ -27,9 +27,9 @@ public class ChatMessageService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ChatMessageDto> findAllByRoomIdAndFirstMessageTime(Integer roomId, Instant firstMessageTime, Pageable pageable) {
+    public Page<ChatMessageDto> findAllByRoomIdAndEnteredTime(Integer roomId, Instant enteredTime, Pageable pageable) {
 
-        Page<ChatMessage> page = chatMessageRepository.findAllByRoomIdAndTimestampIsGreaterThanEqual(roomId, firstMessageTime, pageable);
+        Page<ChatMessage> page = chatMessageRepository.findAllByRoomIdAndTimestampIsGreaterThanEqual(roomId, enteredTime, pageable);
         page.forEach(chatMessage -> log.info("chatMessage: {}", chatMessage));
         return page
                 .map(chatMessage -> ChatMessageDto.builder()
@@ -39,5 +39,9 @@ public class ChatMessageService {
                         .content(chatMessage.getContent())
                         .timestamp(chatMessage.getTimestamp())
                         .build());
+    }
+
+    public Integer countUnreadMessages(Integer roomId, Instant lastReadTimestamp) {
+        return chatMessageRepository.countByRoomIdAndTimestampIsGreaterThan(roomId, lastReadTimestamp);
     }
 }
