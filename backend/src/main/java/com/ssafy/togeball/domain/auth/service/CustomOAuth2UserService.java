@@ -5,6 +5,7 @@ import com.ssafy.togeball.domain.auth.entity.SocialType;
 import com.ssafy.togeball.domain.auth.exception.InvalidSocialTypeException;
 import com.ssafy.togeball.domain.auth.repository.AuthRepository;
 import com.ssafy.togeball.domain.user.entity.User;
+import com.ssafy.togeball.domain.user.exception.UserNotFoundException;
 import com.ssafy.togeball.domain.user.oauth2.CustomOAuth2User;
 import com.ssafy.togeball.domain.user.oauth2.OAuthAttributes;
 import com.ssafy.togeball.domain.user.repository.UserRepository;
@@ -66,7 +67,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             find = saveAuth(attributes, socialType, user.getId());
         }
 
-        return userRepository.findById(find.getUserId()).orElseThrow(EntityNotFoundException::new);
+        return userRepository.findById(find.getUserId()).orElseThrow(UserNotFoundException::new);
     }
 
     private SocialType getSocialType(String registrationId) {

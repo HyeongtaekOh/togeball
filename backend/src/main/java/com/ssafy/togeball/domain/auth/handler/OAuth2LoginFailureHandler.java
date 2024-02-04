@@ -9,13 +9,15 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+import static com.ssafy.togeball.domain.auth.handler.LoginFailureHandler.sendErrorResponse;
+
 @Slf4j
 @Component
 public class OAuth2LoginFailureHandler implements AuthenticationFailureHandler {
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        sendErrorResponse(response);
         log.info("소셜 로그인에 실패했습니다. 에러 메시지 : {}", exception.getMessage());
     }
 }

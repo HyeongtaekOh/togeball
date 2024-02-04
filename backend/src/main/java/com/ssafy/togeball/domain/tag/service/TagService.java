@@ -7,9 +7,11 @@ import com.ssafy.togeball.domain.tag.dto.TagCountResponse;
 import com.ssafy.togeball.domain.tag.dto.TagCreateRequest;
 import com.ssafy.togeball.domain.tag.entity.*;
 import com.ssafy.togeball.domain.tag.exception.TagErrorCode;
+import com.ssafy.togeball.domain.tag.exception.TagNotFoundException;
 import com.ssafy.togeball.domain.tag.repository.*;
 import com.ssafy.togeball.domain.user.entity.User;
 import com.ssafy.togeball.domain.user.exception.UserErrorCode;
+import com.ssafy.togeball.domain.user.exception.UserNotFoundException;
 import com.ssafy.togeball.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -96,7 +98,7 @@ public class TagService {
 
         Set<Tag> tags = tagRepository.findAllByIdIn(tagIds);
         if (tags.size() != tagIds.size()) {
-            throw new ApiException(TagErrorCode.TAG_NOT_FOUND);
+            throw new TagNotFoundException();
         }
 
         Set<UserTag> userTags = tags.stream()
@@ -111,13 +113,13 @@ public class TagService {
     // id로 태그 찾기
     @Transactional
     public Tag findTagById(Integer tagId) {
-        return tagRepository.findById(tagId).orElseThrow(() -> new ApiException(TagErrorCode.TAG_NOT_FOUND));
+        return tagRepository.findById(tagId).orElseThrow(TagNotFoundException::new);
     }
 
     // 내용으로 태그 찾기
     @Transactional
     public Tag findTagByContent(String content) {
-        return tagRepository.findByContent(content).orElseThrow(() -> new ApiException(TagErrorCode.TAG_NOT_FOUND));
+        return tagRepository.findByContent(content).orElseThrow(TagNotFoundException::new);
     }
 
     // keyword로 시작하는 태그 목록
@@ -135,8 +137,7 @@ public class TagService {
     // 해당하는 회원의 태그 목록
     @Transactional
     public Set<Tag> findAllTagsByUserId(Integer userId) {
-        userRepository.findById(userId).orElseThrow(() ->
-                new ApiException(UserErrorCode.USER_NOT_FOUND));
+        userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         Set<UserTag> userTags = userTagRepository.findByUserId(userId);
 
         return userTags.stream()

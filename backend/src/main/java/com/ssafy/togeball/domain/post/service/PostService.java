@@ -5,9 +5,11 @@ import com.ssafy.togeball.domain.post.dto.PostRequest;
 import com.ssafy.togeball.domain.post.dto.PostResponse;
 import com.ssafy.togeball.domain.post.entity.Post;
 import com.ssafy.togeball.domain.post.exception.PostErrorCode;
+import com.ssafy.togeball.domain.post.exception.PostNotFoundException;
 import com.ssafy.togeball.domain.post.repository.PostRepository;
 import com.ssafy.togeball.domain.user.entity.User;
 import com.ssafy.togeball.domain.user.exception.UserErrorCode;
+import com.ssafy.togeball.domain.user.exception.UserNotFoundException;
 import com.ssafy.togeball.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -34,15 +36,13 @@ public class PostService {
 
     @Transactional
     public PostResponse showPost(int postId) {
-        Post post =  postRepository.findById(postId).orElseThrow(() ->
-                new ApiException(PostErrorCode.POST_NOT_FOUND));
+        Post post =  postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         return PostResponse.of(post);
     }
 
     @Transactional
     public int writePost(PostRequest postRequest) {
-        User user = userRepository.findById(postRequest.getUserId()).orElseThrow(() ->
-                new ApiException(UserErrorCode.USER_NOT_FOUND));
+        User user = userRepository.findById(postRequest.getUserId()).orElseThrow(UserNotFoundException::new);
         Post savedPost = postRepository.save(postRequest.toEntity(user));
         return savedPost.getId();
     }
@@ -65,5 +65,14 @@ public class PostService {
                 break;
         }
         return posts.map(PostResponse::of);
+    }
+
+    @Transactional
+    public void deletePost(Integer postId) {
+        if (!postRepository.existsById(postId)) {
+            throw new PostNotFoundException();
+        }
+
+        postRepository.deleteById(postId);
     }
 }

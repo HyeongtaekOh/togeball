@@ -26,7 +26,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         log.info("OAuth2 Login 성공!");
         CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
         loginSuccess(response, oAuth2User);
-        response.sendRedirect("/social/after");
     }
 
     private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) {
