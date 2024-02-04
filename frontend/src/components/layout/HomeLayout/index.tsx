@@ -1,5 +1,4 @@
 import { styled } from 'styled-components'
-import Header from 'src/components/app/Header'
 
 const HomeWrapper = styled.div`
     box-sizing: border-box;
@@ -9,6 +8,7 @@ const HomeWrapper = styled.div`
     min-width: 800px;
     flex-direction: column;
     gap: 15px;
+    margin: auto;
 `
 
 const HomeLayout = ( props : HomeLayoutProps ) =>{
