@@ -2,8 +2,10 @@ package com.ssafy.togeball.domain.auth.service;
 
 import com.ssafy.togeball.domain.auth.entity.Auth;
 import com.ssafy.togeball.domain.auth.repository.AuthRepository;
+import com.ssafy.togeball.domain.common.exception.ApiException;
 import com.ssafy.togeball.domain.security.jwt.JwtService;
 import com.ssafy.togeball.domain.user.entity.User;
+import com.ssafy.togeball.domain.user.exception.UserErrorCode;
 import com.ssafy.togeball.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +17,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service
@@ -29,7 +33,7 @@ public class AuthService implements UserDetailsService {
 
     public void createAuth(Integer userId, String password) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 유저가 존재하지 않습니다."));
+                .orElseThrow(() -> new ApiException(UserErrorCode.USER_NOT_FOUND));
 
         Auth auth = Auth.builder()
                 .userId(user.getId())
@@ -40,8 +44,8 @@ public class AuthService implements UserDetailsService {
         authRepository.save(auth);
     }
 
-    public Auth findAuthByEmail(String email) {
-        return authRepository.findByEmail(email).orElse(null);
+    public Optional<Auth> findAuthByEmail(String email) {
+        return authRepository.findByEmail(email);
     }
 
     public void updateRefreshToken(String email, String refreshToken) {
@@ -79,6 +83,19 @@ public class AuthService implements UserDetailsService {
         } else {
             throw new EntityNotFoundException("Invalid refresh token");
         }
+    }
+
+    public void setTokensForUser(Integer userId, HttpServletResponse response) {
+        Auth auth = authRepository.findByUserId(userId).orElseThrow();
+        String email = auth.getEmail();
+
+        String accessToken = jwtService.createAccessToken(email);
+        String refreshToken = jwtService.createRefreshToken();
+
+        jwtService.sendAccessToken(response, accessToken);
+        jwtService.sendRefreshToken(response, refreshToken);
+
+        updateRefreshToken(email, refreshToken);
     }
 
     public void logout(HttpServletRequest request) {

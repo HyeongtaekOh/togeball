@@ -3,6 +3,7 @@ package com.ssafy.togeball.domain.user.dto;
 import com.ssafy.togeball.domain.tag.dto.TagResponse;
 import com.ssafy.togeball.domain.user.entity.Gender;
 import com.ssafy.togeball.domain.user.entity.User;
+import jakarta.transaction.Transactional;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

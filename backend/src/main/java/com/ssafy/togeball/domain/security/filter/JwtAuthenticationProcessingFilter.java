@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -44,11 +45,11 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
                     .orElse(null);
 
             if (accessToken != null) {
-                User user = userService.findUserByEmail(accessToken);
-                Auth auth = authService.findAuthByEmail(accessToken);
+                Optional<User> userOpt = userService.findUserByEmail(accessToken);
+                Optional<Auth> authOpt = authService.findAuthByEmail(accessToken);
 
-                if (user != null && auth != null) {
-                    saveAuthentication(user, auth);
+                if (userOpt.isPresent() && authOpt.isPresent()) {
+                    saveAuthentication(userOpt.get(), authOpt.get());
                 } else {
                     log.warn("User or Auth not found for email in access token in request to {}", request.getRequestURI());
                 }

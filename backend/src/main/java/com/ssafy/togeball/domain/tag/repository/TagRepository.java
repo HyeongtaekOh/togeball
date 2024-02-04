@@ -9,6 +9,8 @@ import java.util.Set;
 
 public interface TagRepository extends JpaRepository<Tag, Integer>, CustomTagRepository {
 
+    boolean existsByContent(String content);
+
     Optional<Tag> findByContent(String content);
 
     Set<Tag> findByType(TagType type);

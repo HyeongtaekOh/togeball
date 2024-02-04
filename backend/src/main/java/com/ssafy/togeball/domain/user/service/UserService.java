@@ -1,6 +1,6 @@
 package com.ssafy.togeball.domain.user.service;
 
-import com.ssafy.togeball.domain.common.exception.RestApiException;
+import com.ssafy.togeball.domain.common.exception.ApiException;
 import com.ssafy.togeball.domain.user.dto.UserSignUpRequest;
 import com.ssafy.togeball.domain.auth.service.AuthService;
 import com.ssafy.togeball.domain.tag.service.TagService;
@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -28,11 +29,11 @@ public class UserService {
     public Integer signUp(UserSignUpRequest userSignUpRequest) {
 
         if (userRepository.findByEmail(userSignUpRequest.getEmail()).isPresent()) {
-            throw new RestApiException(UserErrorCode.CONFLICT_EMAIL);
+            throw new ApiException(UserErrorCode.CONFLICT_EMAIL);
         }
 
         if (userRepository.findByNickname(userSignUpRequest.getNickname()).isPresent()) {
-            throw new RestApiException(UserErrorCode.CONFLICT_NICKNAME);
+            throw new ApiException(UserErrorCode.CONFLICT_NICKNAME);
         }
 
         User user = User.builder()
@@ -48,17 +49,20 @@ public class UserService {
         return userId;
     }
 
-    public User findUserById(Integer userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
+    @Transactional(readOnly = true)
+    public Optional<User> findUserById(Integer userId) {
+        return userRepository.findUserWithTagsById(userId);
     }
 
+    @Transactional(readOnly = true)
+    public Optional<User> findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Transactional(readOnly = true)
     public void updateUserTags(Integer userId, Set<Integer> tagIds) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new ApiException(UserErrorCode.USER_NOT_FOUND));
         tagService.updateUserTags(user, tagIds);
-    }
-
-    public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new RestApiException(UserErrorCode.USER_NOT_FOUND));
     }
 }
