@@ -9,6 +9,7 @@ import com.ssafy.togeball.domain.tag.repository.RecruitTagRepository;
 import com.ssafy.togeball.domain.tag.repository.TagRepository;
 import com.ssafy.togeball.domain.tag.repository.UserTagRepository;
 import com.ssafy.togeball.domain.user.entity.User;
+import com.ssafy.togeball.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -35,6 +36,8 @@ class TagServiceTest {
 
     @Mock
     private TagRepository tagRepository;
+    @Mock
+    private UserRepository userRepository;
     @Mock
     private UserTagRepository userTagRepository;
     @Mock
@@ -192,6 +195,7 @@ class TagServiceTest {
         Integer userId = 1;
         Set<UserTag> userTags = generateUserTags();
 
+        when(userRepository.findById(userId)).thenReturn(Optional.of(User.builder().build()));
         when(userTagRepository.findByUserId(userId)).thenReturn(userTags);
 
         Set<Tag> result = tagService.findAllTagsByUserId(userId);
