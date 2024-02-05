@@ -9,6 +9,7 @@ import com.ssafy.togeball.domain.user.exception.UserNotFoundException;
 import com.ssafy.togeball.domain.user.oauth2.CustomOAuth2User;
 import com.ssafy.togeball.domain.user.oauth2.OAuthAttributes;
 import com.ssafy.togeball.domain.user.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

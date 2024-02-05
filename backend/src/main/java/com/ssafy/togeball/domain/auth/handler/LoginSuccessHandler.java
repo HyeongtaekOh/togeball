@@ -1,9 +1,7 @@
 package com.ssafy.togeball.domain.auth.handler;
 
-import com.ssafy.togeball.domain.auth.repository.AuthRepository;
 import com.ssafy.togeball.domain.auth.service.AuthService;
 import com.ssafy.togeball.domain.security.jwt.JwtService;
-import com.ssafy.togeball.domain.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
