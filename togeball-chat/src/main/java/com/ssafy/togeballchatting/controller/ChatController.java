@@ -2,16 +2,14 @@ package com.ssafy.togeballchatting.controller;
 
 import com.ssafy.togeballchatting.dto.ChatMessageDto;
 import com.ssafy.togeballchatting.dto.ChatroomUnreadDto;
+import com.ssafy.togeballchatting.exception.NotParticipatingException;
 import com.ssafy.togeballchatting.facade.ChatFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,5 +36,10 @@ public class ChatController {
                                                  List<Integer> roomIds) {
         List<ChatroomUnreadDto> response = chatFacade.getUnreadMessageCountAndLatestChatMessage(userId, roomIds);
         return ResponseEntity.ok(response);
+    }
+
+    @ExceptionHandler(NotParticipatingException.class)
+    public ResponseEntity<?> handleNotParticipatingException(NotParticipatingException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
