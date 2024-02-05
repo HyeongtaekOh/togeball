@@ -114,4 +114,4 @@ const MatchingModal = ( props ) => {
   );
 };
 
-export default MatchingModal;
+export default MatchingModal
