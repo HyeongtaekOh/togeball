@@ -87,7 +87,8 @@ public class ChatroomService {
     @Transactional
     public boolean joinChatroom(Integer userId, Integer chatroomId) {
 
-        if (chatroomRepository.findCapacityById(chatroomId) > chatroomMembershipRepository.countByChatroomId(chatroomId)) {
+        if (chatroomRepository.findCapacityById(chatroomId) >
+                chatroomMembershipRepository.countByChatroomId(chatroomId)) {
             return false;
         }
         rabbitTemplate.convertAndSend(exchange, routingKey, ChatroomJoinMessage.builder()
@@ -104,6 +105,7 @@ public class ChatroomService {
         chatroomMembershipRepository.delete(membership);
     }
 
+    @Transactional(readOnly = true)
     public Page<ChatroomResponse> findAllChatroomsByType(String type, Pageable pageable) {
 
         Page<Chatroom> chatrooms = chatroomRepository.findAllByType(type, pageable);

@@ -2,14 +2,18 @@ package com.ssafy.togeballchatting.facade;
 
 import com.ssafy.togeballchatting.dto.ChatHistoryDto;
 import com.ssafy.togeballchatting.dto.ChatMessageDto;
+import com.ssafy.togeballchatting.dto.ChatroomJoinMessage;
 import com.ssafy.togeballchatting.dto.ChatroomUnreadDto;
+import com.ssafy.togeballchatting.exception.NotParticipatingException;
 import com.ssafy.togeballchatting.service.ChatHistoryService;
 import com.ssafy.togeballchatting.service.ChatMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -23,21 +27,14 @@ public class ChatFacade {
     private final ChatHistoryService chatHistoryService;
     private final ChatMessageService chatMessageService;
 
+    @Transactional
     public Page<ChatMessageDto> findChatMessagePageByRoomId(Integer roomId, Integer userId, Pageable pageable) {
         log.info("roomId: {}, userId: {}, pageable: {}", roomId, userId, pageable);
 
-        // 사용자가 채팅방에 처음 들어온 경우, 채팅방 입장 시간을 기록
         ChatHistoryDto chatHistoryDto = chatHistoryService.findChatHistoryByRoomIdAndUserId(roomId, userId);
         if (chatHistoryDto == null) {
-            Instant now = Instant.now();
-            chatHistoryDto = chatHistoryService.save(ChatHistoryDto.builder()
-                    .roomId(roomId)
-                    .userId(userId)
-                    .enteredTimestamp(now)
-                    .lastReadTimestamp(now)
-                    .build());
+            throw new NotParticipatingException("사용자가 채팅방에 참여하지 않았습니다.");
         }
-        log.info("chatHistoryDto: {}", chatHistoryDto);
 
         Page<ChatMessageDto> page = chatMessageService.findAllByRoomIdAndEnteredTime(roomId, chatHistoryDto.getEnteredTimestamp(), pageable);
         log.info("page.getContent(): {}", page.getContent());
@@ -55,6 +52,7 @@ public class ChatFacade {
         return page;
     }
 
+    @Transactional(readOnly = true)
     public List<ChatroomUnreadDto> getUnreadMessageCountAndLatestChatMessage(Integer userId, List<Integer> roomIds) {
         List<ChatroomUnreadDto> response = new ArrayList<>();
         for (Integer roomId : roomIds) {
@@ -70,6 +68,7 @@ public class ChatFacade {
         return response;
     }
 
+    @Transactional(readOnly = true)
     public Integer countUnreadMessages(Integer roomId, Integer userId) {
         ChatHistoryDto chatHistoryDto = chatHistoryService.findChatHistoryByRoomIdAndUserId(roomId, userId);
         if (chatHistoryDto == null) {
@@ -78,7 +77,23 @@ public class ChatFacade {
         return chatMessageService.countUnreadMessages(roomId, chatHistoryDto.getLastReadTimestamp());
     }
 
+    @Transactional(readOnly = true)
     public ChatMessageDto getLatestChatMessage(Integer roomId) {
         return chatMessageService.getLatestChatMessage(roomId);
+    }
+
+    @Transactional
+    @RabbitListener(queues = "${rabbitmq.queue.name}")
+    public void handleJoinEvent(ChatroomJoinMessage message) {
+        log.info("message: {}", message);
+        if (chatHistoryService.findChatHistoryByRoomIdAndUserId(message.getRoomId(), message.getUserId()) == null) {
+            Instant now = Instant.now();
+            chatHistoryService.save(ChatHistoryDto.builder()
+                    .roomId(message.getRoomId())
+                    .userId(message.getUserId())
+                    .enteredTimestamp(now)
+                    .lastReadTimestamp(now)
+                    .build());
+        }
     }
 }
