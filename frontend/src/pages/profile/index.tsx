@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import { HomeLayout, MainLayout, Title, RadioTagList, InputBox, Tag, Button } from 'src/components'
 import styled from 'styled-components'
+import { getTags } from './api'
 import { RowTagList, ColTagList, TagList } from './components'
 import useModel from './store'
 import ImgUpload from './components/ImgUpload'
+import { TagType } from 'src/types'
+import { useQuery } from 'react-query'
 
 const ProfileSettingWrapper = styled.div`
   box-sizing: border-box;
@@ -73,6 +76,18 @@ const Profile = () => {
     { name : '분석형', value: 2 },
     { name : '먹방형', value: 3 },
   ]
+
+  const param = {
+    page: 0,
+    size: 100
+  }
+
+  const { data: tags } = useQuery<TagType[]>([ 'tags', param ], () => getTags( param ))
+  // const games= gamelist?.filter(( game ) => game.datetime.substring(8,10) === format( day, 'dd' ))
+  // const taglist = tags
+  console.log(tags)
+  // const prefedTeam = tags?.filter(( tag ) => tag.)
+
 
   const [ id, setId ] = useState( '하이' )
   const [ nickName, setNickName ] = useState( '' )

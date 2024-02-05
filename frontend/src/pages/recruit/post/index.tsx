@@ -130,7 +130,6 @@ const RecruitPost = () => {
         { value: '9', name: '9' },
         { value: '10', name: '10' }
     ])
-
     
 
     const data = {
