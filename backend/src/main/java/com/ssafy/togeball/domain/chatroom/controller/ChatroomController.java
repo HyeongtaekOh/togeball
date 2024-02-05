@@ -2,7 +2,6 @@ package com.ssafy.togeball.domain.chatroom.controller;
 
 import com.ssafy.togeball.domain.chatroom.dto.*;
 import com.ssafy.togeball.domain.chatroom.entity.Chatroom;
-import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
 import com.ssafy.togeball.domain.chatroom.service.ChatroomService;
 import com.ssafy.togeball.domain.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -80,17 +79,12 @@ public class ChatroomController {
     public ResponseEntity<?> joinChatroom(@PathVariable(value = "chatroomId") Integer chatroomId,
                                           @RequestBody Integer userId) {
 
-        boolean succeed = chatroomService.joinChatroom(userId, chatroomId);
-        if (succeed) {
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                    .path("/{userId}")
-                    .buildAndExpand(userId)
-                    .toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{userId}")
+                .buildAndExpand(userId)
+                .toUri();
 
-            return ResponseEntity.created(location).build();
-        }
-
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.created(location).build();
     }
 
     @PatchMapping("/{chatroomId}")

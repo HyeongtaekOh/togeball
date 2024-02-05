@@ -38,6 +38,7 @@ public class LeagueService {
 
     @Transactional(readOnly = true)
     public List<GameResponse> findBySponsorNameAndDate(Date date, String sponsorName) {
+
         List<Game> games = gameRepository.findBySponsorNameAndDate(date, sponsorName);
         return games.stream()
                 .map(GameResponse::of)

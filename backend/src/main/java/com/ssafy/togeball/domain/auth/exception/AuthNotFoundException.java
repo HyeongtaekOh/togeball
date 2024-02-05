@@ -1,7 +1,9 @@
 package com.ssafy.togeball.domain.auth.exception;
 
-public class AuthNotFoundException extends RuntimeException {
+import com.ssafy.togeball.domain.common.exception.ApiException;
+
+public class AuthNotFoundException extends ApiException {
     public AuthNotFoundException() {
-        super();
+        super(AuthErrorCode.AUTH_NOT_FOUND);
     }
 }

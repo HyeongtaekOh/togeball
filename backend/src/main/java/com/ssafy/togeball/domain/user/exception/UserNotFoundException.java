@@ -1,8 +1,9 @@
 package com.ssafy.togeball.domain.user.exception;
 
-public class UserNotFoundException extends RuntimeException {
+import com.ssafy.togeball.domain.common.exception.ApiException;
+
+public class UserNotFoundException extends ApiException {
     public UserNotFoundException() {
-        super();
+        super(UserErrorCode.USER_NOT_FOUND);
     }
 }
-
