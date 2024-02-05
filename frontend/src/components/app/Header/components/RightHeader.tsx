@@ -50,9 +50,9 @@ const RightHeader = () => {
       },
       { title : 'Content', 
         menus : [ 
-          { name : '오픈 채팅방', path : '/service' },
+          { name : '오픈 채팅방', path : '/chat' },
           { name : '메이트 채팅방', path : '/service' },
-          { name : '경기 일정', path : '/calender' },
+          { name : '경기 일정', path : '/calendar' },
         ] 
       },
     ]
