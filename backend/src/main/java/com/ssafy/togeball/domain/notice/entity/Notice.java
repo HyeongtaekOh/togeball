@@ -22,7 +22,7 @@ public class Notice extends BaseEntity {
     private User user; //알림을 받을 회원
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "matching_id", nullable = false)
+    @JoinColumn(name = "matching_id", nullable = false)
     private Matching matching;
 
     private boolean isRead = false;

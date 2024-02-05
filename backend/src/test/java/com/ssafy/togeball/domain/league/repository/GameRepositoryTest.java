@@ -25,6 +25,59 @@ public class GameRepositoryTest {
     @Autowired
     private StadiumRepository stadiumRepository;
 
+    private Club club1;
+
+    private Club club2;
+
+    private Stadium stadium;
+
+    private Game game1;
+
+    private Game game2;
+
+    void dataInit() {
+
+        List<Club> clubs = new ArrayList<>();
+        club1 = Club.builder()
+                .sponsorName("LG")
+                .clubName("트윈스")
+                .logo("logo1.png")
+                .ranking(1)
+                .build();
+        club2 = Club.builder()
+                .sponsorName("두산")
+                .clubName("베어스")
+                .logo("logo2.png")
+                .ranking(5)
+                .build();
+        clubRepository.save(club1);
+        clubRepository.save(club2);
+        clubs.add(club1);
+        clubs.add(club2);
+
+        stadium = Stadium.builder()
+                .clubs(clubs)
+                .name("잠실")
+                .build();
+        stadiumRepository.save(stadium);
+
+        LocalDateTime datetime = LocalDateTime.now();
+        game1 = Game.builder()
+                .stadium(stadium)
+                .homeClub(club1)
+                .awayClub(club2)
+                .datetime(datetime)
+                .build();
+        game2 = Game.builder()
+                .stadium(stadium)
+                .homeClub(club2)
+                .awayClub(club1)
+                .datetime(datetime.plusDays(1))
+                .build();
+        gameRepository.save(game1);
+        gameRepository.save(game2);
+    }
+
     @Test
     void saveTest() {
 
@@ -67,37 +120,7 @@ public class GameRepositoryTest {
     void findAllTest() {
 
         // Given
-        List<Club> clubs = new ArrayList<>();
-        Club club1 = new Club("LG","트윈스","logo1.png", 1);
-        Club club2 = new Club("두산","베어스","logo2.png", 5);
-        clubs.add(club1);
-        clubs.add(club2);
-        Stadium stadium = new Stadium(clubs, "잠실");
-        stadiumRepository.save(stadium);
-
-        Club homeClub = new Club("Home Club", "Home","logoH.png", 1);
-        Club awayClub = new Club("Away Club", "Away","logoA.png", 2);
-        clubRepository.save(homeClub);
-        clubRepository.save(awayClub);
-
-        LocalDateTime datetime = LocalDateTime.now();
-
-        Game game1 = Game.builder()
-                .stadium(stadium)
-                .homeClub(homeClub)
-                .awayClub(awayClub)
-                .datetime(datetime)
-                .build();
-
-        Game game2 = Game.builder()
-                .stadium(stadium)
-                .homeClub(awayClub)
-                .awayClub(homeClub)
-                .datetime(datetime.plusDays(1))
-                .build();
-
-        gameRepository.save(game1);
-        gameRepository.save(game2);
+        dataInit();
 
         // When
         List<Game> allGames = gameRepository.findAll();
@@ -110,39 +133,25 @@ public class GameRepositoryTest {
     void findBySponsorNameTest() {
 
         // Given
-        List<Club> clubs = new ArrayList<>();
-        Club club1 = new Club("LG","트윈스","logo1.png", 1);
-        Club club2 = new Club("두산","베어스","logo2.png", 5);
-        clubs.add(club1);
-        clubs.add(club2);
-        Stadium stadium = new Stadium(clubs, "잠실");
-        stadiumRepository.save(stadium);
-
-        Club homeClub = new Club("Home Club", "Home","logoH.png", 1);
-        Club awayClub = new Club("Away Club", "Away","logoA.png", 2);
-        clubRepository.save(homeClub);
-        clubRepository.save(awayClub);
-
-        LocalDateTime datetime = LocalDateTime.now();
-
-        Game game1 = Game.builder()
-                .stadium(stadium)
-                .homeClub(homeClub)
-                .awayClub(awayClub)
-                .datetime(datetime)
-                .build();
-
-        gameRepository.save(game1);
+        dataInit();
 
         // When
-        List<Game> gamesBySponsorName = gameRepository.findBySponsorName("Home Club");
+        List<Game> gamesFindBySponsorName = gameRepository.findBySponsorName("LG");
 
         // Then
-        assertEquals(1, gamesBySponsorName.size());
+        assertEquals(2, gamesFindBySponsorName.size());
     }
 
-    //Todo: 날짜 추출 함수를 MariaDB에서는 DATE()를 쓰는데 H2에서는 CAST()를 사용해서 오류 발생
-//    @Test
-//    void findByDateTest() {
-//    }
+    @Test
+    void findByClubIdTest() {
+
+        // Given
+        dataInit();
+
+        // When
+        List<Game> gamesFindByClubId = gameRepository.findByClubId(1);
+
+        // Then
+        assertEquals(2, gamesFindByClubId.size());
+    }
 }
