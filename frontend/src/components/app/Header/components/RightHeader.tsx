@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { PersonIcon, ChatIcon } from 'src/components'
-import { MenuItem, HeaderChat } from './index'
+import { MenuItem, HeaderChat, IconItem } from './index'
 import type { MenuItemProps } from './MenuItem'
 import useStore from 'src/store'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 
 const HeaderMenuWrapper = styled.div`
   box-sizing: border-box;  
@@ -12,15 +13,29 @@ const HeaderMenuWrapper = styled.div`
   height: 60px;
 `
 const HeaderIconWrapper = styled( HeaderMenuWrapper )`
-  gap: 40px;
+  gap: 20px;
   display: flex;
   align-items: center;
 `
 
 const RightHeader = () => {
 
-  const { isLogin, setIsLogin, setSession } = useStore();
-  const [ isChatOpen, setIsChatOpen ] = useState<boolean>(false);
+  const navigator = useNavigate()
+
+  const { isLogin } = useStore()
+  const [ isChatOpen, setIsChatOpen ] = useState<boolean>(false)
+
+  const logout = () => {
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
+    window.location.reload()
+    navigator('/')
+  }
+
+  const personMenu = [
+      { name : '마이페이지', path : '/mypage' },
+      { name : '로그아웃', onClick : logout },
+  ]
   
   const menu = 
     !isLogin ? [
@@ -39,7 +54,7 @@ const RightHeader = () => {
           { name : '메이트 채팅방', path : '/service' },
           { name : '경기 일정', path : '/calender' },
         ] 
-      }
+      },
     ]
 
   return (
@@ -53,13 +68,13 @@ const RightHeader = () => {
             />
       })}
       {
-        !isLogin &&  (
+        isLogin &&  (
         <HeaderIconWrapper>
           <ChatIcon onClick = {() => setIsChatOpen( !isChatOpen )}/>
           { isChatOpen && <HeaderChat /> }
-          <PersonIcon />
-        </HeaderIconWrapper>
-      )}
+          <IconItem menus = { personMenu }><PersonIcon /></IconItem>
+        </HeaderIconWrapper> )
+      }
     </HeaderMenuWrapper>
     
   )

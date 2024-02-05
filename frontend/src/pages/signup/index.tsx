@@ -37,7 +37,7 @@ const SignUp = () => {
     const data = {
       email : email,
       password : password,
-      nickname: 'hi'
+      nickname: 'hi2'
     }
 
     const onSignUp = () => {
@@ -49,6 +49,11 @@ const SignUp = () => {
     const isCheck = ( pwd : string ) => {
       const match = pwd === password;
       setCheckMsg(match ? '' : '비밀번호가 동일하지 않습니다.');
+    }
+
+    const updatePassword = (e) => {
+      setPassword( e.target.value )
+      isCheck( e.target.value )
     }
   
     return (
@@ -66,7 +71,7 @@ const SignUp = () => {
             title= '비밀번호' 
             placeholder= '비밀번호를 입력해주세요.'
             value={ password }
-            onChange={(e) => { setPassword( e.target.value )}}
+            onChange={(e) => { updatePassword(e) }}
           />
           <InputBox 
             title= '비밀번호 확인' 
