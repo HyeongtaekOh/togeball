@@ -28,12 +28,10 @@ public class ChatroomController {
     @GetMapping("/test")
     public ChatroomResponse test() {
 
-        Chatroom chatroom = chatroomService.getTestChatroom();
-
         return ChatroomResponse.builder()
-                .id(chatroom.getId())
-                .title(chatroom.getTitle())
-                .type(chatroom.getType())
+                .id(1)
+                .title("test")
+                .type("test")
                 .build();
     }
 
@@ -78,7 +76,7 @@ public class ChatroomController {
 
     @PostMapping("/{chatroomId}/participants")
     public ResponseEntity<?> joinChatroom(@PathVariable(value = "chatroomId") Integer chatroomId,
-                                          @RequestBody Integer userId) {
+                                          @RequestParam Integer userId) {
 
         boolean succeed = chatroomService.joinChatroom(userId, chatroomId);
         if (succeed) {
