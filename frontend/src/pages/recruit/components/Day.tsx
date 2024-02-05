@@ -1,5 +1,5 @@
 import { GameType }  from 'src/types'
-import { matchStore } from '../store'
+import useStore from '../store'
 import { format } from 'date-fns'
 import { styled, css } from 'styled-components'
 
@@ -39,7 +39,7 @@ const ShowGamesWrapper = styled.div`
 export const Day = ( props: DayProps ) =>{
 
     const { index, day, gamelist } = props
-    const { updateMatch, updateModal } = matchStore()
+    const { updateMatch, updateModal } = useStore()
 
     const games = gamelist?.filter(( game ) => game.datetime.substring( 0,10 ) === format( day, 'yyyy-MM-dd' ))
     
@@ -51,7 +51,7 @@ export const Day = ( props: DayProps ) =>{
 
     return(
         <DayWrapper index={ index }>
-            { format( day, 'd' ) }
+            { format( day, 'd' )}
             { games?.map(( game ) => {
                 return(
                     <ShowGamesWrapper onClick={(e) => selectMatch( e, game )}>

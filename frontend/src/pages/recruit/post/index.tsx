@@ -1,7 +1,7 @@
 import { Button, InputBox, Select, MainLayout, HomeLayout, Title } from 'src/components';
 import { TagsInput, WeekCalendar } from '../components';
 import { postRecruit } from './api';
-import { matchStore, tagStore } from '../store'
+import useStore from '../store'
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useMutation } from 'react-query'
@@ -57,10 +57,10 @@ const RecruitPost = () => {
     const [ team, setTeam ] = useState("")
     const [ seat, setSeat] = useState('')
     const [ capacity, setCapacity ] = useState()
-    const { tagList } = tagStore()
+    const { tagList } = useStore()
     const [ textarea, setTextarea ] = useState('')
 
-    const { match, isModalOpened, updateModal } = matchStore()
+    const { match, isModalOpened, updateModal } = useStore()
 
     const recruitMutation = useMutation( postRecruit );
 

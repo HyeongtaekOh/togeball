@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { tagStore } from "../store";
+import useStore from "../store";
 import styled from "styled-components";
 
 const TagsInputWrapper = styled.div`
@@ -52,7 +52,7 @@ const TagInput = styled.input`
 `
 
 export const TagsInput = () => {
-  const { tagItem, tagList, setTagItem, setTagList } = tagStore();
+  const { tagItem, tagList, setTagItem, setTagList } = useStore();
   const [ placeholder, setPlaceholder ] = useState("태그를 설정하세요 (최대 10개)");
 
   const duplicateCheck = ( text ) => {

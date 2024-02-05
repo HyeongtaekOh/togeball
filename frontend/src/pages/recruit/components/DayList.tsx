@@ -25,10 +25,10 @@ export const DayList = ( props ) => {
     }
 
     const param = {
-      startDate: `${format(days[0], 'yyyy-MM-dd')}`,
-      endDate: `${format(days[ days.length-1 ], 'yyyy-MM-dd')}`,
+      startDate: `${ format( days[0], 'yyyy-MM-dd' )}`,
+      endDate: `${ format( days[ days.length-1 ], 'yyyy-MM-dd' )}`,
     }
-    
+
     const { data: game } = useQuery<GameType[]>([ 'game', param ], () => getGames( param ))
 
     return(
