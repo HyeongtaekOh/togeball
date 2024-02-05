@@ -147,9 +147,10 @@ public class GameRepositoryTest {
 
         // Given
         dataInit();
+        Club saveClub1 = clubRepository.save(club1);
 
         // When
-        List<Game> gamesFindByClubId = gameRepository.findByClubId(1);
+        List<Game> gamesFindByClubId = gameRepository.findByClubId(saveClub1.getId());
 
         // Then
         assertEquals(2, gamesFindByClubId.size());
