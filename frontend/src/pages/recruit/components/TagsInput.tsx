@@ -1,5 +1,5 @@
-import { Tag, TagList } from 'src/components'
 import { useState } from "react";
+import useStore from "../store";
 import styled from "styled-components";
 
 const TagsInputWrapper = styled.div`
@@ -8,7 +8,7 @@ const TagsInputWrapper = styled.div`
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 5px;
-`;
+`
 
 const TagItem = styled.div`
   box-sizing: border-box;
@@ -21,7 +21,7 @@ const TagItem = styled.div`
   background-color: #dedcee;
   border: none;
   border-radius: 20px;
-`;
+`
 
 const Button = styled.button`
   cursor: pointer;
@@ -34,7 +34,7 @@ const Button = styled.button`
   color: #9ba3a9;
   background-color: inherit;
   border: none;
-`;
+`
 
 const TagInput = styled.input`
   cursor: text;
@@ -49,20 +49,19 @@ const TagInput = styled.input`
   &::placeholder {
     color: #acb5bd;
   }
-`;
+`
 
 export const TagsInput = () => {
-  const [ tagItem, setTagItem ] = useState("");
-  const [ tagList, setTagList ] = useState([]);
-  const [ placeholder, setPlaceholder] = useState("태그를 설정하세요 (최대 10개)");
+  const { tagItem, tagList, setTagItem, setTagList } = useStore();
+  const [ placeholder, setPlaceholder ] = useState("태그를 설정하세요 (최대 10개)");
 
   const duplicateCheck = ( text ) => {
-    return text !== "" && tagList.indexOf(text) !== -1 ?  false: true;
-  } 
+    return text !== "" && tagList.indexOf( text ) !== -1 ?  false: true;
+  }
 
   const onKeyDown = ( event ) => {
     if(event.target.value.length === 0 && event.key === 'Backspace' ){
-      deleteTagItem( tagList[tagList.length - 1] );
+      deleteTagItem( tagList[ tagList.length - 1 ] );
       setTagItem("");
     }
   }
@@ -70,11 +69,11 @@ export const TagsInput = () => {
   const onKeyUp = ( event ) => {
     if (event.target.value.length !== 0 && event.key === "Enter" ) {
       if( tagList.length >= 10 ) {
-        alert( "태그는 최대 10개입니다." );
-        setPlaceholder( "태그는 최대 10개입니다." );
+        alert( '태그는 최대 10개입니다.' );
+        setPlaceholder( '태그는 최대 10개입니다.' );
       }
-      else if( duplicateCheck(event.target.value) ) setTagList([...tagList, tagItem]);
-      setTagItem("");
+      else if( duplicateCheck( event.target.value )) setTagList([ ...tagList, tagItem ]);
+      setTagItem('');
     }
   };
 

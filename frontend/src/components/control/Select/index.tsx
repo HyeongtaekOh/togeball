@@ -54,6 +54,7 @@ const SelectBox = ( props: SelectBoxProps ) => {
   const changeHandler = ( data : SourceData ) => {
     setSelectedValue( data?.name )
     setIsOpen( false )
+    props.setState(data?.name);
   }
 
   return (
@@ -85,6 +86,7 @@ type SourceData = {
 }
 
 type SelectBoxProps = {
+  setState?(name: any): unknown
   width?: string,
   height?: string,
   dataSource: SourceData[],
