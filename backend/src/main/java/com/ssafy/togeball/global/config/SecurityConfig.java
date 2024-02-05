@@ -6,7 +6,6 @@ import com.ssafy.togeball.domain.auth.handler.LoginSuccessHandler;
 import com.ssafy.togeball.domain.auth.handler.OAuth2LoginFailureHandler;
 import com.ssafy.togeball.domain.auth.handler.OAuth2LoginSuccessHandler;
 import com.ssafy.togeball.domain.auth.service.AuthService;
-import com.ssafy.togeball.domain.auth.service.CustomOAuth2UserService;
 import com.ssafy.togeball.domain.security.filter.CustomAccessDeniedHandler;
 import com.ssafy.togeball.domain.security.filter.CustomAuthenticationEntryPoint;
 import com.ssafy.togeball.domain.security.filter.CustomJsonUsernamePasswordAuthenticationFilter;
@@ -39,7 +38,7 @@ public class SecurityConfig {
     private final UserService userService;
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
     private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
-    private final CustomOAuth2UserService customOAuth2UserService;
+//    private final CustomOAuth2UserService customOAuth2UserService;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
@@ -55,19 +54,20 @@ public class SecurityConfig {
                  */
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/oauth2/**", "/h2-console/**", "/error", "/login/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/reissue", "/api/users").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/reissue", "/api/auth/code", "/api/users").permitAll()
                         .requestMatchers("/api/users/**").permitAll() // 개발용
                         .requestMatchers("/api/hashtags/**").permitAll() // 개발용
                         .requestMatchers("/api/league/**").permitAll()
                         .requestMatchers("/api/posts/**").permitAll()
                         .requestMatchers("/social/**").permitAll()
                         .anyRequest().authenticated())
-                .oauth2Login(oauth2Login -> oauth2Login
+                .oauth2Login(oauth2Login -> oauth2Login.permitAll()
                         .successHandler(oAuth2LoginSuccessHandler)
                         .failureHandler(oAuth2LoginFailureHandler)
-                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
-                                .userService(customOAuth2UserService)
-                        ))
+//                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
+//                                .userService(customOAuth2UserService)
+//                        ))
+                )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
                         .accessDeniedHandler(customAccessDeniedHandler)
