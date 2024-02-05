@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { GameType } from 'src/types'
 import { LeftIcon, RightIcon, Title} from 'src/components'
 import { GameItem } from './index'
@@ -25,8 +25,8 @@ const TodayGameCard = () =>{
   const { data: todayGames, isLoading } = useQuery( 'todayGames', getTodayGames )
   
   const indRef = useRef(0)
-  const [ curGame, setCurGame ] = useState<GameType>( todayGames && todayGames[ indRef.current ] )
-
+  const [ curGame, setCurGame ] = useState<GameType>( todayGames && todayGames[0] )
+    
   const onClickRight = () => {
     indRef.current < todayGames.length - 1 && 
     ( indRef.current = indRef.current + 1 )
@@ -38,6 +38,10 @@ const TodayGameCard = () =>{
     ( indRef.current = indRef.current - 1 )
     setCurGame( todayGames[ indRef.current ] )
   }
+  
+  useEffect(()=>{
+    todayGames && setCurGame( todayGames[ indRef.current ] )
+  }, [todayGames] )
 
   return(
     <GameCard>
@@ -46,9 +50,9 @@ const TodayGameCard = () =>{
         <Title color='#746E6E' type='medium'>
           로딩 중...
         </Title>
-      ) : todayGames && todayGames.length > 0 ? (
+      ) : curGame ? (
         <GameItem
-          game={curGame}
+          game={ curGame }
           // onClick={() => navigator(`/select/${curGame?.chatroomId}`)}
         />
       ) : (

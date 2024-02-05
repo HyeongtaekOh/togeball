@@ -1,10 +1,11 @@
 import { InputBox, Title, KakaoIcon, 
-    NaverIcon, MainLayout, SignLayout, SignButton, HomeLayout } from '../../components'
+    NaverIcon, MainLayout, SignLayout, SignButton } from 'src/components'
 import { useNavigate } from 'react-router-dom'
-import { useCallback, useState } from 'react'
-import { login } from './api'
+import { useState } from 'react'
+import { kakaoLogin, login } from './api'
 import { styled } from 'styled-components'
 import { useMutation } from 'react-query'
+import useStore from 'src/store'
   
 const InputWrapper = styled.div`
     box-sizing: border-box;
@@ -23,19 +24,43 @@ const IconWrapper = styled.div`
   `
   
 const Login = () => {
-  
-  const [ email, setEmail ] = useState()
-  const [ password, setPassword ] = useState()
 
-  const loginMutation = useMutation( login )
+  const { setIsLogin, setAccessToken } = useStore()
+
+  const navigator = useNavigate()
   
-  const data = {
+  const [ email, setEmail ] = useState('')
+  const [ password, setPassword ] = useState('')
+
+  const loginMutation = useMutation( login, {
+    onSuccess: (res) => {
+      setAccessToken( res?.headers?.authorization )
+      localStorage.setItem( 'accessToken', res?.headers?.authorization )
+      localStorage.setItem( 'refreshToken', res?.headers["authorization-refresh"])
+      setIsLogin( true )
+      navigator('/')
+    }
+  })
+
+  const kakaoMutations = useMutation( kakaoLogin )
+  
+  const param = {
     email : email,
     password : password,
   }
 
-  const onLogin = () => {
-    loginMutation.mutateAsync( data )
+  const onLogin = async() => {
+    try {
+      await loginMutation.mutateAsync( param )
+    } catch ( error ) {
+      if( error.response.status === 401 ){
+        alert("비밀번호나 아이디를 확인하세요")
+      }
+    }
+  }
+
+  const onKaKao = () =>{
+    kakaoMutations.mutateAsync()
   }
 
   return (
@@ -60,7 +85,12 @@ const Login = () => {
         로그인
       </SignButton>
       <Title type='small'>SNS 로그인</Title>
-      <IconWrapper><NaverIcon /><KakaoIcon /></IconWrapper>
+      <IconWrapper><NaverIcon />
+      <KakaoIcon onClick={ onKaKao }/>
+      <a href='https://i10a610.p.ssafy.io:8081/oauth2/authorization/kakao'>
+        하이
+      </a>
+      </IconWrapper>
       <a href='./signup'>혹시 아직 회원이 아니신가요?</a>
      </SignLayout>
     </MainLayout>
