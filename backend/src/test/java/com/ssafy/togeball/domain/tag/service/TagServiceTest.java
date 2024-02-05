@@ -3,13 +3,13 @@ package com.ssafy.togeball.domain.tag.service;
 import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
 import com.ssafy.togeball.domain.matching.entity.Matching;
 import com.ssafy.togeball.domain.tag.dto.TagCreateRequest;
-import com.ssafy.togeball.domain.tag.dto.TagResponse;
 import com.ssafy.togeball.domain.tag.entity.*;
 import com.ssafy.togeball.domain.tag.repository.MatchingTagRepository;
 import com.ssafy.togeball.domain.tag.repository.RecruitTagRepository;
 import com.ssafy.togeball.domain.tag.repository.TagRepository;
 import com.ssafy.togeball.domain.tag.repository.UserTagRepository;
 import com.ssafy.togeball.domain.user.entity.User;
+import com.ssafy.togeball.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -36,6 +36,8 @@ class TagServiceTest {
 
     @Mock
     private TagRepository tagRepository;
+    @Mock
+    private UserRepository userRepository;
     @Mock
     private UserTagRepository userTagRepository;
     @Mock
@@ -167,7 +169,7 @@ class TagServiceTest {
 
         when(tagRepository.findById(tagId)).thenReturn(Optional.of(tag));
 
-        TagResponse result = tagService.findTagById(tagId);
+        Tag result = tagService.findTagById(tagId);
 
         assertEquals("test", result.getContent());
         assertEquals(TagType.UNLABELED, result.getType());
@@ -182,7 +184,7 @@ class TagServiceTest {
 
         when(tagRepository.findAll(pageable)).thenReturn(page);
 
-        Page<TagResponse> result = tagService.findAllTags(pageable);
+        Page<Tag> result = tagService.findAllTags(pageable);
 
         assertEquals(2, result.getContent().size());
         verify(tagRepository, times(1)).findAll(pageable);
@@ -193,9 +195,10 @@ class TagServiceTest {
         Integer userId = 1;
         Set<UserTag> userTags = generateUserTags();
 
+        when(userRepository.findById(userId)).thenReturn(Optional.of(User.builder().build()));
         when(userTagRepository.findByUserId(userId)).thenReturn(userTags);
 
-        Set<TagResponse> result = tagService.findAllTagsByUserId(userId);
+        Set<Tag> result = tagService.findAllTagsByUserId(userId);
 
         assertEquals(userTags.size(), result.size());
         verify(userTagRepository, times(1)).findByUserId(userId);
@@ -207,7 +210,7 @@ class TagServiceTest {
         Set<RecruitTag> recruitTags = generateRecruitTags();
         when(recruitTagRepository.findAllByRecruitChatroomId(chatroomId)).thenReturn(recruitTags);
 
-        Set<TagResponse> result = tagService.findAllTagsByRecruitChatroomId(chatroomId);
+        Set<Tag> result = tagService.findAllTagsByRecruitChatroomId(chatroomId);
 
         assertEquals(recruitTags.size(), result.size());
         verify(recruitTagRepository, times(1)).findAllByRecruitChatroomId(chatroomId);
@@ -219,7 +222,7 @@ class TagServiceTest {
         Set<MatchingTag> matchingTags = generateMatchingTags();
         when(matchingTagRepository.findAllByMatchingId(matchingId)).thenReturn(matchingTags);
 
-        Set<TagResponse> result = tagService.findAllTagsByMatchingId(matchingId);
+        Set<Tag> result = tagService.findAllTagsByMatchingId(matchingId);
 
         assertEquals(matchingTags.size(), result.size());
         verify(matchingTagRepository, times(1)).findAllByMatchingId(matchingId);
@@ -232,7 +235,7 @@ class TagServiceTest {
 
         when(tagRepository.findTagsByUserIds(userIds)).thenReturn(tags);
 
-        Set<TagResponse> result = tagService.findAllTagsByUserIds(userIds);
+        Set<Tag> result = tagService.findAllTagsByUserIds(userIds);
 
         assertEquals(tags.size(), result.size());
         verify(tagRepository, times(1)).findTagsByUserIds(userIds);

@@ -2,9 +2,7 @@ package com.ssafy.togeball.domain.league.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssafy.togeball.domain.league.entity.Club;
-import com.ssafy.togeball.domain.league.entity.Stadium;
 import lombok.Builder;
-import lombok.Data;
 
 @Builder
 public class ClubResponse {
