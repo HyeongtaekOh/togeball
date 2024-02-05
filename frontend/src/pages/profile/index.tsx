@@ -7,7 +7,6 @@ import ImgUpload from './components/ImgUpload'
 
 const ProfileSettingWrapper = styled.div`
   box-sizing: border-box;
-  display: flex;
   flex-direction: column;
   width: 95%;
   height: 100%;
@@ -100,7 +99,6 @@ const Profile = () => {
               placeholder = '닉네임을 입력하세요' 
               height = '40px' 
               width = '300px'
-              checkMsg= '중복된 닉네임입니다.'
             />
           </InputWrapper>
           <RowTagList list = { places } >선호 구장</RowTagList>

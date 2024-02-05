@@ -18,7 +18,6 @@ const CalendarWrapper = styled.div`
   align-items: center;
   padding: 10px;
   flex-direction: column;
-  margin-bottom : 100px;
 `
 const CalendarHeaderWrapper = styled.div`
   display: flex;
@@ -32,6 +31,7 @@ const CalendarBodyWrapper = styled.div`
   height: 100%;
   alignItems: center;
   gap: 30px;
+  padding-bottom:7%;
 `
 
 const WeekCalendar = () => {

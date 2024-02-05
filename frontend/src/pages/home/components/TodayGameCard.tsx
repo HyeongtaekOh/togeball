@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useRef, useState } from 'react'
 import { GameType } from 'src/types'
 import { LeftIcon, RightIcon, Title} from 'src/components'
 import { GameItem } from './index'
@@ -24,21 +24,20 @@ const TodayGameCard = () =>{
 
   const { data: todayGames, isLoading } = useQuery( 'todayGames', getTodayGames )
   
-  const [ curIndex, setCurIndex ] = useState<number>(0)
-  const [ curGame, setCurGame ] = useState<GameType>( todayGames && todayGames[0] )
+  const indRef = useRef(0)
+  const [ curGame, setCurGame ] = useState<GameType>( todayGames && todayGames[ indRef.current ] )
 
   const onClickRight = () => {
-    curIndex < todayGames.length - 1 && 
-    setCurIndex(curIndex + 1)
+    indRef.current < todayGames.length - 1 && 
+    ( indRef.current = indRef.current + 1 )
+    setCurGame( todayGames[ indRef.current ] )
   }
 
   const onClickLeft = () => {
-    curIndex !==0 && setCurIndex(curIndex - 1)
+    indRef.current !==0 && 
+    ( indRef.current = indRef.current - 1 )
+    setCurGame( todayGames[ indRef.current ] )
   }
-
-  useEffect(()=>{
-    todayGames && setCurGame( todayGames[ curIndex ] )
-  }, [ curIndex, todayGames ] )
 
   return(
     <GameCard>
