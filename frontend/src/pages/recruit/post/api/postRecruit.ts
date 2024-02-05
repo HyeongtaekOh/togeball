@@ -1,18 +1,19 @@
 import { postAxios } from 'src/api/util'
 
 interface dataType {
-    title: string;
     gameId: number;
+    userId: number;
+    title: string;
+    description: string;
+    capacity: number;
     cheeringTeam: string;
-    preferSeats: string;
-    personnel: number;
     tags: string[];
-    describe: string;
+    preferSeats: string;
 }
 
 export const postRecruit = async( data: dataType ) => {
     try{
-        return await postAxios('/api/recruit', data)
+        return await postAxios('/chatrooms', data)
     }catch( err ){
         console.log(err)
     }

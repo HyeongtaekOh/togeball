@@ -29,7 +29,7 @@ const CalendarBodyWrapper = styled.div`
   gap: 30px;
 `
 
-export const WeekCalendar = (props) => {
+export const WeekCalendar = () => {
 
     const { currentMonth, setCurrentMonth, calculateDateRange } = useDate();
     const { weeksPassed, thisStartDate, thisEndDate } = calculateDateRange();
@@ -47,10 +47,9 @@ export const WeekCalendar = (props) => {
         setCurrentMonth( subDays( currentMonth, 7 ))
       }
     
-      const moveNextWeek = () => {
-        setCurrentMonth( addDays( currentMonth, 7 ))
-      }
-
+    const moveNextWeek = () => {
+      setCurrentMonth( addDays( currentMonth, 7 ))
+    }
 
     return (
       <>
@@ -62,7 +61,7 @@ export const WeekCalendar = (props) => {
             </CalendarHeaderWrapper>
             <CalendarBodyWrapper>
             <DateList/>
-            <DayList list={ days }/>
+            <DayList days={ days }/>
             </CalendarBodyWrapper>
         </CalendarWrapper>
       </>

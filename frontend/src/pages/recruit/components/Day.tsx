@@ -1,5 +1,5 @@
 import { GameType }  from 'src/types'
-import useStore from '../store'
+import { matchStore } from '../store'
 import { format } from 'date-fns'
 import { styled, css } from 'styled-components'
 
@@ -39,22 +39,22 @@ const ShowGamesWrapper = styled.div`
 export const Day = (props: DayProps) =>{
 
     const { index, day, gamelist } = props
-    const { updateMatch, updateModal } = useStore()
+    const { updateMatch, updateModal } = matchStore()
 
     const games = gamelist?.filter((game) => game.datetime.substring(0,10) === format(day, 'yyyy-MM-dd'))
     
-    function selectMatch(e): void {
-        const match = e.currentTarget.innerHTML
+    function selectMatch(e, game): void {
+        const match = game
         updateMatch( match )
         updateModal()
     }
 
     return(
         <DayWrapper index={ index }>
-            { format(day, 'd') }
+            { format( day, 'd' ) }
             { games?.map(( game ) => {
                 return(
-                    <ShowGamesWrapper onClick={ selectMatch }>
+                    <ShowGamesWrapper onClick={(e) => selectMatch(e, game)}>
                         { game.homeClubName } VS { game.awayClubName }
                     </ShowGamesWrapper>
                 )
