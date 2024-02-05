@@ -18,6 +18,8 @@ const MatchingQueue = ( props ) => {
     const newBubbleData = data.hashtags.map(( tagName ) => ({
       label: tagName,
       value: data?.counts[ tagName ],
+      x: width / 2,
+      y: height / 2,
     }));
 
     setBubbleData( newBubbleData )
@@ -26,17 +28,27 @@ const MatchingQueue = ( props ) => {
       .force( 'charge', d3.forceManyBody().strength(5))
       .force( 'x', d3.forceX( width / 2 ).strength(0.1))
       .force( 'y', d3.forceY( height / 2 ).strength(0.1))
-      .force( 'collision', d3.forceCollide().radius(d => Math.sqrt( d.value ) * 35))
+      .force( 'collision', d3.forceCollide().radius(d => Math.sqrt( d.value ) * 20))
+      
+      
+    const filter = svg.append('defs').append('filter').attr('id', 'blur-filter').append('feGaussianBlur').attr('stdDeviation', 5)  
 
     const circles = svg.selectAll( 'circle' ).data( newBubbleData )
-    const colorScale = d3.scaleOrdinal( d3.schemeCategory10 )
+    // const colorScale = d3.scaleOrdinal( d3.schemeCategory10 ) // 원색
+    // const colorScale = d3.scaleSequential( d3.interpolateViridis ) // 원색
+    //   .domain([0, newBubbleData.length])
+    const colorScale = d3.scaleOrdinal(d3.schemeCategory10)
+
 
     circles.enter().append( 'circle' )
-      .attr( 'fill', ( d, i ) => colorScale(i) )
+      .attr( 'fill', 'white' )
+      .attr('stroke', '#E48BF4') // 테두리 색 설정
+      .attr('stroke-width', 2) // 테두리 두께 설정
+      .style('filter', 'url(#blur-filter)')
       .merge( circles )
       .attr( 'cx', d => d.x )
       .attr( 'cy', d => d.y )
-      .attr( 'r', d => Math.sqrt( d.value ) * 35 )
+      .attr( 'r', d => Math.sqrt( d.value ) * 20 )
 
     // 텍스트 추가
     const texts = svg.selectAll( 'text' ).data( newBubbleData );
@@ -58,7 +70,7 @@ const MatchingQueue = ( props ) => {
   }, [ data ])
 
   return (
-    <svg ref={ svgRef } width={ 1000 } height={ 600 }></svg>
+    <svg ref={ svgRef } width={ 1000 } height={ 500 } style={{ backgroundColor:'#7D74B4'}}></svg>
   )
 }
 
