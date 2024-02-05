@@ -13,7 +13,7 @@ import java.util.List;
 
 @Getter
 @Entity
-@Table(name = "TBL_RECRUITCHATROOM")
+@Table(name = "TBL_RECRUIT_CHATROOM")
 @ToString(callSuper = true, exclude = {"manager", "recruitTags"})
 @DiscriminatorValue("RECRUIT")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

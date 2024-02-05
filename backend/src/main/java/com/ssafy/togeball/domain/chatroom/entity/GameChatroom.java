@@ -9,7 +9,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @ToString(callSuper = true)
 @DiscriminatorValue("GAME")
-@Table(name = "TBL_GAMECHATROOM")
+@Table(name = "TBL_GAME_CHATROOM")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GameChatroom extends Chatroom {
 
