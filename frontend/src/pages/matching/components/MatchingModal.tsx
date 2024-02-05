@@ -3,6 +3,13 @@ import styled from 'styled-components'
 import  MatchingProfile  from './MatchingProfile'
 import { Button, Title } from 'src/components'
 
+const ModalInfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 80%;
+`
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -97,18 +104,17 @@ const MatchingModal = ( props ) => {
     <ModalOverlay>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <CloseButton onClick={ handleModalClose }>닫기</CloseButton>
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', height: '80%'}}>
+        <ModalInfoWrapper >
 
-          <p style={{ fontSize: '30px', color: '#7D74B4' , fontWeight:'bolder'}}>#응원을 좋아하고 과몰입하는</p>
-          <div>
+          <p style={{ fontSize: '30px', color: '#7D74B4' , fontWeight:'bolder' }}>#응원을 좋아하고 과몰입하는</p>
+          <div style={{ textAlign: 'center'}}>
             { participants.map(( participant ) => (
               <MatchingProfile key={ participant.userId } { ...participant } />
               ))}
           </div>
           <Title>참가 인원 수: { participants.length }</Title>
           <Button type='parti'>참가하기</Button>
-        </div>
-
+        </ModalInfoWrapper>
       </ModalContent>
     </ModalOverlay>
   );
