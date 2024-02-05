@@ -1,7 +1,7 @@
 import { Button, InputBox, Select, MainLayout, HomeLayout, Title } from 'src/components';
 import { TagsInput, WeekCalendar } from '../components';
 import { postRecruit } from './api';
-import { matchStore } from '../store'
+import { matchStore, tagStore } from '../store'
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useMutation } from 'react-query'
@@ -57,6 +57,7 @@ const RecruitPost = () => {
     const [ team, setTeam ] = useState("")
     const [ seat, setSeat] = useState('')
     const [ capacity, setCapacity ] = useState()
+    const { tagList } = tagStore()
     const [ textarea, setTextarea ] = useState('')
 
     const { match, isModalOpened, updateModal } = matchStore()
@@ -139,13 +140,12 @@ const RecruitPost = () => {
         description: textarea,
         capacity: capacity,
         cheeringTeam: team,
-        tags: ["22", "222"],
+        tags: tagList,
         preferSeats: seat,
     }
 
     const makeChatting = () => {
-        console.log(data)
-        // recruitMutation.mutateAsync( data )
+        recruitMutation.mutateAsync( data )
     }
 
     return (
@@ -154,7 +154,7 @@ const RecruitPost = () => {
             <Title style={{ marginTop: '20px', marginLeft: '20px' }}>제목(최대 60자)</Title>
             <InputBox height='20px' width='100%' value={ title } onChange={(e) => { setTitle( e.target.value )}}/>
             <MatchBtn onClick={ openModal }>
-                { match.homeClubName ? match.homeClubName+' VS '+match.awayClubName : '경기를 선택하세요' }
+                { match.homeClubName ? match.homeClubName +' VS '+ match.awayClubName : '경기를 선택하세요' }
             </MatchBtn>
             { 
                 isModalOpened 

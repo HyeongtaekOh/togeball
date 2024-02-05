@@ -14,13 +14,13 @@ const DayWrapper = styled.div<{ index: number }>`
   margin: 2px;
   gap: 10px;
 
-  ${(props) => props.index === 0 &&
+  ${( props ) => props.index === 0 &&
     css`
     color: red;
     `
   }
 
-  ${(props) => props.index === 6 &&
+  ${( props ) => props.index === 6 &&
     css`
     color: blue;
     `
@@ -36,12 +36,12 @@ const ShowGamesWrapper = styled.div`
   `
 
 
-export const Day = (props: DayProps) =>{
+export const Day = ( props: DayProps ) =>{
 
     const { index, day, gamelist } = props
     const { updateMatch, updateModal } = matchStore()
 
-    const games = gamelist?.filter((game) => game.datetime.substring(0,10) === format(day, 'yyyy-MM-dd'))
+    const games = gamelist?.filter(( game ) => game.datetime.substring( 0,10 ) === format( day, 'yyyy-MM-dd' ))
     
     function selectMatch(e, game): void {
         const match = game
@@ -54,7 +54,7 @@ export const Day = (props: DayProps) =>{
             { format( day, 'd' ) }
             { games?.map(( game ) => {
                 return(
-                    <ShowGamesWrapper onClick={(e) => selectMatch(e, game)}>
+                    <ShowGamesWrapper onClick={(e) => selectMatch( e, game )}>
                         { game.homeClubName } VS { game.awayClubName }
                     </ShowGamesWrapper>
                 )

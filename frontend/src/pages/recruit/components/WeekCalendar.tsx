@@ -2,7 +2,7 @@ import useDate from 'src/util/date'
 import { LeftIcon, RightIcon, Title } from "src/components";
 import { DateList, DayList } from '.'
 import styled from "styled-components";
-import { addDays, addMonths, format, subDays, subMonths } from "date-fns";
+import { addDays, format, subDays } from "date-fns";
 
 const CalendarWrapper = styled.div`
   box-sizing: border-box;

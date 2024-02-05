@@ -1,5 +1,4 @@
 import { Day } from '../components';
-import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { styled } from 'styled-components'
 import { getGames } from '../api';
@@ -29,11 +28,7 @@ export const DayList = ( props ) => {
       startDate: `${format(days[0], 'yyyy-MM-dd')}`,
       endDate: `${format(days[ days.length-1 ], 'yyyy-MM-dd')}`,
     }
-
-    // const param = {
-    //   startDate: '2024-03-01',
-    //   endDate: '2024-04-30'
-    // }
+    
     const { data: game } = useQuery<GameType[]>([ 'game', param ], () => getGames( param ))
 
     return(
