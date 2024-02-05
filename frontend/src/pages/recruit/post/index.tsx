@@ -1,9 +1,10 @@
 import { Button, InputBox, Select, MainLayout, HomeLayout, Title } from 'src/components';
-import { TagsInput } from '../components';
+import { TagsInput, WeekCalendar } from '../components';
+import { postRecruit } from './api';
 import useStore from '../store'
-import { WeekCalendar } from '../components'
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useMutation } from 'react-query'
 import { styled } from 'styled-components'
 
 const MatchBtn = styled.button`
@@ -16,10 +17,12 @@ const MatchBtn = styled.button`
     font-size: 18px;
     cursor: pointer;
 `
+
 const Contents = styled.div`
     display: flex;
     gap: 30px;
 `
+
 const Input = styled.textarea<{ maxLength: string }>`
     height: 60px;
     width: 96%;
@@ -27,6 +30,7 @@ const Input = styled.textarea<{ maxLength: string }>`
     border-radius: 20px;
     padding: 20px;
 `
+
 const ModalBackground = styled.div`
     position: fixed;
     top: 0;
@@ -35,6 +39,7 @@ const ModalBackground = styled.div`
     bottom: 0;
     z-index: 400;
 `
+
 const Modal = styled.div`
     width: 1100px;
     height: 36 0px;
@@ -47,15 +52,24 @@ const Modal = styled.div`
 `
 
 const RecruitPost = () => {
-    const [inputCount, setInputCount] = useState(0)
-    // const [isModalOpened, setIsModalOpened] = useState(false);
+    const [ inputCount, setInputCount ] = useState(0)
+    const [ title, setTitle ] = useState('')
+    const [ team, setTeam ] = useState("")
+    const [ seat, setSeat] = useState('')
+    const [ capacity, setCapacity ] = useState()
+    const { tagList } = useStore()
+    const [ textarea, setTextarea ] = useState('')
 
     const { match, isModalOpened, updateModal } = useStore()
 
+    const recruitMutation = useMutation( postRecruit );
+
     const onInputHandler = (e) => {
+        const textareaValue = e.target.value;
         setInputCount(
-            e.target.value.replace(/<br\s*V?>/gm, '\n').length
+            textareaValue.replace(/<br\s*V?>/gm, '\n').length
         )
+        setTextarea( textareaValue )
     }
 
     const html = document.querySelector('html');
@@ -117,13 +131,30 @@ const RecruitPost = () => {
         { value: '10', name: '10' }
     ])
 
+    
+
+    const data = {
+        gameId: match.id,
+        userId: 123,
+        title: title,
+        description: textarea,
+        capacity: capacity,
+        cheeringTeam: team,
+        tags: tagList,
+        preferSeats: seat,
+    }
+
+    const makeChatting = () => {
+        recruitMutation.mutateAsync( data )
+    }
+
     return (
       <MainLayout title='직관 메이트 모집하기 '>  
           <HomeLayout>
             <Title style={{ marginTop: '20px', marginLeft: '20px' }}>제목(최대 60자)</Title>
-            <InputBox height='20px' width='100%'/>
+            <InputBox height='20px' width='100%' value={ title } onChange={(e) => { setTitle( e.target.value )}}/>
             <MatchBtn onClick={ openModal }>
-                { match ? match : '경기를 선택하세요' }
+                { match.homeClubName ? match.homeClubName +' VS '+ match.awayClubName : '경기를 선택하세요' }
             </MatchBtn>
             { 
                 isModalOpened 
@@ -134,12 +165,15 @@ const RecruitPost = () => {
                   document.body )
             }
             <Contents>
-                <Select dataSource={ teams } placeholder='응원하는 팀' height= '40px'></Select>
-                <Select dataSource={ seats } placeholder='선호하는 좌석' height= '40px'></Select>
+                <Select dataSource={ teams } placeholder='응원하는 팀' height='40px'
+                 setState={ setTeam }></Select>
+                <Select dataSource={ seats } placeholder='선호하는 좌석' height= '40px' 
+                 setState={ setSeat }></Select>
             </Contents>
             <Contents>
                 <Title type='medium' style={{ marginTop: '6px' }}>인원</Title>
-                <Select dataSource={ nums } placeholder='인원' width='120px' height='36px'></Select>
+                <Select dataSource={ nums } placeholder='인원' width='120px' height='36px' 
+                   setState={ setCapacity }></Select>
             </Contents>
             <Contents>
                 <Title type='medium'>태그</Title><TagsInput />
@@ -151,7 +185,7 @@ const RecruitPost = () => {
                 <span>/300 자</span>
             </p>
             <div style={{ display:'flex', justifyContent: 'right', gap: '10px' }}>
-                <Button type='parti' width='120px'>채팅방 만들기</Button>
+                <Button type='parti' width='120px' onClick= { makeChatting }>채팅방 만들기</Button>
                 <Button type='reset' width='90px'>초기화</Button>
                 <Button type='cancel' width='80px'>취소</Button>
             </div>
