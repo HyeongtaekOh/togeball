@@ -24,10 +24,8 @@ const Timer = ( props ) => {
   }
 
   return (
-    <div>
-      
-      <p>경과 시간: { formatTime( elapsedTime ) }</p>
-      
+    <div>     
+      <p>경과 시간: { formatTime( elapsedTime ) }</p>     
     </div>
   )
 }

@@ -18,7 +18,7 @@ const ModalOverlay = styled.div`
 
 const ModalContent = styled.div`
   background: white;
-  width: 70%;
+  width: 50%;
   height: 70%;
   padding: 20px;
   border-radius: 8px;
@@ -42,7 +42,7 @@ const MatchingModal = ( props ) => {
       userId: 102030,
       nickname: 'oonjae',
       age: 26,
-      gender: 'male',
+      gender: '남성',
       profileImg: 'url',
       hashtags: ['#estp', '#응원형'],
     },
@@ -50,9 +50,41 @@ const MatchingModal = ( props ) => {
       userId: 102031,
       nickname: 'ahjin',
       age: 25,
-      gender: 'female',
+      gender: '여성',
       profileImg: 'url',
       hashtags: ['#estj', '#몰입형'],
+    },
+    {
+      userId: 102032,
+      nickname: 'kwonho',
+      age: 25,
+      gender: '남성',
+      profileImg: 'url',
+      hashtags: ['#infp', '#소심형'],
+    },
+    {
+      userId: 102033,
+      nickname: 'ahyoung',
+      age: 25,
+      gender: '여성',
+      profileImg: 'url',
+      hashtags: ['#eeee', '#분석형'],
+    },
+    {
+      userId: 102034,
+      nickname: 'yukyung',
+      age: 25,
+      gender: '여성',
+      profileImg: 'url',
+      hashtags: ['#infp', '#논리형','#infp', '#논리형','#infp', '#논리형'],
+    },
+    {
+      userId: 102035,
+      nickname: 'hyungtaek',
+      age: 25,
+      gender: '남성',
+      profileImg: 'url',
+      hashtags: ['#infp', '#논리형'],
     },
     
   ]
@@ -67,7 +99,7 @@ const MatchingModal = ( props ) => {
         <CloseButton onClick={ handleModalClose }>닫기</CloseButton>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', height: '80%'}}>
 
-          <Title>#응원을 좋아하고 과몰입하는</Title>
+          <p style={{ fontSize: '30px', color: '#7D74B4' , fontWeight:'bolder'}}>#응원을 좋아하고 과몰입하는</p>
           <div>
             { participants.map(( participant ) => (
               <MatchingProfile key={ participant.userId } { ...participant } />
