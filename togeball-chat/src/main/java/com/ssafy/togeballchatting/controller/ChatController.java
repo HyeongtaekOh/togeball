@@ -1,6 +1,7 @@
 package com.ssafy.togeballchatting.controller;
 
 import com.ssafy.togeballchatting.dto.ChatMessageDto;
+import com.ssafy.togeballchatting.dto.ChatroomUnreadDto;
 import com.ssafy.togeballchatting.facade.ChatFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -29,4 +33,10 @@ public class ChatController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/users/{userId}/chats/unread")
+    public ResponseEntity<?> countUnreadMessages(@PathVariable(value = "userId") Integer userId,
+                                                 List<Integer> roomIds) {
+        List<ChatroomUnreadDto> response = chatFacade.getUnreadMessageCountAndLatestChatMessage(userId, roomIds);
+        return ResponseEntity.ok(response);
+    }
 }

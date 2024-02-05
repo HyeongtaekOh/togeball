@@ -4,7 +4,7 @@ server:
       charset: UTF-8
       enabled: true
       force: true
-  port: 8080
+  port: 8081
   ssl:
     enabled: true
     enabled-protocols:
@@ -59,3 +59,9 @@ websocket:
     system:
       login: ssafy
       passcode: ssafy
+
+rabbitmq:
+  exchange:
+    name: togeball.exchange
+  queue:
+    name: chat.queue
