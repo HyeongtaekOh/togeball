@@ -1,6 +1,6 @@
 import TagBtn from '../TagBtn';
-import styled from 'styled-components';
 import Tag from '../Tag';
+import styled from 'styled-components';
 
 const TagListWrapper = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ const TagListWrapper = styled.div`
 `
 
 const TagList = ( props: TagListProps ) => {
-  const { tags, bgColor, isTag, limit } = props;
+  const { tags, bgColor, isTag, limit, flag } = props;
 
   const tagList = 
   isTag? (   
@@ -21,7 +21,7 @@ const TagList = ( props: TagListProps ) => {
     ))
   ) : (
     tags?.map(( tag ) => (
-      <TagBtn key={ tag?.id } isSelect = { tag?.isSelect } limitFlag = { limit } >
+      <TagBtn key={ tag?.id } isSelect = { tag?.isSelect } limitFlag = { limit } stadiumFlag = { flag } >
         { tag?.content }
       </TagBtn>
     ))
@@ -47,6 +47,7 @@ interface tagType {
 type TagListProps = {
   tags: tagType[], 
   isTag?: boolean,
+  flag?: boolean,
   limit?: boolean,
   bgColor?: string,
 }

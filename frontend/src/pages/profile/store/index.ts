@@ -17,14 +17,28 @@ const useModel = create<Model>( ( set, get ) => (
     deleteTags: ( tag ) => set(( state ) => (
       {
         selectTags: 
-          state.selectTags.filter(( item ) => item.content!== tag.content )
+          state.selectTags.filter(( item ) => item.content !== tag.content )
       }
     )),
     team: '',
     setTeam: ( data ) => set(() => ({ team: data })),
-    stadium: '',
-    setStadium: ( data ) => set(() => ({ stadium: data })),
-    image: '',
+    stadiums: [],
+    addStadiums: ( stadium ) => set(( state ) => (
+      {
+         stadiums: 
+         [
+          ...state.stadiums,
+          stadium
+        ] 
+      }
+    )),
+    deleteStadiums: ( stadium ) => set(( state ) => (
+      {
+        stadiums: 
+          state.stadiums.filter(( item ) => item !== stadium )
+      }
+    )),
+    image: {},
     setImage: ( data ) => set(() => ({ image: data }) )
   }
 ))
@@ -33,12 +47,13 @@ export default useModel
 
 export interface Model{
   selectTags : TagType[]
-  addSelectTags : ( tag: TagType ) => void,
-  deleteTags : ( tag: TagType ) => void,
-  team: string,
-  setTeam: ( data ) => void,
-  stadium: string,
-  setStadium: ( data ) => void
-  image: string,
+  addSelectTags : ( tag: TagType ) => void
+  deleteTags : ( tag: TagType ) => void
+  team: string
+  setTeam: ( data: string ) => void
+  stadiums: string[]
+  addStadiums: ( stadium: string ) => void
+  deleteStadiums: ( stadium: string ) => void
+  image: object
   setImage: ( data ) => void
 }

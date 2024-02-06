@@ -5,12 +5,12 @@ interface dataType {
         id?: number,
         email?: string,
         nickname?: string,
-        stadium?: string,
+        stadium?: string[],
         team?: string,
         gender?: string,
         birthdate?: string,
         phone?: string,
-        profileImage?: string,
+        profileImage?: object,
         tags?: TagType[]
 }
 
