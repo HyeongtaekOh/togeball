@@ -12,6 +12,9 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+
+import java.util.Map;
 
 @Slf4j
 @Configuration
@@ -65,7 +68,21 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         log.info("SessionId: {}", headerAccessor.getSessionId());
         log.info("headerAccessor: {}", headerAccessor);
+        headerAccessor.getSessionAttributes().put("userId", headerAccessor.getFirstNativeHeader("Authorization"));
         log.info("Authorization header: {}", headerAccessor.getFirstNativeHeader("Authorization"));
         log.info("Received a new web socket connection");
+    }
+
+    @EventListener
+    public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
+        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+        log.info("SessionId: {}", headerAccessor.getSessionId());
+        log.info("headerAccessor: {}", headerAccessor);
+        log.info("Authorization header: {}", headerAccessor.getFirstNativeHeader("Authorization"));
+        Map<String, Object> sessionAttributes = headerAccessor.getSessionAttributes();
+        if (sessionAttributes != null) {
+            log.info("userId: {}", sessionAttributes.get("userId"));
+        }
+        log.info("Received a new web socket disconnection");
     }
 }

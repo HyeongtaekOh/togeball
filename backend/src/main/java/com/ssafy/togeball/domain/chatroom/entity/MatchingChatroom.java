@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Entity
 @DiscriminatorValue("MATCHING")
-@Table(name = "TBL_MATCHINGCHATROOM")
+@Table(name = "TBL_MATCHING_CHATROOM")
 @ToString(callSuper = true, exclude = "matching")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MatchingChatroom extends Chatroom {

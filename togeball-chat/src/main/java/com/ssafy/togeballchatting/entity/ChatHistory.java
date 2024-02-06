@@ -14,10 +14,8 @@ public class ChatHistory {
 
     @Id
     private String id;
-
     private Integer userId;
     private Integer roomId;
-
-    private Instant firstMessageTimestamp;
+    private Instant enteredTimestamp;
     private Instant lastReadTimestamp;
 }
