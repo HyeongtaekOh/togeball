@@ -1,7 +1,7 @@
 package com.ssafy.togeball.domain.notice.service;
 
+import com.ssafy.togeball.domain.chatroom.entity.MatchingChatroom;
 import com.ssafy.togeball.domain.chatroom.repository.ChatroomRepository;
-import com.ssafy.togeball.domain.matching.dto.MatchingResponse;
 import com.ssafy.togeball.domain.matching.entity.Matching;
 import com.ssafy.togeball.domain.matching.repository.MatchingRepository;
 import com.ssafy.togeball.domain.notice.dto.NoticeResponse;
@@ -9,25 +9,24 @@ import com.ssafy.togeball.domain.notice.dto.NoticesResponse;
 import com.ssafy.togeball.domain.notice.entity.Notice;
 import com.ssafy.togeball.domain.notice.repository.EmitterRepository;
 import com.ssafy.togeball.domain.notice.repository.NoticeRepository;
-import com.ssafy.togeball.domain.user.dto.UserResponse;
+import com.ssafy.togeball.domain.user.entity.Gender;
 import com.ssafy.togeball.domain.user.entity.User;
 import com.ssafy.togeball.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -51,6 +50,46 @@ public class NoticeServiceTest {
     @InjectMocks
     private NoticeService noticeService;
 
+    private User loginUser;
+    private MatchingChatroom matchingChatroom1;
+    private MatchingChatroom matchingChatroom2;
+    private Matching matching1;
+    private Matching matching2;
+
+    void dataInit() {
+        loginUser = User.builder()
+                .email("email@gmail.com")
+                .nickname("닉네임")
+                .birthdate(LocalDateTime.of(1999, 4, 23, 0, 0, 0))
+                .gender(Gender.FEMALE)
+                .phone("010-1234-5678")
+                .profileImage("profile.jpg")
+                .build();
+
+        matching1 = Matching.builder()
+                .matchingChatroom(matchingChatroom1)
+                .title("매칭 제목 1")
+                .capacity(10)
+                .build();
+
+        matching2 = Matching.builder()
+                .matchingChatroom(matchingChatroom2)
+                .title("매칭 제목 2")
+                .capacity(10)
+                .build();
+
+        matchingChatroom1 = MatchingChatroom.builder()
+                .matching(matching1)
+                .title("매칭 채팅방 제목 1")
+                .build();
+
+        matchingChatroom2 = MatchingChatroom.builder()
+                .matching(matching2)
+                .title("매칭 채팅방 제목 2")
+                .build();
+    }
+
+    @DisplayName("구독 성공")
     @Test
     void subscribeTest() {
 
@@ -70,6 +109,7 @@ public class NoticeServiceTest {
         verify(emitterRepository, times(1)).findAllEventCacheStartWithId(any());
     }
 
+    @DisplayName("알림 보내기 성공")
     @Test
     void sendToClientTest() throws IOException {
 
@@ -91,6 +131,7 @@ public class NoticeServiceTest {
 //                .data(data));
     }
 
+    @DisplayName("알림 객체 생성해서 send 메소드 호출 성공")
     @Test
     void sendTest() {
 //        // Given
@@ -124,28 +165,14 @@ public class NoticeServiceTest {
 //        // Add more assertions as needed
     }
 
+    @DisplayName("유저 번호로 알림 목록 조회 성공")
     @Test
     void findAllByUserIdTest() {
 
         // Given
-        User loginUser = Mockito.mock(User.class);
+        dataInit();
         ReflectionTestUtils.setField(loginUser, "id", 1);
-        Matching matching1 = Mockito.mock(Matching.class);
-        ReflectionTestUtils.setField(matching1, "id", 1);
-        ReflectionTestUtils.setField(matching1, "title", "matching title 1");
-        Matching matching2 = Mockito.mock(Matching.class);
-        ReflectionTestUtils.setField(matching2, "id", 2);
-        ReflectionTestUtils.setField(matching2, "title", "matching title 2");
-        Notice notice1 = Mockito.mock(Notice.class);
-        Notice notice2 = Mockito.mock(Notice.class);
-        ReflectionTestUtils.setField(loginUser, "id", 1);
-        ReflectionTestUtils.setField(notice1, "user", loginUser);
-        ReflectionTestUtils.setField(notice2, "user", loginUser);
-        ReflectionTestUtils.setField(notice1, "matching", matching1);
-        ReflectionTestUtils.setField(notice2, "matching", matching2);
-        when(noticeRepository.findAllByUserId(loginUser.getId())).thenReturn(Arrays.asList(notice1, notice2));
-        NoticeResponse noticeResponse = Mockito.mock(NoticeResponse.class);
-
+        doReturn(noticeList().stream().map(NoticeResponse::of).collect(Collectors.toList())).when(noticeRepository).findAllByUserId(1);
 
         // When
         NoticesResponse noticesResponse = noticeService.findAllByUserId(loginUser);
@@ -158,6 +185,30 @@ public class NoticeServiceTest {
         assertEquals(2, noticesResponse.getUnreadCount());
     }
 
+    private List<Notice> noticeList() {
+        List<Notice> noticeList = new ArrayList<>();
+        noticeList.add(new Notice(loginUser, matching1, false));
+        noticeList.add(new Notice(loginUser, matching2, false));
+        return noticeList;
+    }
+
+    private List<NoticeResponse> noticeResponseList() {
+        List<NoticeResponse> noticeResponseList = new ArrayList<>();
+        noticeResponseList.add(new NoticeResponse(1,"매칭 제목 1",LocalDateTime.now(),false));
+        noticeResponseList.add(new NoticeResponse(2,"매칭 제목 2",LocalDateTime.now(),false));
+        return noticeResponseList;
+    }
+
+//    public NoticesResponse findAllByUserId(User loginUser) {
+//        List<NoticeResponse> responses = noticeRepository.findAllByUserId(loginUser.getId()).stream()
+//                .map(NoticeResponse::of)
+//                .collect(Collectors.toList());
+//        long unreadCount = responses.stream()
+//                .filter(notice -> !notice.isRead())
+//                .count();
+//        return NoticesResponse.of(responses, unreadCount);
+
+    @DisplayName("알림 읽음 표시 성공")
     @Test
     void readNoticeTest() {
 
@@ -176,6 +227,7 @@ public class NoticeServiceTest {
         verify(notice, times(1)).read();
     }
 
+    @DisplayName("존재하지 않는 알림 읽기 시도 시 익셉션 성공")
     @Test
     public void testReadNoticeWithNonexistentId() {
 
