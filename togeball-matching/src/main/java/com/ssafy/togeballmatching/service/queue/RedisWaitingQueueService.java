@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@Primary
+//@Primary
 @RequiredArgsConstructor
 public class RedisWaitingQueueService implements WaitingQueueService {
 

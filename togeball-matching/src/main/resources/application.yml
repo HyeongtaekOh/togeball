@@ -3,3 +3,13 @@ spring:
     redis:
       host: 127.0.0.1
       port: 6379
+
+rabbitmq:
+  host: i10a610.p.ssafy.io
+  port: 4672
+  username: ssafy
+  password: ssafy
+  exchange: togeball.exchange
+  matching:
+    queue: matching.queue
+    routing-key: togeball.matching
