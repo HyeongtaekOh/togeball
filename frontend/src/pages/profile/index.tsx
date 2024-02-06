@@ -83,7 +83,7 @@ const Profile = () => {
             />
           </InputWrapper>
           <RowTagList list = { preferredStadiums } >선호 구장</RowTagList>
-          <RowTagList list = { preferredTeam }>팀선택{<br/>}(1개만 선택)</RowTagList>     
+          <RowTagList list = { preferredTeam } limit = { true }>팀선택{<br/>}(1개만 선택)</RowTagList>     
         </ProfileSettingWrapper>
         <ProfileSettingWrapper>
           <Title type = 'medium'>직관 스타일</Title>

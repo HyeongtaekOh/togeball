@@ -23,14 +23,14 @@ const TitleWrapper = styled.div<{ type? : string } >`
 
 const RowTagList = ( props : RowTagListProp ) => {
 
-  const { children, list } = props
+  const { children, list, limit } = props
 
   return(
     <RowTagListWrapper>
       <TitleWrapper>
         <Title type='small'>{ children }</Title>
       </TitleWrapper>
-      <TagList tags = { list }/>
+      <TagList tags = { list } limit = { limit }/>
     </RowTagListWrapper>
   )
 }
@@ -46,5 +46,6 @@ interface dataSource  {
 
 type RowTagListProp = {
   children?: Array<string | any> | string,
+  limit?: boolean,
   list?: dataSource[]
 }

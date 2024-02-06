@@ -21,7 +21,7 @@ const TagWrapper = styled.div<{ $bgColor : string, width : string, height : stri
 `;
 
 const Tag = ( props: TagProps ) => {
-  const { children, isRemove = false, bgColor = '#DEDCEE', onDelete, width, height='18px' } = props
+  const { children,  bgColor = '#DEDCEE', width, height='18px' } = props
 
   return (
     <TagWrapper $bgColor={ bgColor } width={ width } height={ height } >
@@ -35,8 +35,6 @@ export default Tag
 type TagProps = {
   children?: string,
   bgColor?: string,
-  isRemove?: boolean,
-  onDelete?: () => void
   width?: string,
   height?: string
 };

@@ -20,6 +20,8 @@ const useModel = create<Model>( ( set, get ) => (
           state.selectTags.filter(( item ) => item.content!== tag.content )
       }
     )),
+    limit: '',
+    setLimit: ( data ) => set(( state ) => ({ limit: data })),
   }
 ))
 
@@ -28,5 +30,7 @@ export default useModel
 export interface Model{
   selectTags : TagType[]
   addSelectTags : ( tag: TagType ) => void,
-  deleteTags : ( tag: TagType ) => void
+  deleteTags : ( tag: TagType ) => void,
+  limit: string,
+  setLimit: ( data ) => void
 }
