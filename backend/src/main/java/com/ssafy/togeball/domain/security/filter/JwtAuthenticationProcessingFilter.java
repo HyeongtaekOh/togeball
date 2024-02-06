@@ -5,7 +5,7 @@ import com.ssafy.togeball.domain.auth.service.AuthService;
 import com.ssafy.togeball.domain.security.jwt.JwtService;
 import com.ssafy.togeball.domain.user.entity.User;
 import com.ssafy.togeball.domain.user.service.UserService;
-import com.ssafy.togeball.global.config.util.PasswordUtil;
+import com.ssafy.togeball.domain.common.utils.PasswordUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,19 +39,19 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         if (!request.getRequestURI().equals(NO_CHECK_URL)) {
-            String accessToken = jwtService.extractAccessToken(request)
+            Integer userId = jwtService.extractAccessToken(request)
                     .filter(jwtService::isTokenValid)
-                    .flatMap(jwtService::extractEmail)
+                    .flatMap(jwtService::extractId)
                     .orElse(null);
 
-            if (accessToken != null) {
-                Optional<User> userOpt = userService.findUserByEmail(accessToken);
-                Optional<Auth> authOpt = authService.findAuthByEmail(accessToken);
+            if (userId != null) {
+                Optional<User> userOpt = userService.findUserById(userId);
+                Optional<Auth> authOpt = authService.findByUserId(userId);
 
                 if (userOpt.isPresent() && authOpt.isPresent()) {
                     saveAuthentication(userOpt.get(), authOpt.get());
                 } else {
-                    log.warn("User or Auth not found for email in access token in request to {}", request.getRequestURI());
+                    log.warn("User or Auth not found for userId in access token in request to {}", request.getRequestURI());
                 }
             } else {
                 log.warn("Invalid or missing access token in request to {}", request.getRequestURI());
@@ -69,7 +69,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         }
 
         UserDetails userDetailsUser = org.springframework.security.core.userdetails.User.builder()
-                .username(myUser.getEmail())
+                .username(myUser.getId().toString())
                 .password(password)
                 .roles(myUser.getRole().name())
                 .build();

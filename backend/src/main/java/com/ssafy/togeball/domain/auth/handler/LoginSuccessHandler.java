@@ -20,18 +20,18 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) {
-        String email = extractUsername(authentication);
-        String accessToken = jwtService.createAccessToken(email);
+        Integer id = extractUsername(authentication);
+        String accessToken = jwtService.createAccessToken(id);
         String refreshToken = jwtService.createRefreshToken();
 
         jwtService.sendAccessToken(response, accessToken);
         jwtService.sendRefreshToken(response, refreshToken);
 
-        authService.updateRefreshToken(email, refreshToken);
+        authService.updateRefreshToken(id, refreshToken);
     }
 
-    private String extractUsername(Authentication authentication) {
+    private Integer extractUsername(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return userDetails.getUsername();
+        return Integer.parseInt(userDetails.getUsername());
     }
 }

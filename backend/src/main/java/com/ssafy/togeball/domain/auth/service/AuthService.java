@@ -75,7 +75,7 @@ public class AuthService implements UserDetailsService {
     private final JwtService jwtService;
 
     // TODO : 구글 로그인 관련 메서드 구현
-    public void oauth2Login(String provider, String authorizationCode, HttpServletResponse response) {
+    public Integer oauth2Login(String provider, String authorizationCode, HttpServletResponse response) {
         String accessToken = switch (provider) {
 //            case "google" -> getAccessTokenForGoogle(authorizationCode);
             case "kakao" -> getAccessTokenForKakao(authorizationCode);
@@ -85,6 +85,7 @@ public class AuthService implements UserDetailsService {
         User user = getUserInfo(provider, accessToken);
         log.info("userInfo : {}", user.getEmail());
         setTokensForUser(user.getId(), response);
+        return user.getId();
     }
 
     public User getUserInfo(String provider, String accessToken) {
@@ -145,19 +146,22 @@ public class AuthService implements UserDetailsService {
 
         Auth auth = Auth.builder()
                 .userId(user.getId())
-                .email(user.getEmail())
                 .password(password)
                 .build();
 
         authRepository.save(auth);
     }
 
-    public Optional<Auth> findAuthByEmail(String email) {
-        return authRepository.findByEmail(email);
+    public Optional<Auth> findAuthById(Integer id) {
+        return authRepository.findById(id);
     }
 
-    public void updateRefreshToken(String email, String refreshToken) {
-        authRepository.findByEmail(email)
+    public Optional<Auth> findByUserId(Integer userId) {
+        return authRepository.findByUserId(userId);
+    }
+
+    public void updateRefreshToken(Integer id, String refreshToken) {
+        authRepository.findByUserId(id)
                 .ifPresent(auth -> {
                     auth.setRefreshToken(refreshToken);
                     authRepository.saveAndFlush(auth);
@@ -165,11 +169,11 @@ public class AuthService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email)
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findById(Integer.parseInt(username))
                 .orElseThrow(UserNotFoundException::new);
 
-        Auth auth = authRepository.findByEmail(email)
+        Auth auth = authRepository.findById(Integer.parseInt(username))
                 .orElseThrow(AuthNotFoundException::new);
 
         return org.springframework.security.core.userdetails.User.builder()
@@ -184,7 +188,7 @@ public class AuthService implements UserDetailsService {
 
         if (jwtService.isTokenValid(refreshToken)) {
             authRepository.findByRefreshToken(refreshToken).ifPresent(auth -> {
-                String newAccessToken = jwtService.createAccessToken(auth.getEmail());
+                String newAccessToken = jwtService.createAccessToken(auth.getId());
                 jwtService.sendAccessToken(response, newAccessToken);
             });
         } else {
@@ -194,21 +198,21 @@ public class AuthService implements UserDetailsService {
 
     public void setTokensForUser(Integer userId, HttpServletResponse response) {
         Auth auth = authRepository.findByUserId(userId).orElseThrow(AuthNotFoundException::new);
-        String email = auth.getEmail();
+        Integer id = auth.getUserId();
 
-        String accessToken = jwtService.createAccessToken(email);
+        String accessToken = jwtService.createAccessToken(id);
         String refreshToken = jwtService.createRefreshToken();
 
         jwtService.sendAccessToken(response, accessToken);
         jwtService.sendRefreshToken(response, refreshToken);
 
-        updateRefreshToken(email, refreshToken);
+        updateRefreshToken(id, refreshToken);
     }
 
     public void logout(HttpServletRequest request) {
         String accessToken = jwtService.extractAccessToken(request).orElseThrow(InvalidTokenException::new);
-        String email = jwtService.extractEmail(accessToken).orElseThrow(InvalidTokenException::new);
-        Auth auth = authRepository.findByEmail(email).orElseThrow(AuthNotFoundException::new);
+        Integer userId = jwtService.extractId(accessToken).orElseThrow(InvalidTokenException::new);
+        Auth auth = authRepository.findByUserId(userId).orElseThrow(AuthNotFoundException::new);
         auth.setRefreshToken(null);
         authRepository.save(auth);
     }
