@@ -1,6 +1,7 @@
 package com.ssafy.togeballmatching.service.queue;
 
 import com.ssafy.togeballmatching.dto.MatchingUser;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
+@Primary
 public class MemoryWaitingQueueService implements WaitingQueueService {
 
     private final List<MatchingUser> waitingQueue = new CopyOnWriteArrayList<>();

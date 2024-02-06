@@ -31,7 +31,7 @@ public class MatchingScheduler {
     private final WaitingQueueService waitingQueueService;
     private final WebSocketSessionStoreService webSocketSessionStoreService;
 
-    @Scheduled(fixedDelay = 3000)
+    @Scheduled(fixedDelay = 10000)
     public void matching() {
 
         List<WebSocketSession> sessions = webSocketSessionStoreService.getAllWebSocketSession();
