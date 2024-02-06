@@ -4,7 +4,7 @@ server:
       charset: UTF-8
       enabled: true
       force: true
-  port: 8083
+  port: 8080
   ssl:
     enabled: true
     enabled-protocols:
