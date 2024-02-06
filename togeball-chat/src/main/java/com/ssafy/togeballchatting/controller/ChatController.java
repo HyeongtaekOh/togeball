@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -21,6 +20,11 @@ import java.util.List;
 public class ChatController {
 
     private final ChatFacade chatFacade;
+
+    @GetMapping("/ping")
+    public ResponseEntity<?> ping() {
+        return ResponseEntity.ok("pong");
+    }
 
     @GetMapping("/chats/{roomId}")
     public ResponseEntity<?> findChatMessagePageByRoomId(@PathVariable(value = "roomId") Integer roomId,
@@ -33,7 +37,8 @@ public class ChatController {
 
     @GetMapping("/users/{userId}/chats/unread")
     public ResponseEntity<?> countUnreadMessages(@PathVariable(value = "userId") Integer userId,
-                                                 List<Integer> roomIds) {
+                                                 @RequestParam(required = false) List<Integer> roomIds) {
+        log.info("userId: {}, roomIds: {}", userId, roomIds);
         List<ChatroomUnreadDto> response = chatFacade.getUnreadMessageCountAndLatestChatMessage(userId, roomIds);
         return ResponseEntity.ok(response);
     }

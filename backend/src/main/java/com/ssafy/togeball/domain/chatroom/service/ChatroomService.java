@@ -17,6 +17,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +34,7 @@ public class ChatroomService {
     @Value("${rabbitmq.chat.routing-key}")
     private String routingKey;
 
+    private final WebClient webClient;
     private final RabbitTemplate rabbitTemplate;
     private final ChatroomRepository chatroomRepository;
     private final ChatroomMembershipRepository chatroomMembershipRepository;
@@ -58,7 +61,20 @@ public class ChatroomService {
 
     @Transactional(readOnly = true)
     public Page<ChatroomResponse> findChatroomsByUserId(Integer userId, Pageable pageable) {
+        log.info("userId: {}", userId);
         Page<Chatroom> chatrooms = chatroomRepository.findChatroomsByUserId(userId, pageable);
+        log.info("chatrooms: {}", chatrooms.getContent().stream().map(Chatroom::getId).toList());
+        Mono<List<ChatroomUnreadDto>> mono = webClient.get()
+                .uri(uriBuilder -> {
+                    uriBuilder.path("/chat-server/users/" + userId + "/chats/unread");
+                    chatrooms.stream()
+                            .forEach(chatroom -> uriBuilder.queryParam("roomIds", chatroom.getId()));
+                    return uriBuilder.build();
+                })
+                .retrieve()
+                .bodyToFlux(ChatroomUnreadDto.class)
+                .collectList();
+        log.info("mono: {}", mono.block());
         return getChatroomResponses(chatrooms);
     }
 
@@ -87,16 +103,16 @@ public class ChatroomService {
     }
 
     @Transactional
-    public boolean joinChatroom(Integer userId, Integer chatroomId) {
+    public void joinChatroom(Integer userId, Integer chatroomId) {
 
-        if (chatroomRepository.findCapacityById(chatroomId) > chatroomMembershipRepository.countByChatroomId(chatroomId)) {
+        if (chatroomRepository.findCapacityById(chatroomId) <= chatroomMembershipRepository.countByChatroomId(chatroomId)) {
             throw new ApiException(ChatroomErrorCode.CHATROOM_JOIN_FAILED);
         }
         rabbitTemplate.convertAndSend(exchange, routingKey, ChatroomJoinMessage.builder()
                 .userId(userId)
                 .roomId(chatroomId)
                 .build());
-        return chatroomRepository.addParticipant(chatroomId, userId);
+        chatroomRepository.addParticipant(chatroomId, userId);
     }
 
     @Transactional

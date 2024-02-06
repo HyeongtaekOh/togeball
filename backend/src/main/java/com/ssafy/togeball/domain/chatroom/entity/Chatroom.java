@@ -34,6 +34,9 @@ public class Chatroom extends BaseEntity {
     @Column(nullable = false, insertable = false, updatable = false)
     protected String type;
 
+    @Column
+    protected Integer capacity;
+
     @OneToMany(mappedBy = "chatroom", cascade = CascadeType.ALL, orphanRemoval = true)
     protected List<ChatroomMembership> chatroomMemberships = new ArrayList<>();
 

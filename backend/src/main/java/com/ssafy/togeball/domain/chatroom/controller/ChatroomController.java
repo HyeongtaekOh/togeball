@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -63,13 +64,12 @@ public class ChatroomController {
 
     @PostMapping()
     public ResponseEntity<?> createRecruitChatroom(@RequestBody RecruitChatroomRequest chatroomDto) {
-        Integer chatroomId = chatroomService.createRecruitChatroom(chatroomDto);
 
+        Integer chatroomId = chatroomService.createRecruitChatroom(chatroomDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{chatroomId}")
                 .buildAndExpand(chatroomId)
                 .toUri();
-
         return ResponseEntity.created(location).body(Map.of("id", chatroomId));
     }
 
@@ -77,11 +77,11 @@ public class ChatroomController {
     public ResponseEntity<?> joinChatroom(@PathVariable(value = "chatroomId") Integer chatroomId,
                                           @RequestParam Integer userId) {
 
+        chatroomService.joinChatroom(userId, chatroomId);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{userId}")
                 .buildAndExpand(userId)
                 .toUri();
-
         return ResponseEntity.created(location).build();
     }
 
