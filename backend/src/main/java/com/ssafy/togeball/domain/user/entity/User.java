@@ -67,10 +67,16 @@ public class User extends BaseEntity {
         this.nickname = nickname;
     }
 
-    public void changePersonalInfo(Gender gender, LocalDateTime birthdate, String phone) {
+    public void changeGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public void changeRole(Role role) {
+        this.role = role;
+    }
+
+    public void changeBirthdate(LocalDateTime birthdate) {
         this.birthdate = birthdate;
-        this.phone = phone;
     }
 
     @Builder
