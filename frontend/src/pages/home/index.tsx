@@ -119,7 +119,8 @@ const Home = () => {
                 <HomeCard 
                   title= '매칭하러 가기' 
                   type= 'main'
-                  color= '#6A60A9'>
+                  color= '#6A60A9'
+                  path='/matching'>
                   TOGEBALL의 맞춤 알고리즘으로<br/> 
                   메이트를 구해줍니다.
                 </HomeCard>
@@ -130,7 +131,8 @@ const Home = () => {
                 <HomeCard 
                   title= '직접 메이트 모집하기' 
                   type= 'main'
-                  color= '#FBD14B'>
+                  color= '#FBD14B'
+                  path='/recruit/post'>
                   자세한 필터 설정으로<br/> 
                   직관 메이트를 직접 모집해보세요.
                 </HomeCard>
@@ -145,9 +147,10 @@ const Home = () => {
                 <HomeCard 
                   title= '경기별 오픈 채팅방' 
                   type= 'sub'
-                  color= '#FBD14B'>
-                  오늘 경기 외에 모든<br/> 
-                  경기 일정을 확인해보세요.
+                  color= '#FBD14B'
+                  path='/todaygames'>
+                  경기별 오픈 채팅방을<br/> 
+                  확인해보세요!
                 </HomeCard>
               </td>   
               <td>
@@ -176,8 +179,8 @@ const Home = () => {
                   title= '자유게시판' 
                   type= 'sub'
                   color= '#FFFFFF'>
-                  오늘 경기 외에 모든<br/> 
-                  경기 일정을 확인해보세요.
+                  자유롭게 글을 쓸 수 있는<br/> 
+                  공간 입니다.
                 </HomeCard>
               </td>
             </tr>
