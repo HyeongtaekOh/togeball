@@ -28,15 +28,4 @@ public class MatchingController {
         MatchingResponse matching = matchingService.findMatchingById(matchingId);
         return ResponseEntity.ok(matching);
     }
-
-    @PostMapping
-    public ResponseEntity<?> createMatching(@RequestBody MatchingRequest matchingRequest) {
-        MatchingResponse matching = matchingService.createMatchingAndChatroom(matchingRequest);
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{matchingId}")
-                .buildAndExpand(matching.getId())
-                .toUri();
-        return ResponseEntity.created(location).build();
-    }
 }
