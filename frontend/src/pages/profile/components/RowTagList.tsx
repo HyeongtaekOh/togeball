@@ -38,8 +38,9 @@ const RowTagList = ( props : RowTagListProp ) => {
 export default RowTagList
 
 interface dataSource  {
-  name?: string,
-  value?: number,
+  id?: number,
+  content?: string,
+  type?: string,
   isSelect?: boolean
 }
 

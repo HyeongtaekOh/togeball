@@ -14,15 +14,15 @@ const TagList = ( props: TagListProps ) => {
 
   const tagList = 
   isTag? (   
-    tags.map(( tag ) => (
-      <Tag key={ tag?.value } bgColor={ bgColor }>
-        { tag?.name }
+    tags?.map(( tag ) => (
+      <Tag key={ tag?.id } bgColor={ bgColor }>
+        { tag?.content }
       </Tag>
     ))
   ) : (
-    tags.map(( tag ) => (
-      <TagBtn key={ tag?.value } isSelect = { tag?.isSelect } >
-        { tag?.name }
+    tags?.map(( tag ) => (
+      <TagBtn key={ tag?.id } isSelect = { tag?.isSelect } >
+        { tag?.content }
       </TagBtn>
     ))
   )
@@ -38,8 +38,9 @@ const TagList = ( props: TagListProps ) => {
 export default TagList
 
 interface tagType {
-  name?: string,
-  value?: number
+  id?: number,
+  content?: string,
+  type?: string,
   isSelect?: boolean
 }
 

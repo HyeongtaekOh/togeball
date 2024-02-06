@@ -5,18 +5,19 @@ const useModel = create<Model>( ( set, get ) => (
   {
     selectTags: [],
     addSelectTags : ( tag ) => set(( state ) => (
+      ( state.selectTags.length<15 )?
       { 
         selectTags: 
         [
           ...state.selectTags,
           tag
         ]
-      }
+      }: state
     )),
     deleteTags: ( tag ) => set(( state ) => (
       {
         selectTags: 
-          state.selectTags.filter(( item ) => item.name!== tag.name )
+          state.selectTags.filter(( item ) => item.content!== tag.content )
       }
     )),
   }
