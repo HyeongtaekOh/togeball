@@ -64,3 +64,16 @@ jwt:
   refresh:
     expiration: 1209600000 # 2주
     header: Authorization-refresh
+
+rabbitmq:
+  host: i10a610.p.ssafy.io
+  port: 4672
+  username: ssafy
+  password: ssafy
+  exchange: togeball.exchange
+  chat:
+    queue: chat.queue
+    routing-key: togeball.chat
+  matching:
+    queue: matching.queue
+    routing-key: togeball.match

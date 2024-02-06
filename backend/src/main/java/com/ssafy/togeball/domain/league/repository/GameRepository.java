@@ -12,6 +12,9 @@ import java.util.List;
 @Repository
 public interface GameRepository extends JpaRepository<Game, Integer> {
 
+    @Query("SELECT g FROM Game g WHERE g.homeClub.id = : clubId OR g.awayClub.id = :clubId")
+    List<Game> findByClubId(@Param("clubId") Integer clubId);
+
     @Query("SELECT g FROM Game g WHERE g.homeClub.sponsorName = :sponsorName OR g.awayClub.sponsorName = :sponsorName")
     List<Game> findBySponsorName(@Param("sponsorName") String sponsorName);
 

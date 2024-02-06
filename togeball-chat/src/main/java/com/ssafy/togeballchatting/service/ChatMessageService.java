@@ -6,11 +6,15 @@ import com.ssafy.togeballchatting.repository.ChatMessageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -27,17 +31,21 @@ public class ChatMessageService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ChatMessageDto> findAllByRoomIdAndFirstMessageTime(Integer roomId, Instant firstMessageTime, Pageable pageable) {
+    public Page<ChatMessageDto> findAllByRoomIdAndEnteredTime(Integer roomId, Instant enteredTime, Pageable pageable) {
 
-        Page<ChatMessage> page = chatMessageRepository.findAllByRoomIdAndTimestampIsGreaterThanEqual(roomId, firstMessageTime, pageable);
-        page.forEach(chatMessage -> log.info("chatMessage: {}", chatMessage));
-        return page
-                .map(chatMessage -> ChatMessageDto.builder()
-                        .roomId(chatMessage.getRoomId())
-                        .senderId(chatMessage.getSenderId())
-                        .type(chatMessage.getType())
-                        .content(chatMessage.getContent())
-                        .timestamp(chatMessage.getTimestamp())
-                        .build());
+        Page<ChatMessage> page = chatMessageRepository.findAllByRoomIdAndTimestampIsGreaterThanEqualOrderByTimestampDesc(roomId, enteredTime, pageable);
+        Page<ChatMessageDto> chatMessageDtos = page.map(ChatMessageDto::of);
+        List<ChatMessageDto> reversed = new ArrayList<>(chatMessageDtos.getContent());
+        Collections.reverse(reversed);
+        return new PageImpl<>(reversed, pageable, chatMessageDtos.getTotalElements());
+    }
+
+    public Integer countUnreadMessages(Integer roomId, Instant lastReadTimestamp) {
+        return chatMessageRepository.countByRoomIdAndTimestampIsGreaterThan(roomId, lastReadTimestamp);
+    }
+
+    public ChatMessageDto getLatestChatMessage(Integer roomId) {
+        ChatMessage chatMessage = chatMessageRepository.findTopByRoomIdOrderByTimestampDesc(roomId);
+        return ChatMessageDto.of(chatMessage);
     }
 }
