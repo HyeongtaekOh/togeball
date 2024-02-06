@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
-import SockJS from 'sockjs-client'
-import Stomp from 'stompjs'
 import { useSession } from 'src/hooks'
 import { useParams } from 'react-router-dom'
 import { ChatMessage, Participants } from './components'
 import { HomeLayout, InputBox, LeftIcon, MainLayout } from 'src/components'
 import styled from 'styled-components'
+import { stompClient } from './util/chat'
 
 
 const ChatPageWrapper = styled.div`
@@ -31,67 +30,40 @@ const Chat = ( ) => {
   const [ messages, setMessages ] = useState([])
   const [ input, setInput ] = useState('')
 
-  const session = useSession()
-
-  const [ userId ] = useState( session( 'id' ) )
-
-  const socket = new SockJS(`https://i10a610.p.ssafy.io:8082/chat-server/chat?userId=${userId}`)
-
-  socket.onerror = (error) => {
-    // 여기서 에러를 캐치하고 처리하거나 로그할 수 있습니다.
-    console.error('WebSocket Error:', error)
-  
-    // 예외를 던지거나 다른 에러 처리 로직을 추가할 수 있습니다.
-  };
-
-  const stompClient = Stomp.over( socket )
+  // const session = useSession()
+  // const [ userId ] = useState("hi")
 
   useEffect(() => {
 
     const onConnect = () => {
 
+      stompClient.connected && 
       stompClient.subscribe(`/topic/room.${ chatroomId }`, ( message ) => {
-        const body = JSON.parse( message.body )
-        const newMessage = {
-          sender: body.senderId,
-          message: body.message,
-          timestamp: new Date( body.timestamp )
-        }
+        const newMessage = JSON.parse( message.body )
         setMessages(( prevMessages ) => [ ...prevMessages, newMessage ])
       }, {'auto-delete': true, 'durable': false, 'exclusive': false })
+    
     }
 
     const onError = (error) => {
       console.error('에러 발생:', error)
     }
 
-    stompClient.connect({}, onConnect, onError )
+    const connectToStomp = async () => {
+      try {
+        await stompClient.connect({}, onConnect, onError);
+      } catch (error) {
+        console.error('Stomp 연결에 실패했습니다:', error);
+      }
+    }
+
+    connectToStomp()
 
     return () => {
-      stompClient.disconnect()
+      stompClient.conneted && stompClient.disconnect()
     }
-  }, []);
 
-  // const sendMessage = () => {
-  //   if ( !input ) {
-  //     alert( '메시지를 입력하세요.' );
-  //     return;
-  //    }
-   
-  //    const chatMessage = {
-  //        roomId: chatroomId,
-  //        senderId: userId,
-  //        type: 'TALK',
-  //        content: input
-  //    }
-   
-  //    if ( stompClient && chatroomId ) {
-  //        stompClient.send(`/pub/chat.${ chatroomId }`, {}, JSON.stringify( chatMessage ))
-  //        setInput('')
-  //    } else {
-  //        alert( 'You are not connected to a chat room.' )
-  //    }
-  // }
+  }, [ chatroomId ])
 
   return (
     <MainLayout>
