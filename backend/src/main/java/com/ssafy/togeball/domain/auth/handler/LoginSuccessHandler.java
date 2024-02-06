@@ -32,6 +32,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private Integer extractUsername(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        log.info("userDetails : {}", userDetails.getUsername());
         return Integer.parseInt(userDetails.getUsername());
     }
 }

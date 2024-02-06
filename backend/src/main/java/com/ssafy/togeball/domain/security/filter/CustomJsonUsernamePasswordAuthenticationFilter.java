@@ -1,8 +1,12 @@
 package com.ssafy.togeball.domain.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.togeball.domain.user.entity.User;
+import com.ssafy.togeball.domain.user.exception.UserNotFoundException;
+import com.ssafy.togeball.domain.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,7 +18,9 @@ import org.springframework.util.StreamUtils;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.Optional;
 
+@Slf4j
 public class CustomJsonUsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     private static final String DEFAULT_LOGIN_REQUEST_URL = "/api/auth/login";
@@ -27,15 +33,18 @@ public class CustomJsonUsernamePasswordAuthenticationFilter extends AbstractAuth
             new AntPathRequestMatcher(DEFAULT_LOGIN_REQUEST_URL, HTTP_METHOD);
 
     private final ObjectMapper objectMapper;
+    private final UserService userService;
 
-    public CustomJsonUsernamePasswordAuthenticationFilter(ObjectMapper objectMapper) {
+    public CustomJsonUsernamePasswordAuthenticationFilter(ObjectMapper objectMapper, UserService userService) {
         super(DEFAULT_LOGIN_PATH_REQUEST_MATCHER);
         this.objectMapper = objectMapper;
+        this.userService = userService;
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException {
         if(request.getContentType() == null || !request.getContentType().equals(CONTENT_TYPE)  ) {
+            log.info("AuthenticationServiceException");
             throw new AuthenticationServiceException("Authentication Content-Type not supported: " + request.getContentType());
         }
 
@@ -46,8 +55,14 @@ public class CustomJsonUsernamePasswordAuthenticationFilter extends AbstractAuth
         String email = (String) usernamePasswordMap.get(USERNAME_KEY);
         String password = (String) usernamePasswordMap.get(PASSWORD_KEY);
 
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);//principal 과 credentials 전달
 
-        return this.getAuthenticationManager().authenticate(authRequest);
+        Optional<User> userOptional = userService.findUserByEmail(email);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getId(), password);
+            return this.getAuthenticationManager().authenticate(authRequest);
+        } else {
+            throw new UserNotFoundException();
+        }
     }
 }
