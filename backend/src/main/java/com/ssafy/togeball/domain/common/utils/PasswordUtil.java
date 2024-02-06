@@ -1,4 +1,4 @@
-package com.ssafy.togeball.global.config.util;
+package com.ssafy.togeball.domain.common.utils;
 
 import java.util.Random;
 

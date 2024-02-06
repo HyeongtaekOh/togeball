@@ -5,7 +5,7 @@ import com.ssafy.togeball.domain.auth.entity.SocialType;
 import com.ssafy.togeball.domain.auth.exception.InvalidSocialTypeException;
 import com.ssafy.togeball.domain.user.entity.Role;
 import com.ssafy.togeball.domain.user.entity.User;
-import com.ssafy.togeball.global.config.util.PasswordUtil;
+import com.ssafy.togeball.domain.common.utils.PasswordUtil;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -49,7 +49,7 @@ public class OAuthAttributes {
     public User toUserEntity(OAuth2UserInfo oauth2UserInfo) {
         return User.builder()
                 .email(oauth2UserInfo.getEmail())
-                .nickname(oauth2UserInfo.getNickname())
+                .nickname("Guest#" + PasswordUtil.generateRandomPassword())
                 .profileImage(oauth2UserInfo.getImageUrl())
                 .role(Role.GUEST)
                 .build();
@@ -58,7 +58,6 @@ public class OAuthAttributes {
     public Auth toAuthEntity(SocialType socialType, Integer id, OAuth2UserInfo oauth2UserInfo) {
         return Auth.builder()
                 .userId(id)
-                .email(oauth2UserInfo.getEmail())
                 .password(PasswordUtil.generateRandomPassword())
                 .socialType(socialType)
                 .socialId(oauth2UserInfo.getId())
