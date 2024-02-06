@@ -17,8 +17,9 @@ server:
 spring:
   data:
     redis:
-      host: 127.0.0.1
+      host: i10a610.p.ssafy.io
       port: 6379
+      password: togeball
 
 rabbitmq:
   host: i10a610.p.ssafy.io

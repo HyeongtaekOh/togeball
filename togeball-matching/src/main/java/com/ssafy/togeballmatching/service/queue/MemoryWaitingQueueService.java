@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
-@Primary
+//@Primary
 public class MemoryWaitingQueueService implements WaitingQueueService {
 
     private final List<MatchingUser> waitingQueue = new CopyOnWriteArrayList<>();
