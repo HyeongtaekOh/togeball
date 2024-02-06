@@ -70,17 +70,14 @@ public class AuthService implements UserDetailsService {
     @Value("${spring.security.oauth2.client.provider.kakao.user-info-uri}")
     private String kakaoUserInfoUri;
 
-    private static final String GOOGLE = "google";
-    private static final String KAKAO = "kakao";
-
     private final AuthRepository authRepository;
     private final UserRepository userRepository;
     private final JwtService jwtService;
 
-    // TODO : 예외 다시 자세히 보고 설정하기
+    // TODO : 구글 로그인 관련 메서드 구현
     public void oauth2Login(String provider, String authorizationCode, HttpServletResponse response) {
         String accessToken = switch (provider) {
-            case "google" -> getAccessTokenForGoogle(authorizationCode);
+//            case "google" -> getAccessTokenForGoogle(authorizationCode);
             case "kakao" -> getAccessTokenForKakao(authorizationCode);
             default -> throw new InvalidSocialTypeException();
         };
@@ -92,33 +89,10 @@ public class AuthService implements UserDetailsService {
 
     public User getUserInfo(String provider, String accessToken) {
         return switch (provider) {
-            case "google" -> getUserInfoForGoogle(accessToken);
+//            case "google" -> getUserInfoForGoogle(accessToken);
             case "kakao" -> getUserInfoForKakao(accessToken);
             default -> throw new InvalidSocialTypeException();
         };
-    }
-
-    public User getUserInfoForGoogle(String accessToken) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Authorization", "Bearer " + accessToken);
-        HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
-
-        URI uri = UriComponentsBuilder.fromUriString(googleUserInfoUri)
-                .build()
-                .toUri();
-
-        ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, String.class);
-        Map<String, Object> userInfo;
-        try {
-            userInfo = new ObjectMapper().readValue(response.getBody(), Map.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
-        OAuthAttributes extractAttributes = OAuthAttributes.of(SocialType.GOOGLE, "email", userInfo);
-        return getUser(extractAttributes, SocialType.GOOGLE);
     }
 
     public User getUserInfoForKakao(String accessToken) {
@@ -142,27 +116,6 @@ public class AuthService implements UserDetailsService {
 
         OAuthAttributes extractAttributes = OAuthAttributes.of(SocialType.KAKAO, "email", userInfo);
         return getUser(extractAttributes, SocialType.KAKAO);
-    }
-
-    private String getAccessTokenForGoogle(String authorizationCode) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("grant_type", "authorization_code");
-        params.add("code", authorizationCode);
-        params.add("client_id", googleClientId);
-        params.add("client_secret", googleClientSecret);
-        params.add("redirect_uri", googleRedirectUri);
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-        ResponseEntity<Map> res = restTemplate.postForEntity(googleTokenUri, request, Map.class);
-
-        if (res.getBody() == null) {
-            throw new InvalidTokenException();
-        }
-        return (String) res.getBody().get("access_token");
     }
 
     private String getAccessTokenForKakao(String authorizationCode) {
@@ -258,16 +211,6 @@ public class AuthService implements UserDetailsService {
         Auth auth = authRepository.findByEmail(email).orElseThrow(AuthNotFoundException::new);
         auth.setRefreshToken(null);
         authRepository.save(auth);
-    }
-
-    private SocialType getSocialType(String registrationId) {
-        if (KAKAO.equals(registrationId)) {
-            return SocialType.KAKAO;
-        }
-        else if (GOOGLE.equals(registrationId)) {
-            return SocialType.GOOGLE;
-        }
-        throw new InvalidSocialTypeException();
     }
 
     private User getUser(OAuthAttributes attributes, SocialType socialType) {
