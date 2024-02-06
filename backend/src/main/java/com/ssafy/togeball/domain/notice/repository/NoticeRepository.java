@@ -9,9 +9,5 @@ import java.util.List;
 @Repository
 public interface NoticeRepository extends JpaRepository<Notice, Integer> {
 
-//    Optional<Notice> findByMatchingIdAndUserId(Long matchingId, Long userId);
-
-    List<Notice> findByUserId(Integer userId);
-
-//    List<Notice> findByMatchingId(Long matchingId);
+    List<Notice> findAllByUserId(Integer userId);
 }

@@ -1,6 +1,7 @@
 package com.ssafy.togeball.domain.chatroom.repository;
 
 import com.ssafy.togeball.domain.chatroom.entity.Chatroom;
+import com.ssafy.togeball.domain.chatroom.entity.GameChatroom;
 import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
