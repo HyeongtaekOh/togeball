@@ -4,6 +4,7 @@ import com.ssafy.togeball.domain.league.dto.ClubResponse;
 import com.ssafy.togeball.domain.league.dto.GameResponse;
 import com.ssafy.togeball.domain.league.entity.Club;
 import com.ssafy.togeball.domain.league.entity.Game;
+import com.ssafy.togeball.domain.league.exception.ClubNotFoundException;
 import com.ssafy.togeball.domain.league.repository.ClubRepository;
 import com.ssafy.togeball.domain.league.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
@@ -51,5 +52,11 @@ public class LeagueService {
         return clubs.stream()
                 .map(ClubResponse::of)
                 .toList();
+    }
+
+    @Transactional
+    public Club findById(Integer clubId) {
+        return clubRepository.findById(clubId)
+                .orElseThrow(ClubNotFoundException::new);
     }
 }
