@@ -11,6 +11,8 @@ import com.ssafy.togeball.domain.user.dto.UserResponse;
 import com.ssafy.togeball.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ChatroomService {
 
+    @Value("${rabbitmq.exchange}")
+    private String exchange;
+
+    @Value("${rabbitmq.chat.routing-key}")
+    private String routingKey;
+
+    private final RabbitTemplate rabbitTemplate;
     private final ChatroomRepository chatroomRepository;
     private final ChatroomMembershipRepository chatroomMembershipRepository;
 
@@ -80,9 +89,19 @@ public class ChatroomService {
     @Transactional
     public boolean joinChatroom(Integer userId, Integer chatroomId) {
 
+<<<<<<< 63233d40f896de347d227e1dcfb656adf1097385
+        if (chatroomRepository.findCapacityById(chatroomId) >
+                chatroomMembershipRepository.countByChatroomId(chatroomId)) {
+            return false;
+=======
         if (chatroomRepository.findCapacityById(chatroomId) > chatroomMembershipRepository.countByChatroomId(chatroomId)) {
             throw new ApiException(ChatroomErrorCode.CHATROOM_JOIN_FAILED);
+>>>>>>> 7a16752c64ffe9be1d197cce20a5903d53d02a78
         }
+        rabbitTemplate.convertAndSend(exchange, routingKey, ChatroomJoinMessage.builder()
+                .userId(userId)
+                .roomId(chatroomId)
+                .build());
         return chatroomRepository.addParticipant(chatroomId, userId);
     }
 
@@ -93,7 +112,9 @@ public class ChatroomService {
         chatroomMembershipRepository.delete(membership);
     }
 
+    @Transactional(readOnly = true)
     public Page<ChatroomResponse> findAllChatroomsByType(String type, Pageable pageable) {
+
         Page<Chatroom> chatrooms = chatroomRepository.findAllByType(type, pageable);
         return getChatroomResponses(chatrooms);
     }
