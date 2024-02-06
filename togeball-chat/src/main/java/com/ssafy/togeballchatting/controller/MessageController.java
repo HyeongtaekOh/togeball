@@ -23,8 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class MessageController {
 
-    private final ChatMessageService chatMessageService;
     private final AwsS3Service s3Service;
+    private final ChatMessageService chatMessageService;
     private final SimpMessageSendingOperations messagingTemplate;
 
     @MessageMapping("chat.{roomId}")
