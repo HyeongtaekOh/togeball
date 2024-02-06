@@ -100,7 +100,7 @@ const Login = () => {
       <Title type='small'>SNS 로그인</Title>
       <IconWrapper><NaverIcon />
       <KakaoIcon onClick={ handleLogin }/>
-      <a href='https://i10a610.p.ssafy.io:8080/oauth2/authorization/kakao'>
+      <a href='https://i10a610.p.ssafy.io/oauth2/authorization/kakao'>
         카카오
       </a>
       </IconWrapper>

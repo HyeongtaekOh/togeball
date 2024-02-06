@@ -4,11 +4,7 @@ import { useEffect, useState } from "react"
 const OAuthRedirect = () => {
 
 
-  console.log("hi")
-
   const [ code, setCode ] = useState()
-
-
 
   useEffect(()=>{
 
