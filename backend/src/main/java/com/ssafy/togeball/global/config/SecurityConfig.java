@@ -6,6 +6,7 @@ import com.ssafy.togeball.domain.auth.handler.LoginSuccessHandler;
 import com.ssafy.togeball.domain.auth.handler.OAuth2LoginFailureHandler;
 import com.ssafy.togeball.domain.auth.handler.OAuth2LoginSuccessHandler;
 import com.ssafy.togeball.domain.auth.service.AuthService;
+import com.ssafy.togeball.domain.auth.service.CustomOAuth2UserService;
 import com.ssafy.togeball.domain.security.filter.CustomAccessDeniedHandler;
 import com.ssafy.togeball.domain.security.filter.CustomAuthenticationEntryPoint;
 import com.ssafy.togeball.domain.security.filter.CustomJsonUsernamePasswordAuthenticationFilter;
@@ -38,7 +39,7 @@ public class SecurityConfig {
     private final UserService userService;
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
     private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
-//    private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomOAuth2UserService customOAuth2UserService;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
@@ -64,10 +65,9 @@ public class SecurityConfig {
                 .oauth2Login(oauth2Login -> oauth2Login.permitAll()
                         .successHandler(oAuth2LoginSuccessHandler)
                         .failureHandler(oAuth2LoginFailureHandler)
-//                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
-//                                .userService(customOAuth2UserService)
-//                        ))
-                )
+                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
+                                .userService(customOAuth2UserService)
+                        ))
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
                         .accessDeniedHandler(customAccessDeniedHandler)
@@ -101,7 +101,7 @@ public class SecurityConfig {
     @Bean
     public CustomJsonUsernamePasswordAuthenticationFilter customJsonUsernamePasswordAuthenticationFilter() {
         CustomJsonUsernamePasswordAuthenticationFilter customJsonUsernamePasswordLoginFilter
-                = new CustomJsonUsernamePasswordAuthenticationFilter(objectMapper);
+                = new CustomJsonUsernamePasswordAuthenticationFilter(objectMapper, userService);
         customJsonUsernamePasswordLoginFilter.setAuthenticationManager(authenticationManager());
         customJsonUsernamePasswordLoginFilter.setAuthenticationSuccessHandler(loginSuccessHandler());
         customJsonUsernamePasswordLoginFilter.setAuthenticationFailureHandler(loginFailureHandler());
