@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { HomeLayout, MainLayout, Title, RadioTagList, InputBox, Tag, Button } from 'src/components'
+import { HomeLayout, MainLayout, Title,  InputBox, Button } from 'src/components'
 import styled from 'styled-components'
-import { getTags } from './api'
+import { getTags, postProfile } from './api'
+import { TagType } from 'src/types'
 import { RowTagList, ColTagList, TagList } from './components'
 import useModel from './store'
 import ImgUpload from './components/ImgUpload'
-import { useQuery } from 'react-query'
+import { useQuery, useMutation } from 'react-query'
 
 const ProfileSettingWrapper = styled.div`
   box-sizing: border-box;
@@ -31,6 +32,7 @@ const TitleWrapper = styled.div<{ type? : string } >`
   margin-left:  ${(prop) => prop.type && '-10px' };
   margin-right: 12px;
 `
+
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -57,7 +59,24 @@ const Profile = () => {
   
   const [ id, setId ] = useState( '하이' )
   const [ nickName, setNickName ] = useState( '' )
-  const { selectTags } = useModel()
+  const [ stadium, setStadium ] = useState('')
+  const { selectTags, team, image } = useModel()
+
+  const profileMutation = useMutation( postProfile );
+
+  const data = {
+    // id: id,
+    nickname: nickName,
+    stadium: stadium,
+    team: team,
+    profileImage: image,
+    tags: selectTags
+  }
+
+  const postProfileSetting = () => {
+    console.log(data)
+    // profileMutation.mutateAsync( data )
+}
 
   return(
     <MainLayout title='프로필 설정'>
@@ -80,6 +99,7 @@ const Profile = () => {
               placeholder = '닉네임을 입력하세요' 
               height = '40px' 
               width = '300px'
+              onChange={(e) => { setNickName( e.target.value )}}
             />
           </InputWrapper>
           <RowTagList list = { preferredStadiums } >선호 구장</RowTagList>
@@ -97,7 +117,7 @@ const Profile = () => {
           <ColTagList list = { unlabeled }>기타</ColTagList>
         </ProfileSettingWrapper>
         <ButtonWrapper>
-          <Button type = 'save'>저장</Button>
+          <Button type = 'save' onClick={ postProfileSetting }>저장</Button>
           <Button type = 'cancel'>취소</Button>
         </ButtonWrapper>
       </HomeLayout>

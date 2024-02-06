@@ -25,21 +25,20 @@ const TagBtn = (props: TagBtnProps) => {
     const { children, isSelect, limitFlag } = props
 
     const [ isClick, setIsClick ] = useState<boolean>( isSelect )
-    // const [ islimit, setIsLimit ] = useState<boolean>( limitFlag )
-    const { limit, setLimit } = useModel()
+    const { team, setTeam } = useModel()
     
     const backgroundColor = isClick? '#6A60A9' : '#DEDCEE';
     const letterColor = isClick? 'white' : 'black';
 
     const changeColor = () => {
       if (limitFlag) {
-        if(limit===''){
+        if(team===''){
           setIsClick(!isClick)
-          setLimit(children)
+          setTeam(children)
         }else{
-          if(limit===children){
+          if(team===children){
             setIsClick(!isClick)
-            setLimit('')
+            setTeam('')
           }
         }
       }else{

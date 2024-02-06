@@ -54,7 +54,7 @@ const Modal = styled.div`
 const RecruitPost = () => {
     const [ inputCount, setInputCount ] = useState(0)
     const [ title, setTitle ] = useState('')
-    const [ team, setTeam ] = useState("")
+    const [ team, setTeam ] = useState('')
     const [ seat, setSeat] = useState('')
     const [ capacity, setCapacity ] = useState()
     const { tagList } = useStore()
