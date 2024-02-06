@@ -59,6 +59,19 @@ const Login = () => {
     }
   }
 
+  const Rest_api_key= 'pUs0QO2D9W21uNBNzqqVjqftZJfqYBZ6' //REST API KEY
+  const redirect_uri = 'http://localhost:3000/login' //Redirect URI
+  
+  // oauth 요청 URL
+  const kakaoURL 
+    = 
+    `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
+  
+  const handleLogin = ()=>{
+      window.location.href = kakaoURL
+  }
+   
+
   const onKaKao = () =>{
     kakaoMutations.mutateAsync()
   }
@@ -86,9 +99,9 @@ const Login = () => {
       </SignButton>
       <Title type='small'>SNS 로그인</Title>
       <IconWrapper><NaverIcon />
-      <KakaoIcon onClick={ onKaKao }/>
-      <a href='https://i10a610.p.ssafy.io:8081/oauth2/authorization/kakao'>
-        하이
+      <KakaoIcon onClick={ handleLogin }/>
+      <a href='https://i10a610.p.ssafy.io:8080/oauth2/authorization/kakao'>
+        카카오
       </a>
       </IconWrapper>
       <a href='./signup'>혹시 아직 회원이 아니신가요?</a>
