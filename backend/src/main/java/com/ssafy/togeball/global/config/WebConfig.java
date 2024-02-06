@@ -1,4 +1,4 @@
-package com.ssafy.togeball.domain.common.config;
+package com.ssafy.togeball.global.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

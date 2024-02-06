@@ -29,13 +29,13 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     }
 
     private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) {
-        String email = oAuth2User.getEmail();
-        String accessToken = jwtService.createAccessToken(email);
+        Integer id = oAuth2User.getId();
+        String accessToken = jwtService.createAccessToken(id);
         String refreshToken = jwtService.createRefreshToken();
 
         jwtService.sendAccessToken(response, accessToken);
         jwtService.sendRefreshToken(response, refreshToken);
 
-        authService.updateRefreshToken(email, refreshToken);
+        authService.updateRefreshToken(id, refreshToken);
     }
 }
