@@ -27,8 +27,6 @@ const GameItem = ( props : GameItemProp ) => {
 
   const { game, onClick } = props;
 
-  console.log(game)
-
   return(
     <GameItemWrapper onClick={ onClick }>
         {/* <img style={{ width : '30%' }} alt={ game?.homeClubName }></img> */}

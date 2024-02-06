@@ -45,11 +45,13 @@ const Calendar = () => {
 
   const movePrevMonth = () =>{ setCurrentMonth( subMonths( currentMonth, 1) ) }
   const moveNextMonth = () => { setCurrentMonth( addMonths( currentMonth, 1) ) }
-  const onMoveHandler = () => { updateIsMonth() }
-
+  const onMoveHandler = () => { 
+    updateIsMonth() 
+  }
+  
   const param = {
-    startDate: `${format(days[0], 'yyyy-MM-dd')}`,
-    endDate: `${format(days[days.length-1], 'yyyy-MM-dd')}`,
+    startDate: `${ format( days[0], 'yyyy-MM-dd' )}`,
+    endDate: `${ format( days[ days.length-1 ], 'yyyy-MM-dd')}`,
   }
   const { data: game, refetch } = useQuery(['game', param ], () => getGames( param ))
   useEffect(() => { refetch() }, [ currentMonth, refetch ])

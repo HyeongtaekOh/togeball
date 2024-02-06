@@ -1,57 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import Stomp from 'stompjs';
-import   { MatchingQueue, Timer }   from './components';
+import React, { useEffect, useState } from 'react'
+import Stomp from 'stompjs'
+import   { MatchingQueue, Timer, MatchingModal }   from './components'
 import { Title } from 'src/components'
-
-// const WebSocketComponent = () => {
-//   const [matchingQueue, setMatchingQueue] = useState([]);
-
-//   useEffect(() => {
-//     const socket = new WebSocket('ws://localhost:8080');
-
-//     const stompClient = Stomp.over(socket);
-
-//     const onConnect = () => {
-//       console.log('WebSocket 연결이 수립되었습니다.');
-
-//       stompClient.subscribe('/hashtag/matchings', (message) => {
-//         const matchData = JSON.parse(message.body);
-
-//         setMatchingQueue((prevQueue) => [...prevQueue, matchData]);
-//       });
-//     };
-
-//     const onDisconnect = () => {
-//       console.log('WebSocket 연결이 종료되었습니다.');
-//     };
-
-//     stompClient.connect({}, onConnect, onDisconnect);
-
-//     return () => {
-//       stompClient.disconnect();
-//     };
-//   }, []);
-
-//   return (
-//     <div>
-//       <h2>Matching Queue</h2>
-//       <ul>
-//         {matchingQueue.map((data) => (
-//           <li key={data.userId}>{data.message}</li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
-
-// export default WebSocketComponent;
+import styled from 'styled-components'
+import SockJS from 'sockjs-client'
 
 
 
+const MatchingWrapper = styled.div`
+  background-color: #7D74B4;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`
 const Matching: React.FC = () => {
   // 매칭에 올라온 큐를 다음과 같이 바꿔야함.
   const [ matchingData, setMatchingData ] = useState({
-    hashtags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5', 'tag6'],
+    hashtags: [ 'tag1', 'tag2', 'tag3', 'tag4', 'tag5', 'tag6' ],
     counts: {
       tag1: 10,
       tag2: 5,
@@ -63,35 +30,60 @@ const Matching: React.FC = () => {
   });
 
   useEffect(() => {
-    // 매 3초마다 임시 데이터를 업데이트하여 컴포넌트를 리렌더링
-    const intervalId = setInterval(() => {
-      setMatchingData(( prevData ) => ({
-        hashtags: prevData.hashtags,
-        counts: {
-          tag1: Math.floor( Math.random() * 20 ), // 임시로 랜덤한 값 생성
-          tag2: Math.floor( Math.random() * 20 ),
-          tag3: Math.floor( Math.random() * 20 ),
-          tag4: Math.floor( Math.random() * 20 ),
-          tag5: Math.floor( Math.random() * 20 ),
-          tag6: Math.floor( Math.random() * 20 ),
-        },
-      }));
-    }, 5000); //5초마다 갱신
 
-    // 컴포넌트가 언마운트되면 interval 해제
-    return () => clearInterval(intervalId);
-  }, []);
+     // WebSocket 연결 설정
+    const clientId = 1
+    const socket = new SockJS("https://i10a610.p.ssafy.io:8083/matching-server/matching?userId=" + clientId)
+    
+     // STOMP 클라이언트 생성
+    // const stompClient = Stomp.over(socket)
+
+    socket.onopen = function(event) {
+      // WebSocket 연결이 열렸을 때 실행되는 코드
+      console.log("WebSocket 연결이 열렸습니다.")
+     
+      // 연결이 열리면 서버에 메시지를 보낼 수 있음
+      // 예: 서버에 "Hello, Server!" 메시지 보내기
+      socket.send("Hello, Server!")
+  };
+
+  socket.onmessage = function(event) {
+      // 서버에서 메시지를 받았을 때 실행되는 코드
+      const message = event.data;
+      console.log("서버로부터 메시지를 받았습니다: " + message);
+      
+  };
+
+  return () => {
+    socket.close()
+  }
+}, [])
+
+  // 웹소켓서버 연결하면 false를 기본값으로 바꿀 예정
+  const [isModalOpened, setIsModalOpened] = useState( true )
+
+  const closeModal = () => {
+    setIsModalOpened( false )
+  }
+
+  const openModal = () => {
+    setIsModalOpened (true )
+  }
 
   return (
-    <div>
-      <div style={{ display:'flex', justifyContent:'space-between'}}>
+    <MatchingWrapper>
+      <div style={{ display:'flex', justifyContent:'center', height:'10%'}}>
         <Title type='large'>직관 메이트를 찾고 있어요</Title>
+      </div>
+      <div style={{ display: 'flex', justifyContent:'center', height:'80%'}}>
+      <MatchingQueue data={ matchingData }/>
+      { isModalOpened && <MatchingModal isOpen={ isModalOpened } onClose={ closeModal } />}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10%'}}>
         <Timer duration={ 180 }/>
       </div>
-      <MatchingQueue data={ matchingData }/>
+    </MatchingWrapper>
+  )
+}
 
-    </div>
-  );
-};
-
-export default Matching;
+export default Matching

@@ -3,7 +3,7 @@ import useStore from '../store'
 import { Button, LeftIcon, RightIcon, Title } from 'src/components'
 import { addDays, format, subDays } from 'date-fns'
 import { DateList, DayList } from './components'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useQuery } from 'react-query'
 import { getGames } from '../api'
 import { GameType } from 'src/types'
@@ -48,9 +48,15 @@ const WeekCalendar = () => {
     day = addDays( day, 1 )
   }
 
+ 
+
+
   const movePrevWeek = () => { setCurrentMonth( subDays( currentMonth, 7 )) }
   const moveNextWeek = () => { setCurrentMonth( addDays( currentMonth, 7 )) }
-  const onMoveHandler = () => { updateIsMonth() }
+  const onMoveHandler = () => { 
+    updateIsMonth() 
+ }
+ 
 
   const param = {
     startDate: `${format(days[0], 'yyyy-MM-dd')}`,
@@ -58,7 +64,8 @@ const WeekCalendar = () => {
   }
   const { data: game, refetch } = useQuery<GameType[]>(['game', param ], () => getGames( param ))
   useEffect(() => { refetch() }, [ currentMonth, refetch ])
-
+ 
+  
   return(
     <CalendarWrapper>
       <CalendarHeaderWrapper>

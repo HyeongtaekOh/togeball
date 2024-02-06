@@ -11,19 +11,19 @@ const useAxios = axios.create({
   timeout: 10000,
 })
 
-// useAxios.interceptors.request.use( 
-//   async( config ) => {
-//     const { accessToken, setAccessToken } = useStore()
+useAxios.interceptors.request.use( 
+  async( config ) => {
+    const accessToken  = localStorage.getItem('accessToken')
     
-//       if( accessToken ){
-//         config.headers['Authorization'] = `Bearer ${ accessToken }`
-//       }
-//       return config
-//   },
-//   ( error ) => {
-//     return Promise.reject( error )
-//   }
-// )
+      if( accessToken ){
+        config.headers['Authorization'] = `Bearer ${ accessToken }`
+      }
+      return config
+  },
+  ( error ) => {
+    return Promise.reject( error )
+  }
+)
 
 // useAxios.interceptors.response.use(
 //   async( response ) => {
@@ -32,21 +32,19 @@ const useAxios = axios.create({
 //   async( error ) => {
 //     const { status } = error.response;
 
-//     const { accessToken, setAccessToken } = useStore()
+//     const { setAccessToken } = useStore()
 
 //     if( status === 401 ){
-//       const reAccessToken = await useAxiosRefreshToken()
-//       setAccessToken( reAccessToken )
+//       const refreshToken = localStorage.getItem('refreshToken')
+//       const data = { "Authorization-refresh" : refreshToken }
+//       const response = await useAxios.post<string>('/api/auth/reissue', { headers : data });
+//       setAccessToken( response?.headers?.authorization )
+//       localStorage.setItem("accessToken", response?.headers?.authorization )
+//       // localStorage.setItem("refreshToken", response?.headers[`refresh-token`] )
 //     }
-
 //   }
-
 // )
 
-// const useAxiosRefreshToken: () => Promise<string> = async() =>{
-//   const { data } = await useAxios.post<string>('/refresh');
-//   return data
-// }
 
 export const getAxios =  async ( url: string, params?: any )  => {
   try {
