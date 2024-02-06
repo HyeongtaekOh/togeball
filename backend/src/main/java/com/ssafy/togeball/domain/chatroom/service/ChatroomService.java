@@ -89,14 +89,8 @@ public class ChatroomService {
     @Transactional
     public boolean joinChatroom(Integer userId, Integer chatroomId) {
 
-<<<<<<< 63233d40f896de347d227e1dcfb656adf1097385
-        if (chatroomRepository.findCapacityById(chatroomId) >
-                chatroomMembershipRepository.countByChatroomId(chatroomId)) {
-            return false;
-=======
         if (chatroomRepository.findCapacityById(chatroomId) > chatroomMembershipRepository.countByChatroomId(chatroomId)) {
             throw new ApiException(ChatroomErrorCode.CHATROOM_JOIN_FAILED);
->>>>>>> 7a16752c64ffe9be1d197cce20a5903d53d02a78
         }
         rabbitTemplate.convertAndSend(exchange, routingKey, ChatroomJoinMessage.builder()
                 .userId(userId)

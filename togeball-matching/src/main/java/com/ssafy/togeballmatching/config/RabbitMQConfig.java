@@ -1,10 +1,9 @@
-package com.ssafy.togeball.global.config;
+package com.ssafy.togeballmatching.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -19,17 +18,11 @@ public class RabbitMQConfig {
     @Value("${rabbitmq.exchange}")
     private String exchange;
 
-    @Value("${rabbitmq.chat.queue}")
-    private String chatQueue;
-
-    @Value("${rabbitmq.chat.routing-key}")
-    private String chatRoutingKey;
-
     @Value("${rabbitmq.matching.queue}")
-    private String matchingQueue;
+    private String queue;
 
-    @Value("${rabbitmq.matching.routing-key}")
-    private String matchingRoutingKey;
+    @Value("${rabbitmq.matching.routingkey}")
+    private String routingkey;
 
     @Value("${rabbitmq.host}")
     private String host;
@@ -49,23 +42,13 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Queue chatQueue() {
-        return new Queue(chatQueue, false);
+    public Queue queue() {
+        return new Queue(queue, false);
     }
 
     @Bean
-    public Binding chatBinding(Queue chatQueue, DirectExchange exchange) {
-        return BindingBuilder.bind(chatQueue).to(exchange).with(chatRoutingKey);
-    }
-
-    @Bean
-    public Queue matchingQueue() {
-        return new Queue(matchingQueue, false);
-    }
-
-    @Bean
-    public Binding matchingBinding(Queue matchingQueue, DirectExchange exchange) {
-        return BindingBuilder.bind(matchingQueue).to(exchange).with(matchingRoutingKey);
+    public Binding binding(Queue queue, DirectExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(routingkey);
     }
 
     @Bean
@@ -83,14 +66,5 @@ public class RabbitMQConfig {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
         rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
         return rabbitTemplate;
-    }
-
-    @Bean
-    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
-
-        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-        factory.setConnectionFactory(connectionFactory);
-        factory.setMessageConverter(new Jackson2JsonMessageConverter());
-        return factory;
     }
 }

@@ -76,4 +76,4 @@ rabbitmq:
     routing-key: togeball.chat
   matching:
     queue: matching.queue
-    routing-key: togeball.match
+    routing-key: togeball.matching
