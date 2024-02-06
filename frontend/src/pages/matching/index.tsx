@@ -3,6 +3,7 @@ import Stomp from 'stompjs'
 import   { MatchingQueue, Timer, MatchingModal }   from './components'
 import { Title } from 'src/components'
 import styled from 'styled-components'
+import SockJS from 'sockjs-client'
 
 
 
@@ -31,31 +32,32 @@ const Matching: React.FC = () => {
   useEffect(() => {
 
      // WebSocket 연결 설정
-     const socket = new WebSocket(`ws:${ process.env.REACT_APP_BASE_URL }/hashtags/matchings`)
+    const clientId = 1
+    const socket = new SockJS("https://i10a610.p.ssafy.io:8083/matching-server/matching?userId=" + clientId)
     
      // STOMP 클라이언트 생성
-     const stompClient = Stomp.over(socket)
- 
-     // 연결이 수립되었을 때의 콜백 함수
-     const onConnect = () => {
-       console.log('WebSocket 연결이 수립되었습니다.')
- 
-       // 특정 주제(subscribe)에 대한 메시지 수신
-       stompClient.subscribe('/topic/matchingQueue', (message) => {
-         const newmatchData = JSON.parse(message.body)
-         console.log('새로운 매칭 데이터:', newmatchData)
-         setMatchingData(newmatchData);
-         // TODO: 매칭 데이터를 처리하는 로직 추가
-       })
-     }
+    // const stompClient = Stomp.over(socket)
 
-     socket.addEventListener('open', onConnect);
-   
+    socket.onopen = function(event) {
+      // WebSocket 연결이 열렸을 때 실행되는 코드
+      console.log("WebSocket 연결이 열렸습니다.")
+     
+      // 연결이 열리면 서버에 메시지를 보낼 수 있음
+      // 예: 서버에 "Hello, Server!" 메시지 보내기
+      socket.send("Hello, Server!")
+  };
 
-    return () => {
-      socket.close()
-    }
-  }, [])
+  socket.onmessage = function(event) {
+      // 서버에서 메시지를 받았을 때 실행되는 코드
+      const message = event.data;
+      console.log("서버로부터 메시지를 받았습니다: " + message);
+      
+  };
+
+  return () => {
+    socket.close()
+  }
+}, [])
 
   // 웹소켓서버 연결하면 false를 기본값으로 바꿀 예정
   const [isModalOpened, setIsModalOpened] = useState( true )
