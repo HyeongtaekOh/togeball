@@ -18,6 +18,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(customWebSocketHandler, "/matching-server/matching")
                 .setAllowedOriginPatterns("*")
-                .addInterceptors(new AuthHandshakeInterceptor());
+                .withSockJS()
+                .setInterceptors(new AuthHandshakeInterceptor());
     }
 }
