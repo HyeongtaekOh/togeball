@@ -88,7 +88,7 @@ const Login = () => {
       <IconWrapper><NaverIcon />
       <KakaoIcon onClick={ onKaKao }/>
       <a href='https://i10a610.p.ssafy.io:8081/oauth2/authorization/kakao'>
-        하이
+        카카오
       </a>
       </IconWrapper>
       <a href='./signup'>혹시 아직 회원이 아니신가요?</a>
