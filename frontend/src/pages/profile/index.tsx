@@ -5,7 +5,6 @@ import { getTags } from './api'
 import { RowTagList, ColTagList, TagList } from './components'
 import useModel from './store'
 import ImgUpload from './components/ImgUpload'
-import { TagType } from 'src/types'
 import { useQuery } from 'react-query'
 
 const ProfileSettingWrapper = styled.div`
@@ -82,13 +81,17 @@ const Profile = () => {
     size: 100
   }
 
-  const { data: tags } = useQuery<TagType[]>([ 'tags', param ], () => getTags( param ))
-  // const games= gamelist?.filter(( game ) => game.datetime.substring(8,10) === format( day, 'dd' ))
-  // const taglist = tags
-  console.log(tags)
-  // const prefedTeam = tags?.filter(( tag ) => tag.)
+  const { data: tags } = useQuery<TagApiType>([ 'tags', param ], () => getTags( param ))
 
-
+  const preferredTeam = tags?.content.filter(item => item.type === "PREFERRED_TEAM");
+  const preferredStadiums = tags?.content.filter(item => item.type === "PREFERRED_STADIUM");
+  const preferredSeat = tags?.content.filter(item => item.type === "PREFERRED_SEAT");
+  const cheeringStyle = tags?.content.filter(item => item.type === "CHEERING_STYLE");
+  const mbti = tags?.content.filter(item => item.type === "MBTI");
+  const seasonPass = tags?.content.filter(item => item.type === "SEASON_PASS");
+  const unlabeled = tags?.content.filter(item => item.type === "UNLABELED");
+  const custom = tags?.content.filter(item => item.type === "CUSTOM");
+  
   const [ id, setId ] = useState( '하이' )
   const [ nickName, setNickName ] = useState( '' )
   const { selectTags } = useModel()
@@ -140,3 +143,14 @@ const Profile = () => {
 }
 
 export default Profile
+
+interface contentItem {
+  id: number,
+  content: string,
+  type: string
+}
+
+type TagApiType = {
+  content?: contentItem[],
+  totalElements?: number,
+}
