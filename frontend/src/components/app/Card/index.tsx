@@ -40,10 +40,13 @@ const TextWrapper = styled.p<Textprops>`
 
 const OpenChatCard = ( props: Textprops ) => {
     const {
-       games, child,
+       games
     } = props
 
     const { datetime, homeClubName, awayClubName } = games
+
+    
+    const time = datetime.substring(11,16)
 
     return(
         <Mainwrapper>
@@ -57,7 +60,7 @@ const OpenChatCard = ( props: Textprops ) => {
             </TextWrapper>
             <TextWrapper>
                <p style={{ color:'lightgray' }}>
-                { datetime }
+                { time }
                 </p> 
             </TextWrapper>
             <Button>참가하기</Button>
@@ -69,6 +72,5 @@ const OpenChatCard = ( props: Textprops ) => {
 export default OpenChatCard
 
 type Textprops = {
-    child?: string,
     games?: GameType
 }

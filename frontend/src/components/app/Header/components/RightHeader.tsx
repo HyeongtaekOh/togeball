@@ -44,15 +44,15 @@ const RightHeader = () => {
     ]: [
       { title : 'Service', 
         menus : [ 
-          { name : '매칭하기', path : '/service' },
-          { name : '메이트 모집하기', path : '/service' },
+          { name : '매칭하기', path : '/matching' },
+          { name : '메이트 모집하기', path : '/recruit/post' },
         ] 
       },
       { title : 'Content', 
         menus : [ 
-          { name : '오픈 채팅방', path : '/service' },
+          { name : '오픈 채팅방', path : '/todaygames' },
           { name : '메이트 채팅방', path : '/service' },
-          { name : '경기 일정', path : '/calender' },
+          { name : '경기 일정', path : '/calendar' },
         ] 
       },
     ]

@@ -1,7 +1,10 @@
 import { HomeLayout, MainLayout, OpenChatCard } from '../../components'
 import { useNavigate } from 'react-router-dom'
-import { useCallback } from 'react'
 import { styled } from 'styled-components'
+import { getGames } from 'src/pages/calendar/api'
+import { useQuery } from 'react-query'
+import { GameType } from 'src/types'
+
 
 const WrapgameWrapper = styled.div`
     display: flex;
@@ -20,13 +23,23 @@ const NogameWrapper = styled.div`
 
 const Todaygames = () => {
 
-  const games = [ { gameId: 1, datetime: '20240101', homeClubName: '두산', awayClubName: '롯데' },
-  { gameId: 2, datetime: '20240101', homeClubName: '두산', awayClubName: '롯데' },
-  { gameId: 3, datetime: '20240101', homeClubName: '두산', awayClubName: '롯데' },
-  { gameId: 0, datetime: '20240101', homeClubName: '두산', awayClubName: '롯데' },
-  { gameId: 4, datetime: '20240101', homeClubName: '두산', awayClubName: '롯데 '},
-    
-]
+  const today = new Date()
+  const year = today.getFullYear()
+  const month = (today.getMonth() + 1).toString().padStart(2, '0')
+  const day = today.getDate().toString().padStart(2, '0')
+  
+
+  const param = {
+    // startDate: `${year}-${month}-${day}`,
+    // endDate: `${year}-${month}-${day}`,
+    // 경기날짜가 있는걸로 임의 지정
+    startDate: '2024-04-06',
+    endDate: '2024-04-06',
+  }
+  
+  const { data: games } = useQuery<GameType[]>(['games', param ], () => getGames( param ))
+  console.log(games)
+
 
 
   return (
@@ -34,9 +47,9 @@ const Todaygames = () => {
       <HomeLayout>
 
       <WrapgameWrapper>
-      { games.length > 0 ? (        
+      { games?.length > 0 ? (        
         games.map(( game, index ) => (
-          <OpenChatCard games = { game } key={ index }></OpenChatCard>
+          <OpenChatCard games = { game } key={ index }/>
           ))     
           
           ): (
