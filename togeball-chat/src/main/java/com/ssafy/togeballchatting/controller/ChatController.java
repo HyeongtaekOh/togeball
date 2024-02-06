@@ -1,9 +1,9 @@
 package com.ssafy.togeballchatting.controller;
 
-import com.ssafy.togeballchatting.dto.ChatHistoryDto;
 import com.ssafy.togeballchatting.dto.ChatMessageDto;
-import com.ssafy.togeballchatting.service.ChatHistoryService;
-import com.ssafy.togeballchatting.service.ChatMessageService;
+import com.ssafy.togeballchatting.dto.ChatroomUnreadDto;
+import com.ssafy.togeballchatting.exception.NotParticipatingException;
+import com.ssafy.togeballchatting.facade.ChatFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -11,7 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -19,26 +20,26 @@ import java.time.Instant;
 @RequestMapping("/chat-server")
 public class ChatController {
 
-    private final ChatMessageService chatMessageService;
-    private final ChatHistoryService chatHistoryService;
+    private final ChatFacade chatFacade;
 
     @GetMapping("/chats/{roomId}")
     public ResponseEntity<?> findChatMessagePageByRoomId(@PathVariable(value = "roomId") Integer roomId,
                                                       Integer userId,
                                                       Pageable pageable) {
-        log.info("roomId: {}, userId: {}, pageable: {}", roomId, userId, pageable);
-        ChatHistoryDto chatHistoryDto = chatHistoryService.findChatHistoryByRoomIdAndUserId(roomId, userId);
-        if (chatHistoryDto == null) {
-            chatHistoryDto = chatHistoryService.save(ChatHistoryDto.builder()
-                    .roomId(roomId)
-                    .userId(userId)
-                    .firstMessageTimestamp(Instant.now())
-                    .build());
-        }
-        log.info("chatHistoryDto: {}", chatHistoryDto);
-        Page<ChatMessageDto> response = chatMessageService.findAllByRoomIdAndFirstMessageTime(roomId, chatHistoryDto.getFirstMessageTimestamp(), pageable);
+        Page<ChatMessageDto> response = chatFacade.findChatMessagePageByRoomId(roomId, userId, pageable);
         log.info("response: {}", response.getContent());
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/users/{userId}/chats/unread")
+    public ResponseEntity<?> countUnreadMessages(@PathVariable(value = "userId") Integer userId,
+                                                 List<Integer> roomIds) {
+        List<ChatroomUnreadDto> response = chatFacade.getUnreadMessageCountAndLatestChatMessage(userId, roomIds);
+        return ResponseEntity.ok(response);
+    }
+
+    @ExceptionHandler(NotParticipatingException.class)
+    public ResponseEntity<?> handleNotParticipatingException(NotParticipatingException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
 }

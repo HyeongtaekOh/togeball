@@ -32,8 +32,8 @@ public class LeagueController {
 
     //기업명(팀명)으로 경기 조회
     @GetMapping("/clubgames")
-    public ResponseEntity<?> searchBySponsorName(@RequestParam(name="sponsorName") String sponsorName) {
-        List<GameResponse> games = leagueService.findBySponsorName(sponsorName);
+    public ResponseEntity<?> searchByClubId(@RequestParam(name="clubId") Integer clubId) {
+        List<GameResponse> games = leagueService.findByClubId(clubId);
         return new ResponseEntity<>(games, HttpStatus.OK);
     }
 
