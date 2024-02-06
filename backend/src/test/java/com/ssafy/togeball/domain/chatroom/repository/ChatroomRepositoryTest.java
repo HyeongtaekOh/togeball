@@ -9,6 +9,7 @@ import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
 import com.ssafy.togeball.domain.league.entity.Club;
 import com.ssafy.togeball.domain.league.entity.Game;
 import com.ssafy.togeball.domain.league.entity.Stadium;
+import com.ssafy.togeball.domain.league.exception.ClubNotFoundException;
 import com.ssafy.togeball.domain.matching.entity.Matching;
 import com.ssafy.togeball.domain.tag.entity.Tag;
 import com.ssafy.togeball.domain.tag.entity.TagType;
@@ -25,7 +26,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -525,7 +525,7 @@ class ChatroomRepositoryTest {
                 .capacity(10)
                 .build();
 
-        assertThrows(JpaObjectRetrievalFailureException.class, () -> chatroomRepository.createRecruitChatroom(chatroomDto));
+        assertThrows(ClubNotFoundException.class, () -> chatroomRepository.createRecruitChatroom(chatroomDto));
     }
 
     @Test

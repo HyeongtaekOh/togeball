@@ -22,7 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
                         HttpMethod.DELETE.name(),
                         HttpMethod.OPTIONS.name()
                 )
-                .maxAge(3600)
-        ;
+                .exposedHeaders("Authorization", "Authorization-refresh")
+                .maxAge(3600);
     }
 }

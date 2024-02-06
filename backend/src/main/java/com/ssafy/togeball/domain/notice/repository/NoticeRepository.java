@@ -5,14 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface NoticeRepository extends JpaRepository<Notice, Integer> {
 
-//    Optional<Notice> findByMatchingIdAndUserId(Long matchingId, Long userId);
-
-    List<Notice> findByUserId(Integer userId);
-
-//    List<Notice> findByMatchingId(Long matchingId);
+    List<Notice> findAllByUserId(Integer userId);
 }
