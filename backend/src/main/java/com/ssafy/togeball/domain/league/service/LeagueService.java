@@ -21,8 +21,8 @@ public class LeagueService {
     private final GameRepository gameRepository;
 
     @Transactional(readOnly = true)
-    public List<GameResponse> findBySponsorName(String sponsorName) {
-        List<Game> games = gameRepository.findBySponsorName(sponsorName);
+    public List<GameResponse> findByClubId(Integer clubId) {
+        List<Game> games = gameRepository.findByClubId(clubId);
         return games.stream()
                 .map(GameResponse::of)
                 .toList();
@@ -38,6 +38,7 @@ public class LeagueService {
 
     @Transactional(readOnly = true)
     public List<GameResponse> findBySponsorNameAndDate(Date date, String sponsorName) {
+
         List<Game> games = gameRepository.findBySponsorNameAndDate(date, sponsorName);
         return games.stream()
                 .map(GameResponse::of)

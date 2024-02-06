@@ -27,7 +27,7 @@ public class AuthController {
             authService.reissueAccessToken(request, response);
             return ResponseEntity.ok().build();
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 

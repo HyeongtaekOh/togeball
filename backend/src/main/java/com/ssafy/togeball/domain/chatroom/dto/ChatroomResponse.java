@@ -4,7 +4,6 @@ import com.ssafy.togeball.domain.user.dto.UserResponse;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter

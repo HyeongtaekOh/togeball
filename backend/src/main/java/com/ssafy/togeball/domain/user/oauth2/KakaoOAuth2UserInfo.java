@@ -48,7 +48,6 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
 
     private Map<String, Object> getProfile(Map<String, Object> attributes) {
         Map<String, Object> account = (Map<String, Object>) attributes.get("kakao_account");
-        Map<String, Object> profile = account != null ? (Map<String, Object>) account.get("profile") : null;
-        return profile;
+        return account != null ? (Map<String, Object>) account.get("profile") : null;
     }
 }
