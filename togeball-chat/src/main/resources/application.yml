@@ -17,7 +17,7 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://i10a610.p.ssafy.io:27017/togeball_chat_2
+      uri: mongodb://i10a610.p.ssafy.io:27017/togeball_chat_3
   rabbitmq:
     host: i10a610.p.ssafy.io
     port: 4672
@@ -61,7 +61,12 @@ websocket:
       passcode: ssafy
 
 rabbitmq:
+  host: i10a610.p.ssafy.io
+  port: 4672
+  username: ssafy
+  password: ssafy
   exchange:
     name: togeball.exchange
   queue:
     name: chat.queue
+  routing-key: togeball.chat
