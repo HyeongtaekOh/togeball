@@ -51,7 +51,7 @@ const MenuItem = ( props : MenuItemProps ) => {
         {
           menus.map(( menu : menuData ) => {
             return (
-              <li onClick= {() => onClick( menu?.path ) }>{ menu?.name }</li>
+              <li key = { menu.name } onClick= {() => onClick( menu?.path ) }>{ menu?.name }</li>
             )
           })
         }

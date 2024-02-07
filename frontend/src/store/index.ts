@@ -1,3 +1,4 @@
+import { TagType } from 'src/types'
 import { create } from 'zustand'
 
 const useStore = create<MainStore>( ( set, get ) => ( {
@@ -10,6 +11,9 @@ const useStore = create<MainStore>( ( set, get ) => ( {
 
   isLogin: false,
   setIsLogin: ( isLogin ) => set( { isLogin } ),
+
+  userId : '',
+  setUserId: ( userId ) => set( { userId } ),
   
 }))
 
@@ -24,14 +28,18 @@ type MainStore = {
 
   isLogin: boolean
   setIsLogin: ( isLogin: boolean ) => void
+
+  userId : string
+  setUserId: ( userId: string ) => void
 }
 
 type Session = {
   id: number,
-  userCode: string,
-  userNm: string,
-  userType: string,
-  userTel: string,
-  userEmail: string,
-  simple: string
+  birthdate: string,
+  email: string,
+  gender: string,
+  nickname: string,
+  phone: string,
+  profileImage: string,
+  tag : TagType[]
 }
