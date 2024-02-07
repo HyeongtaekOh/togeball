@@ -1,18 +1,18 @@
-#server:
-#  servlet:
-#    encoding:
-#      charset: UTF-8
-#      enabled: true
-#      force: true
-#  port: 8080
-#  ssl:
-#    enabled: true
-#    enabled-protocols:
-#      - TLSv1.1
-#      - TLSv1.2
-#    key-store: "classpath:ssl/keystore.p12"
-#    key-store-password: "togeball"
-#    key-store-type: "PKCS12"
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  port: 8080
+  ssl:
+    enabled: true
+    enabled-protocols:
+      - TLSv1.1
+      - TLSv1.2
+    key-store: "classpath:ssl/keystore.p12"
+    key-store-password: "togeball"
+    key-store-type: "PKCS12"
 
 spring:
   data:
@@ -61,7 +61,12 @@ websocket:
       passcode: ssafy
 
 rabbitmq:
+  host: i10a610.p.ssafy.io
+  port: 4672
+  username: ssafy
+  password: ssafy
   exchange:
     name: togeball.exchange
   queue:
     name: chat.queue
+  routing-key: togeball.chat
