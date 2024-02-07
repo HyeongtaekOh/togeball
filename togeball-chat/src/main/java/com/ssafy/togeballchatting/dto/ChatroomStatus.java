@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
-public class ChatroomUnreadDto {
+public class ChatroomStatus {
 
     private Integer roomId;
     private Integer unreadCount;

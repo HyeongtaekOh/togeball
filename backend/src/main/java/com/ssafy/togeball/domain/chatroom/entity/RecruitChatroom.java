@@ -22,9 +22,6 @@ public class RecruitChatroom extends Chatroom {
     @Column
     private String description;
 
-    @Column
-    private Integer capacity;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id", nullable = false)
     private User manager;
