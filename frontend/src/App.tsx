@@ -6,7 +6,6 @@ import './asset/css/reset.css'
 import './asset/css/common.css'
 import routers from './pages/router'
 import useStore from './store'
-import { RouterInfo } from './util/router'
 import { getUserInfo } from './api'
 
 const queryClient = new QueryClient() // QueryClient 생성
@@ -19,7 +18,7 @@ function App() {
     if( localStorage.getItem('accessToken') ) {
 
         setIsLogin( true )
-        setAccessToken( localStorage.getItem('accessToken') )
+        setAccessToken( localStorage.getItem( 'accessToken' ) )
 
         const setUser = async() => {
           const user = await getUserInfo(localStorage.getItem( 'userId' ))
@@ -32,7 +31,6 @@ function App() {
 
 
   const [ router ] = useState( createBrowserRouter( routers ))
-  const routerObject = createBrowserRouter( RouterInfo )
 
   return (
     <QueryClientProvider client={ queryClient }> {/* QueryClientProvider 추가 */}
