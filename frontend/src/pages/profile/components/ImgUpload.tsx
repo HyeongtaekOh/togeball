@@ -1,6 +1,8 @@
 import { Title } from 'src/components'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import axios from 'axios'
 import styled from 'styled-components'
+import useModel from '../store'
 
 const ImgUploadWrapper = styled.div`
   box-sizing: border-box;
@@ -35,6 +37,7 @@ const ImgUpload = () => {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [ imgSrc, setImgSrc ] = useState(null)
+  const { setImage } = useModel()
 
   const onUploadImage = useCallback(( e: React.ChangeEvent<HTMLInputElement> ) => {
     
@@ -47,8 +50,8 @@ const ImgUpload = () => {
 
     reader.readAsDataURL( e.target.files[0] )
     reader.onloadend = () => {
-      console.log( reader.result )
       setImgSrc( reader.result )
+      setImage( reader.result )
     }
 
     // axios({
