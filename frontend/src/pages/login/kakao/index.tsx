@@ -28,7 +28,7 @@ const OAuthRedirect = () => {
 
 
   return(
-    <div><p>hihihi</p></div>
+    <div><p>hihihihi</p></div>
   )
 }
 
