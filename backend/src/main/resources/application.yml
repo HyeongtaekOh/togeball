@@ -34,8 +34,8 @@ spring:
           kakao:
             client-id: 73f48ce0d311f347d444c25c87f69ee9
             client-secret: pUs0QO2D9W21uNBNzqqVjqftZJfqYBZ6
-#            redirect-uri: http://localhost:3000/login/oauth2/code/kakao
-            redirect-uri: https://i10a610.p.ssafy.io:8080/login/oauth2/code/kakao
+            redirect-uri: http://localhost:3000/login/kakao
+#            redirect-uri: https://i10a610.p.ssafy.io:8080/login/oauth2/code/kakao
             authorization-grant-type: authorization_code
             scope:
               - profile_nickname
