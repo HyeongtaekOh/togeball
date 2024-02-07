@@ -58,6 +58,7 @@ public class NoticeService {
                     .id(id)
                     .name("sse")
                     .data(data));
+            System.out.println("sendToClient id:"+id);
         } catch (IOException exception) {
             emitterRepository.deleteById(id);
             throw new RuntimeException("연결 오류!");
@@ -76,6 +77,7 @@ public class NoticeService {
                                     .orElseThrow(EntityNotFoundException::new))
                             .matching(matchingRepository.findById(matchingResponse.getId())
                                     .orElseThrow(EntityNotFoundException::new))
+                            .isRead(false)
                             .build();
                     noticeRepository.save(notice); //알림 객체 저장
 //                    Notice savedNotice = noticeRepository.save(notice);
