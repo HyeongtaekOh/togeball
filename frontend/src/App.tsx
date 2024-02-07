@@ -23,12 +23,12 @@ function App() {
 
 
   const [ router ] = useState( createBrowserRouter( routers ))
-  const routerObject = createBrowserRouter( RouterInfo )
+  // const routerObject = createBrowserRouter( RouterInfo )
 
   return (
     <QueryClientProvider client={ queryClient }> {/* QueryClientProvider 추가 */}
       <Suspense>
-        <RouterProvider router={ routerObject } />
+        <RouterProvider router={ router } />
       </Suspense>
       <ReactQueryDevtools /> {/* DevTools를 사용하려면 추가 */}
     </QueryClientProvider>

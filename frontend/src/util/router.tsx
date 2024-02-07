@@ -31,7 +31,7 @@ export const RouterInfo = [
       { path: "/matching", element: <Matching /> },
       { path: "/chat", element: <Chat /> },
       {
-        path: "/login/oauth2/code/kakao",
+        path: "/login/kakao",
         element: <OAuthRedirect />, // 또는 <KakaoRedirectComponent /> 등으로 변경
       },
       
