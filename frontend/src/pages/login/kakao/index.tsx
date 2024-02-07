@@ -8,7 +8,7 @@ const OAuthRedirect = () => {
 
   // const [ code, setCode ] = useState()
   const isPost = useRef<boolean>(false)
-  const postMutations = useMutation( postCode )
+  // const postMutations = useMutation( postCode )
 
     
     const urlParam = new URLSearchParams( window.location.search )
@@ -16,10 +16,10 @@ const OAuthRedirect = () => {
     const data = { code : code, provider : 'kakao' }
 
     // try{
-      if( isPost.current ) return
+      // if( isPost.current ) return
       
-      isPost.current = true
-      postMutations.mutateAsync(data)
+      // isPost.current = true
+      // postMutations.mutateAsync(data)
          
     // } catch( err ){
     //   console.log( err )
@@ -28,7 +28,7 @@ const OAuthRedirect = () => {
 
 
   return(
-    <div><p>hi</p></div>
+    <div><p>hihihi</p></div>
   )
 }
 

@@ -8,7 +8,7 @@ const OAuthRedirect = () => {
 
   // const [ code, setCode ] = useState()
 
-  const postMutations = useMutation( postCode )
+  // const postMutations = useMutation( postCode )
   useEffect(()=>{
 
     
@@ -18,19 +18,19 @@ const OAuthRedirect = () => {
 
     const data = { code : code, provider : 'kakao'}
 
-    try{
+    // try{
 
-      postMutations.mutateAsync(data)
-    }catch(err){
-      console.log("에러다")
-      console.log(err)
-    }
+    //   postMutations.mutateAsync(data)
+    // }catch(err){
+    //   console.log("에러다")
+    //   console.log(err)
+    // }
 
 
   },[])
 
   return(
-    <div><p>hi</p></div>
+    <div><p>hihi</p></div>
   )
 }
 
