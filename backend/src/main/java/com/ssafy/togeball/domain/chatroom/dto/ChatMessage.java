@@ -11,9 +11,9 @@ import java.time.Instant;
 @ToString
 public class ChatMessage {
 
+    private Integer roomId;
     private Integer senderId;
     private String nickname;
-    private Integer roomId;
     private MessageType type;
     private String content;
     private Instant timestamp;
