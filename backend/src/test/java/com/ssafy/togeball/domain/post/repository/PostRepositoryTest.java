@@ -7,9 +7,12 @@ import com.ssafy.togeball.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -30,6 +33,8 @@ public class PostRepositoryTest {
     private Post post1;
 
     private Post post2;
+
+    private Pageable pageable;
 
     void dataInit() {
 
@@ -57,6 +62,7 @@ public class PostRepositoryTest {
                 .content("형택의 게시물 내용입니다.")
                 .build();
         postRepository.save(post2);
+        pageable = PageRequest.of(0, 10);
     }
 
     @Test
@@ -90,26 +96,70 @@ public class PostRepositoryTest {
     }
 
     @Test
-    void postFindAllTest() {
+    void findAllTest() {
 
+        // Given
+        dataInit();
+
+        // When
+        List<Post> allPosts = postRepository.findAll();
+
+        // Then
+        assertEquals(2, allPosts.size());
     }
 
     @Test
-    void postFindByUserIdTest() {
+    void findByUserIdTest() {
 
+        // Given
+        dataInit();
+        User saveUser1 = userRepository.save(user1);
+
+        // When
+        List<Post> postsFindByUserId = postRepository.findByUserId(saveUser1.getId(), pageable).getContent();
+
+        // Then
+        assertEquals(1, postsFindByUserId.size());
     }
     @Test
-    void postFindByUserNicknameContaining() {
+    void findByUserNicknameContaining() {
 
+        // Given
+        dataInit();
+
+        // When
+        List<Post> postsFindByUserNicknameContaining
+                = postRepository.findByUserNicknameContaining("유경", pageable).getContent();
+
+        // Then
+        assertEquals(1, postsFindByUserNicknameContaining.size());
     }
 
     @Test
-    void postFindByTitleContaining() {
+    void findByTitleContaining() {
 
+        // Given
+        dataInit();
+
+        // When
+        List<Post> postsFindByTitleContaining
+                = postRepository.findByTitleContaining("유경", pageable).getContent();
+
+        // Then
+        assertEquals(1, postsFindByTitleContaining.size());
     }
 
     @Test
-    void postFindByContentContaining() {
+    void findByContentContaining() {
 
+        // Given
+        dataInit();
+
+        // When
+        List<Post> postsFindByContentContaining
+                = postRepository.findByContentContaining("유경", pageable).getContent();
+
+        // Then
+        assertEquals(1, postsFindByContentContaining.size());
     }
 }
