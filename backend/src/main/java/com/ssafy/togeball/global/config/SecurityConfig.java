@@ -91,7 +91,7 @@ public class SecurityConfig {
 
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler(jwtService, authService);
+        return new LoginSuccessHandler(jwtService, authService, userService);
     }
 
     @Bean
