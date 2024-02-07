@@ -54,7 +54,7 @@ const Modal = styled.div`
 const RecruitPost = () => {
     const [ inputCount, setInputCount ] = useState(0)
     const [ title, setTitle ] = useState('')
-    const [ team, setTeam ] = useState("")
+    const [ team, setTeam ] = useState('')
     const [ seat, setSeat] = useState('')
     const [ capacity, setCapacity ] = useState()
     const { tagList } = useStore()
@@ -130,7 +130,6 @@ const RecruitPost = () => {
         { value: '9', name: '9' },
         { value: '10', name: '10' }
     ])
-
     
 
     const data = {
