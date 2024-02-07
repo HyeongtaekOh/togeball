@@ -2,6 +2,7 @@ package com.ssafy.togeballchatting.controller;
 
 import com.ssafy.togeballchatting.dto.ChatMessageDto;
 import com.ssafy.togeballchatting.entity.MessageType;
+import com.ssafy.togeballchatting.facade.ChatFacade;
 import com.ssafy.togeballchatting.service.AwsS3Service;
 import com.ssafy.togeballchatting.service.ChatMessageService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class MessageController {
 
+    private final ChatFacade chatFacade;
     private final AwsS3Service s3Service;
     private final ChatMessageService chatMessageService;
     private final SimpMessageSendingOperations messagingTemplate;
@@ -33,9 +35,7 @@ public class MessageController {
                           @Payload ChatMessageDto messageDto) {
 
         log.info("roomId: {}, message: {}, token: {}", roomId, messageDto, token);
-        ChatMessageDto message = chatMessageService.save(messageDto);
-        log.info("message: {}", message);
-        messagingTemplate.convertAndSend("/topic/room." + roomId, message);
+        chatFacade.sendChatMessage(roomId.intValue(), messageDto);
     }
 
     @PostMapping("/chat-server/chats/{roomId}/images")

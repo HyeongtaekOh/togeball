@@ -28,14 +28,7 @@ public class ChatHistoryService {
     }
 
     @Transactional
-    @RabbitListener(queues = "${rabbitmq.queue.name}")
-    public void handleJoinEvent(ChatroomJoinMessage message) {
-        log.info("message: {}", message);
-        if (findChatHistoryByRoomIdAndUserId(message.getRoomId(), message.getUserId()) == null) {
-            save(ChatHistoryDto.builder()
-                    .roomId(message.getRoomId())
-                    .userId(message.getUserId())
-                    .build());
-        }
+    public void deleteByRoomIdAndUserId(Integer roomId, Integer userId) {
+        chatHistoryRepository.deleteByRoomIdAndUserId(roomId, userId);
     }
 }

@@ -2,6 +2,7 @@ package com.ssafy.togeballchatting.service;
 
 import com.ssafy.togeballchatting.dto.ChatMessageDto;
 import com.ssafy.togeballchatting.entity.ChatMessage;
+import com.ssafy.togeballchatting.entity.MessageType;
 import com.ssafy.togeballchatting.repository.ChatMessageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,11 +42,11 @@ public class ChatMessageService {
     }
 
     public Integer countUnreadMessages(Integer roomId, Instant lastReadTimestamp) {
-        return chatMessageRepository.countByRoomIdAndTimestampIsGreaterThan(roomId, lastReadTimestamp);
+        return chatMessageRepository.countByRoomIdAndTypeNotAndTimestampIsGreaterThan(roomId, MessageType.NOTICE, lastReadTimestamp);
     }
 
     public ChatMessageDto getLatestChatMessage(Integer roomId) {
-        ChatMessage chatMessage = chatMessageRepository.findTopByRoomIdOrderByTimestampDesc(roomId);
+        ChatMessage chatMessage = chatMessageRepository.findTopByRoomIdAndTypeNotOrderByTimestampDesc(roomId, MessageType.NOTICE);
         return ChatMessageDto.of(chatMessage);
     }
 }

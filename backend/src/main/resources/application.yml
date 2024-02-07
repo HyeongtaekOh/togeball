@@ -5,7 +5,6 @@ spring:
     url: jdbc:mariadb://i10a610.p.ssafy.io:3306/togeball
     username: root
     password: togeball123!@#
-#    password: ssafy
   config:
     import: optional:properties/jpa.yml
 
