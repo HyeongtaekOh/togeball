@@ -5,9 +5,11 @@ const Participants = () => {
   const PartiWrapper = styled.div`
     box-sizing: border-box;
     display: flex;
-    width: 25%;
+    width: 35%;
     border-radius: 20px 20px 10px 10px;
     box-shadow: 1px 1px 2px 2px lightGray;
+    height: 83%;
+    max-height: 83%;
   `
   const HeaderWrapper = styled.div`
     box-sizing: border-box;
@@ -20,6 +22,7 @@ const Participants = () => {
     color : white;
     align-items: center;
     justify-content: center;
+    font-size: 10px;
   `
 
   return(

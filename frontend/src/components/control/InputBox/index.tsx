@@ -27,7 +27,7 @@ const InputBox = ( props: InputProps ) => {
   const {
     title, height = '60px', width = '100%', 
     placeholder = '내용을 입력하세요', value, 
-    onChange, onKeyDown
+    onChange, onKeyDown, children
   } = props
 
 
@@ -45,6 +45,7 @@ const InputBox = ( props: InputProps ) => {
         style={{ width: '70%', fontSize: '12px' }} 
         placeholder={ placeholder }
       />  
+      { children } 
     </InputWrapper>
     </MessageWrapper>
   )
@@ -62,4 +63,5 @@ export type InputProps = {
   value? : string,
   onChange? : ( value?: any ) => void
   onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void
+  children?: React.ReactNode
 }
