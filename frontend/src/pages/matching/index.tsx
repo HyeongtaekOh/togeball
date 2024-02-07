@@ -18,41 +18,39 @@ const MatchingWrapper = styled.div`
 const Matching: React.FC = () => {
   // 매칭에 올라온 큐를 다음과 같이 바꿔야함.
   const [ matchingData, setMatchingData ] = useState({
-    hashtags: [ 'tag1', 'tag2', 'tag3', 'tag4', 'tag5', 'tag6' ],
+    hashtags: [ 'tag1', 'tag2', 'tag3', 'tag4', 'tag5', 'tag6', 'tag7' ],
     counts: {
       tag1: 10,
-      tag2: 5,
-      tag3: 8,
-      tag4: 12,
-      tag5: 15,
-      tag6: 20,
+      tag2: 10,
+      tag3: 10,
+      tag4: 10,
+      tag5: 10,
+      tag6: 10,
+      tag7: 10,
     },
   });
 
   useEffect(() => {
 
      // WebSocket 연결 설정
-    const clientId = 1
+    const clientId = 123123
     const socket = new SockJS("https://i10a610.p.ssafy.io:8083/matching-server/matching?userId=" + clientId)
     
-     // STOMP 클라이언트 생성
-    // const stompClient = Stomp.over(socket)
 
     socket.onopen = function(event) {
       // WebSocket 연결이 열렸을 때 실행되는 코드
       console.log("WebSocket 연결이 열렸습니다.")
-     
-      // 연결이 열리면 서버에 메시지를 보낼 수 있음
+
       // 예: 서버에 "Hello, Server!" 메시지 보내기
       socket.send("Hello, Server!")
-  };
+  }
 
   socket.onmessage = function(event) {
       // 서버에서 메시지를 받았을 때 실행되는 코드
-      const message = event.data;
-      console.log("서버로부터 메시지를 받았습니다: " + message);
-      
-  };
+      const message = event.data
+      //TODO : state를 업데이트하는 useState 추가.
+      console.log("서버로부터 메시지를 받았습니다: " + message)      
+  }
 
   return () => {
     socket.close()
@@ -60,7 +58,7 @@ const Matching: React.FC = () => {
 }, [])
 
   // 웹소켓서버 연결하면 false를 기본값으로 바꿀 예정
-  const [isModalOpened, setIsModalOpened] = useState( true )
+  const [isModalOpened, setIsModalOpened] = useState( false )
 
   const closeModal = () => {
     setIsModalOpened( false )

@@ -1,5 +1,6 @@
 export interface TagType  {
-  name?: string;
+  id?: number;
+  content?: string;
   value?: number;
   isSelect?: boolean
 }

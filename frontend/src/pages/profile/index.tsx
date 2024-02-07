@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import { HomeLayout, MainLayout, Title, RadioTagList, InputBox, Tag, Button } from 'src/components'
-import styled from 'styled-components'
+import { HomeLayout, MainLayout, Title,  InputBox, Button } from 'src/components'
+import { getTags, postProfile } from './api'
 import { RowTagList, ColTagList, TagList } from './components'
 import useModel from './store'
 import ImgUpload from './components/ImgUpload'
+import { useQuery, useMutation } from 'react-query'
+import styled from 'styled-components'
 
 const ProfileSettingWrapper = styled.div`
   box-sizing: border-box;
@@ -29,6 +31,7 @@ const TitleWrapper = styled.div<{ type? : string } >`
   margin-left:  ${(prop) => prop.type && '-10px' };
   margin-right: 12px;
 `
+
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -38,45 +41,40 @@ const ButtonWrapper = styled.div`
 
 const Profile = () => {
 
-  const places = [
-    { name : '구척돔', value: 0 },
-    { name : '잠실구장', value: 1 },
-    { name : '렌더스필드', value: 2 },
-    { name : '사직구장', value: 3 },
-    { name : '문수야구장', value: 4 },
-    { name : 'NC파크', value: 5 },
-    { name: '챔패언스필드', value: 6 },
-    { name: '라이온즈 파크', value: 7 },
-    { name: '위즈파크', value: 8 },
-    { name: '이글스파크', value: 9 },
-    { name: '청주구장', value: 10 },
-    { name: '구장무관', value: 11, isSelect : true },
-  ]
+  const param = {
+    page: 0,
+    size: 100
+  }
 
-  const teams = [
-    { name : 'LG', value: 0 },
-    { name : 'KT', value: 1 },
-    { name : 'SSG', value: 2 },
-    { name : 'NC', value: 3 },
-    { name : '두산', value: 4 },
-    { name : 'KIA', value: 5 },
-    { name: '롯데', value: 6 },
-    { name: '삼성', value: 7 },
-    { name: '한화', value: 8 },
-    { name: '키움', value: 9 },
-    { name: '팀무관', value: 10, isSelect : true },
-  ]
+  const { data: tags } = useQuery<TagApiType>([ 'tags', param ], () => getTags( param ))
 
-  const CHEERING_STYLE = [
-    { name : '응원가형', value: 0 },
-    { name : '맥주형', value: 1 },
-    { name : '분석형', value: 2 },
-    { name : '먹방형', value: 3 },
-  ]
-
+  const preferredTeam = tags?.content.filter(item => item.type === "PREFERRED_TEAM");
+  const preferredStadiums = tags?.content.filter(item => item.type === "PREFERRED_STADIUM");
+  const preferredSeat = tags?.content.filter(item => item.type === "PREFERRED_SEAT");
+  const cheeringStyle = tags?.content.filter(item => item.type === "CHEERING_STYLE");
+  const mbti = tags?.content.filter(item => item.type === "MBTI");
+  const seasonPass = tags?.content.filter(item => item.type === "SEASON_PASS");
+  const unlabeled = tags?.content.filter(item => item.type === "UNLABELED");
+  
   const [ id, setId ] = useState( '하이' )
   const [ nickName, setNickName ] = useState( '' )
-  const { selectTags } = useModel()
+  const { selectTags, team, image, stadiums } = useModel()
+
+  const profileMutation = useMutation( postProfile );
+
+  const data = {
+    // id: id,
+    nickname: nickName,
+    stadium: stadiums,
+    team: team,
+    profileImage: image,
+    tags: selectTags
+  }
+
+  const postProfileSetting = () => {
+    console.log(data)
+    // profileMutation.mutateAsync( data )
+}
 
   return(
     <MainLayout title='프로필 설정'>
@@ -99,24 +97,25 @@ const Profile = () => {
               placeholder = '닉네임을 입력하세요' 
               height = '40px' 
               width = '300px'
+              onChange={(e) => { setNickName( e.target.value )}}
             />
           </InputWrapper>
-          <RowTagList list = { places } >선호 구장</RowTagList>
-          <RowTagList list = { teams }>팀선택{<br/>}(1개만 선택)</RowTagList>     
+          <RowTagList list = { preferredStadiums } flag = { true }>선호 구장</RowTagList>
+          <RowTagList list = { preferredTeam } limit = { true }>팀선택{<br/>}(1개만 선택)</RowTagList>     
         </ProfileSettingWrapper>
         <ProfileSettingWrapper>
           <Title type = 'medium'>직관 스타일</Title>
           <Title type = 'small' bold><br/>나의 직관 스타일을 나타낼 수 있는 태그를 선택해주세요.(최소 5개, 최대 15개)</Title>
           <TagList tags = { selectTags } bgColor='#FBD14B' isTag/>
-          <ColTagList list = { teams }>직관응원팀</ColTagList>
-          <ColTagList list = { CHEERING_STYLE }>응원 유형</ColTagList>
-          <ColTagList list = { CHEERING_STYLE }>선호 좌석</ColTagList>
-          <ColTagList list = { CHEERING_STYLE }>MBTI</ColTagList>
-          <ColTagList list = { CHEERING_STYLE }>시즌권 보유</ColTagList>
-          <ColTagList list = { CHEERING_STYLE }>기타</ColTagList>
+          <ColTagList list = { preferredTeam }>직관응원팀</ColTagList>
+          <ColTagList list = { cheeringStyle }>응원 유형</ColTagList>
+          <ColTagList list = { preferredSeat }>선호 좌석</ColTagList>
+          <ColTagList list = { mbti }>MBTI</ColTagList>
+          <ColTagList list = { seasonPass }>시즌권 보유</ColTagList>
+          <ColTagList list = { unlabeled }>기타</ColTagList>
         </ProfileSettingWrapper>
         <ButtonWrapper>
-          <Button type = 'save'>저장</Button>
+          <Button type = 'save' onClick={ postProfileSetting }>저장</Button>
           <Button type = 'cancel'>취소</Button>
         </ButtonWrapper>
       </HomeLayout>
@@ -125,3 +124,14 @@ const Profile = () => {
 }
 
 export default Profile
+
+interface contentItem {
+  id: number,
+  content: string,
+  type: string
+}
+
+type TagApiType = {
+  content?: contentItem[],
+  totalElements?: number,
+}

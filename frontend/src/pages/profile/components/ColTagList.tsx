@@ -21,6 +21,7 @@ const ColTitleWrapper = styled.div`
 const ColTagList = ( props : RowTagListProp ) => {
 
   const { children, list } = props
+  // console.log(list)
 
   return(
   <ColTagListWrapper>
@@ -35,8 +36,9 @@ const ColTagList = ( props : RowTagListProp ) => {
 export default ColTagList
 
 interface dataSource  {
-  name?: string,
-  value?: number,
+  id?: number,
+  content?: string,
+  type?: string,
   isSelect?: boolean
 }
 
