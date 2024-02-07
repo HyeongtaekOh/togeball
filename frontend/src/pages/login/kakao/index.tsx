@@ -1,13 +1,13 @@
 import { postAxios } from "src/api/util"
 import { useEffect, useState } from "react"
-import { postCode } from "./api/postCode"
+import { postCode } from './api/postCode'
 import { useMutation } from "react-query"
 
 const OAuthRedirect = () => {
 
 
   // const [ code, setCode ] = useState()
-
+  let isPost = false
   const postMutations = useMutation( postCode )
   useEffect(()=>{
 
@@ -19,8 +19,10 @@ const OAuthRedirect = () => {
     const data = { code : code, provider : 'kakao'}
 
     try{
-
-      postMutations.mutateAsync(data)
+      if(!isPost){
+        isPost = true
+        postMutations.mutateAsync(data)
+      } 
     }catch(err){
       console.log("에러다")
       console.log(err)

@@ -37,7 +37,7 @@ const SignUp = () => {
     const data = {
       email : email,
       password : password,
-      nickname: 'hi2'
+      nickname: 'hi1'
     }
 
     const onSignUp = () => {

@@ -17,6 +17,7 @@ export const routes = [
     { path: 'matching' },
 
     { path: 'chat' },
+    { path: 'login/kakao'}
 
 ]
 
