@@ -9,6 +9,12 @@ import lombok.ToString;
 @ToString
 public class ChatroomJoinMessage {
 
+    private Type type;
     private Integer roomId;
     private Integer userId;
+    private String nickname;
+
+    public static enum Type {
+        JOIN, LEAVE
+    }
 }
