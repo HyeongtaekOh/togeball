@@ -35,9 +35,13 @@ const Login = () => {
   const loginMutation = useMutation( login, {
     onSuccess: (res) => {
       setAccessToken( res?.headers?.authorization )
+
       localStorage.setItem( 'accessToken', res?.headers?.authorization )
       localStorage.setItem( 'refreshToken', res?.headers["authorization-refresh"])
+      localStorage.setItem( 'userId',  res?.data?.id )
+
       setIsLogin( true )
+
       navigator('/')
     }
   })
@@ -60,7 +64,7 @@ const Login = () => {
   }
 
   const Rest_api_key= 'cfc1e7455936fe459743b8dfe3dae5fe' //REST API KEY
-  const redirect_uri = 'https://i10a610.p.ssafy.io/login/kakao' //Redirect URI
+  const redirect_uri = 'http://localhost:3000/login/kakao' //Redirect URI
   
   // oauth 요청 URL
   const kakaoURL 

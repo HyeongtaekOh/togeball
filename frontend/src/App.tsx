@@ -7,19 +7,28 @@ import './asset/css/common.css'
 import routers from './pages/router'
 import useStore from './store'
 import { RouterInfo } from './util/router'
+import { getUserInfo } from './api'
 
 const queryClient = new QueryClient() // QueryClient 생성
 
 function App() {
 
-  const { setAccessToken, setIsLogin } = useStore()
+  const { setAccessToken, setIsLogin, setSession } = useStore()
 
   useEffect( () => {
     if( localStorage.getItem('accessToken') ) {
+
         setIsLogin( true )
         setAccessToken( localStorage.getItem('accessToken') )
+
+        const setUser = async() => {
+          const user = await getUserInfo(localStorage.getItem( 'userId' ))
+          setSession( user )
+        }
+
+        setUser()
     }
-  }, [] )
+  }, [ setAccessToken, setIsLogin, setSession ] )
 
 
   const [ router ] = useState( createBrowserRouter( routers ))
