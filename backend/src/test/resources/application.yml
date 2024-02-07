@@ -22,26 +22,47 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub
 
         registration:
           google:
-            client-id: 775807440441-gp5aip6rpkuharosu45sru11qrr2r3am.apps.googleusercontent.com
-            client-secret: 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
-            redirect-uri: https://i10a610.p.ssafy.io:8080/login/oauth2/code/google
-#            redirect-uri: https://localhost:8080/login/oauth2/code/google
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            redirect-uri: http://localhost:3000/login/oauth2/code/google
+            #            redirect-uri: https://i10a610.p.ssafy.io/login/google
             authorization-grant-type: authorization_code
             scope: profile,email
           kakao:
-            client-id: 73f48ce0d311f347d444c25c87f69ee9
-            redirect-uri: https://i10a610.p.ssafy.io:8080/login/oauth2/code/kakao
-#            redirect-uri: https://localhost:8080/login/oauth2/code/kakao
+            client-id: ${KAKAO_CLIENT_ID}
+            client-secret: ${KAKAO_CLIENT_SECRET}
+            redirect-uri: http://i10a610.p.ssafy.io/login/kakao
             authorization-grant-type: authorization_code
             scope:
               - profile_nickname
               - account_email
 
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  port: 8080
+  ssl:
+    enabled: true
+    enabled-protocols:
+      - TLSv1.1
+      - TLSv1.2
+    key-store: "classpath:ssl/keystore.p12"
+    key-store-password: ${SSL_KEYSTORE_PASSWORD}
+    key-store-type: "PKCS12"
+
 jwt:
-  secretKey: eyJhbGciOiJIUzI1NiJ9eyJSb2xlIjoiQWRtaiwrdOoPcAKmUzNa1srrRfxZVGL
+  secretKey: ${JWT_SECRET_KEY}
   access:
     expiration: 3600000 # 3600000 : 60(분) * 60(초) * 1000 -> 1 시간
     header: Authorization
@@ -52,12 +73,22 @@ jwt:
 rabbitmq:
   host: i10a610.p.ssafy.io
   port: 4672
-  username: ssafy
-  password: ssafy
+  username: ${RABBITMQ_USERNAME}
+  password: ${RABBITMQ_PASSWORD}
   exchange: togeball.exchange
   chat:
     queue: chat.queue
     routing-key: togeball.chat
   matching:
     queue: matching.queue
-    routing-key: togeball.match
+    routing-key: togeball.matching
+
+cloud:
+  aws:
+    credentials:
+      bucket-name: togeball-s3-bucket
+      expiration: 3600000
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
+    region:
+      static: ap-northeast-2
