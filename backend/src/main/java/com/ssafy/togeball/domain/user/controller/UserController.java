@@ -1,6 +1,7 @@
 package com.ssafy.togeball.domain.user.controller;
 
 import com.ssafy.togeball.domain.auth.service.AuthService;
+import com.ssafy.togeball.domain.chatroom.service.ChatroomService;
 import com.ssafy.togeball.domain.common.exception.ApiException;
 import com.ssafy.togeball.domain.user.dto.UserResponse;
 import com.ssafy.togeball.domain.user.dto.UserSignUpRequest;
@@ -11,6 +12,7 @@ import com.ssafy.togeball.domain.user.exception.UserErrorCode;
 import com.ssafy.togeball.domain.user.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -25,6 +27,7 @@ public class UserController {
 
     private final UserService userService;
     private final AuthService authService;
+    private final ChatroomService chatroomService;
 
     @GetMapping("/email")
     public ResponseEntity<?> checkEmail(@RequestParam(name = "email") String email) {
@@ -71,6 +74,13 @@ public class UserController {
         User user = userService.findUserById(userId).orElseThrow(() -> new ApiException(UserErrorCode.USER_NOT_FOUND));
         UserResponse userResponse = UserResponse.of(user);
         return ResponseEntity.ok(userResponse);
+    }
+
+    @GetMapping("/{userId}/chatrooms")
+    public ResponseEntity<?> findChatroomsByUserId(@PathVariable(name = "userId") Integer userId,
+                                                   @RequestParam(name = "page", defaultValue = "0") Integer page,
+                                                   @RequestParam(name = "size", defaultValue = "10") Integer size) {
+        return ResponseEntity.ok(chatroomService.findChatroomsByUserId(userId, PageRequest.of(page, size)));
     }
 
     @PutMapping("/{userId}/tags")

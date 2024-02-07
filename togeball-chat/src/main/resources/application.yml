@@ -1,23 +1,23 @@
-server:
-  servlet:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
-  port: 8080
-  ssl:
-    enabled: true
-    enabled-protocols:
-      - TLSv1.1
-      - TLSv1.2
-    key-store: "classpath:ssl/keystore.p12"
-    key-store-password: "togeball"
-    key-store-type: "PKCS12"
+#server:
+#  servlet:
+#    encoding:
+#      charset: UTF-8
+#      enabled: true
+#      force: true
+#  port: 8080
+#  ssl:
+#    enabled: true
+#    enabled-protocols:
+#      - TLSv1.1
+#      - TLSv1.2
+#    key-store: "classpath:ssl/keystore.p12"
+#    key-store-password: "togeball"
+#    key-store-type: "PKCS12"
 
 spring:
   data:
     mongodb:
-      uri: mongodb://i10a610.p.ssafy.io:27017/togeball_chat_2
+      uri: mongodb://i10a610.p.ssafy.io:27017/togeball_chat_3
   rabbitmq:
     host: i10a610.p.ssafy.io
     port: 4672

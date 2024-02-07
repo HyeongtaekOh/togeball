@@ -15,5 +15,7 @@ public interface ChatroomRepository extends JpaRepository<Chatroom, Integer>, Cu
 
     Page<Chatroom> findAllByTitleContaining(String title, Pageable pageable);
     Page<Chatroom> findAllByType(String type, Pageable pageable);
+
+    @Query("SELECT c.capacity FROM Chatroom c WHERE c.id = :id")
     Integer findCapacityById(Integer id);
 }

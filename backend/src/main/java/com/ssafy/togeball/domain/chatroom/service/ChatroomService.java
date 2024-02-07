@@ -9,16 +9,23 @@ import com.ssafy.togeball.domain.chatroom.repository.ChatroomRepository;
 import com.ssafy.togeball.domain.common.exception.ApiException;
 import com.ssafy.togeball.domain.user.dto.UserResponse;
 import com.ssafy.togeball.domain.user.entity.User;
+import com.ssafy.togeball.domain.user.exception.UserErrorCode;
+import com.ssafy.togeball.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -32,6 +39,8 @@ public class ChatroomService {
     @Value("${rabbitmq.chat.routing-key}")
     private String routingKey;
 
+    private final WebClient webClient;
+    private final UserService userService;
     private final RabbitTemplate rabbitTemplate;
     private final ChatroomRepository chatroomRepository;
     private final ChatroomMembershipRepository chatroomMembershipRepository;
@@ -42,6 +51,8 @@ public class ChatroomService {
 
     @Transactional(readOnly = true)
     public List<UserResponse> findParticipantsByChatroomId(Integer chatroomId) {
+
+        chatroomRepository.findById(chatroomId).orElseThrow(ChatroomNotFoundException::new);
         List<User> participants =  chatroomRepository.findParticipantsByChatroomId(chatroomId);
         return participants.stream().map(UserResponse::of).toList();
     }
@@ -58,8 +69,15 @@ public class ChatroomService {
 
     @Transactional(readOnly = true)
     public Page<ChatroomResponse> findChatroomsByUserId(Integer userId, Pageable pageable) {
+        log.info("userId: {}", userId);
         Page<Chatroom> chatrooms = chatroomRepository.findChatroomsByUserId(userId, pageable);
-        return getChatroomResponses(chatrooms);
+        log.info("chatrooms: {}", chatrooms.map(Chatroom::getId).toList());
+        Map<Integer, ChatroomStatus> statuses =
+                getChatroomStatuses(userId, chatrooms.map(Chatroom::getId).toList());
+        log.info("statuses: {}", statuses);
+        Page<ChatroomResponse> chatroomResponses = getChatroomResponses(chatrooms);
+        chatroomResponses.forEach(chatroom -> addChatroomStatus(chatroom, statuses.get(chatroom.getId())));
+        return chatroomResponses;
     }
 
     @Transactional(readOnly = true)
@@ -87,23 +105,44 @@ public class ChatroomService {
     }
 
     @Transactional
-    public boolean joinChatroom(Integer userId, Integer chatroomId) {
+    public void joinChatroom(Integer userId, Integer chatroomId) {
 
-        if (chatroomRepository.findCapacityById(chatroomId) > chatroomMembershipRepository.countByChatroomId(chatroomId)) {
+        Optional<User> user = userService.findUserById(userId);
+        if (user.isEmpty()) {
+            throw new ApiException(UserErrorCode.USER_NOT_FOUND);
+        }
+
+        if (chatroomRepository.findCapacityById(chatroomId)
+                <= chatroomMembershipRepository.countByChatroomId(chatroomId)) {
             throw new ApiException(ChatroomErrorCode.CHATROOM_JOIN_FAILED);
         }
+        log.info("join userId: {}, chatroomId: {}", userId, chatroomId);
         rabbitTemplate.convertAndSend(exchange, routingKey, ChatroomJoinMessage.builder()
+                .type(ChatroomJoinMessage.Type.JOIN)
                 .userId(userId)
                 .roomId(chatroomId)
-                .build());
-        return chatroomRepository.addParticipant(chatroomId, userId);
+                .nickname(user.get().getNickname())
+                .build(), new CorrelationData(String.valueOf(userId)));
+        chatroomRepository.addParticipant(chatroomId, userId);
     }
 
     @Transactional
     public void leaveChatroom(Integer userId, Integer chatroomId) {
+
+        Optional<User> user = userService.findUserById(userId);
+        if (user.isEmpty()) {
+            throw new ApiException(UserErrorCode.USER_NOT_FOUND);
+        }
+
         ChatroomMembership membership = chatroomMembershipRepository
                 .findByUserIdAndChatroomId(userId, chatroomId).orElseThrow(ChatroomNotFoundException::new);
         chatroomMembershipRepository.delete(membership);
+        rabbitTemplate.convertAndSend(exchange, routingKey, ChatroomJoinMessage.builder()
+                .type(ChatroomJoinMessage.Type.LEAVE)
+                .userId(userId)
+                .roomId(chatroomId)
+                .nickname(user.get().getNickname())
+                .build(), new CorrelationData(String.valueOf(userId)));
     }
 
     @Transactional(readOnly = true)
@@ -130,8 +169,32 @@ public class ChatroomService {
         throw new ApiException(ChatroomErrorCode.INVALID_CHATROOM_TYPE);
     }
 
+    private ChatroomResponse addChatroomStatus(ChatroomResponse chatroom, ChatroomStatus status) {
+        chatroom.setStatus(status);
+        return chatroom;
+    }
+
     private Page<ChatroomResponse> getChatroomResponses(Page<Chatroom> chatrooms) {
         Page<ChatroomResponse> page = chatrooms.map(this::convertChatroomResponse);
         return page;
     }
+
+    private Map<Integer, ChatroomStatus> getChatroomStatuses(Integer userId, List<Integer> roomIds) {
+
+        List<ChatroomStatus> response = webClient.get()
+                .uri(uriBuilder -> {
+                    uriBuilder.path("/chat-server/users/" + userId + "/chats/unread");
+                    roomIds.stream()
+                            .forEach(roomId -> uriBuilder.queryParam("roomId", roomId));
+                    return uriBuilder.build();
+                })
+                .retrieve()
+                .bodyToFlux(ChatroomStatus.class)
+                .collectList()
+                .block();
+        Map<Integer, ChatroomStatus> statuses = new HashMap<>();
+        response.stream().forEach(status -> statuses.put(status.getRoomId(), status));
+        return statuses;
+    }
+
 }
