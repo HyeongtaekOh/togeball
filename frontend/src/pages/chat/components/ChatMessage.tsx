@@ -26,21 +26,21 @@ const MyWrapper = styled.div< ChatMessageProps >`
 `
 
 const ChatMessage = ( props: ChatMessageProps ) => {
-  const { content, sender, time, type='me', right=true } = props;
+  const { content, senderId, time, type='me', right=true } = props;
   const session = useSession();
   const [ userId ] = useState(session('id'));
 
   return (
-    <ChatMessageWrapper right={ userId === sender }> {/* right 프롭스 전달 */}
-      { userId === sender ? (
+    <ChatMessageWrapper right={ userId === senderId }> {/* right 프롭스 전달 */}
+      { userId === senderId ? (
         <MyWrapper>
-          <strong>{ sender }나 :</strong>
+          <strong>{ senderId }나 :</strong>
           { content }
           { time && <span style={{ marginLeft: '10px', fontSize: '9px' }}>{ time.substring(0, 8) }</span>}
         </MyWrapper>
       ) : (
         <MyWrapper type='you' right={ false } >
-          <strong>{ sender }상대 :</strong>
+          <strong>{ senderId }</strong>
           { content }
           {time && <span style={{ marginLeft: '10px', fontSize: '9px' }}>{ time.substring(0, 8) }</span>}
         </MyWrapper>
@@ -54,7 +54,7 @@ export default ChatMessage;
 
 type ChatMessageProps = {
   content?: string;
-  sender?: string;
+  senderId?: string;
   time?: string;
   type?: 'me' | 'you'
   right?: boolean;

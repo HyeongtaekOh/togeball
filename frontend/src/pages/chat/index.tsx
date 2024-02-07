@@ -36,8 +36,8 @@ const Chat = () => {
   // const { chatroomId } = useParams< PathParam >()
   const chatroomId = 0
   const [ messages, setMessages ] = useState([])
-  const  [input, setInput ] = useState('')
-  const [messageTimes, setMessageTimes] = useState({})
+  const  [ input, setInput ] = useState('')
+  const [ messageTimes, setMessageTimes ] = useState({})
   const scriptEndRef = useRef< HTMLDivElement >( null ) // 스크롤 이동을 위한 Ref 추가
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const Chat = () => {
           console.log( chatroomId )
           setMessages(( prevMessages ) => [
             ...prevMessages,
-            { content: newMessage.content, sender: newMessage.sender },
+            { content: newMessage.content, senderId: newMessage.senderId },
           ])
           setMessageTimes(( preMessageTimes) => ({
             ...preMessageTimes,
@@ -58,14 +58,14 @@ const Chat = () => {
         })
     }
 
-    const onError = (error) => {
+    const onError = ( error ) => {
       console.error('에러 발생:', error)
     }
 
     const connectToStomp = async () => {
       try {
         await stompClient.connect( {}, onConnect, onError )
-      } catch (error) {
+      } catch ( error ) {
         console.error('Stomp 연결에 실패했습니다:', error)
       }
     };
@@ -78,21 +78,21 @@ const Chat = () => {
   }, [ chatroomId ])
 
   useEffect(() => {
-    if (scriptEndRef.current) {
+    if ( scriptEndRef.current ) {
       scriptEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' }) // 스크롤이 항상 하단으로 이동하도록 수정
     }
   }, [ messages ])
 
   const sendMessage = () => {
-    if (input.trim() !== '') { 
+    if ( input.trim() !== '' ) { 
       stompClient.connected &&
-      stompClient.send(`/topic/room.${chatroomId}`, {}, JSON.stringify({ content: input, senderId:'hi', roomId: 123, type: 'TEXT' }))
+      stompClient.send(`/topic/room.${ chatroomId }`, {}, JSON.stringify({ content: input, senderId:'진아', roomId: 123, type: 'TEXT' }))
       setInput('')
     }
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if ( e.key === 'Enter' ) {
       sendMessage()
     }
   }
@@ -104,20 +104,20 @@ const Chat = () => {
           <Participants />
           <ChatWrapper>
             <ScriptWrapper>
-              {messages.map((message, index) => (
-                <ChatMessage key={ index } content={ message.content } sender={ message.sender } time={messageTimes[message.content]} />
+              { messages.map(( message, index ) => (
+                <ChatMessage key={ index } content={ message.content } senderId={ message.senderId } time={ messageTimes[ message.content ] } />
               ))}
               <div ref={ scriptEndRef }></div> {/* 채팅창 맨 아래로 스크롤하기 위한 Ref 추가 */}
             </ScriptWrapper>
             
               <InputBox
                 value={ input }
-                icon={<LeftIcon/>}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
+                icon={ <LeftIcon/> }
+                onChange={ (e) => setInput( e.target.value ) }
+                onKeyDown={ handleKeyDown }
                 placeholder="메시지를 입력하세요"
                 >
-                <button onClick={sendMessage}>전송</button>
+                <button onClick={ sendMessage }>전송</button>
   
               </InputBox>
             
