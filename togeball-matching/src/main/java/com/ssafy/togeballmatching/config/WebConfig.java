@@ -12,7 +12,6 @@ public class WebConfig {
     public static WebClient getBaseUrl() {
         return WebClient.builder()
                 .baseUrl("https://i10a610.p.ssafy.io:8080")
-//                .defaultCookie("cookie-name", "cookie-value")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE,
                         MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                 .build()

@@ -14,8 +14,9 @@
 <script>
   // JavaScript 클라이언트 예제
   // const clientId = Math.floor(Math.random() * 100); // 클라이언트 고유한 식별자
-  const clientId = 2;
-  const socket = new SockJS("https://localhost:8080/matching-server/matching?userId=" + clientId);
+  // const socket = new SockJS("https://localhost:8080/matching-server/matching?userId=" + clientId);
+  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImlkIjoyLCJleHAiOjE3MDcyOTA2NTN9.0WWrJcRDIQSK50_zvdfkdC9po0vBnoaGxQFw550WcTC9SVdRscV4rAnmc5KSxopvAdEPfvVSv-y6_-q19r6H9A";
+  const socket = new SockJS("https://localhost:8080/matching-server/matching?token="+token);
 
   socket.onopen = function(event) {
     // WebSocket 연결이 열렸을 때 실행되는 코드
