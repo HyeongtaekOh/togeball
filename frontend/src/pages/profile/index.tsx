@@ -58,23 +58,29 @@ const Profile = () => {
   
   const [ id, setId ] = useState( '하이' )
   const [ nickName, setNickName ] = useState( '' )
-  const { selectTags, team, image, stadiums } = useModel()
+  const { selectTags, team, image, stadiums, addSelectTags } = useModel()
+  const [ mergeTag, setMergeTag ] = useState([])
 
   const profileMutation = useMutation( postProfile );
 
   const data = {
-    // id: id,
     nickname: nickName,
-    stadium: stadiums,
     team: team,
+    stadium: stadiums,
     profileImage: image,
-    tags: selectTags
+    tags: mergeTag
   }
 
   const postProfileSetting = () => {
-    console.log(data)
+    stadiums.map((stadium) => {
+      setMergeTag([...mergeTag, stadium])
+    })
+    
+    console.log( data )
     // profileMutation.mutateAsync( data )
 }
+
+
 
   return(
     <MainLayout title='프로필 설정'>
@@ -101,7 +107,7 @@ const Profile = () => {
             />
           </InputWrapper>
           <RowTagList list = { preferredStadiums } flag = { true }>선호 구장</RowTagList>
-          <RowTagList list = { preferredTeam } limit = { true }>팀선택{<br/>}(1개만 선택)</RowTagList>     
+          <RowTagList list = { preferredTeam }>팀선택{<br/>}(1개만 선택)</RowTagList>     
         </ProfileSettingWrapper>
         <ProfileSettingWrapper>
           <Title type = 'medium'>직관 스타일</Title>

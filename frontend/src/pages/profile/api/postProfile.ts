@@ -2,14 +2,8 @@ import { TagType } from 'src/types'
 import { postAxios } from 'src/api/util'
 
 interface dataType {
-        id?: number,
-        email?: string,
         nickname?: string,
-        stadium?: string[],
-        team?: string,
-        gender?: string,
-        birthdate?: string,
-        phone?: string,
+        team?: number,
         profileImage?: object,
         tags?: TagType[]
 }
