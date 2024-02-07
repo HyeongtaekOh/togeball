@@ -16,7 +16,9 @@ export const routes = [
     { path: 'mypage'},
     { path: 'matching' },
 
+    { path: `chat/:chatroomId` },
     { path: 'chat' },
+
     { path: 'login/kakao'}
 
 ]
