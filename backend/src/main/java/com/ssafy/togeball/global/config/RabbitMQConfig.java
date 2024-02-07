@@ -7,6 +7,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,6 +73,7 @@ public class RabbitMQConfig {
     public ConnectionFactory connectionFactory() {
 
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory(host);
+//        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("127.0.0.1");
         connectionFactory.setPort(port);
         connectionFactory.setUsername(username);
         connectionFactory.setPassword(password);
@@ -82,6 +84,14 @@ public class RabbitMQConfig {
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
         rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+        rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
+            if (ack) {
+                System.out.println("Message sent successfully");
+            } else {
+                System.out.println("Message sending failed: " + cause);
+            }
+        });
+        rabbitTemplate.setChannelTransacted(true);
         return rabbitTemplate;
     }
 

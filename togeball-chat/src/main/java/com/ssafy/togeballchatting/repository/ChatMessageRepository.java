@@ -1,6 +1,7 @@
 package com.ssafy.togeballchatting.repository;
 
 import com.ssafy.togeballchatting.entity.ChatMessage;
+import com.ssafy.togeballchatting.entity.MessageType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -11,7 +12,7 @@ public interface ChatMessageRepository extends MongoRepository<ChatMessage, Stri
 
     Page<ChatMessage> findAllByRoomIdAndTimestampIsGreaterThanEqualOrderByTimestampDesc(Integer roomId, Instant timestamp, Pageable pageable);
 
-    Integer countByRoomIdAndTimestampIsGreaterThan(Integer roomId, Instant lastReadTimestamp);
+    Integer countByRoomIdAndTypeNotAndTimestampIsGreaterThan(Integer roomId, MessageType type, Instant lastReadTimestamp);
 
-    ChatMessage findTopByRoomIdOrderByTimestampDesc(Integer roomId);
+    ChatMessage findTopByRoomIdAndTypeNotOrderByTimestampDesc(Integer roomId, MessageType type);
 }
