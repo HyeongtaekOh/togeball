@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { useSession } from "src/hooks"
 import styled, { css } from "styled-components"
 
 
@@ -26,9 +25,8 @@ const MyWrapper = styled.div< ChatMessageProps >`
 `
 
 const ChatMessage = ( props: ChatMessageProps ) => {
-  const { content, senderId, time, type='me', right=true } = props;
-  const session = useSession();
-  const [ userId ] = useState(session('id'));
+  const { content, senderId, time, type='me', right=true } = props
+  const [ userId ] = useState('hi')
 
   return (
     <ChatMessageWrapper right={ userId === senderId }> {/* right 프롭스 전달 */}
