@@ -1,6 +1,6 @@
 export const useRouter = ( path, dynamicPath ) => {
     const lazy = async () => {
-        const module = await import( `../pages/${ path || dynamicPath }` )
+        const module = await import( `../pages/${ path }` )
 
         return {
             Component: module.default,

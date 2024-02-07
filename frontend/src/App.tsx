@@ -23,7 +23,7 @@ function App() {
 
 
   const [ router ] = useState( createBrowserRouter( routers ))
-  // const routerObject = createBrowserRouter( RouterInfo )
+  const routerObject = createBrowserRouter( RouterInfo )
 
   return (
     <QueryClientProvider client={ queryClient }> {/* QueryClientProvider 추가 */}

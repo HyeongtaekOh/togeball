@@ -8,10 +8,10 @@ import Profile from "src/pages/profile";
 import Boards from "src/pages/boards";
 import Calendar from "src/pages/calendar";
 import MyPage from "src/pages/mypage";
-import Matching from "src/pages/matching";
-import Chat from "src/pages/chat";
-import Todaygames from "src/pages/todaygames";
-import { OAuthRedirect } from "src/pages/login/components";
+import Matching from "src/pages/matching"
+import Chat from "src/pages/chat"
+import Todaygames from "src/pages/todaygames"
+import { OAuthRedirect } from "src/pages/login/components"
 
 export const RouterInfo = [
   {
@@ -29,6 +29,7 @@ export const RouterInfo = [
       { path: "/calendar", element: <Calendar /> },
       { path: "/mypage", element: <MyPage /> },
       { path: "/matching", element: <Matching /> },
+      { path: "/chat/:chatroomId", element: <Chat/>},
       { path: "/chat", element: <Chat /> },
       {
         path: "/login/kakao",
