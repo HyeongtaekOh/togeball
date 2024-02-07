@@ -33,7 +33,8 @@ type PathParam = {
 }
 
 const Chat = () => {
-  const { chatroomId } = useParams< PathParam >()
+  // const { chatroomId } = useParams< PathParam >()
+  const chatroomId = 0
   const [ messages, setMessages ] = useState([])
   const  [input, setInput ] = useState('')
   const [messageTimes, setMessageTimes] = useState({})
@@ -83,8 +84,9 @@ const Chat = () => {
   }, [ messages ])
 
   const sendMessage = () => {
-    if (input.trim() !== '') {
-      stompClient.send(`/topic/room.${chatroomId}`, {}, JSON.stringify({ content: input, sender: 'hi' }))
+    if (input.trim() !== '') { 
+      stompClient.connected &&
+      stompClient.send(`/topic/room.${chatroomId}`, {}, JSON.stringify({ content: input, senderId:'hi', roomId: 123, type: 'TEXT' }))
       setInput('')
     }
   }
