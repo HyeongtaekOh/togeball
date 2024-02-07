@@ -45,7 +45,7 @@ const Chat = () => {
       stompClient.connected &&
         stompClient.subscribe(`/topic/room.${ chatroomId }`, ( message ) => {
           const newMessage = JSON.parse( message.body )
-          console.log( newMessage.sender )
+          console.log( newMessage.senderId )
           console.log( chatroomId )
           setMessages(( prevMessages ) => [
             ...prevMessages,
