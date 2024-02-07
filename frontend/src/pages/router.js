@@ -24,7 +24,7 @@ export const routes = [
 const lazyModules = routes.map( ( { path, dynamicPath } ) => useRouter( path, dynamicPath ) )
 
 lazyModules.unshift( {
-    path: '/',
+    path: './',
     lazy: async () => {
         const module = await import( `./home` )
         return {
