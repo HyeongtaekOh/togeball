@@ -20,11 +20,12 @@ const ChatWrapper = styled.div`
 `
 
 const ScriptWrapper = styled.div`
-  flex-grow: 1; /* 추가 */
-  border: 1px solid black;
+  flex-grow: 1; 
+  border: 1px solid #DEDCEE;
   border-radius: 10px;
-  max-height: 70%;
-  overflow-y: auto;
+  height: 70%;
+  max-height:70%;
+  overflow-y: scroll;
 `
 
 type PathParam = {
@@ -35,6 +36,7 @@ const Chat = () => {
   const { chatroomId } = useParams< PathParam >()
   const [ messages, setMessages ] = useState([])
   const  [input, setInput ] = useState('')
+  const [messageTimes, setMessageTimes] = useState({})
   const scriptEndRef = useRef< HTMLDivElement >( null ) // 스크롤 이동을 위한 Ref 추가
 
   useEffect(() => {
@@ -42,10 +44,16 @@ const Chat = () => {
       stompClient.connected &&
         stompClient.subscribe(`/topic/room.${ chatroomId }`, ( message ) => {
           const newMessage = JSON.parse( message.body )
+          console.log( newMessage.sender )
+          console.log( chatroomId )
           setMessages(( prevMessages ) => [
             ...prevMessages,
             { content: newMessage.content, sender: newMessage.sender },
           ])
+          setMessageTimes(( preMessageTimes) => ({
+            ...preMessageTimes,
+            [ newMessage.content ]: new Date().toLocaleTimeString(),
+          }))
         })
     }
 
@@ -76,7 +84,7 @@ const Chat = () => {
 
   const sendMessage = () => {
     if (input.trim() !== '') {
-      stompClient.send(`/topic/room.${chatroomId}`, {}, JSON.stringify({ content: input }))
+      stompClient.send(`/topic/room.${chatroomId}`, {}, JSON.stringify({ content: input, sender: 'hi' }))
       setInput('')
     }
   }
@@ -95,19 +103,22 @@ const Chat = () => {
           <ChatWrapper>
             <ScriptWrapper>
               {messages.map((message, index) => (
-                <ChatMessage key={index} content={message.content} sender={message.sender} />
+                <ChatMessage key={ index } content={ message.content } sender={ message.sender } time={messageTimes[message.content]} />
               ))}
-              <div ref={scriptEndRef}></div> {/* 채팅창 맨 아래로 스크롤하기 위한 Ref 추가 */}
+              <div ref={ scriptEndRef }></div> {/* 채팅창 맨 아래로 스크롤하기 위한 Ref 추가 */}
             </ScriptWrapper>
-
-            <InputBox
-              value={input}
-              icon={<LeftIcon />}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="메시지를 입력하세요"
-            />
-            <button onClick={sendMessage}>전송</button>
+            
+              <InputBox
+                value={ input }
+                icon={<LeftIcon/>}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="메시지를 입력하세요"
+                >
+                <button onClick={sendMessage}>전송</button>
+  
+              </InputBox>
+            
           </ChatWrapper>
         </ChatPageWrapper>
       </HomeLayout>
