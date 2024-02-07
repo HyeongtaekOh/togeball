@@ -73,9 +73,9 @@ public class ChatroomController {
         return ResponseEntity.created(location).body(Map.of("id", chatroomId));
     }
 
-    @PostMapping("/{chatroomId}/participants")
+    @PostMapping("/{chatroomId}/participants/{userId}")
     public ResponseEntity<?> joinChatroom(@PathVariable(value = "chatroomId") Integer chatroomId,
-                                          @RequestParam Integer userId) {
+                                          @PathVariable(value = "userId") Integer userId) {
 
         chatroomService.joinChatroom(userId, chatroomId);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()

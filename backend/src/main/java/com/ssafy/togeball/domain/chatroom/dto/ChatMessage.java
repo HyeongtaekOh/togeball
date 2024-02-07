@@ -12,6 +12,7 @@ import java.time.Instant;
 public class ChatMessage {
 
     private Integer senderId;
+    private String nickname;
     private Integer roomId;
     private MessageType type;
     private String content;

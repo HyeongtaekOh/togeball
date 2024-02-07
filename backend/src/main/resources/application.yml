@@ -4,7 +4,7 @@ spring:
 #    url : jdbc:mariadb://localhost:3309/togeball
     url: jdbc:mariadb://i10a610.p.ssafy.io:3306/togeball
     username: root
-    password: ssafy
+    password: togeball123!@#
   config:
     import: optional:properties/jpa.yml
 
@@ -41,7 +41,7 @@ server:
       charset: UTF-8
       enabled: true
       force: true
-  port: 8081
+  port: 8080
   ssl:
     enabled: true
     enabled-protocols:
