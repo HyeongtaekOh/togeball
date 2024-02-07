@@ -41,7 +41,8 @@ public class MessageController {
     @PostMapping("/chat-server/chats/{roomId}/images")
     public ResponseEntity<?> uploadImage(@PathVariable(value = "roomId") Integer roomId,
                                          @RequestParam MultipartFile file,
-                                         @RequestParam Integer senderId) throws Exception {
+                                         @RequestParam Integer senderId,
+                                         @RequestParam String nickname) throws Exception {
 
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("이미지 파일을 전송해주세요.");
@@ -54,13 +55,14 @@ public class MessageController {
 
         String url = s3Service.upload(file);
         log.info("url: {}", url);
-        ChatMessageDto message = chatMessageService.save(ChatMessageDto.builder()
+        ChatMessageDto imageMessage = ChatMessageDto.builder()
                 .roomId(roomId)
                 .senderId(senderId)
+                .nickname(nickname)
                 .type(MessageType.valueOf("IMAGE"))
                 .content(url)
-                .build());
-        messagingTemplate.convertAndSend("/topic/room." + roomId, message);
+                .build();
+        chatFacade.sendChatMessage(roomId, imageMessage);
         return ResponseEntity.noContent().build();
     }
 }
