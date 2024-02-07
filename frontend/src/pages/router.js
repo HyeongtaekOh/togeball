@@ -13,13 +13,13 @@ export const routes = [
     { path: 'boards' },
     
     { path: 'calendar' },
-    { path: 'mypage'},
+    { path: 'mypage' },
     { path: 'matching' },
 
-    { path: `chat/:chatroomId` },
-    { path: 'chat' },
+    { path : 'chat' },
+    { path: 'chat', dynamicPath : 'chat/:chatroomId' },
 
-    { path: 'login/kakao'}
+    { path: 'login/kakao' }
 
 ]
 
