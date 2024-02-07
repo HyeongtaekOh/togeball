@@ -24,7 +24,7 @@ const KakaoPage = () => {
 
       setIsLogin( true )
 
-      navigator('/')
+      navigator('/home')
     },
     onError: ( err ) => {
       console.log( err )
