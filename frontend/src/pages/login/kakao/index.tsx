@@ -2,34 +2,55 @@ import { postAxios } from "src/api/util"
 import { useEffect, useRef, useState } from "react"
 import { postCode } from './api/postCode'
 import { useMutation } from "react-query"
+import { useNavigate } from "react-router-dom"
+import useStore from "src/store"
 
-const OAuthRedirect = () => {
+const KakaoPage = () => {
+
+  const navigator = useNavigate()
+
+  const { setAccessToken, setIsLogin } = useStore()
 
 
-  // const [ code, setCode ] = useState()
   const isPost = useRef<boolean>(false)
-  // const postMutations = useMutation( postCode )
+  const postMutations = useMutation( postCode, {
+    onSuccess: (res) => {
+
+      setAccessToken( res?.headers?.authorization )
+
+      localStorage.setItem( 'accessToken', res?.headers?.authorization )
+      localStorage.setItem( 'refreshToken', res?.headers["authorization-refresh"])
+      localStorage.setItem( 'userId',  res?.data?.id )
+
+      setIsLogin( true )
+
+      navigator('/')
+    },
+    onError: ( err ) => {
+      console.log( err )
+      alert( "로그인 실패했습니다" )
+      navigator( '/login' )
+    } 
+  } )
 
     
-    const urlParam = new URLSearchParams( window.location.search )
-    const code = urlParam.get( 'code' )
-    const data = { code : code, provider : 'kakao' }
+  const urlParam = new URLSearchParams( window.location.search )
+  const code = urlParam.get( 'code' )
+  const data = { code : code, provider : 'kakao' }
 
-    // try{
-      // if( isPost.current ) return
-      
-      // isPost.current = true
-      // postMutations.mutateAsync(data)
-         
-    // } catch( err ){
-    //   console.log( err )
-    // }
+  useEffect(()=>{
+    if( isPost.current ) return
+    isPost.current = true
+    postMutations.mutateAsync( data )
 
+
+  }, [data, postMutations])
 
 
   return(
-    <div><p>hihihihi</p></div>
+    <div><p></p></div>
   )
 }
 
-export default OAuthRedirect
+export default KakaoPage
+

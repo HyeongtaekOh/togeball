@@ -11,7 +11,6 @@ import MyPage from "src/pages/mypage";
 import Matching from "src/pages/matching"
 import Chat from "src/pages/chat"
 import Todaygames from "src/pages/todaygames"
-import { OAuthRedirect } from "src/pages/login/components"
 
 export const RouterInfo = [
   {
@@ -31,10 +30,10 @@ export const RouterInfo = [
       { path: "/matching", element: <Matching /> },
       { path: "/chat/:chatroomId", element: <Chat/>},
       { path: "/chat", element: <Chat /> },
-      {
-        path: "/login/kakao",
-        element: <OAuthRedirect />, // 또는 <KakaoRedirectComponent /> 등으로 변경
-      },
+      // {
+      //   path: "/login/kakao",
+      //   element: <OAuthRedirect />, // 또는 <KakaoRedirectComponent /> 등으로 변경
+      // },
       
     ]
   }
