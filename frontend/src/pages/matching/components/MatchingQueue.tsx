@@ -34,11 +34,7 @@ const MatchingQueue = ( props ) => {
     const filter = svg.append('defs').append('filter').attr('id', 'blur-filter').append('feGaussianBlur').attr('stdDeviation', 5)  
 
     const circles = svg.selectAll( 'circle' ).data( newBubbleData )
-    // const colorScale = d3.scaleOrdinal( d3.schemeCategory10 ) // 원색
-    // const colorScale = d3.scaleSequential( d3.interpolateViridis ) // 원색
-    //   .domain([0, newBubbleData.length])
-    const colorScale = d3.scaleOrdinal(d3.schemeCategory10)
-
+    
 
     circles.enter().append( 'circle' )
       .attr( 'fill', 'white' )
@@ -58,7 +54,8 @@ const MatchingQueue = ( props ) => {
       .attr( 'y', d => d.y )
       .attr( 'dy', '0.35em' )  // 텍스트의 세로 중앙 정렬
       .attr( 'text-anchor', 'middle' )  // 텍스트의 가로 중앙 정렬
-      .text( d => d.label );
+      .text( d => d.label )
+      
 
     circles.exit().remove()
     texts.exit().remove()

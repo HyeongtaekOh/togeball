@@ -10,8 +10,9 @@ const Mainwrapper = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  box-shadow: 5px 5px 5px 5px gray;
+  box-shadow: 1px 1px 1px 1px lightgray;
   margin: 10px;
+  padding-top: 15px;
 `
 
 const WrapImgWrapper = styled.div`
@@ -43,7 +44,7 @@ const OpenChatCard = ( props: Textprops ) => {
        games
     } = props
 
-    const { datetime, homeClubName, awayClubName } = games
+    const { datetime, homeClubName, awayClubName, homeClubLogo, awayClubLogo } = games
 
     
     const time = datetime.substring(11,16)
@@ -51,8 +52,8 @@ const OpenChatCard = ( props: Textprops ) => {
     return(
         <Mainwrapper>
             <WrapImgWrapper>
-                <ImgWrapper src='' alt='Hometeam'/>
-                <ImgWrapper src='' alt='Awayteam'/>
+                <ImgWrapper src={ homeClubLogo } alt='Hometeam'/>
+                <ImgWrapper src={ awayClubLogo } alt='Awayteam'/>
             </WrapImgWrapper>
             <WrapTxtWrapper>
             <TextWrapper >

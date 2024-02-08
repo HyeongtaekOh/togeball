@@ -2,6 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import  MatchingProfile  from './MatchingProfile'
 import { Button, Title } from 'src/components'
+import { useNavigate } from 'react-router-dom'
+
+
 
 const ModalInfoWrapper = styled.div`
   display: flex;
@@ -96,9 +99,20 @@ const MatchingModal = ( props ) => {
     
   ]
 
+ 
+
   const handleModalClose = () => {
        onClose()
   }
+
+ 
+  const navigator = useNavigate()
+
+  const onClickHandler = () => {
+    navigator( '/chat' )
+  }
+  
+
 
   return (
     <ModalOverlay>
@@ -113,7 +127,7 @@ const MatchingModal = ( props ) => {
               ))}
           </div>
           <Title>참가 인원 수: { participants.length }</Title>
-          <Button type='parti'>참가하기</Button>
+          <Button type='parti' onClick={ onClickHandler } >참가하기</Button>
         </ModalInfoWrapper>
       </ModalContent>
     </ModalOverlay>
