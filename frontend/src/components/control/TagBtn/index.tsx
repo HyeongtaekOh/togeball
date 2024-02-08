@@ -1,3 +1,4 @@
+import { TagType } from 'src/types';
 import { useState } from 'react';
 import useModel from 'src/pages/profile/store';
 import styled from 'styled-components';
@@ -22,7 +23,7 @@ const TagBtnWrapper = styled.button<{ $bgColor: string, color: string }>`
 
 const TagBtn = (props: TagBtnProps) => {
 
-    const { children, isSelect, limitFlag, stadiumFlag } = props
+    const { children, isSelect, item, stadiumFlag = false } = props
 
     const [ isClick, setIsClick ] = useState<boolean>( isSelect )
     const { team, setTeam, addStadiums, deleteStadiums } = useModel()
@@ -31,21 +32,20 @@ const TagBtn = (props: TagBtnProps) => {
     const letterColor = isClick? 'white' : 'black';
 
     const changeColor = () => {
-      if ( limitFlag ) {
-        if(team===''){
+      if( stadiumFlag ){ 
+        ( !isClick ? addStadiums( item ) : deleteStadiums( item ))
+        setIsClick( !isClick )
+      } else {
+        if( team===0 ){
           setIsClick( !isClick )
-          setTeam( children )
-        }else{
-          if( team===children ) {
+          setTeam( item.id )
+        } else {
+          if( team===item.id ){
             setIsClick( !isClick )
-            setTeam('')
+            setTeam(0)
           }
         }
-      }else{
-        setIsClick( !isClick )
       }
-      stadiumFlag && 
-        !isClick ? addStadiums( children ) : deleteStadiums( children )
     }
 
       return (
@@ -62,5 +62,5 @@ type TagBtnProps = {
     children?: string
     isSelect?: boolean
     stadiumFlag?: boolean
-    limitFlag?: boolean
+    item?: TagType,
 }
