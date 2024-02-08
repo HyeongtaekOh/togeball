@@ -1,7 +1,9 @@
 package com.ssafy.togeball.domain.chatroom.controller;
 
-import com.ssafy.togeball.domain.chatroom.dto.*;
-import com.ssafy.togeball.domain.chatroom.entity.Chatroom;
+import com.ssafy.togeball.domain.chatroom.dto.ChatroomResponse;
+import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomRequest;
+import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomResponse;
+import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomSearchCondition;
 import com.ssafy.togeball.domain.chatroom.service.ChatroomService;
 import com.ssafy.togeball.domain.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -37,7 +38,6 @@ public class ChatroomController {
 
     @GetMapping("/{chatroomId}")
     public ResponseEntity<?> findChatroomById(@PathVariable(value = "chatroomId") Integer chatroomId) {
-
         ChatroomResponse chatroom = chatroomService.findChatroomById(chatroomId);
         return ResponseEntity.ok(chatroom);
     }
