@@ -7,7 +7,7 @@ interface paramType {
 
 export const getTags = async( param : paramType ) => {
   try{
-    return await getAxios('/api/hashtags', param )
+    return await getAxios('https://i10a610.p.ssafy.io:8080/api/hashtags', param )
   } catch( err ){
     console.log(err)
   }

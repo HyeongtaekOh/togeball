@@ -10,7 +10,7 @@ const TagListWrapper = styled.div`
 `
 
 const TagList = ( props: TagListProps ) => {
-  const { tags, bgColor, isTag, limit, flag } = props;
+  const { tags, bgColor, isTag, flag } = props;
 
   const tagList = 
   isTag? (   
@@ -21,7 +21,7 @@ const TagList = ( props: TagListProps ) => {
     ))
   ) : (
     tags?.map(( tag ) => (
-      <TagBtn key={ tag?.id } isSelect = { tag?.isSelect } limitFlag = { limit } stadiumFlag = { flag } >
+      <TagBtn item = { tag } key={ tag?.id } isSelect = { tag?.isSelect } stadiumFlag = { flag } >
         { tag?.content }
       </TagBtn>
     ))
@@ -48,6 +48,5 @@ type TagListProps = {
   tags: tagType[], 
   isTag?: boolean,
   flag?: boolean,
-  limit?: boolean,
   bgColor?: string,
 }

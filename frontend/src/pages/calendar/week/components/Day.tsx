@@ -54,7 +54,7 @@ const Day = ( props: DayProps ) =>{
                             { game.stadiumName }
                         </div>
                         <div style={{ marginTop: '10px' }}>
-                            { format( day, 'HH:mm' )}
+                            { game.datetime }
                         </div>
                     </ShowGamesWrapper>
                 )
