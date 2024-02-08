@@ -227,10 +227,6 @@ const RecruitList = () => {
         ,
       }
     ]
-<<<<<<< HEAD
-    
-=======
->>>>>>> f9d348decb378341cd93fb396af1d8e8faea2da8
 
 
     const FilterMine = () => {
