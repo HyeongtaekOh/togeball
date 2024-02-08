@@ -21,6 +21,12 @@ public class GameResponse {
     @JsonProperty("awayClubName")
     private String awayClubName;
 
+    @JsonProperty("homeClubLogo")
+    private String homeClubLogo;
+
+    @JsonProperty("awayClubLogo")
+    private String awayClubLogo;
+
     @JsonProperty("datetime")
     private LocalDateTime datetime;
 
@@ -30,6 +36,8 @@ public class GameResponse {
                 .datetime(game.getDatetime())
                 .homeClubName(game.getHomeClub().getSponsorName())
                 .awayClubName(game.getAwayClub().getSponsorName())
+                .homeClubLogo(game.getHomeClub().getLogo())
+                .awayClubLogo(game.getAwayClub().getLogo())
                 .stadiumName(game.getStadium().getName())
                 .build();
     }
