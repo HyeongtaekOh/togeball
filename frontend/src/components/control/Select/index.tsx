@@ -1,3 +1,4 @@
+import { TagType } from 'src/types'
 import { useState } from 'react'
 import { DownIcon } from 'src/components/icon'
 import styled from 'styled-components'
@@ -43,7 +44,11 @@ const LiWrapper = styled.li`
 
 const SelectBox = ( props: SelectBoxProps ) => {
 
-  const { width = '200px', dataSource, placeholder = '선택해주세요', background = 'white', height = '60px' } = props
+  const { 
+    width = '200px', dataSource,
+    placeholder = '선택해주세요', 
+    background = 'white', height = '60px' 
+  } = props
   const [ isOpen, setIsOpen ] = useState<boolean>( false )
   const [ selectedValue, setSelectedValue ] = useState<string>( placeholder )
 
@@ -51,10 +56,10 @@ const SelectBox = ( props: SelectBoxProps ) => {
     setIsOpen( !isOpen )
   }
 
-  const changeHandler = ( data : SourceData ) => {
-    setSelectedValue( data?.name )
+  const changeHandler = ( data : SourceData | TagType ) => {
+    setSelectedValue( data?.content )
     setIsOpen( false )
-    props.setState(data?.name);
+    props.setState(data?.content);
   }
 
   return (
@@ -67,12 +72,22 @@ const SelectBox = ( props: SelectBoxProps ) => {
       isOpen && dataSource &&
       <LiDivWrapper width = { width } background = { background }>
       {(
-        dataSource.map(( data : SourceData ) => {
-          return <LiWrapper onClick={() => changeHandler( data )}>{ data?.name }</LiWrapper>
+        dataSource.map(( data : SourceData | TagType ) => {
+          return <LiWrapper onClick={() => changeHandler( data )}>{ data?.content }</LiWrapper>
         })
       )}
       </LiDivWrapper>
     }
+    {/* { 
+      isOpen && tagSource &&
+      <LiDivWrapper width = { width } background = { background }>
+      {(
+        tagSource.map(( data : TagType ) => {
+          return <LiWrapper onClick={() => changeHandler( data )}>{ data?.content }</LiWrapper>
+        })
+      )}
+      </LiDivWrapper>
+    } */}
     </div>
   )
 
@@ -81,15 +96,15 @@ const SelectBox = ( props: SelectBoxProps ) => {
 export default SelectBox
 
 type SourceData = {
-  value: string,
-  name: any
+  id?: number,
+  content?: any
 }
 
 type SelectBoxProps = {
   setState?(name: any): unknown
   width?: string,
   height?: string,
-  dataSource: SourceData[],
+  dataSource?: SourceData[] | TagType[],
   placeholder?: string,
-  background?: string
+  background?: string,
 }

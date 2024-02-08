@@ -4,8 +4,10 @@ import { postRecruit } from './api';
 import useStore from '../store'
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { styled } from 'styled-components'
+import { TagApiType } from 'src/types';
+import { getTags } from 'src/api';
 
 const MatchBtn = styled.button`
     width: 430px;
@@ -17,12 +19,10 @@ const MatchBtn = styled.button`
     font-size: 18px;
     cursor: pointer;
 `
-
 const Contents = styled.div`
     display: flex;
     gap: 30px;
 `
-
 const Input = styled.textarea<{ maxLength: string }>`
     height: 60px;
     width: 96%;
@@ -30,7 +30,6 @@ const Input = styled.textarea<{ maxLength: string }>`
     border-radius: 20px;
     padding: 20px;
 `
-
 const ModalBackground = styled.div`
     position: fixed;
     top: 0;
@@ -39,7 +38,6 @@ const ModalBackground = styled.div`
     bottom: 0;
     z-index: 400;
 `
-
 const Modal = styled.div`
     width: 1100px;
     height: 36 0px;
@@ -65,7 +63,7 @@ const RecruitPost = () => {
     const recruitMutation = useMutation( postRecruit );
 
     const onInputHandler = (e) => {
-        const textareaValue = e.target.value;
+        const textareaValue = e.target.id;
         setInputCount(
             textareaValue.replace(/<br\s*V?>/gm, '\n').length
         )
@@ -97,38 +95,22 @@ const RecruitPost = () => {
       )
     }
 
-    const [teams, setTeams] = useState([
-        { value: 'LG', name: 'LG' },
-        { value: 'KT', name: 'KT' },
-        { value: 'SSG', name: 'SSG' },
-        { value: 'NC', name: 'NC' },
-        { value: '두산', name: '두산' },
-        { value: 'KIA', name: 'KIA' },
-        { value: '롯데', name: '롯데' },
-        { value: '삼성', name: '삼성' },
-        { value: '한화', name: '한화' },
-        { value: '키움', name: '키움' },
-        { value: '팀무관', name: '팀무관' }
-    ])
+    const { data: tags } = useQuery<TagApiType>([ 'tags', { page: 0, size: 100 }], () => getTags({ page: 0, size: 100 }))
 
-    const [seats, setSeats] = useState([
-        { value: 'cheeringSeat', name: '응원석' },
-        { value: 'tableSeat', name: '테이블석' },
-        { value: 'vipSeat', name: 'VIP석' },
-        { value: 'outfieldSeat', name: '외야석' }
-    ])
+    const teams = tags?.content.filter(item => item.type === "PREFERRED_TEAM")
+    const seats = tags?.content.filter(item => item.type === "PREFERRED_SEAT")
 
     const [nums, setNums] = useState([
-        { value: '1', name: '1' },
-        { value: '2', name: '2' },
-        { value: '3', name: '3' },
-        { value: '4', name: '4' },
-        { value: '5', name: '5' },
-        { value: '6', name: '6' },
-        { value: '7', name: '7' },
-        { value: '8', name: '8' },
-        { value: '9', name: '9' },
-        { value: '10', name: '10' }
+        { id: 1, content: '1' },
+        { id: 2, content: '2' },
+        { id: 3, content: '3' },
+        { id: 4, content: '4' },
+        { id: 5, content: '5' },
+        { id: 6, content: '6' },
+        { id: 7, content: '7' },
+        { id: 8, content: '8' },
+        { id: 9, content: '9' },
+        { id: 10, content: '10' }
     ])
     
 
@@ -151,7 +133,7 @@ const RecruitPost = () => {
       <MainLayout title='직관 메이트 모집하기 '>  
           <HomeLayout>
             <Title style={{ marginTop: '20px', marginLeft: '20px' }}>제목(최대 60자)</Title>
-            <InputBox height='20px' width='100%' value={ title } onChange={(e) => { setTitle( e.target.value )}}/>
+            <InputBox height='20px' width='100%' onChange={(e) => { setTitle( e.target.id )}}/>
             <MatchBtn onClick={ openModal }>
                 { match.homeClubName ? match.homeClubName +' VS '+ match.awayClubName : '경기를 선택하세요' }
             </MatchBtn>
