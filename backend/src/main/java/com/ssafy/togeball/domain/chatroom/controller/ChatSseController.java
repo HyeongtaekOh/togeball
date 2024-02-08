@@ -19,6 +19,11 @@ public class ChatSseController {
     public ResponseEntity<SseEmitter> subscribe(Integer userId) {
         log.info("userId: {}", userId);
         SseEmitter emitter = new SseEmitter();
+        try {
+            emitter.send("connected");
+        } catch (Exception e) {
+            log.error("error: {}", e.getMessage());
+        }
         return ResponseEntity.ok(emitter);
     }
 }
