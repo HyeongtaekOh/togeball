@@ -2,7 +2,9 @@ package com.ssafy.togeballmatching.interceptor;
 
 import com.ssafy.togeballmatching.config.WebConfig;
 import com.ssafy.togeballmatching.dto.MatchingUser;
+import com.ssafy.togeballmatching.dto.UserTag;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +16,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -29,19 +33,19 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
         // 2. 로그인한 유저의 jwtToken 가져옴
 
         // 2-1. Header에서 Authorization의 bearer 토큰을 가져옴
-        String bearerToken = request.getHeaders().get("Authorization").toString();
-        String jwtToken;
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            jwtToken = bearerToken.substring(7);
-            log.info("jwtToken : {}", jwtToken);
-        } else {
-            log.info("토큰이 안 들어왔어요!!");
-            return false;
-        }
+//        String bearerToken = request.getHeaders().get("Authorization").toString();
+//        String jwtToken;
+//        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+//            jwtToken = bearerToken.substring(7);
+//            log.info("jwtToken : {}", jwtToken);
+//        } else {
+//            log.info("토큰이 안 들어왔어요!!");
+//            return false;
+//        }
 
         // 2-2. 테스트를 위해 쿼리 스트링으로 토큰을 받아옴
-//        if (request.getURI().getQuery() == null) return false;
-//        String jwtToken = request.getURI().getQuery().split("token=")[1];
+        if (request.getURI().getQuery() == null) return false;
+        String jwtToken = request.getURI().getQuery().split("token=")[1];
 
         // JWT 토큰 처리 로직 시작
         String[] parts = jwtToken.split("\\."); // JWT 토큰 파싱
@@ -72,16 +76,38 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
                 .block();
 
         // 4. Matching User 생성
+        String nickname = user.getBody().get("nickname").toString();
+        JSONArray tags = (JSONArray) user.getBody().get("tags");
+
+        List<UserTag> tagList = new ArrayList<>();
+
+        tags.forEach(tagObj -> {
+            JSONObject tag = (JSONObject) tagObj;
+
+            // 각 태그의 정보를 추출합니다.
+            int tagId = Integer.parseInt(tag.get("id").toString());
+            String content = tag.get("content").toString();
+            String type = tag.get("type").toString();
+
+            // UserTag 객체를 생성하여 리스트에 추가합니다.
+            UserTag userTag = UserTag.builder().tagId(tagId).content(content)
+                    .tagType(UserTag.TagType.valueOf(tag.get("type").toString()))
+                    .build();
+            tagList.add(userTag);
+        });
+
+//        log.info("tagList(0): {}", tagList.get(0));
+
 //        MatchingUser matchingUser = MatchingUser.builder()
 //                .userId(userId)
-//                .nickname(user.getBody().get("nickname").toString())
-//                .profileImage(user.getBody().get("profileImage").toString())
+//                .nickname(nickname)
+//                .profileImage(profileImage)
 //                .tags(user.getBody().get("tags"))
 //                .build();
-//        String email = user.getBody().get("email").toString();
-//        log.info("statusCode : {}", user.getStatusCode());
-//        log.info("body : {}", user.getBody());
-//        log.info("email : {}", email);
+        log.info("statusCode : {}", user.getStatusCode());
+        log.info("body : {}", user.getBody());
+        log.info("nickname : {}", nickname);
+        log.info("tags : {}", tags);
         //WebClient를 이용해 유저 정보 요청 끝
 
         return true;
