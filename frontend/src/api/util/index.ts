@@ -19,9 +19,6 @@ useAxios.interceptors.request.use(
     
       if( accessToken ){
         config.headers['Authorization'] = `${ accessToken }`
-      }else{
-
-        return Promise.reject( 401 )
       }
 
       return config
