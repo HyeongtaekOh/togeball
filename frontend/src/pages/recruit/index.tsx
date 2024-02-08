@@ -240,20 +240,22 @@ const RecruitList = () => {
         ,
       }
     ]
-    console.log(chats.length)
+    
 
 
     const FilterMine = () => {
 
       }
 
+    
+    
     return (
         <MainLayout title='직접 방 선택'>  
             <HomeLayout>
                 <SettingWrapper>
                     <MatchBtn >경기를 선택하세요</MatchBtn>
-                    <Select dataSource={ teams } placeholder='응원팀' background='#DEDCEE' width='100px' height='36px'></Select>
-                    <Select dataSource={ seats } placeholder='선호 좌석' background='#DEDCEE' width='120px' height='36px'></Select>
+                    <Select dataSource={ teams } placeholder='응원팀' background='#DEDCEE' width='100px' height='36px' ></Select>
+                    <Select dataSource={ seats } placeholder='선호 좌석' background='#DEDCEE' width='120px' height='36px' ></Select>
                 </SettingWrapper>
                 <FilterButton>내 글만 보기</FilterButton>
                 <div>

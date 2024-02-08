@@ -56,7 +56,6 @@ const HomeCard = ( props : HomeCardProps ) => {
   const navigator = useNavigate()
 
   const onClickHandler = () => {
-    console.log( path )
     navigator( path )
   }
 
