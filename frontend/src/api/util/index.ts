@@ -66,8 +66,9 @@ useAxios.interceptors.response.use(
 export const getAxios =  async ( url: string, params?: any )  => {
   try {
     const response = await useAxios.get( url, { params } )
+    console.log(process.env.REACT_APP_BASE_URL)
     return response.data
-  } catch( error ){
+  } catch( error ){console.log(process.env.REACT_APP_BASE_URL)
     return Promise.reject(error)
   }
 } 
