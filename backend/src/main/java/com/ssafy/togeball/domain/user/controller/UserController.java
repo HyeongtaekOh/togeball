@@ -3,6 +3,8 @@ package com.ssafy.togeball.domain.user.controller;
 import com.ssafy.togeball.domain.auth.service.AuthService;
 import com.ssafy.togeball.domain.chatroom.service.ChatroomService;
 import com.ssafy.togeball.domain.common.exception.ApiException;
+import com.ssafy.togeball.domain.common.s3.PreSignedURLResponse;
+import com.ssafy.togeball.domain.common.s3.S3Service;
 import com.ssafy.togeball.domain.user.dto.UserResponse;
 import com.ssafy.togeball.domain.user.dto.UserSignUpRequest;
 import com.ssafy.togeball.domain.tag.dto.TagIdsRequest;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.net.URL;
 import java.util.Map;
 
 @RestController
@@ -28,6 +31,7 @@ public class UserController {
     private final UserService userService;
     private final AuthService authService;
     private final ChatroomService chatroomService;
+    private final S3Service s3Service;
 
     @GetMapping("/email")
     public ResponseEntity<?> checkEmail(@RequestParam(name = "email") String email) {
@@ -74,6 +78,19 @@ public class UserController {
         User user = userService.findUserById(userId).orElseThrow(() -> new ApiException(UserErrorCode.USER_NOT_FOUND));
         UserResponse userResponse = UserResponse.of(user);
         return ResponseEntity.ok(userResponse);
+    }
+
+    @GetMapping("/{userId}/profile/presigned-url")
+    public ResponseEntity<?> getPreSignedUrlToUploadProfileImage(@PathVariable(name = "userId") String userId) {
+        String objectKey = s3Service.getObjectUrl() + "/profiles/" + userId + "/profile";
+        URL presignedUrl = s3Service.generatePresignedUrl(objectKey);
+
+        PreSignedURLResponse response = PreSignedURLResponse.builder()
+                .objectKey(objectKey)
+                .preSignedURL(presignedUrl.toString())
+                .build();
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{userId}/chatrooms")
