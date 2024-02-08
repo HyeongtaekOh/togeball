@@ -51,7 +51,7 @@ const MyPage = ( () => {
                     내가 모집중인 채팅방
                     </Title>
             <MainWrapper>
-                <ChatItem item={ chatItem } content='gigigigi'></ChatItem>
+                <ChatItem item={ chatItem }/>
                 </MainWrapper>
                 <div style={{ margin: '50px' }}></div>
                 <Title type='large'>

@@ -1,2 +1,2 @@
 export * from './getGames'
-export * from './getChatrooms'
+export * from './getRecruits'

@@ -1,6 +1,9 @@
 import { Select, MainLayout, HomeLayout, Pagination } from 'src/components'
-import { useState } from 'react'
 import { styled } from 'styled-components'
+import { useQuery } from 'react-query'
+import { TagApiType } from 'src/types'
+import { getTags } from 'src/api'
+import { getRecruits } from './api'
 
 const SettingWrapper = styled.div`
     display: flex;
@@ -8,7 +11,6 @@ const SettingWrapper = styled.div`
     gap: 10px;
     margin-top: 50px;
 `
-
 const MatchBtn = styled.button`
     width: 200px;
     height: 36px;
@@ -18,7 +20,6 @@ const MatchBtn = styled.button`
     font-weight: bold;
     font-size: 16px;
 `
-
 const FilterButton = styled.button`
     width: 140px;
     height: 36px;
@@ -33,28 +34,14 @@ const FilterButton = styled.button`
 
 const RecruitList = () => {
 
-    const [teams, setTeams] = useState([
-        { value: 'LG', name: 'LG' },
-        { value: 'KT', name: 'KT' },
-        { value: 'SSG', name: 'SSG' },
-        { value: 'NC', name: 'NC' },
-        { value: '두산', name: '두산' },
-        { value: 'KIA', name: 'KIA' },
-        { value: '롯데', name: '롯데' },
-        { value: '삼성', name: '삼성' },
-        { value: '한화', name: '한화' },
-        { value: '키움', name: '키움' },
-        { value: '팀무관', name: '팀무관' } 
-    ])
+  const { data: tags } = useQuery<TagApiType>([ 'tags', { page: 0, size: 100 }], () => getTags({ page: 0, size: 100 }))
 
-    const [seats, setSeats] = useState([
-        { value: 'cheeringSeat', name: '응원석' },
-        { value: 'tableSeat', name: '테이블석' },
-        { value: 'vipSeat', name: 'VIP석' },
-        { value: 'outfieldSeat', name: '외야석' }
-    ])
+  const teams = tags?.content.filter(item => item.type === 'PREFERRED_TEAM')
+  const seats = tags?.content.filter(item => item.type === 'PREFERRED_SEAT')
 
-    const chats = [
+  const { data : chats } = useQuery([ 'chats', { type: 'RECRUIT' }], () => getRecruits({ type: 'RECRUIT' }))
+
+    const chatss = [
         {
             "chatrooms" : [
               {
@@ -240,7 +227,6 @@ const RecruitList = () => {
         ,
       }
     ]
-    console.log(chats.length)
 
 
     const FilterMine = () => {

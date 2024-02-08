@@ -52,6 +52,11 @@ const Login = () => {
   }
 
   const onLogin = async() => {
+    if( email === '' || password === '' ){
+      alert("이메일과 비밀번호를 입력하세요")
+      return
+    }
+    
     try {
       await loginMutation.mutateAsync( param )
     } catch ( error ) {
