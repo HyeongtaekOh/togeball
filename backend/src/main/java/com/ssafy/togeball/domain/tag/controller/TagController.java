@@ -4,7 +4,6 @@ import com.ssafy.togeball.domain.tag.dto.TagCountResponse;
 import com.ssafy.togeball.domain.tag.dto.TagCreateRequest;
 import com.ssafy.togeball.domain.tag.dto.TagResponse;
 import com.ssafy.togeball.domain.tag.service.TagService;
-import com.ssafy.togeball.domain.user.dto.UserIdsRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -46,14 +45,14 @@ public class TagController {
     }
 
     @GetMapping("/users/counts")
-    public ResponseEntity<?> findTagsByUserIdsWithCount(@RequestBody UserIdsRequest userIdsRequest) {
-        List<TagCountResponse> tags = tagService.findTagsByUserIdsWithCount(userIdsRequest.getUserIds());
+    public ResponseEntity<?> findTagsByUserIdsWithCount(@RequestParam(value="userId") Set<Integer> userIdsRequest) {
+        List<TagCountResponse> tags = tagService.findTagsByUserIdsWithCount(userIdsRequest);
         return ResponseEntity.ok(tags);
     }
 
     @GetMapping("/users")
-    public ResponseEntity<?> findTagsByUserIds(@RequestBody UserIdsRequest userIdsRequest) {
-        Set<TagResponse> tags = tagService.findAllTagsByUserIds(userIdsRequest.getUserIds())
+    public ResponseEntity<?> findTagsByUserIds(@RequestParam(value="userId") Set<Integer> userIdsRequest) {
+        Set<TagResponse> tags = tagService.findAllTagsByUserIds(userIdsRequest)
                 .stream()
                 .map(TagResponse::of)
                 .collect(Collectors.toSet());

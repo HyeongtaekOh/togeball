@@ -1,8 +1,8 @@
 package com.ssafy.togeball.domain.user.service;
 
 import com.ssafy.togeball.domain.common.exception.ApiException;
+import com.ssafy.togeball.domain.common.utils.PasswordUtil;
 import com.ssafy.togeball.domain.league.entity.Club;
-import com.ssafy.togeball.domain.league.exception.ClubNotFoundException;
 import com.ssafy.togeball.domain.league.service.LeagueService;
 import com.ssafy.togeball.domain.user.dto.UserSignUpRequest;
 import com.ssafy.togeball.domain.auth.service.AuthService;
@@ -42,10 +42,13 @@ public class UserService {
             throw new ApiException(UserErrorCode.CONFLICT_NICKNAME);
         }
 
+        String nickname = userSignUpRequest.getNickname() == null ?
+                "Guest#" + PasswordUtil.generateRandomPassword() : userSignUpRequest.getNickname();
+
         User user = User.builder()
                 .email(userSignUpRequest.getEmail())
-                .nickname(userSignUpRequest.getNickname())
-                .role(Role.BASIC)
+                .nickname(nickname)
+                .role(Role.GUEST)
                 .build();
 
         Integer userId = userRepository.save(user).getId();
@@ -58,6 +61,11 @@ public class UserService {
     @Transactional(readOnly = true)
     public Optional<User> findUserById(Integer userId) {
         return userRepository.findUserWithTagsById(userId);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<User> findUserWithTagsAndClubById(Integer userId) {
+        return userRepository.findUserWithTagsAndClubById(userId);
     }
 
     @Transactional(readOnly = true)
