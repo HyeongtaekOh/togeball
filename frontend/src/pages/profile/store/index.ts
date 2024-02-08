@@ -20,7 +20,7 @@ const useModel = create<Model>( ( set, get ) => (
           state.selectTags.filter(( item ) => item.content !== tag.content )
       }
     )),
-    team: '',
+    team: 0,
     setTeam: ( data ) => set(() => ({ team: data })),
     stadiums: [],
     addStadiums: ( stadium ) => set(( state ) => (
@@ -49,11 +49,11 @@ export interface Model{
   selectTags : TagType[]
   addSelectTags : ( tag: TagType ) => void
   deleteTags : ( tag: TagType ) => void
-  team: string
-  setTeam: ( data: string ) => void
-  stadiums: string[]
-  addStadiums: ( stadium: string ) => void
-  deleteStadiums: ( stadium: string ) => void
+  team: number
+  setTeam: ( data: number ) => void
+  stadiums: TagType[]
+  addStadiums: ( stadium: TagType ) => void
+  deleteStadiums: ( stadium: TagType ) => void
   image: object
   setImage: ( data ) => void
 }
