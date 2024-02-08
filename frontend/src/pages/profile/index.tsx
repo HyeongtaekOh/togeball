@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { HomeLayout, MainLayout, Title,  InputBox, Button } from 'src/components'
 import { getTags, postProfile } from './api'
 import { RowTagList, ColTagList, TagList } from './components'
@@ -6,6 +6,7 @@ import useModel from './store'
 import ImgUpload from './components/ImgUpload'
 import { useQuery, useMutation } from 'react-query'
 import styled from 'styled-components'
+import { EventSourcePolyfill, NativeEventSource } from 'event-source-polyfill'
 
 const ProfileSettingWrapper = styled.div`
   box-sizing: border-box;
@@ -58,29 +59,20 @@ const Profile = () => {
   
   const [ id, setId ] = useState( '하이' )
   const [ nickName, setNickName ] = useState( '' )
-  const { selectTags, team, image, stadiums, addSelectTags } = useModel()
-  const [ mergeTag, setMergeTag ] = useState([])
-
+  const { selectTags, team, image, stadiums } = useModel()
   const profileMutation = useMutation( postProfile );
 
   const data = {
     nickname: nickName,
-    team: team,
-    stadium: stadiums,
+    clubId: team,
     profileImage: image,
-    tags: mergeTag
+    role: "basic",
+    tags:  [ ...selectTags, ...stadiums  ]
   }
 
   const postProfileSetting = () => {
-    stadiums.map((stadium) => {
-      setMergeTag([...mergeTag, stadium])
-    })
-    
-    console.log( data )
-    // profileMutation.mutateAsync( data )
+    profileMutation.mutateAsync( data )
 }
-
-
 
   return(
     <MainLayout title='프로필 설정'>

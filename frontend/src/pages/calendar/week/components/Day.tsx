@@ -44,6 +44,7 @@ const Day = ( props: DayProps ) =>{
             { format( day, 'd' ) }
             </div>
             { games?.map(( game ) => {
+                console.log(game)
                 return(
                     <ShowGamesWrapper>
                         <div>
@@ -54,7 +55,7 @@ const Day = ( props: DayProps ) =>{
                             { game.stadiumName }
                         </div>
                         <div style={{ marginTop: '10px' }}>
-                            { format( day, 'HH:mm' )}
+                            { format( game.datetime, 'HH:mm' )}
                         </div>
                     </ShowGamesWrapper>
                 )
