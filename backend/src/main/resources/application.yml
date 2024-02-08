@@ -1,12 +1,14 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url : jdbc:mariadb://localhost:3309/togeball
-#    url: jdbc:mariadb://i10a610.p.ssafy.io:3306/togeball
+#    url : jdbc:mariadb://localhost:3309/togeball
+    url: jdbc:mariadb://i10a610.p.ssafy.io:3306/togeball
     username: ${MARIADB_USERNAME}
     password: ${MARIADB_PASSWORD}
   config:
-    import: optional:properties/jpa.yml
+    import:
+      - optional:properties/jpa.yml
+      - optional:env/env.yml
 
   security:
     oauth2:

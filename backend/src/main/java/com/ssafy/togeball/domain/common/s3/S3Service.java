@@ -21,7 +21,7 @@ public class S3Service {
     @Value("${cloud.aws.credentials.bucket-name}")
     private String bucketName;
 
-    @Value("${cloud.aws.region.static")
+    @Value("${cloud.aws.region.static}")
     private String region;
 
     @Value("${cloud.aws.credentials.expiration}")
