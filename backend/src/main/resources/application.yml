@@ -3,10 +3,12 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
 #    url : jdbc:mariadb://localhost:3309/togeball
     url: jdbc:mariadb://i10a610.p.ssafy.io:3306/togeball
-    username: root
-    password: togeball123!@#
+    username: ${MARIADB_USERNAME}
+    password: ${MARIADB_PASSWORD}
   config:
-    import: optional:properties/jpa.yml
+    import:
+      - optional:properties/jpa.yml
+      - optional:env/env.yml
 
   security:
     oauth2:
@@ -25,17 +27,16 @@ spring:
 
         registration:
           google:
-            client-id: 775807440441-gp5aip6rpkuharosu45sru11qrr2r3am.apps.googleusercontent.com
-            client-secret: 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
-#            redirect-uri: http://localhost:3000/login/oauth2/code/google
-            redirect-uri: https://i10a610.p.ssafy.io:8080/login/oauth2/code/google
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            redirect-uri: http://localhost:3000/login/oauth2/code/google
+#            redirect-uri: https://i10a610.p.ssafy.io/login/google
             authorization-grant-type: authorization_code
             scope: profile,email
           kakao:
-            client-id: 73f48ce0d311f347d444c25c87f69ee9
-            client-secret: pUs0QO2D9W21uNBNzqqVjqftZJfqYBZ6
-            redirect-uri: http://localhost:3000/login/kakao
-#            redirect-uri: https://i10a610.p.ssafy.io:8080/login/oauth2/code/kakao
+            client-id: ${KAKAO_CLIENT_ID}
+            client-secret: ${KAKAO_CLIENT_SECRET}
+            redirect-uri: http://i10a610.p.ssafy.io/login/kakao
             authorization-grant-type: authorization_code
             scope:
               - profile_nickname
@@ -54,11 +55,11 @@ server:
       - TLSv1.1
       - TLSv1.2
     key-store: "classpath:ssl/keystore.p12"
-    key-store-password: "togeball"
+    key-store-password: ${SSL_KEYSTORE_PASSWORD}
     key-store-type: "PKCS12"
-    
+
 jwt:
-  secretKey: eyJhbGciOiJIUzI1NiJ9eyJSb2xlIjoiQWRtaiwrdOoPcAKmUzNa1srrRfxZVGL
+  secretKey: ${JWT_SECRET_KEY}
   access:
     expiration: 3600000 # 3600000 : 60(분) * 60(초) * 1000 -> 1 시간
     header: Authorization
@@ -69,8 +70,8 @@ jwt:
 rabbitmq:
   host: i10a610.p.ssafy.io
   port: 4672
-  username: ssafy
-  password: ssafy
+  username: ${RABBITMQ_USERNAME}
+  password: ${RABBITMQ_PASSWORD}
   exchange: togeball.exchange
   chat:
     queue: chat.queue
@@ -78,3 +79,13 @@ rabbitmq:
   matching:
     queue: matching.queue
     routing-key: togeball.matching
+
+cloud:
+  aws:
+    credentials:
+      bucket-name: togeball-s3-bucket
+      expiration: 3600000
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
+    region:
+      static: ap-northeast-2
