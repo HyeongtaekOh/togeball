@@ -1,8 +1,9 @@
 package com.ssafy.togeballmatching.interceptor;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.togeballmatching.config.WebConfig;
 import com.ssafy.togeballmatching.dto.MatchingUser;
-import com.ssafy.togeballmatching.dto.UserTag;
+import com.ssafy.togeballmatching.dto.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -16,10 +17,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
+import javax.swing.*;
+import java.io.DataInput;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -59,56 +59,23 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
 
         attributes.put("userId", userId);
 
-        /*
-            Spring WebClient는 웹으로 API를 호출하기 위해 사용되는 Http Client 모듈 중 하나
-            Spring에서 RestTemplate보다 권장하는 방식
-            Single Thread, Non-Blocking 방식으로 응답 속도가 빠름
-            JSON을 쉽게 받을 수 있음
-         */
+//        Spring WebClient는 웹으로 API를 호출하기 위해 사용되는 Http Client 모듈 중 하나
+//        Spring에서 RestTemplate보다 권장하는 방식
+//        Single Thread, Non-Blocking 방식으로 응답 속도가 빠름
+//        JSON을 쉽게 받을 수 있음
 
-        // 3. token에서 userId를 추출하여 WebClient로 백으로 유저 정보를 요청
-        // 정보 요청 테스트는 https://localhost:8080/webClientTest.html
+        // 3. token에서 userId를 추출하여 WebClient로 백으로 유저 정보를 요청 (테스트: https://localhost:8080/webClientTest.html)
         WebClient webClient = WebConfig.getBaseUrl();
-        ResponseEntity<JSONObject> user = webClient.get()
+        MatchingUser user = webClient.get()
                 .uri("/api/users/" + userId)
                 .retrieve()
-                .toEntity(JSONObject.class) //String.class로도 가능
+                .bodyToMono(MatchingUser.class)
                 .block();
+        log.info("{},{},{},{}",user.getUserId(),user.getNickname(),user.getProfileImage(),user.getTags());
+        log.info("{}",user.getTags().get(0).getType()); //PREFERRED_TEAM
+        boolean temp = user.getTags().get(0) instanceof Tag; //true
 
-        // 4. Matching User 생성
-        String nickname = user.getBody().get("nickname").toString();
-        JSONArray tags = (JSONArray) user.getBody().get("tags");
-
-        List<UserTag> tagList = new ArrayList<>();
-
-        tags.forEach(tagObj -> {
-            JSONObject tag = (JSONObject) tagObj;
-
-            // 각 태그의 정보를 추출합니다.
-            int tagId = Integer.parseInt(tag.get("id").toString());
-            String content = tag.get("content").toString();
-            String type = tag.get("type").toString();
-
-            // UserTag 객체를 생성하여 리스트에 추가합니다.
-            UserTag userTag = UserTag.builder().tagId(tagId).content(content)
-                    .tagType(UserTag.TagType.valueOf(tag.get("type").toString()))
-                    .build();
-            tagList.add(userTag);
-        });
-
-//        log.info("tagList(0): {}", tagList.get(0));
-
-//        MatchingUser matchingUser = MatchingUser.builder()
-//                .userId(userId)
-//                .nickname(nickname)
-//                .profileImage(profileImage)
-//                .tags(user.getBody().get("tags"))
-//                .build();
-        log.info("statusCode : {}", user.getStatusCode());
-        log.info("body : {}", user.getBody());
-        log.info("nickname : {}", nickname);
-        log.info("tags : {}", tags);
-        //WebClient를 이용해 유저 정보 요청 끝
+        attributes.put("tags", user.getTags());
 
         return true;
     }
