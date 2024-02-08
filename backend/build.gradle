@@ -30,6 +30,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-aop:3.2.1'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -53,6 +54,9 @@ dependencies {
 
 	// JWT
 	implementation 'com.auth0:java-jwt:4.2.1'
+
+	// S3
+	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.652'
 }
 
 tasks.named('test') {
