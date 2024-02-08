@@ -2,7 +2,7 @@ import { InputBox, Title, KakaoIcon,
     NaverIcon, MainLayout, SignLayout, SignButton } from 'src/components'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import { kakaoLogin, login } from './api'
+import { login } from './api'
 import { styled } from 'styled-components'
 import { useMutation } from 'react-query'
 import useStore from 'src/store'
@@ -35,14 +35,16 @@ const Login = () => {
   const loginMutation = useMutation( login, {
     onSuccess: (res) => {
       setAccessToken( res?.headers?.authorization )
+
       localStorage.setItem( 'accessToken', res?.headers?.authorization )
       localStorage.setItem( 'refreshToken', res?.headers["authorization-refresh"])
+      localStorage.setItem( 'userId',  res?.data?.id )
+
       setIsLogin( true )
+
       navigator('/')
     }
   })
-
-  const kakaoMutations = useMutation( kakaoLogin )
   
   const param = {
     email : email,
@@ -50,6 +52,11 @@ const Login = () => {
   }
 
   const onLogin = async() => {
+    if( email === '' || password === '' ){
+      alert("이메일과 비밀번호를 입력하세요")
+      return
+    }
+    
     try {
       await loginMutation.mutateAsync( param )
     } catch ( error ) {
@@ -59,23 +66,11 @@ const Login = () => {
     }
   }
 
-  const Rest_api_key= 'cfc1e7455936fe459743b8dfe3dae5fe' //REST API KEY
-  const redirect_uri = 'https://i10a610.p.ssafy.io/login/kakao' //Redirect URI
-  
-  // oauth 요청 URL
-  const kakaoURL 
-    = 
-    `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
-  
-  const handleLogin = ()=>{
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_REST_API_KEY}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code`
+  const handleKakao = ()=>{
       window.location.href = kakaoURL
   }
-   
-
-  const onKaKao = () =>{
-    kakaoMutations.mutateAsync()
-  }
-
+  
   return (
     <MainLayout>
       <SignLayout>
@@ -99,10 +94,7 @@ const Login = () => {
       </SignButton>
       <Title type='small'>SNS 로그인</Title>
       <IconWrapper><NaverIcon />
-      <KakaoIcon onClick={ handleLogin }/>
-      <a href='https://i10a610.p.ssafy.io:8080/oauth2/authorization/kakao'>
-        카카오
-      </a>
+      <KakaoIcon onClick={ handleKakao }/>
       </IconWrapper>
       <a href='./signup'>혹시 아직 회원이 아니신가요?</a>
      </SignLayout>

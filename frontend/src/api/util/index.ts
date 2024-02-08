@@ -1,4 +1,6 @@
+import { NaverIcon } from '@/components'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 import useStore from 'src/store'
 
 const useAxios = axios.create({
@@ -13,11 +15,15 @@ const useAxios = axios.create({
 
 useAxios.interceptors.request.use( 
   async( config ) => {
-    const accessToken  = localStorage.getItem('accessToken')
+      const accessToken  = localStorage.getItem('accessToken')
     
       if( accessToken ){
-        config.headers['Authorization'] = `Bearer ${ accessToken }`
+        config.headers['Authorization'] = `${ accessToken }`
+      }else{
+
+        return Promise.reject( 401 )
       }
+
       return config
   },
   ( error ) => {
@@ -25,25 +31,36 @@ useAxios.interceptors.request.use(
   }
 )
 
-// useAxios.interceptors.response.use(
-//   async( response ) => {
-//     return response
-//   },
-//   async( error ) => {
-//     const { status } = error.response;
+useAxios.interceptors.response.use(
+  async( response ) => {
+    console.log(response)
+    return response
+  },
+  async( error ) => {
+    const { status } = error
 
-//     const { setAccessToken } = useStore()
+    console.log(error)
 
-//     if( status === 401 ){
-//       const refreshToken = localStorage.getItem('refreshToken')
-//       const data = { "Authorization-refresh" : refreshToken }
-//       const response = await useAxios.post<string>('/api/auth/reissue', { headers : data });
-//       setAccessToken( response?.headers?.authorization )
-//       localStorage.setItem("accessToken", response?.headers?.authorization )
-//       // localStorage.setItem("refreshToken", response?.headers[`refresh-token`] )
-//     }
-//   }
-// )
+    if( status === 401 || error === 401 ){
+
+      if(localStorage.getItem('refreshToken')){
+        const refreshToken = localStorage.getItem('refreshToken')
+        console.log(refreshToken)
+        const data = { "Authorization-refresh" : refreshToken }
+        const response = await useAxios.post<string>('/api/auth/reissue', { headers : data });
+       
+        console.log(response)
+        // localStorage.setItem("accessToken", response?.headers?.authorization )
+        // localStorage.setItem("refreshToken", response?.headers[`refresh-token`] )
+
+      } else{
+        // if ( window.location.pathname !== "/" && window.location.pathname !== "/home") {
+        //   window.location.href = "/login"
+        // }
+      }
+    }
+  }
+)
 
 
 export const getAxios =  async ( url: string, params?: any )  => {

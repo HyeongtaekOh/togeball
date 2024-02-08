@@ -78,6 +78,7 @@ const HomeCard = ( props : HomeCardProps ) => {
         style= {{ marginTop: type === 'main' ? '20%': '15%' }}
       > 
         { children } 
+      </Title>
         { type ==='main' 
           && (
           <Title 
@@ -88,7 +89,6 @@ const HomeCard = ( props : HomeCardProps ) => {
             Go &gt;
           </Title>
         )}
-      </Title>
     </HomeCardWrapper>
   )
 
