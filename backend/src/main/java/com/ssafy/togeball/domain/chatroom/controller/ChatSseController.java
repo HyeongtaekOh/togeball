@@ -18,11 +18,11 @@ public class ChatSseController {
     @GetMapping(value = "/api/chatrooms/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public ResponseEntity<SseEmitter> subscribe(Integer userId) {
         log.info("userId: {}", userId);
-        SseEmitter emitter = new SseEmitter();
+        SseEmitter emitter = new SseEmitter(5000L);
         try {
-            emitter.send("connected");
+            emitter.send(SseEmitter.event().name("connected").data("connected"));
         } catch (Exception e) {
-            log.error("error: {}", e.getMessage());
+            emitter.completeWithError(e);
         }
         return ResponseEntity.ok(emitter);
     }
