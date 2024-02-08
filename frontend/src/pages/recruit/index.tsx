@@ -2,7 +2,8 @@ import { Select, MainLayout, HomeLayout, Pagination } from 'src/components'
 import { styled } from 'styled-components'
 import { useQuery } from 'react-query'
 import { TagApiType } from 'src/types'
-import { getTags } from 'src/api/tag'
+import { getTags } from 'src/api'
+import { getRecruits } from './api'
 
 const SettingWrapper = styled.div`
     display: flex;
@@ -38,7 +39,9 @@ const RecruitList = () => {
   const teams = tags?.content.filter(item => item.type === 'PREFERRED_TEAM')
   const seats = tags?.content.filter(item => item.type === 'PREFERRED_SEAT')
 
-    const chats = [
+  const { data : chats } = useQuery([ 'chats', { type: 'RECRUIT' }], () => getRecruits({ type: 'RECRUIT' }))
+
+    const chatss = [
         {
             "chatrooms" : [
               {
@@ -224,7 +227,6 @@ const RecruitList = () => {
         ,
       }
     ]
-    console.log(chats.length)
 
 
     const FilterMine = () => {
