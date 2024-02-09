@@ -1,21 +1,23 @@
-import { useState } from "react"
-import styled, { css } from "styled-components"
+import useStore from 'src/store'
+import styled, { css } from 'styled-components'
 
 
 
-const ChatMessageWrapper = styled.div< ChatMessageProps >` 
+const ChatMessageWrapper = styled.div<{ type?: string}>` 
   display: flex;
-  justify-content: ${ props => props.right ? 'flex-end' : 'flex-start' }; // 오른쪽 또는 왼쪽으로 정렬
+  justify-content: ${ props => props.type !== 'you' ? 'flex-end' : 'flex-start' }; // 오른쪽 또는 왼쪽으로 정렬
   margin-bottom: 10px;
 `
 
-const MyWrapper = styled.div< ChatMessageProps >`
+const ChatWrapper = styled.div<{ type?: string}>`
   width: 30%;
   height: 10%;
   background-color:  #DEDCEE;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  margin-top : 1px;
+  padding: 5px;
 
   ${( props ) =>
     props.type ==='you' &&
@@ -25,35 +27,28 @@ const MyWrapper = styled.div< ChatMessageProps >`
 `
 
 const ChatMessage = ( props: ChatMessageProps ) => {
-  const { content, senderId, time, type='me', right=true } = props
-  const [ userId ] = useState('hi')
+  const { content, senderId, time } = props
+  const { session } = useStore()
+  const userId = session?.id
+  const type = userId === senderId ? 'me' : 'you';
+
+  console.log(senderId, userId )
 
   return (
-    <ChatMessageWrapper right={ userId === senderId }> {/* right 프롭스 전달 */}
-      { userId === senderId ? (
-        <MyWrapper>
-          <strong>{ senderId }나 :</strong>
-          { content }
-          { time && <span style={{ marginLeft: '10px', fontSize: '9px' }}>{ time.substring(0, 8) }</span>}
-        </MyWrapper>
-      ) : (
-        <MyWrapper type='you' right={ false } >
-          <strong>{ senderId }</strong>
-          { content }
-          {time && <span style={{ marginLeft: '10px', fontSize: '9px' }}>{ time.substring(0, 8) }</span>}
-        </MyWrapper>
-      )}
+    <ChatMessageWrapper type = { type }> 
+      <ChatWrapper type = { type }>  
+        <strong>{ session.nickname } :</strong>
+        { content }
+        { time && <span style={{ marginLeft: '10px', fontSize: '9px' }}>{ time.substring(0, 8) }</span>}
+      </ChatWrapper>
     </ChatMessageWrapper>
   )
 }
 
-
-export default ChatMessage;
+export default ChatMessage
 
 type ChatMessageProps = {
   content?: string;
-  senderId?: string;
+  senderId?: number;
   time?: string;
-  type?: 'me' | 'you'
-  right?: boolean;
 }

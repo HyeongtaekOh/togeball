@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 
 
 const ButtonWrapper = styled.button<ButtonProps>`
@@ -55,10 +56,12 @@ const ButtonWrapper = styled.button<ButtonProps>`
 
 const Button = ( props: ButtonProps ) => {
 
+ 
+
   const { 
     children, style, 
     type = 'parti', color = 'lightgrey', width = '100px',
-    onClick 
+    onClick, path
   } = props
 
   return (
@@ -79,4 +82,5 @@ type ButtonProps = {
   width?: string,
   onClick?: () => void,
   style?: React.CSSProperties
+  path?: string
 }

@@ -1,7 +1,4 @@
-import { NaverIcon } from '@/components'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import useStore from 'src/store'
 
 const useAxios = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -63,7 +60,7 @@ useAxios.interceptors.response.use(
 export const getAxios =  async ( url: string, params?: any )  => {
   try {
     const response = await useAxios.get( url, { params } )
-    return response.data
+    return response?.data
   } catch( error ){
     return Promise.reject(error)
   }

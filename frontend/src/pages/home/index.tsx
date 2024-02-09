@@ -158,6 +158,7 @@ const Home = () => {
                   title= '메이트 채팅방' 
                   type= 'sub'
                   color= '#6A60A9'
+                  path = '/recruit'
                 >
                   오늘 경기 외에 모든<br/> 
                   경기 일정을 확인해보세요.

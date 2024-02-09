@@ -10,36 +10,32 @@ const PageWrapper = styled.div`
 `
 
 
-const itemsPerPage = 1;
-
 const Pagination = ( props ) => {
-
-  const { chats } = props;
-
+  
+  const { chats } = props
+  
+  const itemsPerPage = 5
   const [ currentPage, setCurrentPage ] = useState( 1 )
 
-  const totalPages = Math.ceil( chats?.totalElements / itemsPerPage ) | 1
+  const totalPages = Math.ceil( chats?.totalElements / itemsPerPage )
 
   const handleClick = ( page ) => {
     setCurrentPage( page )
-  };
-
+  }
   const handlePrevClick = () => {
     setCurrentPage(( prevPage ) => Math.max( prevPage - 1, 1 ))
-  };
-
+  }
   const handleNextClick = () => {
     setCurrentPage(( prevPage ) => Math.min( prevPage + 1, totalPages ))
-  };
+  }
 
   const renderPagination = () => {
-
-    const pages = [];
-    for ( let i = 1; i <= totalPages; i++ ) {
+    const pages = []
+    for (let i = 1; i <= totalPages; i++) {
       pages.push(
         <button
           key={ i }
-          onClick={ () => handleClick( i ) }
+          onClick={() => handleClick( i ) }
           style={{ color: currentPage === i ? '#6A60A9' : '#DEDCEE', backgroundColor: '#fff', border: 'none' }}
         >
           { i }
@@ -52,12 +48,10 @@ const Pagination = ( props ) => {
   const renderItems = () => {
     const startIndex = ( currentPage - 1 ) * itemsPerPage
     const endIndex = startIndex + itemsPerPage
-    return chats?.content?.slice( startIndex, endIndex ).map(( chat, index ) => (
-        <div key={ index }>
-          <ChatItem key = { chat.id } item= { chat }/>
-        </div>
-      ));
-  };
+    return chats?.content?.slice( startIndex, endIndex ).map(( chat ) => (
+        <ChatItem key = { chat?.id } item= { chat }/>
+    ))
+  }
 
   return (
     <>
@@ -68,7 +62,7 @@ const Pagination = ( props ) => {
         <RightIcon size= { 20 } onClick={ handleNextClick }/>
     </PageWrapper>
     </>
-  );
-};
+  )
+}
 
 export default Pagination;
