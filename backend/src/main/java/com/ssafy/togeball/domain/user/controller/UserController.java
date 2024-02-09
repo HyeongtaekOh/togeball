@@ -98,16 +98,16 @@ public class UserController {
     @UserContext
     @GetMapping("/me/chatrooms/owned")
     public ResponseEntity<?> findOwnedChatroomsByUserId(Integer userId,
-                                                       @RequestParam(name = "page", defaultValue = "0") Integer page,
-                                                       @RequestParam(name = "size", defaultValue = "10") Integer size) {
+                                                        @RequestParam(name = "page", defaultValue = "0") Integer page,
+                                                        @RequestParam(name = "size", defaultValue = "10") Integer size) {
         return ResponseEntity.ok(chatroomService.findAllRecruitChatroomsByManagerId(userId, PageRequest.of(page, size)));
     }
 
     @UserContext
     @GetMapping("/me/posts")
     public ResponseEntity<?> findPostsByUserId(Integer userId,
-                                              @RequestParam(name = "page", defaultValue = "0") Integer page,
-                                              @RequestParam(name = "size", defaultValue = "10") Integer size) {
+                                               @RequestParam(name = "page", defaultValue = "0") Integer page,
+                                               @RequestParam(name = "size", defaultValue = "10") Integer size) {
 
         return ResponseEntity.ok(postService.findByUserId(userId, PageRequest.of(page, size)));
     }
@@ -130,6 +130,27 @@ public class UserController {
     @PutMapping("/me/role")
     public ResponseEntity<?> upgradeRole(Integer userId) {
         userService.upgradeRole(userId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @UserContext
+    @PostMapping("/me/chatrooms/{chatroomId}")
+    public ResponseEntity<?> joinChatroom(Integer userId, @PathVariable(value = "chatroomId") Integer chatroomId
+    ) {
+
+        chatroomService.joinChatroom(userId, chatroomId);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{userId}")
+                .buildAndExpand(userId)
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
+
+    @UserContext
+    @DeleteMapping("/me/chatrooms/{chatroomId}")
+    public ResponseEntity<?> leaveChatroom(Integer userId, @PathVariable(value = "chatroomId") Integer chatroomId
+    ) {
+        chatroomService.leaveChatroom(userId, chatroomId);
         return ResponseEntity.noContent().build();
     }
 }
