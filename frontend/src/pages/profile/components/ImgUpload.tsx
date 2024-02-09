@@ -40,21 +40,24 @@ const ImgUpload = () => {
   const [ imgSrc, setImgSrc ] = useState(lufi)
   const { setImage } = useModel()
 
-  const onUploadImage = useCallback(( e: React.ChangeEvent<HTMLInputElement> ) => {
-    
+  const onUploadImage = useCallback( async( e: React.ChangeEvent<HTMLInputElement> ) => {
     if ( !e.target.files || e.target.files.length ===0 ) return
 
     const file = e.target.files[0];
-
-    const formData = new FormData()
-    const reader = new FileReader()
-
-    formData.append( 'image', file )
-
-    reader.readAsDataURL( file )
-    reader.onloadend = () => {
-      setImgSrc( String(reader.result) )
-      setImage( String(reader.result) )
+    try {
+      const presignedUrl = await getImgPath() // S3에 이미지를 업로드할 URL을 가져옴
+      console.log(presignedUrl)
+      await fetch(presignedUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': file.type
+        },
+        body: file
+      });
+      setImgSrc(URL.createObjectURL(file)) // 로컬에 업로드한 이미지 표시
+      setImage(presignedUrl) // 이미지 URL 저장
+    } catch (error) {
+      console.error('Error uploading image:', error);
     }
 
     // axios({
