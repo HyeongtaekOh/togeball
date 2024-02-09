@@ -46,7 +46,6 @@ const ImgUpload = () => {
     const file = e.target.files[0];
     try {
       const presignedUrl = await getImgPath() // S3에 이미지를 업로드할 URL을 가져옴
-      console.log(presignedUrl)
       await fetch(presignedUrl, {
         method: 'PUT',
         headers: {
