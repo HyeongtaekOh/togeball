@@ -32,8 +32,6 @@ const ChatMessage = ( props: ChatMessageProps ) => {
   const userId = session?.id
   const type = userId === senderId ? 'me' : 'you';
 
-  console.log(senderId, userId )
-
   return (
     <ChatMessageWrapper type = { type }> 
       <ChatWrapper type = { type }>  
