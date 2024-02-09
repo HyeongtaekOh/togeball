@@ -1,6 +1,7 @@
 import { Title } from 'src/components'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import axios from 'axios'
+import { getImgPath } from 'src/api'
+import { useCallback, useRef, useState } from 'react'
+import lufi from 'src/asset/images/lufi.jpg'
 import styled from 'styled-components'
 import useModel from '../store'
 
@@ -36,22 +37,24 @@ const LabberWrapper = styled.label`
 const ImgUpload = () => {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [ imgSrc, setImgSrc ] = useState(null)
+  const [ imgSrc, setImgSrc ] = useState(lufi)
   const { setImage } = useModel()
 
   const onUploadImage = useCallback(( e: React.ChangeEvent<HTMLInputElement> ) => {
     
     if ( !e.target.files || e.target.files.length ===0 ) return
 
-    const formData = new FormData();
-    const reader = new FileReader();
+    const file = e.target.files[0];
 
-    formData.append( 'image', e.target.files[0] )
+    const formData = new FormData()
+    const reader = new FileReader()
 
-    reader.readAsDataURL( e.target.files[0] )
+    formData.append( 'image', file )
+
+    reader.readAsDataURL( file )
     reader.onloadend = () => {
-      setImgSrc( reader.result )
-      setImage( reader.result )
+      setImgSrc( String(reader.result) )
+      setImage( String(reader.result) )
     }
 
     // axios({
