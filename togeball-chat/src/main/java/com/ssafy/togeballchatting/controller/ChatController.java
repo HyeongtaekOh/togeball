@@ -36,6 +36,14 @@ public class ChatController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/chats/{roomId}/game")
+    public ResponseEntity<?> findGameChatMessagePageByRoomId(@PathVariable(value = "roomId") Integer roomId,
+                                                      Pageable pageable) {
+        Page<ChatMessageDto> response = chatFacade.findGameChatMessagePageByRoomId(roomId, pageable);
+        log.info("response: {}", response.getContent());
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/users/{userId}/chats/unread")
     public ResponseEntity<?> countUnreadMessages(@PathVariable(value = "userId") Integer userId,
                                                  @RequestParam(value = "roomId", required = false) List<Integer> roomIds) {

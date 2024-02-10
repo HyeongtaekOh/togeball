@@ -19,9 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service
@@ -46,6 +44,11 @@ public class ChatFacade {
                 chatHistoryService.save(chatHistoryDto);
             }
         }
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ChatMessageDto> findGameChatMessagePageByRoomId(Integer roomId, Pageable pageable) {
+        return chatMessageService.findAllGameChatMessageByRoomId(roomId, pageable);
     }
 
     @Transactional
