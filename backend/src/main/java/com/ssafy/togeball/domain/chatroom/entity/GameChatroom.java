@@ -21,5 +21,6 @@ public class GameChatroom extends Chatroom {
     public GameChatroom(Game game, String title) {
         this.game = game;
         this.title = title;
+        this.capacity = 100;
     }
 }
