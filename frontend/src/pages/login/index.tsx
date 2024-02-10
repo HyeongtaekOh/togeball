@@ -34,6 +34,12 @@ const Login = () => {
 
   const loginMutation = useMutation( login, {
     onSuccess: (res) => {
+
+      if(res?.status !== 200 ) {
+        alert("이메일과 비밀번호를 입력하세요")
+        return 
+      }
+
       setAccessToken( res?.headers?.authorization )
 
       localStorage.setItem( 'accessToken', res?.headers?.authorization )
