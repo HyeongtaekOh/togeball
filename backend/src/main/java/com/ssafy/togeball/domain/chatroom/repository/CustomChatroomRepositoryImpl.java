@@ -4,10 +4,12 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.togeball.domain.chatroom.dto.GameChatroomRequest;
 import com.ssafy.togeball.domain.chatroom.dto.MatchingChatroomRequest;
 import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomRequest;
 import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomSearchCondition;
 import com.ssafy.togeball.domain.chatroom.entity.Chatroom;
+import com.ssafy.togeball.domain.chatroom.entity.GameChatroom;
 import com.ssafy.togeball.domain.chatroom.entity.MatchingChatroom;
 import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
 import com.ssafy.togeball.domain.chatroom.exception.ChatroomNotFoundException;
@@ -173,6 +175,20 @@ public class CustomChatroomRepositoryImpl extends CustomPagingAndSortingReposito
         }
         em.persist(recruitChatroom);
         return recruitChatroom;
+    }
+
+    @Override
+    public GameChatroom createGameChatroom(GameChatroomRequest chatroomDto) {
+        Game game = gameRepository.findById(chatroomDto.getGameId())
+                .orElseThrow(GameNotFoundException::new);
+
+        GameChatroom gameChatroom = GameChatroom.builder()
+                .title(chatroomDto.getTitle())
+                .game(game)
+                .build();
+
+        em.persist(gameChatroom);
+        return gameChatroom;
     }
 
     @Override
