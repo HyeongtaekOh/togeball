@@ -4,7 +4,7 @@ import { postProfile, postCheckNickname } from './api'
 import { getTags } from 'src/api'
 import { RowTagList, ColTagList, TagList } from './components'
 import useModel from './store'
-import useNavigate from 'react-router-dom'
+import  useNavigate  from 'react-router-dom';
 import ImgUpload from './components/ImgUpload'
 import { useQuery, useMutation } from 'react-query'
 import styled from 'styled-components'

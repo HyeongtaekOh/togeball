@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { getUserInfo } from 'src/api'
+import { getMyPageInfo } from '../api'
 import { TagList } from './index';
 import lufi from 'src/asset/images/lufi.jpg'
 import lgtwinslogo from'src/asset/images/lgtwinslogo.jpg'
@@ -91,12 +91,13 @@ const Ticket = ( () => {
         navigate('/profile') // 홈으로 이동
     }
 
-    const { data: userInfo } = useQuery([ 'user' ], () => getUserInfo())
+    const { data: userInfo } = useQuery([ 'user' ], () => getMyPageInfo())
+    console.log( userInfo )
 
-    // const user = { email: userInfo.email, myTeam : userInfo.clubSponsorName+userInfo.clubName, profileImage : userIngo.profileImage
-    //     nickName: userInfo.nickname, tag: userInfo.tags.map((tag) =>{ return '#'+tag.content }), logo: userInfo.clubLogo }
-    
-    const user = { email: 'test01@naver.com', myTeam : 'LG 트윈스', nickName: '플레권', tag: ['#test1', '#test2', '#test3', '#test2', '#test3']}
+    const user = { email: userInfo?.email, myTeam : userInfo?.clubSponsorName+userInfo?.clubName,
+        profileImage : userInfo?.profileImage, nickName: userInfo?.nickname,
+        tag: userInfo?.tags.map(( tag ) =>{ return '#'+tag.content }), logo: userInfo?.clubLogo
+    }
     
     return (
             <TicketWrapper>

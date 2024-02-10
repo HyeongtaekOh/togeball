@@ -21,7 +21,7 @@ function App() {
         setAccessToken( localStorage.getItem( 'accessToken' ) )
 
         const setUser = async() => {
-          const user = await getUserInfo()
+          const user = await getUserInfo(localStorage.getItem( 'userId' ))
           setSession( user )
         }
 
