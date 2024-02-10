@@ -49,57 +49,13 @@ const MatchingModal = ( props ) => {
   const { onClose } = props
   const participants = [
     {
-      userId: 102030,
+      id: 102030,
       nickname: 'oonjae',
-      age: 26,
+      birthdate: '2000-02-18',
       gender: '남성',
       profileImg: 'url',
-      hashtags: ['#estp', '#응원형'],
     },
-    {
-      userId: 102031,
-      nickname: 'ahjin',
-      age: 25,
-      gender: '여성',
-      profileImg: 'url',
-      hashtags: ['#estj', '#몰입형'],
-    },
-    {
-      userId: 102032,
-      nickname: 'kwonho',
-      age: 25,
-      gender: '남성',
-      profileImg: 'url',
-      hashtags: ['#infp', '#소심형'],
-    },
-    {
-      userId: 102033,
-      nickname: 'ahyoung',
-      age: 25,
-      gender: '여성',
-      profileImg: 'url',
-      hashtags: ['#eeee', '#분석형'],
-    },
-    {
-      userId: 102034,
-      nickname: 'yukyung',
-      age: 25,
-      gender: '여성',
-      profileImg: 'url',
-      hashtags: ['#infp', '#논리형','#infp', '#논리형','#infp', '#논리형'],
-    },
-    {
-      userId: 102035,
-      nickname: 'hyungtaek',
-      age: 25,
-      gender: '남성',
-      profileImg: 'url',
-      hashtags: ['#infp', '#논리형'],
-    },
-    
   ]
-
- 
 
   const handleModalClose = () => {
        onClose()
@@ -123,7 +79,7 @@ const MatchingModal = ( props ) => {
           <p style={{ fontSize: '30px', color: '#7D74B4' , fontWeight:'bolder' }}>#응원을 좋아하고 과몰입하는</p>
           <div style={{ textAlign: 'center'}}>
             { participants.map(( participant ) => (
-              <MatchingProfile key={ participant.userId } { ...participant } />
+              <MatchingProfile key={ participant?.id } { ...participant } />
               ))}
           </div>
           <Title>참가 인원 수: { participants.length }</Title>

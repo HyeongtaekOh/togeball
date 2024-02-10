@@ -5,6 +5,8 @@ import { InputBox, LeftIcon, MainLayout } from 'src/components'
 import { stompClient } from './util/chat'
 import useStore from 'src/store'
 import styled from 'styled-components'
+import { getChat, getParticipants } from 'src/api'
+import { useQuery } from 'react-query'
 
 const ChatPageWrapper = styled.div`
   width: 80%;
@@ -32,8 +34,8 @@ const ScriptWrapper = styled.div`
 type PathParam = {
   chatroomId?: string
 }
-
 const Chat = () => {
+
   const { chatroomId } = useParams< PathParam >()
 
   const [ messages, setMessages ] = useState([])
@@ -41,6 +43,8 @@ const Chat = () => {
   const [ messageTimes, setMessageTimes ] = useState({})
   const scriptEndRef = useRef< HTMLDivElement >( null ) 
   const { session } = useStore()
+  const { data: participants } = useQuery([ 'participants', { id : chatroomId }], () => getParticipants( { id : chatroomId }))
+  const { data : chatInfo } = useQuery([ 'chatInfo', { id : chatroomId }], () => getChat( { id : chatroomId }))
 
   useEffect(() => {
     const onConnect = () => {
@@ -53,6 +57,7 @@ const Chat = () => {
             ...prevMessages,
             { content: newMessage.content, senderId: newMessage.senderId },
           ])
+          console.log(messages)
           setMessageTimes(( preMessageTimes) => ({
             ...preMessageTimes,
             [ newMessage.content ]: new Date().toLocaleTimeString(),
@@ -90,8 +95,8 @@ const Chat = () => {
       stompClient.connected &&
       stompClient.send(
         `/topic/room.${ chatroomId }`, 
-        {}, 
-        JSON.stringify({ content: input, senderId: session?.id, roomId: chatroomId, type: 'TEXT' })
+        { Authorization : session?.id }, 
+        JSON.stringify({ content: input, senderId: session?.id, roomId: chatroomId, type: 'TALK' })
       )
       setInput('')
     }
@@ -106,11 +111,17 @@ const Chat = () => {
   return (
     <MainLayout>
         <ChatPageWrapper>
-          <Participants />
+          <Participants list = { participants } game = { chatInfo?.game }/>
           <ChatWrapper>
             <ScriptWrapper>
               { messages.map(( message, index ) => (
-                <ChatMessage key={ index } content={ message?.content } senderId={ message?.senderId } time={ messageTimes[ message.content ] } />
+                <ChatMessage 
+                  key={ index } 
+                  message = { message } 
+                  content={ message?.content } 
+                  senderId={ message?.senderId } 
+                  time={ messageTimes[ message.content ] } 
+                />
               ))}
               <div ref={ scriptEndRef }/>
             </ScriptWrapper>

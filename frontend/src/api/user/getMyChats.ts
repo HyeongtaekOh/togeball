@@ -1,9 +1,8 @@
 import { getAxios } from 'src/api/util'
 
-export const getUserInfo = async( id : string ) => {
-
+export const getMyChats = async() => {
   try{
-    const response =  await getAxios( `api/users/${id}` )
+    const response =  await getAxios( `api/users/me/chatrooms` )
     return response
   } catch( err ){
     console.log(err)

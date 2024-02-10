@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom'
 import { Title } from 'src/components'
 import styled from 'styled-components'
 import useStore from 'src/store'
+import { TagType } from '@/types'
 
 const ChatWrapper = styled.div`
     display: flex;
     Background-color: white;
     border-radius: 10px;
     border: 2px solid #6A60A9;
-    width:98%;
     height: 50px;
     padding: 10px;
     justify-content: space-around;
@@ -31,34 +31,36 @@ const TextWrapper = styled.div`
     flex-direction: row;
   `
 
-const ChatItem = (props: ChatListProps) => {
+const ChatItem = ( props: ChatListProps ) => {
 
-  const { item } = props
+  const { item, type } = props
 
   const navigator = useNavigate()
   const partiMutation = useMutation( partiChat )
-  const { session } = useStore()
 
-  const goChat = ( id : string ) => {
-    partiMutation.mutateAsync({ chatRoomId : item?.id, UserId: session?.id })
-    navigator(`/chat/${ id }`)
+  const goChat = () => {
+    partiMutation.mutateAsync({ chatRoomId : item?.id })
+    navigator(`/chat/${ item?.id }`)
   }
 
   return(
-   <ChatWrapper onClick={()=> goChat( item?.id) }>
+   <ChatWrapper onClick={()=> goChat()}>
      <img src={ item?.cheeringClub?.logo } alt='로고'/> 
     <TextWrapper>
       <Title type='medium'>{ item?.title }</Title>
       <p style={{ marginBottom: "10px" }}>{ item?.description }</p>
       <TagWrapper>
       {
-        item.tags.map(( tag, index ) => (
+        item.tags.map(( tag : TagType ) => (
           <Title type='small'>#{ tag?.content }</Title>
         ))
       }
       </TagWrapper>
     </TextWrapper>
-    <p style={{ paddingTop: '40px' }}>{ item?.members?.length | 0}/ { item?.capacity }명</p> 
+    {
+      type !== 'my' &&
+      <p style={{ paddingTop: '40px' }}>{ item?.members?.length | 0}/ { item?.capacity }명</p> 
+    }
    </ChatWrapper>
   )
 }
@@ -66,5 +68,6 @@ const ChatItem = (props: ChatListProps) => {
 export default ChatItem
 
 type ChatListProps = {
-  item: any,
+  item?: any,
+  type?: string
 }

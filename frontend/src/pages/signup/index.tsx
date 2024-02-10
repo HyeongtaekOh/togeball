@@ -4,6 +4,8 @@ import { useCallback, useState } from 'react'
 import { styled } from 'styled-components'
 import { signup } from './api'
 import { useMutation } from 'react-query'
+import { useNavigate } from 'react-router-dom'
+import useStore from 'src/store'
   
 const InputWrapper = styled.div`
     box-sizing: border-box;
@@ -31,13 +33,32 @@ const SignUp = () => {
     const [ email, setEmail ] = useState()
     const [ password, setPassword ] = useState()
     const [ checkMsg , setCheckMsg ] = useState('')
+    const navigator = useNavigate()
 
-    const signMutation = useMutation( signup )
+    const { setIsLogin, setAccessToken } = useStore()
+
+    const signMutation = useMutation( signup, { 
+      onSuccess: (res) => {
+
+      if(res?.status !== 201 ) {
+        alert("회원가입 실패 ")
+        return 
+      }
+
+      setAccessToken( res?.headers?.authorization )
+
+      localStorage.setItem( 'accessToken', res?.headers?.authorization )
+      localStorage.setItem( 'refreshToken', res?.headers["authorization-refresh"])
+      localStorage.setItem( 'userId',  res?.data?.id )
+
+      setIsLogin( true )
+
+      navigator('/profile')
+    }}  )
 
     const data = {
       email : email,
       password : password,
-      nickname: 'hi1'
     }
 
     const onSignUp = () => {
