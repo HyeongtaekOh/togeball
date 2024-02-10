@@ -50,11 +50,11 @@ const Day = ( props: DayProps ) =>{
                         { game.homeClubName } VS { game.awayClubName }
                         </div>
                         {/* 나중에 로고 넘어오면 로고 크기보고 조절해야함 */}
-                        <div style={{ marginTop: '10px'}}>  
+                        <div style={{ margin: 'auto', marginTop: '10px' }}>  
                             { game.stadiumName }
                         </div>
-                        <div style={{ marginTop: '10px' }}>
-                            { game.datetime }
+                        <div style={{  margin: 'auto', marginTop: '5px' }}>
+                            { game.datetime.substring(11, 16) }
                         </div>
                     </ShowGamesWrapper>
                 )

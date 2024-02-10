@@ -1,18 +1,23 @@
 import { Tag } from 'src/components'
+import styled from 'styled-components'
 
-const TagList = ( () => {
+const TagListWrapper = styled.div`
+    display: flex;
+    padding-left: 120px;
+    flex-wrap: wrap;
+    width: 100%;
+`
 
-    const user = { id: 'test01', myTeam : 'LG 트윈스', stadium : '고척 돔', nickName: '플레권',
-                 tag: ['#Estp', '#응원가형', '#시즌권보유', '#자차보유', '#플레플레','#챌린저'], logo: ''}
+const TagList = (( props ) => {
+
+    const { tags } = props
 
     return (
-        <div style={{ display: 'flex', paddingLeft: '120px', flexWrap: 'wrap', width: '100%' }}>
-            { user.tag.length > 0 ? (
-                user.tag.map(( tag, index ) => (
-                    <Tag key={ index } height='10px'>{ tag }</Tag>  
-                ))) 
-            : null }
-        </div>
+        <TagListWrapper>
+            { tags?.map(( tag, index ) => (
+                <Tag key={ index } height='10px'>{ tag }</Tag>  
+            ))}
+        </TagListWrapper>
     )
 } )
 
