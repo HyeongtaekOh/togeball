@@ -15,7 +15,7 @@ const ProfileImage = styled.img`
   height: 100px;
   object-fit: cover;
   border-radius: 50%;
-  border : 1px solid black;
+  border : 1px solid lightgray;
   margin-left: 30px;
 `
 

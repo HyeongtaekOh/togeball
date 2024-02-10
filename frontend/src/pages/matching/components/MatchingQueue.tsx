@@ -67,7 +67,7 @@ const MatchingQueue = ( props ) => {
   }, [ data ])
 
   return (
-    <svg ref={ svgRef } width={ 1000 } height={ 500 } style={{ backgroundColor:'#7D74B4'}}></svg>
+    <svg ref={ svgRef } width={ 1000 } height={ 1000 } style={{ backgroundColor:'#7D74B4'}}></svg>
   )
 }
 

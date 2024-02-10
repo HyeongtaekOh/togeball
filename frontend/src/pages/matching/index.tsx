@@ -22,9 +22,9 @@ const Matching: React.FC = () => {
     counts: {
       tag1: 10,
       tag2: 20,
-      tag3: 20,
+      tag3: 30,
       tag4: 20,
-      tag5: 10,
+      tag5: 20,
       tag6: 10,
       tag7: 20,
     },
@@ -35,8 +35,7 @@ const Matching: React.FC = () => {
      // WebSocket 연결 설정
     const clientId = 123123
     const socket = new SockJS(`https://i10a610.p.ssafy.io:8083/matching-server/matching?userId=` + clientId)
-    console.log(socket)
-    
+    console.log(socket) 
 
     socket.onopen = function(event) {
       // WebSocket 연결이 열렸을 때 실행되는 코드
@@ -71,8 +70,9 @@ const Matching: React.FC = () => {
 
   return (
     <MatchingWrapper>
-      <div style={{ display:'flex', justifyContent:'center', height:'10%'}}>
+      <div style={{ display:'flex', justifyContent:'space-between', height:'10%'}}>
         <Title type='large'>직관 메이트를 찾고 있어요</Title>
+        <img src="https://cdn.pixabay.com/animation/2023/10/22/03/31/03-31-43-608_512.gif" alt="" />
       </div>
       <div style={{ display: 'flex', justifyContent:'center', height:'80%'}}>
       <MatchingQueue data={ matchingData }/>

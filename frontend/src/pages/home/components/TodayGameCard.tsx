@@ -19,6 +19,7 @@ const GameCard = styled.div`
   align-items: center;
   justify-content: space-around;
   cursor: pointer;
+  background-color: #DEDCEE;
   `
 const TodayGameCard = () =>{
 
@@ -43,6 +44,7 @@ const TodayGameCard = () =>{
     todayGames && setCurGame( todayGames[ indRef.current ] )
   }, [todayGames] )
 
+  
   return(
     <GameCard>
       <LeftIcon onClick={ onClickLeft }/>

@@ -29,14 +29,13 @@ const GameItem = ( props : GameItemProp ) => {
 
   return(
     <GameItemWrapper onClick={ onClick }>
-        {/* <img style={{ width : '30%' }} alt={ game?.homeClubName }></img> */}
-        <Title style={{ width : '30%' }}>{ game?.homeClubName }</Title> 
+        <img style={{ width : '25%' }} src={ game?.homeClubLogo } alt= { game?.homeClubName } ></img>
         <InfomWrapper>
           <Title>VS</Title>
-          <Title type='small'>{ game?.datetime }</Title>
+          <Title type='small'>{ game?.datetime.substring(0,10) + ' ' + game?.datetime.substring(11,16) }</Title>
         </InfomWrapper>
-        {/* <img style={{ width : '30%' }} alt={ game?.awayClubName }></img> */}
-        <Title style={{ width : '30%' }}>{ game?.awayClubName }</Title> 
+        <img style={{ width : '25%' }} src={ game?.awayClubLogo } alt={ game?.awayClubName } ></img>
+        
     </GameItemWrapper>
   )
 }
