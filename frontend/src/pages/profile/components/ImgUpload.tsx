@@ -1,6 +1,7 @@
 import { Title } from 'src/components'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import axios from 'axios'
+import { getImgPath } from 'src/api'
+import { useCallback, useRef, useState } from 'react'
+import lufi from 'src/asset/images/lufi.jpg'
 import styled from 'styled-components'
 import useModel from '../store'
 
@@ -36,22 +37,26 @@ const LabberWrapper = styled.label`
 const ImgUpload = () => {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [ imgSrc, setImgSrc ] = useState(null)
+  const [ imgSrc, setImgSrc ] = useState(lufi)
   const { setImage } = useModel()
 
-  const onUploadImage = useCallback(( e: React.ChangeEvent<HTMLInputElement> ) => {
-    
+  const onUploadImage = useCallback( async( e: React.ChangeEvent<HTMLInputElement> ) => {
     if ( !e.target.files || e.target.files.length ===0 ) return
 
-    const formData = new FormData();
-    const reader = new FileReader();
-
-    formData.append( 'image', e.target.files[0] )
-
-    reader.readAsDataURL( e.target.files[0] )
-    reader.onloadend = () => {
-      setImgSrc( reader.result )
-      setImage( reader.result )
+    const file = e.target.files[0];
+    try {
+      const presignedUrl = await getImgPath() // S3에 이미지를 업로드할 URL을 가져옴
+      await fetch(presignedUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': file.type
+        },
+        body: file
+      });
+      setImgSrc(URL.createObjectURL(file)) // 로컬에 업로드한 이미지 표시
+      setImage(presignedUrl) // 이미지 URL 저장
+    } catch (error) {
+      console.error('Error uploading image:', error);
     }
 
     // axios({
