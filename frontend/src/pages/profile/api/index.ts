@@ -1,2 +1,2 @@
-export * from './getTags'
 export * from './postProfile'
+export * from './postCheckNickname'

@@ -11,7 +11,7 @@ interface dataType {
 
 export const postProfile = async( data: dataType ) => {
     try{
-        return await postAxios('/api/users/', data)
+        return await postAxios('/api/users/tmp/', data)
     }catch( err ){
         console.log(err)
     }
