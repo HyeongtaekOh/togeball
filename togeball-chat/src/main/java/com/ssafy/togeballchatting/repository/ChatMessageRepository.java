@@ -10,6 +10,8 @@ import java.time.Instant;
 
 public interface ChatMessageRepository extends MongoRepository<ChatMessage, String> {
 
+    Page<ChatMessage> findAllByRoomIdOrderByTimestampDesc(Integer roomId, Pageable pageable);
+
     Page<ChatMessage> findAllByRoomIdAndTimestampIsGreaterThanEqualOrderByTimestampDesc(Integer roomId, Instant timestamp, Pageable pageable);
 
     Integer countByRoomIdAndTypeNotAndTimestampIsGreaterThan(Integer roomId, MessageType type, Instant lastReadTimestamp);

@@ -31,10 +31,21 @@ public class ChatMessageService {
         return ChatMessageDto.of(message);
     }
 
+    public Page<ChatMessageDto> findAllGameChatMessageByRoomId(Integer roomId, Pageable pageable) {
+
+        Page<ChatMessage> page = chatMessageRepository.findAllByRoomIdOrderByTimestampDesc(roomId, pageable);
+        return getReversedPage(pageable, page);
+    }
+
+
     @Transactional(readOnly = true)
     public Page<ChatMessageDto> findAllByRoomIdAndEnteredTime(Integer roomId, Instant enteredTime, Pageable pageable) {
 
         Page<ChatMessage> page = chatMessageRepository.findAllByRoomIdAndTimestampIsGreaterThanEqualOrderByTimestampDesc(roomId, enteredTime, pageable);
+        return getReversedPage(pageable, page);
+    }
+
+    private Page<ChatMessageDto> getReversedPage(Pageable pageable, Page<ChatMessage> page) {
         Page<ChatMessageDto> chatMessageDtos = page.map(ChatMessageDto::of);
         List<ChatMessageDto> reversed = new ArrayList<>(chatMessageDtos.getContent());
         Collections.reverse(reversed);
