@@ -7,5 +7,5 @@ public class UserSignUpRequest {
 
     private String email;
     private String password;
-    private String nickname;
+    private String nickname = null;
 }
