@@ -11,8 +11,9 @@ const ProfileCardWrapper = styled.div`
     border: 1px solid black;
     border-color: lightGray;
     display: flex;
-    width: 200px;
+    width: 100%;
     min-height: 80px;
+    padding: 5px;
 `;
 
 const ProfileImage = styled.img`
@@ -36,8 +37,6 @@ const ProfileTagWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
-
-
 const ProfileTags = styled.div`
   display: flex;
   justify-content: center;
@@ -55,21 +54,21 @@ const ProfileTags = styled.div`
   
     return(
       <ProfileCardWrapper>
-        <div style={{ display: 'flex'}}>
-          <ProfileImage src = { participant.profileImg }/>
+        <div style={{ display: 'flex', width: '100%', justifyContent:'space-between'}}>
+          <ProfileImage src = { participant?.profileImage }/>
           <span style={{ margin: '10px 20px', fontSize: '12px' }}>
-            <p style={{ fontWeight: 'bold', marginBottom: '3px' }}>{ participant.nickname }</p>
-            { participant.age }세 { participant.gender }
+            <p style={{ fontWeight: 'bold', marginBottom: '3px' }}>{ participant?.nickname }</p>
+            { participant?.birthdate }세 { participant?.gender }
           </span>
-          <TeamImage src = { participant.profileImg }/>
+          <TeamImage src = { participant?.profileImage}/>
       </div>
       <ProfileTagWrapper>
         <ProfileTags>
-          { 
-            participant.hashtags.map((tag, index) => (
+          {/* { 
+            participant?.tags?.map((tag, index) => (
              <div>{ tag }</div>
             ))
-          }
+          } */}
         </ProfileTags>
       </ProfileTagWrapper>
       </ProfileCardWrapper>

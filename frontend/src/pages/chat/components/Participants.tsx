@@ -1,8 +1,10 @@
-import styled from "styled-components"
+import { ProfileCard } from 'src/components'
+import styled from 'styled-components'
 
 const PartiWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
+  flex-direction: column;
   width: 25%;
   min-width: 200px;
   border-radius: 20px 20px 10px 10px;
@@ -11,6 +13,8 @@ const PartiWrapper = styled.div`
 const HeaderWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
+  flex-direction: column;
+  gap: 5px;
   height: 50px;
   width: 100%;
   border-radius: 20px 20px 0px 0px;
@@ -21,12 +25,33 @@ const HeaderWrapper = styled.div`
   justify-content: center;
   font-size: 10px;
 `
-const Participants = () => {
+const MemberWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  height: 100%;
+  padding-top: 10px;
+  padding: 5px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+`
+const Participants = ( props ) => {
+
+  const { list, game } = props
   return(
     <PartiWrapper>
       <HeaderWrapper>
-        2024 - 01 - 15 두산 vs LG 6: 00
+        { game?.datetime } 
+        <p>{ game?.homeClubName } vs { game?.awayClubName }</p>
       </HeaderWrapper>
+      <MemberWrapper>
+      {
+        list?.map(( participant, index ) => (
+          <ProfileCard key={ participant?.id } participant = { participant }/>
+        ))
+      }
+      </MemberWrapper>
     </PartiWrapper>
   )
 }

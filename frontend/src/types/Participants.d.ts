@@ -1,10 +1,10 @@
 export interface ParticipantsType {
-    userId?: number,
+    id?: number,
     nickname?: string,
-    age?: number,
+    birthdate?: number,
     gender?: string,
-    profileImg?: string,
-    hashtags?: Array<string>
+    profileImage?: string,
+    tags?: TagType[]
   }
   
   

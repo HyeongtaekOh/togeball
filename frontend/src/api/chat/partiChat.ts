@@ -2,12 +2,11 @@ import { postAxios } from 'src/api/util'
 
 interface dataType {
   chatRoomId: number,
-  UserId: number
 }
 
 export const partiChat = async( data : dataType ) => {
   try{
-    return await postAxios(`/api/chatrooms/${data?.chatRoomId}/participants/${data?.UserId}`)
+    return await postAxios(`/api/users/me/chatrooms/${data?.chatRoomId}`)
   } catch( err ){
     console.log(err)
   }

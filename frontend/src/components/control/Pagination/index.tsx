@@ -7,12 +7,13 @@ const PageWrapper = styled.div`
     display: flex;
     margin-top: 20px;
     justify-content: center;
+    align-items: center;
 `
 
 
 const Pagination = ( props ) => {
   
-  const { chats } = props
+  const { chats, type = 'all' } = props
   
   const itemsPerPage = 5
   const [ currentPage, setCurrentPage ] = useState( 1 )
@@ -49,7 +50,7 @@ const Pagination = ( props ) => {
     const startIndex = ( currentPage - 1 ) * itemsPerPage
     const endIndex = startIndex + itemsPerPage
     return chats?.content?.slice( startIndex, endIndex ).map(( chat ) => (
-        <ChatItem key = { chat?.id } item= { chat }/>
+        <ChatItem type = { type } key = { chat?.id } item= { chat }/>
     ))
   }
 
