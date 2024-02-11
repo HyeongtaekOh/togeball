@@ -1,6 +1,6 @@
 import { getAxios } from 'src/api/util'
 
-export const getMyPageInfo = async() => {
+export const getMyInfo = async() => {
 
   try{
     const response =  await getAxios( `api/users/me` )

@@ -17,19 +17,27 @@ const ChatWrapper = styled.div`
     &:hover{
       background-color: #E4E2DD;
       cursor: pointer;
-    }
-    margin-bottom: 10px;
+  }
+  margin-top: 20px;
 `
 const TextWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 70%
-    `
-  const TagWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-  `
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 70%
+`
+const DescribeWrapper = styled.p`
+display: flex;
+flex-wrap: wrap;
+margin-top: 2px;
+margin-bottom: 8px;
+`
+
+const TagWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`
+
 
 const ChatItem = ( props: ChatListProps ) => {
 
@@ -44,18 +52,16 @@ const ChatItem = ( props: ChatListProps ) => {
   }
 
   return(
-   <ChatWrapper onClick={()=> goChat()}>
-     <img src={ item?.cheeringClub?.logo } alt='로고'/> 
+   <ChatWrapper onClick={()=> goChat() }>
+     <img src={ item?.cheeringClub?.logo } alt='로고' style={{ width: '20%' }}/> 
     <TextWrapper>
-      <Title type='medium'>{ item?.title }</Title>
-      <p style={{ marginBottom: "10px" }}>{ item?.description }</p>
-      <TagWrapper>
-      {
-        item.tags.map(( tag : TagType ) => (
-          <Title type='small'>#{ tag?.content }</Title>
-        ))
-      }
-      </TagWrapper>
+      <Title type='medium' style={{ display: 'flex', flexWrap: 'wrap'}}>{ item?.title }</Title>
+        <DescribeWrapper>{ item?.description }</DescribeWrapper>
+        <TagWrapper>
+          { item.tags.map(( tag, index ) => (
+            <Title type='small'>#{ tag?.content }&nbsp;</Title>
+          ))}
+        </TagWrapper>
     </TextWrapper>
     {
       type !== 'my' &&

@@ -38,7 +38,7 @@ const useModel = create<Model>( ( set, get ) => (
           state.stadiums.filter(( item ) => item !== stadium )
       }
     )),
-    image: {},
+    image: '',
     setImage: ( data ) => set(() => ({ image: data }) )
   }
 ))
@@ -54,6 +54,6 @@ export interface Model{
   stadiums: TagType[]
   addStadiums: ( stadium: TagType ) => void
   deleteStadiums: ( stadium: TagType ) => void
-  image: object
+  image: string
   setImage: ( data ) => void
 }
