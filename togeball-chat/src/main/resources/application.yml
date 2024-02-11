@@ -17,9 +17,12 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://i10a610.p.ssafy.io:27017/togeball_chat_3
-      username: {MONGO_INITDB_ROOT_USERNAME}
-      password: {MONGO_INITDB_ROOT_PASSWORD}
+      host: i10a610.p.ssafy.io
+      port: 27017
+      username: ${MONGO_INITDB_ROOT_USERNAME}
+      password: ${MONGO_INITDB_ROOT_PASSWORD}
+      authentication-database: admin
+      database: togeball_chat_3
   rabbitmq:
     host: i10a610.p.ssafy.io
     port: 4672
