@@ -15,6 +15,8 @@ public class ChatroomResponse {
     private String type;
     private String title;
     private Integer capacity;
+
+    @Setter
     List<UserResponse> members;
 
     @Setter
