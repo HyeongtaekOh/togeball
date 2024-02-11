@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { HomeLayout, MainLayout, Title,  InputBox, Button } from 'src/components'
-import { patchProfile, postCheckNickname } from './api'
+import { patchProfile, getCheckNickname } from './api'
 import { getTags } from 'src/api'
 import { RowTagList, ColTagList, TagList } from './components'
 import useModel from './store'
@@ -53,12 +53,11 @@ const Profile = () => {
 
   const { data: userInfo } = useQuery([ 'user' ], () => getMyInfo())
 
-  const [ id, setId ] = useState( userInfo?.email ) // localStorage.getItem()
+  const [ id, setId ] = useState( userInfo?.email )
   const [ nickName, setNickName ] = useState( userInfo?.nickname )
   const [ nicknameError, setNicknameError ] = useState('');
   const { selectTags, team, image, stadiums } = useModel()
   const profileMutation = useMutation( patchProfile );
-  console.log(userInfo)
 
   const param = {
     page: 0,
@@ -89,7 +88,7 @@ const Profile = () => {
         setNicknameError('')
         return
       }
-      const isAvailable = await postCheckNickname( nickName );
+      const isAvailable = await getCheckNickname( nickName );
       console.log(isAvailable)
       isAvailable ?
         setNicknameError('')
