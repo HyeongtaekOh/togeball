@@ -3,7 +3,6 @@ import { ChatItem, HomeLayout, MainLayout } from 'src/components'
 import { useNavigate } from 'react-router-dom'
 import { Ticket } from './components'
 import { useQuery } from 'react-query'
-import { getMyBoards, getMyChatrooms } from './api'
 import { useState, useEffect, useRef } from 'react';
 import { getAxios } from 'src/api/util'
 
@@ -46,7 +45,7 @@ const MyPage = (() => {
           try {
             const response = await getAxios(`/api/users/me/chatrooms?page=${chatPage}`)
             const newData = response?.content
-            setChats(prevData => [...prevData, ...newData])
+            setChats(prevData => [ ...prevData, ...newData ])
             setChatLoading(false);
           } catch (error) {
             console.error('Error fetching data:', error);

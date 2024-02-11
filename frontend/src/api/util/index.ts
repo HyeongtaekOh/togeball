@@ -76,4 +76,25 @@ export const postAxios =  async( url: string, data?: any )  =>{
   }
 }
 
+export const fetchAxios = async(url: string, data?: any ) =>{
+
+  fetch(process.env.REACT_APP_BASE_URL+url, {
+	headers: {
+	Accept: '*/*',
+	"Content-Type": 'application/json',
+  Authorization: localStorage.getItem('access_token')
+	},
+	method: "PATCH",	
+	body: JSON.stringify({
+	data
+	})
+})
+	.then(function (response) {
+	return response.json();
+	})
+	.then(function (data) {
+	console.log(data);
+	});
+}
+
 export default useAxios
