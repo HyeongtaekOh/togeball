@@ -1,10 +1,7 @@
 package com.ssafy.togeball.domain.chatroom.controller;
 
 import com.ssafy.togeball.domain.auth.aop.UserContext;
-import com.ssafy.togeball.domain.chatroom.dto.ChatroomResponse;
-import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomRequest;
-import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomResponse;
-import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomSearchCondition;
+import com.ssafy.togeball.domain.chatroom.dto.*;
 import com.ssafy.togeball.domain.chatroom.service.ChatroomService;
 import com.ssafy.togeball.domain.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -67,6 +64,17 @@ public class ChatroomController {
     public ResponseEntity<?> createRecruitChatroom(@RequestBody RecruitChatroomRequest chatroomDto) {
 
         Integer chatroomId = chatroomService.createRecruitChatroom(chatroomDto);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{chatroomId}")
+                .buildAndExpand(chatroomId)
+                .toUri();
+        return ResponseEntity.created(location).body(Map.of("id", chatroomId));
+    }
+
+    @PostMapping("/game")
+    public ResponseEntity<?> createGameChatroom(@RequestBody GameChatroomRequest chatroomDto) {
+
+        Integer chatroomId = chatroomService.createGameChatroom(chatroomDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{chatroomId}")
                 .buildAndExpand(chatroomId)

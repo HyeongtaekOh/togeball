@@ -96,6 +96,11 @@ public class ChatroomService {
     }
 
     @Transactional
+    public Integer createGameChatroom(GameChatroomRequest chatroomDto) {
+        return chatroomRepository.createGameChatroom(chatroomDto).getId();
+    }
+
+    @Transactional
     public RecruitChatroomResponse updateRecruitChatroom(RecruitChatroomRequest chatroomDto) {
         chatroomRepository.findById(chatroomDto.getId()).orElseThrow(ChatroomNotFoundException::new);
         RecruitChatroom recruitChatroom = chatroomRepository.updateRecruitChatroom(chatroomDto);
