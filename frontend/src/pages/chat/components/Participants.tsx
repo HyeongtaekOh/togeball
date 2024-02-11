@@ -29,6 +29,8 @@ const MemberWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-left: 10px;
+  margin-top: 10px;
   gap: 5px;
   height: 100%;
   padding-top: 10px;
