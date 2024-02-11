@@ -75,3 +75,8 @@ rabbitmq:
   queue:
     name: chat.queue
   routing-key: togeball.chat
+
+jwt:
+  secretKey: ${JWT_SECRET_KEY}
+  access:
+    header: Authorization
