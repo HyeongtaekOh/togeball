@@ -1,42 +1,37 @@
-import { ParticipantsType } from 'src/types';
-import styled from 'styled-components';
+import { Title } from 'src/components'
+import { ParticipantsType } from 'src/types'
+import styled from 'styled-components'
 
 
 const ProfileCardWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-sizing: border-box;
-    border-radius: 10px;
-    border: 1px solid black;
-    border-color: lightGray;
-    display: flex;
-    width: 100%;
-    min-height: 80px;
-    padding: 5px;
-`;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 1px solid black;
+  border-color: lightGray;
+  width: 100%;
+  min-height: 80px;
+  padding: 7px;
+`
 const ProfileImage = styled.img`
   border-radius: 50%;
   height: 42px;
-  width: 42px;
-  margin-left: 10px;
-  margin-top: 10px;
-`;
-
+  min-width: 42px;
+`
 const TeamImage = styled.img`
   border-radius: 50%;
   height: 36px;
   width: 36px;
-  margin-right: 4px;
-  margin-top: 4px;
-`;
-
+`
 const ProfileTagWrapper = styled.div`
-  width : 100%;
   display: flex;
   justify-content: center;
-`;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+`
 const ProfileTags = styled.div`
   display: flex;
   justify-content: center;
@@ -46,31 +41,40 @@ const ProfileTags = styled.div`
   gap: 3px;
   padding: 0px 20px;
   width: 60%;
-`;
+`
+const InfoWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+`
 
   const ProfileCard = ( props : ProfileCardProps ) => {
 
     const { participant } = props
-  
+    const age 
+      = new Date().getFullYear() - Number(participant?.birthdate?.substring(0,4)) + 1
+    const gender = participant?.gender === 'FEMALE' ? '여성' : '남성'
+
     return(
       <ProfileCardWrapper>
-        <div style={{ display: 'flex', width: '100%', justifyContent:'space-between'}}>
-          <ProfileImage src = { participant?.profileImage }/>
-          <span style={{ margin: '10px 20px', fontSize: '12px' }}>
-            <p style={{ fontWeight: 'bold', marginBottom: '3px' }}>{ participant?.nickname }</p>
-            { participant?.birthdate }세 { participant?.gender }
-          </span>
-          <TeamImage src = { participant?.profileImage}/>
-      </div>
-      <ProfileTagWrapper>
-        <ProfileTags>
-          {/* { 
-            participant?.tags?.map((tag, index) => (
-             <div>{ tag }</div>
-            ))
-          } */}
-        </ProfileTags>
-      </ProfileTagWrapper>
+        <InfoWrapper>
+          <ProfileImage src = { participant?.profileImage } alt='이미지'/>
+          <div>
+            <Title type='small' bold = { true }>{ participant?.nickname }</Title>
+            <Title type='small' >{ age ? `${age}세`: '' } { gender }</Title>
+          </div>
+          <TeamImage src = { participant?.clubLogo }/>
+        </InfoWrapper>
+        <ProfileTagWrapper>
+          <ProfileTags>
+            {/* { 
+              participant?.tags?.map((tag, index) => (
+               <div>{ tag }</div>
+              ))
+            } */}
+          </ProfileTags>
+        </ProfileTagWrapper>
       </ProfileCardWrapper>
     )
   

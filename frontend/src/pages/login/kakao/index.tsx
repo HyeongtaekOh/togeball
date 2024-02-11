@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { postCode } from './api/postCode'
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
@@ -33,15 +33,14 @@ const KakaoPage = () => {
     
   const urlParam = new URLSearchParams( window.location.search )
   const code = urlParam.get( 'code' )
-  const data = useMemo(() => ({ code: code, provider: 'kakao' }), [ code ])
 
   useEffect(()=>{
     if( isPost.current ) return
 
     isPost.current = true
-    postMutations.mutateAsync( data )
+    postMutations.mutateAsync({ code: code, provider: 'kakao' })
 
-  }, [ data, postMutations ])
+  }, [ code, postMutations])
 
 
   return(<div></div>)
