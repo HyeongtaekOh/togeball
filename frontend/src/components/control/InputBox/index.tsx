@@ -1,10 +1,4 @@
-import { useState } from 'react'
-import { Title } from 'src/components'
 import styled from 'styled-components'
-
-const MessageWrapper = styled.div`
-  box-sizing: border-box;
-`
 
 const InputWrapper = styled.div<{ height: string; width: string }>`
   height: ${( props ) => props.height };
@@ -32,7 +26,6 @@ const InputBox = ( props: InputProps ) => {
 
 
   return (
-    <MessageWrapper>
     <InputWrapper height={ height } width={ width }>
       {
         title && 
@@ -47,7 +40,6 @@ const InputBox = ( props: InputProps ) => {
       />  
       { children } 
     </InputWrapper>
-    </MessageWrapper>
   )
 
 }

@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Title } from 'src/components'
 import useStore from 'src/store'
 import styled, { css } from 'styled-components'
@@ -33,25 +34,26 @@ const ChatTopWrapper = styled.div<{ type?: string}>`
 `
 
 const ChatMessage = ( props: ChatMessageProps ) => {
-  const { content, senderId, time, message } = props
-  console.log(message)
-  const { session } = useStore()
-  const userId = session?.id
-  const type = userId === senderId ? 'me' : 'you';
+
+  const { time, message } = props
+  const { content, senderId, nickname } = message
+  
+  const userId = localStorage.getItem('userId')
+  const type = userId == senderId ? 'me' : 'you';
 
   return (
     <ChatMessageWrapper type = { type }> 
     {
       senderId? (
         <ChatTopWrapper type = { type }>
-        <p style={{ fontSize: '12px', marginLeft: '5px' }}>{ senderId } </p>
+        <p style={{ fontSize: '12px', marginLeft: '5px' }}>{ nickname } </p>
         <ChatWrapper type = { type }>  
           { content }
           { <p style={{ alignSelf: 'flex-end', marginRight: '5px', fontSize: '10px' }}>{ time.substring(0, 7) }</p>}
         </ChatWrapper>  
       </ChatTopWrapper>
       ):(
-        <Title type='small'>{content}</Title>
+        <Title type='small'>{ content }</Title>
       )
     }
       
