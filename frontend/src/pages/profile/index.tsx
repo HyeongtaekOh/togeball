@@ -55,9 +55,10 @@ const Profile = () => {
 
   const [ id, setId ] = useState( userInfo?.email )
   const [ nickName, setNickName ] = useState( userInfo?.nickname )
-  const [ nicknameError, setNicknameError ] = useState('');
+  const [ nicknameError, setNicknameError ] = useState('')
   const { selectTags, team, image, stadiums } = useModel()
-  const profileMutation = useMutation( patchProfile );
+  const [ isOk, setIsOk ] = useState<boolean>(true)
+  const profileMutation = useMutation( patchProfile )
 
   const param = {
     page: 0,
@@ -78,22 +79,28 @@ const Profile = () => {
     nickname: nickName,
     clubId: team,
     profileImage: image,
-    role: 'basic',
-    tags: [ ...selectTags, ...stadiums ].map(item => item.id)
+    role: 'BASIC',
+    tagIds: [ ...selectTags, ...stadiums ].map( item => item.id )
   }
 
   useEffect(() => {
     const validateNickname = async () => {
       if ( !nickName ) {
         setNicknameError('')
+        setIsOk( false )
         return
       }
       const isAvailable = await getCheckNickname( nickName );
-      console.log(isAvailable)
-      isAvailable ?
+      if( isAvailable ){
         setNicknameError('')
-      :
-        setNicknameError('사용할 수 없는 닉네임입니다.')
+        setIsOk( true)
+      }else{
+        if(nickName ===userInfo?.nickname){
+        }else{
+          setNicknameError('사용할 수 없는 닉네임입니다.')
+          setIsOk( false )
+        }
+      }
     }
     validateNickname();
   }, [nickName]);
@@ -102,13 +109,12 @@ const Profile = () => {
     setNickName(e.target.value);
   };
 
-  
-
-
   const postProfileSetting = () => {
     console.log( data );
-    // profileMutation.mutateAsync( data )
-}
+    ( isOk && team!==0 )?
+    profileMutation.mutateAsync( data )
+    : alert('설정을 다시 해주세요!');
+  }
 
   return(
     <MainLayout title='프로필 설정'>

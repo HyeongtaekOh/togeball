@@ -112,7 +112,7 @@ const Ticket = ( () => {
                         <MySelfWrapper>
                             <IndexWrapper>이메일:  <ValueWrapper>{ user.email }</ValueWrapper></IndexWrapper>
                             <div style={{ display: 'flex', gap: '40px'}}>
-                                <IndexWrapper>응원팀:  <ValueWrapper>{ user.myTeam } </ValueWrapper></IndexWrapper>
+                                <IndexWrapper>응원팀:  <ValueWrapper>{ user.myTeam===0? '미정' : user.myTeam } </ValueWrapper></IndexWrapper>
                                 <IndexWrapper>닉네임:  <ValueWrapper>{ user.nickName }</ValueWrapper></IndexWrapper>
                             </div>
                         </MySelfWrapper>

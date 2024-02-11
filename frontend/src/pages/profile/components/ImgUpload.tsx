@@ -46,6 +46,7 @@ const ImgUpload = () => {
     const file = e.target.files[0];
     try {
       const presignedUrl = await getImgPath()
+      const path = presignedUrl.objectKey.match(/\/profiles\/(.*)/)?.[1];
       await fetch(presignedUrl.preSignedURL, {
         method: 'PUT',
         headers: {
@@ -54,26 +55,10 @@ const ImgUpload = () => {
         body: file
       });
       setImgSrc(URL.createObjectURL(file))
-      setImage(presignedUrl.objectKey) 
+      setImage(path) 
     } catch (error) {
       console.error('Error uploading image:', error);
     }
-
-    // axios({
-    //   baseURL: process.env.REACT_APP_BASE_URL,
-    //   url: '/images/:username/thumbnail',
-    //   method: 'POST',
-    //   data: formData,
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data',
-    //   },
-    // })
-    //   .then(response => {
-    //     console.log(response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //   });
   }, []);
   
   

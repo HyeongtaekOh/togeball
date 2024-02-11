@@ -1,5 +1,5 @@
 import { TagType } from 'src/types'
-import { postAxios, fetchAxios } from 'src/api/util'
+import { patchAxios } from 'src/api/util'
 
 interface dataType {
         nickname?: string,
@@ -11,7 +11,7 @@ interface dataType {
 
 export const patchProfile = async( data: dataType ) => {
     try{
-        return await fetchAxios('api/users/me', data)
+        return await patchAxios('/api/users/me', data)
     }catch( err ){
         console.log(err)
     }
