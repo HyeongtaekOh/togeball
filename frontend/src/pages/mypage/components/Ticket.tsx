@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { getMyPageInfo } from '../api'
+import { getMyInfo } from 'src/api'
 import { TagList } from './index';
 import lufi from 'src/asset/images/lufi.jpg'
 import lgtwinslogo from'src/asset/images/lgtwinslogo.jpg'
@@ -91,8 +91,7 @@ const Ticket = ( () => {
         navigate('/profile') // 홈으로 이동
     }
 
-    const { data: userInfo } = useQuery([ 'user' ], () => getMyPageInfo())
-    console.log( userInfo )
+    const { data: userInfo } = useQuery([ 'user' ], () => getMyInfo())
 
     const user = { email: userInfo?.email, myTeam : userInfo?.clubSponsorName+userInfo?.clubName,
         profileImage : userInfo?.profileImage, nickName: userInfo?.nickname,

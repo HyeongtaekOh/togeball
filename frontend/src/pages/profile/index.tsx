@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { HomeLayout, MainLayout, Title,  InputBox, Button } from 'src/components'
-import { postProfile, postCheckNickname } from './api'
+import { patchProfile, postCheckNickname } from './api'
 import { getTags } from 'src/api'
 import { RowTagList, ColTagList, TagList } from './components'
 import useModel from './store'
+import { getMyInfo } from 'src/api'
 import  useNavigate  from 'react-router-dom';
 import ImgUpload from './components/ImgUpload'
 import { useQuery, useMutation } from 'react-query'
@@ -50,6 +51,15 @@ const ButtonWrapper = styled.div`
 
 const Profile = () => {
 
+  const { data: userInfo } = useQuery([ 'user' ], () => getMyInfo())
+
+  const [ id, setId ] = useState( userInfo?.email ) // localStorage.getItem()
+  const [ nickName, setNickName ] = useState( userInfo?.nickname )
+  const [ nicknameError, setNicknameError ] = useState('');
+  const { selectTags, team, image, stadiums } = useModel()
+  const profileMutation = useMutation( patchProfile );
+  console.log(userInfo)
+
   const param = {
     page: 0,
     size: 100
@@ -65,18 +75,12 @@ const Profile = () => {
   const seasonPass = tags?.content.filter(item => item.type === "SEASON_PASS");
   const unlabeled = tags?.content.filter(item => item.type === "UNLABELED");
   
-  const [ id, setId ] = useState( '하이' ) // localStorage.getItem()
-  const [ nickName, setNickName ] = useState( '' )
-  const [ nicknameError, setNicknameError ] = useState('');
-  const { selectTags, team, image, stadiums } = useModel()
-  const profileMutation = useMutation( postProfile );
-
   const data = {
     nickname: nickName,
     clubId: team,
     profileImage: image,
-    role: "basic",
-    tags:  [ ...selectTags, ...stadiums  ]
+    role: 'basic',
+    tags: [ ...selectTags, ...stadiums ].map(item => item.id)
   }
 
   useEffect(() => {
@@ -86,6 +90,7 @@ const Profile = () => {
         return
       }
       const isAvailable = await postCheckNickname( nickName );
+      console.log(isAvailable)
       isAvailable ?
         setNicknameError('')
       :
@@ -113,7 +118,7 @@ const Profile = () => {
           <Title type = 'medium'>필수 정보</Title>
           <InputWrapper>
             <TitleWrapper type = 'value'>
-              <Title type='small'>아이디</Title>
+              <Title type='small'>이메일</Title>
             </TitleWrapper>
             <Title type='small'>{ id }</Title>
           </InputWrapper>
@@ -124,11 +129,11 @@ const Profile = () => {
             </TitleWrapper>
             <InputBox 
               value={ nickName } 
-              placeholder = '닉네임을 입력하세요' 
+              placeholder = { userInfo?.nickname ? userInfo?.nickname : '닉네임을 입력하세요' }
               height = '40px' width = '300px'
               onChange={ handleNicknameChange }
             />
-            {nicknameError && <ErrorText>{nicknameError}</ErrorText>}
+            {nicknameError && <ErrorText>{ nicknameError }</ErrorText>}
           </InputWrapper>
           <RowTagList list = { preferredStadiums } flag = { true }>선호 구장</RowTagList>
           <RowTagList list = { preferredTeam }>팀선택{<br/>}(1개만 선택)</RowTagList>     

@@ -45,16 +45,16 @@ const ImgUpload = () => {
 
     const file = e.target.files[0];
     try {
-      const presignedUrl = await getImgPath() // S3에 이미지를 업로드할 URL을 가져옴
-      await fetch(presignedUrl, {
+      const presignedUrl = await getImgPath()
+      await fetch(presignedUrl.preSignedURL, {
         method: 'PUT',
         headers: {
           'Content-Type': file.type
         },
         body: file
       });
-      setImgSrc(URL.createObjectURL(file)) // 로컬에 업로드한 이미지 표시
-      setImage(presignedUrl) // 이미지 URL 저장
+      setImgSrc(URL.createObjectURL(file))
+      setImage(presignedUrl.objectKey) 
     } catch (error) {
       console.error('Error uploading image:', error);
     }
