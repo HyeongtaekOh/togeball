@@ -92,7 +92,6 @@ const Ticket = ( () => {
     }
 
     const { data: userInfo } = useQuery([ 'user' ], () => getMyPageInfo())
-    console.log( userInfo )
 
     const user = { email: userInfo?.email, myTeam : userInfo?.clubSponsorName+userInfo?.clubName,
         profileImage : userInfo?.profileImage, nickName: userInfo?.nickname,
