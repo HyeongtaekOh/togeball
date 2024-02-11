@@ -60,7 +60,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Optional<User> findUserById(Integer userId) {
-        return userRepository.findUserWithTagsById(userId);
+        return userRepository.findUserWithTagsAndClubById(userId);
     }
 
     @Transactional(readOnly = true)
