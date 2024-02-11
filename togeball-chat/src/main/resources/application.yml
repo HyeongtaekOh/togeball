@@ -18,6 +18,8 @@ spring:
   data:
     mongodb:
       uri: mongodb://i10a610.p.ssafy.io:27017/togeball_chat_3
+      username: {MONGO_INITDB_ROOT_USERNAME}
+      password: {MONGO_INITDB_ROOT_PASSWORD}
   rabbitmq:
     host: i10a610.p.ssafy.io
     port: 4672
@@ -26,8 +28,8 @@ spring:
   cloud:
     aws:
       credentials:
-        access-key: ${AWS_ACCESS_KEY}
-        secret-key: ${AWS_SECRET_KEY}
+        access-key: ${S3_ACCESS_KEY}
+        secret-key: ${S3_SECRET_KEY}
       region:
         static: ap-northeast-2
       s3:
@@ -36,7 +38,7 @@ spring:
     multipart:
       max-file-size: 100MB
   config:
-    import: optional:env/s3.yml
+    import: optional:env/env.yml
 
 logging:
   level:
