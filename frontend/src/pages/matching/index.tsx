@@ -35,7 +35,9 @@ const Matching: React.FC = () => {
      // WebSocket 연결 설정
     const clientId = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImlkIjoyMCwiZXhwIjoxNzA3NzMwMTYzfQ.t36P_okRuEJA17q2lUfL622z9i2aZQspfTNRerBXOLm9TT34xDw7-N6SSHLaQfnOfR6MeUjaTWPsana8Tc2P1A`
     console.log(clientId)
-    const socket = new SockJS(`https://i10a610.p.ssafy.io:8083/matching-server/matching?token=${clientId}`)
+    const URL = 'https://i10a610.p.ssafy.io:8083/matching-server/matching'
+    const socket = new SockJS(`${ URL }`)
+    console.log(URL)
     console.log(socket) 
 
     socket.onopen = function(event) {
