@@ -33,8 +33,7 @@ public class MatchingService {
     @RabbitListener(queues = "${rabbitmq.matching.queue}")
     public MatchingResponse createMatchingAndChatroom(MatchingRequest matchingDto) {
         log.info("createMatchingAndChatroom: {}", matchingDto);
-        return null;
-//        Matching matching = matchingRepository.createMatchingAndChatroom(matchingDto);
-//        return MatchingResponse.of(matching);
+        Matching matching = matchingRepository.createMatchingAndChatroom(matchingDto);
+        return MatchingResponse.of(matching);
     }
 }

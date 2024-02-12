@@ -65,7 +65,6 @@ public class NoticeService {
         }
     }
 
-    //TODO: 알림에서 URL은 안 갖고 있어도 되나?
     @Transactional
     public void send(MatchingResponse matchingResponse) {
         List<UserResponse> receivers = matchingResponse.getUsers(); //알림 보낼 유저들
