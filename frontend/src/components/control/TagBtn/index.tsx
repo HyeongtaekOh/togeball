@@ -1,5 +1,5 @@
 import { TagType } from 'src/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useModel from 'src/pages/profile/store';
 import styled from 'styled-components';
 
@@ -30,6 +30,12 @@ const TagBtn = (props: TagBtnProps) => {
     
     const isMine = mytags?.find( tag => tag.id === item.id ) !== undefined || isSelect
     const [ isClick, setIsClick ] = useState<boolean>( isMine )
+
+    useEffect(() => {
+      if (stadiumFlag && isMine) {
+          addStadiums(item);
+      }
+  }, []);
     
     const backgroundColor = isClick? '#6A60A9' : '#DEDCEE';
     const letterColor = isClick? 'white' : 'black';

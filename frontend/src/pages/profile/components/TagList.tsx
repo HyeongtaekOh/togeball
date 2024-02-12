@@ -1,8 +1,6 @@
-import { useState } from 'react'
 import { TagBtn } from './index'
 import { Tag } from 'src/components'
 import styled from 'styled-components'
-import { TagType } from '@/types'
 
 const TagListWrapper = styled.div<{ $isTag : boolean }>`
   display: flex;
@@ -16,9 +14,6 @@ const TagListWrapper = styled.div<{ $isTag : boolean }>`
 const TagList = ( props: TagListProps ) => {
   const { tags, isTag, bgColor, mytags } = props;
 
-
-  
-
   const tagList = 
   isTag? (   
     tags?.map(( tag ) => (
@@ -28,7 +23,7 @@ const TagList = ( props: TagListProps ) => {
     ))
   ) : (
     tags?.map(( tag ) => (
-      <TagBtn item = { tag } key={ tag?.id } isSelect = { tag?.isSelect } mytags = { mytags }>{ tag?.content }</TagBtn>
+      <TagBtn item = { tag } key={ tag?.id } mytags = { mytags }>{ tag?.content }</TagBtn>
     ))
   )
 

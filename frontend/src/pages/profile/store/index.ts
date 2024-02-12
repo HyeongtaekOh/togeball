@@ -4,34 +4,38 @@ import { create } from 'zustand'
 const useModel = create<Model>( ( set, get ) => (
   {
     selectTags: [],
-    addSelectTags : ( tag ) => set(( state ) => (
-      ( state.selectTags.length<15 )?
-      { 
-        selectTags: 
-        [
-          ...state.selectTags,
-          tag
-        ]
-      }: state
-    )),
+    addSelectTags: (tag) => set((state) => {
+      const isDuplicate = state.selectTags.some(item => item.id === tag.id);
+      if (!isDuplicate && state.selectTags.length < 15) {
+          return {
+              selectTags: [...state.selectTags, tag]
+          };
+      }
+      return state;
+  }),
     deleteTags: ( tag ) => set(( state ) => (
       {
         selectTags: 
           state.selectTags.filter(( item ) => item.content !== tag.content )
       }
     )),
+    resetTags: () => set((state) =>({
+      selectTags:
+      []
+    }
+    )),
     team: 0,
     setTeam: ( data ) => set(() => ({ team: data })),
     stadiums: [],
-    addStadiums: ( stadium ) => set(( state ) => (
-      {
-         stadiums: 
-         [
-          ...state.stadiums,
-          stadium
-        ] 
+    addStadiums: (stadium) => set((state) => {
+      const isDuplicate = state.stadiums.some(item => item.id === stadium.id);
+      if ( !isDuplicate ) {
+          return {
+              stadiums: [...state.stadiums, stadium]
+          };
       }
-    )),
+      return state;
+  }),
     deleteStadiums: ( stadium ) => set(( state ) => (
       {
         stadiums: 
@@ -49,6 +53,7 @@ export interface Model{
   selectTags : TagType[]
   addSelectTags : ( tag: TagType ) => void
   deleteTags : ( tag: TagType ) => void
+  resetTags : () => void
   team: number
   setTeam: ( data: number ) => void
   stadiums: TagType[]

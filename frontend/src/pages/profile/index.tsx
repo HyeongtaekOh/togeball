@@ -5,7 +5,7 @@ import { getTags } from 'src/api'
 import { RowTagList, ColTagList, TagList } from './components'
 import useModel from './store'
 import { getMyInfo } from 'src/api'
-import  useNavigate  from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ImgUpload from './components/ImgUpload'
 import { useQuery, useMutation } from 'react-query'
 import styled from 'styled-components'
@@ -51,16 +51,25 @@ const ButtonWrapper = styled.div`
 
 const Profile = () => {
 
+  const navigator = useNavigate()
+
   const { data: userInfo } = useQuery([ 'user' ], () => getMyInfo())
-  console.log(userInfo)
 
   const [ id, setId ] = useState( userInfo?.email )
   const [ nickName, setNickName ] = useState( userInfo?.nickname )
   const [ nicknameError, setNicknameError ] = useState('')
-  const { selectTags, team, image, stadiums } = useModel()
+  const { selectTags, team, image, stadiums, resetTags } = useModel()
   const [ isOk, setIsOk ] = useState<boolean>(true)
   const profileMutation = useMutation( patchProfile )
 
+
+  useEffect(() => {
+    console.log("selectTags:", selectTags);
+    console.log("team:", team);
+    console.log("image:", image);
+    console.log("stadiums:", stadiums);
+  }, [selectTags, team, image, stadiums]);
+  
   const param = {
     page: 0,
     size: 100
@@ -76,8 +85,6 @@ const Profile = () => {
   const seasonPass = tags?.content.filter(item => item.type === "SEASON_PASS");
   const unlabeled = tags?.content.filter(item => item.type === "UNLABELED");
   
-  const isSelect = team
-
   const data = {
     nickname: nickName,
     clubId: team,
@@ -112,11 +119,18 @@ const Profile = () => {
     setNickName(e.target.value);
   };
 
+  const goMyPage = () =>{
+    navigator('/mypage')
+  }
+
   const postProfileSetting = () => {
     console.log( data );
-    ( isOk && team!==0 )?
-    profileMutation.mutateAsync( data )
-    : alert('설정을 다시 해주세요!');
+    if ( isOk && team!==0 ){
+      profileMutation.mutateAsync( data )
+      goMyPage()
+    }else{
+      alert('설정을 다시 해주세요!');
+    }
   }
 
   return(
@@ -130,7 +144,7 @@ const Profile = () => {
             </TitleWrapper>
             <Title type='small'>{ id }</Title>
           </InputWrapper>
-          <ImgUpload/>
+          <ImgUpload profileImage = { userInfo?.profileImage }/>
           <InputWrapper>
             <TitleWrapper type = 'input'>
               <Title type='small'>닉네임</Title>
@@ -160,7 +174,7 @@ const Profile = () => {
           <ColTagList list = { unlabeled } mytags = { userInfo.tags }>기타</ColTagList>
           <ButtonWrapper>
           <Button type = 'save' onClick={ postProfileSetting }>저장</Button>
-          <Button type = 'cancel'>취소</Button>
+          <Button type = 'cancel' onClick={ goMyPage }>취소</Button>
         </ButtonWrapper>
         </ProfileSettingWrapper>
         
