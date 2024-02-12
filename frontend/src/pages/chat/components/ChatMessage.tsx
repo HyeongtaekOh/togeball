@@ -60,7 +60,11 @@ const ChatMessage = ( props: ChatMessageProps ) => {
           { type === 'you' && <TimeWrapper type={ type }>{ time.substring(0, 7) }</TimeWrapper>}
         </div>  
       </ChatTopWrapper>
-      ):( <Title type='small'>{ content }</Title> )
+      ):( 
+        <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
+          <Title type='small'>{ content }</Title> 
+        </div>
+      )
     }
     </ChatMessageWrapper>
   )
