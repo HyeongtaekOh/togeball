@@ -3,6 +3,7 @@ package com.ssafy.togeball.domain.chatroom.controller;
 import com.ssafy.togeball.domain.auth.aop.UserContext;
 import com.ssafy.togeball.domain.chatroom.dto.ChatMessage;
 import com.ssafy.togeball.domain.chatroom.service.ChatroomService;
+import com.ssafy.togeball.domain.chatroom.service.TempSseService;
 import com.ssafy.togeball.domain.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +23,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class ChatSseController {
 
-    private final long SSE_SESSION_TIMEOUT = 60 * 60 * 1000;
-    private final Map<Integer, SseEmitter> sseEmitters = new ConcurrentHashMap<>();
-    private final ChatroomService chatroomService;
+    private long SSE_SESSION_TIMEOUT = 60 * 60 * 1000;
+    private final TempSseService tempSseService;
 
     @UserContext
     @GetMapping(value = "/api/chatrooms/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -36,26 +36,7 @@ public class ChatSseController {
         } catch (Exception e) {
             emitter.completeWithError(e);
         }
+        tempSseService.addSseEmitter(userId, emitter);
         return ResponseEntity.ok(emitter);
-    }
-
-    @RabbitListener(queues = "${rabbitmq.notification.queue}")
-    private void sendNotification(ChatMessage message) {
-        log.info("message: {}", message);
-        List<Integer> participantIds = chatroomService.findParticipantsByChatroomId(message.getRoomId())
-                .stream()
-                .map(UserResponse::getId)
-                .toList();
-        participantIds.forEach(userId -> {
-            SseEmitter emitter = sseEmitters.get(userId);
-            if (emitter != null) {
-                try {
-                    emitter.send(SseEmitter.event().name("message").data(message));
-                } catch (Exception e) {
-                    emitter.completeWithError(e);
-                    sseEmitters.remove(userId);
-                }
-            }
-        });
     }
 }
