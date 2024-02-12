@@ -1,5 +1,6 @@
 package com.ssafy.togeballmatching.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -13,8 +14,9 @@ import java.util.List;
 @EqualsAndHashCode
 public class MatchingUser {
 
+    @JsonProperty("id")
     private Integer userId;
     private String nickname;
     private String profileImage;
-    private List<UserTag> tags;
+    private List<Tag> tags;
 }

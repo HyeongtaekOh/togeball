@@ -1,7 +1,8 @@
 package com.ssafy.togeballmatching.service;
 
 import com.ssafy.togeballmatching.dto.MatchingUser;
-import com.ssafy.togeballmatching.dto.UserTag;
+import com.ssafy.togeballmatching.dto.Tag;
+import com.ssafy.togeballmatching.dto.TagType;
 import com.ssafy.togeballmatching.service.queue.WaitingQueueService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
@@ -22,12 +23,12 @@ class WaitingQueueServiceTest {
     @Autowired
 WaitingQueueService service;
 
-    static UserTag userTag1;
-    static UserTag userTag2;
-    static UserTag userTag3;
-    static UserTag userTag4;
-    static UserTag userTag5;
-    static UserTag userTag6;
+    static Tag userTag1;
+    static Tag userTag2;
+    static Tag userTag3;
+    static Tag userTag4;
+    static Tag userTag5;
+    static Tag userTag6;
     static MatchingUser matchingUser1;
     static MatchingUser matchingUser2;
     static MatchingUser matchingUser3;
@@ -38,35 +39,35 @@ WaitingQueueService service;
 
     @BeforeAll
     static void setUp() {
-        userTag1 = UserTag.builder()
-                .tagId(1)
+        userTag1 = Tag.builder()
+                .id(1)
                 .content("맥주형")
-                .tagType(UserTag.TagType.CHEERING_STYLE)
+                .type(TagType.CHEERING_STYLE)
                 .build();
-        userTag2 = UserTag.builder()
-                .tagId(2)
+        userTag2 = Tag.builder()
+                .id(2)
                 .content("SSG")
-                .tagType(UserTag.TagType.PREFERRED_TEAM)
+                .type(TagType.PREFERRED_TEAM)
                 .build();
-        userTag3 = UserTag.builder()
-                .tagId(3)
+        userTag3 = Tag.builder()
+                .id(3)
                 .content("SSG랜더스필드")
-                .tagType(UserTag.TagType.PREFERRED_STADIUM)
+                .type(TagType.PREFERRED_STADIUM)
                 .build();
-        userTag4 = UserTag.builder()
-                .tagId(4)
+        userTag4 = Tag.builder()
+                .id(4)
                 .content("응원지정석")
-                .tagType(UserTag.TagType.PREFERRED_SEAT)
+                .type(TagType.PREFERRED_SEAT)
                 .build();
-        userTag5 = UserTag.builder()
-                .tagId(5)
+        userTag5 = Tag.builder()
+                .id(5)
                 .content("ENFP")
-                .tagType(UserTag.TagType.MBTI)
+                .type(TagType.MBTI)
                 .build();
-        userTag6 = UserTag.builder()
-                .tagId(6)
+        userTag6 = Tag.builder()
+                .id(6)
                 .content("남자만")
-                .tagType(UserTag.TagType.CUSTOM)
+                .type(TagType.CUSTOM)
                 .build();
 
 
