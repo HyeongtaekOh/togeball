@@ -106,7 +106,7 @@ const Ticket = ( () => {
                 <MyinfoWrapper>
                     <div style={{ width: '65%', height: '100%', display: 'flex', flexWrap: 'wrap' }}>
                         <div style={{ width:'30%'}}>
-                            <PictureWrapper src={ user.profileImage==null? lufi: user.profileImage } alt = { lufi }/>
+                            <PictureWrapper src={ user.profileImage } alt = ''/>
                         </div>
                         <MySelfWrapper>
                             <IndexWrapper>이메일:  
