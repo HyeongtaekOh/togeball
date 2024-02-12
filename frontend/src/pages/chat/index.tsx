@@ -7,6 +7,7 @@ import useStore from 'src/store'
 import styled from 'styled-components'
 import { getChat, getChatMessages, getParticipants } from 'src/api'
 import { useQuery } from 'react-query'
+import { formatDate } from './util'
 
 const ChatPageWrapper = styled.div`
   width: 80%;
@@ -69,17 +70,6 @@ const Chat = () => {
   const { session } = useStore()
   const { data: participants } = useQuery([ 'participants', { id : chatroomId }], () => getParticipants( { id : chatroomId }))
   const { data : chatInfo } = useQuery([ 'chatInfo', { id : chatroomId }], () => getChat( { id : chatroomId }))
-
-  const formatDate = ( date ) =>  {
-    let hours = date.getHours()
-    let minutes = date.getMinutes()
-    let ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12;
-    hours = hours ? hours : 12; 
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    let strTime = hours + ":" + minutes + " " + ampm
-    return strTime
-  }
   
   useEffect(() => {
     const onConnect = () => {
@@ -176,7 +166,8 @@ const Chat = () => {
           <Participants list = { participants } game = { chatInfo?.game }/>
           <ChatWrapper>
             <ScriptWrapper>
-              { messages.map(( message, index ) => (
+              { 
+                messages.map(( message, index ) => (
                 <ChatMessage 
                   key={ index } 
                   message = { message } 
@@ -199,10 +190,7 @@ const Chat = () => {
                   onKeyDown={ handleKeyDown }
                   placeholder='메시지를 입력하세요'
                 >
-                  <Button
-                  style={{ padding : '0px' }}
-                  width='40px' 
-                  onClick={ sendMessage }>
+                  <Button style={{ padding : '0px' }} width='40px'onClick={ sendMessage }>
                     전송
                   </Button>
                 </InputBox>
