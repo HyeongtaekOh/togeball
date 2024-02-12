@@ -33,8 +33,9 @@ const Matching: React.FC = () => {
   useEffect(() => {
 
      // WebSocket 연결 설정
-    const clientId = 123123
-    const socket = new SockJS(`https://i10a610.p.ssafy.io:8083/matching-server/matching?userId=` + clientId)
+    const clientId = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImlkIjoyMCwiZXhwIjoxNzA3NzMwMTYzfQ.t36P_okRuEJA17q2lUfL622z9i2aZQspfTNRerBXOLm9TT34xDw7-N6SSHLaQfnOfR6MeUjaTWPsana8Tc2P1A`
+    console.log(clientId)
+    const socket = new SockJS(`https://i10a610.p.ssafy.io:8083/matching-server/matching?token=${clientId}`)
     console.log(socket) 
 
     socket.onopen = function(event) {
@@ -58,7 +59,7 @@ const Matching: React.FC = () => {
 }, [])
 
   // 웹소켓서버 연결하면 false를 기본값으로 바꿀 예정
-  const [isModalOpened, setIsModalOpened] = useState( true )
+  const [isModalOpened, setIsModalOpened] = useState( false )
 
   const closeModal = () => {
     setIsModalOpened( false )
