@@ -10,10 +10,6 @@ import lombok.*;
 public class Tag {
 
     private Integer id;
-//    private Integer tagId;
     private String content;
     private TagType type;
-//    private TagType tagType;
-
-
 }
