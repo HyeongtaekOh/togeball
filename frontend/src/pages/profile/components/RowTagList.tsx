@@ -23,14 +23,14 @@ const TitleWrapper = styled.div<{ type? : string } >`
 
 const RowTagList = ( props : RowTagListProp ) => {
 
-  const { children, list, flag } = props
+  const { children, list, flag, myteam, mytags } = props
 
   return(
     <RowTagListWrapper>
       <TitleWrapper>
         <Title type='small'>{ children }</Title>
       </TitleWrapper>
-      <TagList tags = { list } flag = { flag }/>
+      <TagList tags = { list } myteam= { myteam } flag = { flag } mytags = { mytags }/>
     </RowTagListWrapper>
   )
 }
@@ -40,12 +40,13 @@ export default RowTagList
 interface dataSource  {
   id?: number,
   content?: string,
-  type?: string,
-  isSelect?: boolean
+  type?: string
 }
 
 type RowTagListProp = {
   children?: Array<string | any> | string,
   flag?: boolean,
+  mytags?: dataSource[],
+  myteam?: string,
   list?: dataSource[]
 }

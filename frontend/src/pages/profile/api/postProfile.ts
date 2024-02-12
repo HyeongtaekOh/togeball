@@ -1,4 +1,3 @@
-import { TagType } from 'src/types'
 import { patchAxios } from 'src/api/util'
 
 interface dataType {
