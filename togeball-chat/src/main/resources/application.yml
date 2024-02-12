@@ -17,7 +17,12 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://i10a610.p.ssafy.io:27017/togeball_chat_3
+      host: i10a610.p.ssafy.io
+      port: 27017
+      username: ${MONGO_INITDB_ROOT_USERNAME}
+      password: ${MONGO_INITDB_ROOT_PASSWORD}
+      authentication-database: admin
+      database: togeball_chat_3
   rabbitmq:
     host: i10a610.p.ssafy.io
     port: 4672
@@ -26,17 +31,17 @@ spring:
   cloud:
     aws:
       credentials:
-        access-key: ${AWS_ACCESS_KEY}
-        secret-key: ${AWS_SECRET_KEY}
+        access-key: ${S3_ACCESS_KEY}
+        secret-key: ${S3_SECRET_KEY}
       region:
         static: ap-northeast-2
       s3:
-        bucket: togeball-bucket
+        bucket: togeball-s3-bucket
   servlet:
     multipart:
       max-file-size: 100MB
   config:
-    import: optional:env/s3.yml
+    import: optional:env/env.yml
 
 logging:
   level:
@@ -70,3 +75,8 @@ rabbitmq:
   queue:
     name: chat.queue
   routing-key: togeball.chat
+
+jwt:
+  secretKey: ${JWT_SECRET_KEY}
+  access:
+    header: Authorization

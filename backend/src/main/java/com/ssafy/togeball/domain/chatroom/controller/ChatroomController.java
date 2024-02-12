@@ -1,9 +1,7 @@
 package com.ssafy.togeball.domain.chatroom.controller;
 
-import com.ssafy.togeball.domain.chatroom.dto.ChatroomResponse;
-import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomRequest;
-import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomResponse;
-import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomSearchCondition;
+import com.ssafy.togeball.domain.auth.aop.UserContext;
+import com.ssafy.togeball.domain.chatroom.dto.*;
 import com.ssafy.togeball.domain.chatroom.service.ChatroomService;
 import com.ssafy.togeball.domain.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -73,16 +71,15 @@ public class ChatroomController {
         return ResponseEntity.created(location).body(Map.of("id", chatroomId));
     }
 
-    @PostMapping("/{chatroomId}/participants/{userId}")
-    public ResponseEntity<?> joinChatroom(@PathVariable(value = "chatroomId") Integer chatroomId,
-                                          @PathVariable(value = "userId") Integer userId) {
+    @PostMapping("/game")
+    public ResponseEntity<?> createGameChatroom(@RequestBody GameChatroomRequest chatroomDto) {
 
-        chatroomService.joinChatroom(userId, chatroomId);
+        Integer chatroomId = chatroomService.createGameChatroom(chatroomDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{userId}")
-                .buildAndExpand(userId)
+                .path("/{chatroomId}")
+                .buildAndExpand(chatroomId)
                 .toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(Map.of("id", chatroomId));
     }
 
     @PatchMapping("/{chatroomId}")
@@ -100,9 +97,23 @@ public class ChatroomController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{chatroomId}/participants/{userId}")
-    public ResponseEntity<?> leaveChatroom(@PathVariable(value = "chatroomId") Integer chatroomId,
-                                           @PathVariable(value = "userId") Integer userId) {
+    @UserContext
+    @PostMapping("/{chatroomId}/participants")
+    public ResponseEntity<?> joinChatroom(Integer userId,
+                                          @PathVariable(value = "chatroomId") Integer chatroomId) {
+
+        chatroomService.joinChatroom(userId, chatroomId);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{userId}")
+                .buildAndExpand(userId)
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
+
+    @UserContext
+    @DeleteMapping("/{chatroomId}/participants")
+    public ResponseEntity<?> leaveChatroom(Integer userId,
+                                           @PathVariable(value = "chatroomId") Integer chatroomId) {
         chatroomService.leaveChatroom(userId, chatroomId);
         return ResponseEntity.noContent().build();
     }

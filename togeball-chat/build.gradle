@@ -33,12 +33,16 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.amqp:spring-rabbit-test'
+    implementation 'org.springframework.boot:spring-boot-starter-aop:3.2.1'
 
     implementation 'org.springframework.boot:spring-boot-starter-reactor-netty:3.2.2'
 //    runtimeOnly 'io.netty:netty-resolver-dns-native-macos:4.1.100.Final:osx-aarch_64'
 
     implementation 'io.awspring.cloud:spring-cloud-aws-starter:3.1.0'
     implementation 'io.awspring.cloud:spring-cloud-aws-s3:3.1.0'
+
+    // JWT
+    implementation 'com.auth0:java-jwt:4.2.1'
 }
 
 tasks.named('test') {

@@ -57,6 +57,10 @@ dependencies {
 
 	// S3
 	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.652'
+
+	if (isAppleSilicon()) {
+		runtimeOnly("io.netty:netty-resolver-dns-native-macos:4.1.94.Final:osx-aarch_64")
+	}
 }
 
 tasks.named('test') {
@@ -65,4 +69,8 @@ tasks.named('test') {
 
 clean {
 	delete file('src/main/generated')
+}
+
+boolean isAppleSilicon() {
+	System.getProperty("os.name") == "Mac OS X" && System.getProperty("os.arch") == "aarch64"
 }
