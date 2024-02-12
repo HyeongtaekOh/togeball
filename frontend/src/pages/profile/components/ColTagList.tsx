@@ -1,6 +1,7 @@
 import { Title } from 'src/components'
 import { TagList } from './index'
 import styled from 'styled-components'
+import { TagType } from '@/types'
 
 const ColTagListWrapper = styled.div`
   box-sizing: border-box;
@@ -20,7 +21,7 @@ const ColTitleWrapper = styled.div`
 
 const ColTagList = ( props : RowTagListProp ) => {
 
-  const { children, list } = props
+  const { children, list, mytags } = props
   // console.log(list)
 
   return(
@@ -28,7 +29,7 @@ const ColTagList = ( props : RowTagListProp ) => {
     <ColTitleWrapper>
       <Title type='small'>{ children }</Title>
     </ColTitleWrapper>
-    <TagList tags = { list }/>
+    <TagList tags = { list } mytags = { mytags }/>
   </ColTagListWrapper>
   )
 }
@@ -44,5 +45,6 @@ interface dataSource  {
 
 type RowTagListProp = {
   children?: Array<string | any> | string,
+  mytags?: dataSource[],
   list?: dataSource[]
 }

@@ -23,10 +23,13 @@ const TagBtnWrapper = styled.button<{ $bgColor: string, color: string }>`
 
 const TagBtn = (props: TagBtnProps) => {
 
-    const { children, isSelect, item, stadiumFlag = false } = props
+    const { children, myteam, item, mytags, stadiumFlag = false } = props
 
-    const [ isClick, setIsClick ] = useState<boolean>( isSelect )
     const { team, setTeam, addStadiums, deleteStadiums } = useModel()
+    const isSelect = myteam===item.content
+    
+    const isMine = mytags?.find( tag => tag.id === item.id ) !== undefined || isSelect
+    const [ isClick, setIsClick ] = useState<boolean>( isMine )
     
     const backgroundColor = isClick? '#6A60A9' : '#DEDCEE';
     const letterColor = isClick? 'white' : 'black';
@@ -59,8 +62,9 @@ const TagBtn = (props: TagBtnProps) => {
 export default TagBtn
 
 type TagBtnProps = {
-    children?: string
-    isSelect?: boolean
-    stadiumFlag?: boolean
+    children?: string,
+    myteam?: string,
+    stadiumFlag?: boolean,
+    mytags?: TagType[],
     item?: TagType,
 }
