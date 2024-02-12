@@ -41,14 +41,8 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
         if (!request.getRequestURI().equals(NO_CHECK_URL)) {
 
-            Optional<String> jwt = jwtService.extractAccessToken(request);
-
-            if (jwt.isEmpty()) {
-                log.warn("Missing access token in request to {}", request.getRequestURI());
-                throw new JwtAuthenticationException("Missing access token");
-            }
-
-            Integer userId = jwt.filter(jwtService::isTokenValid)
+            Integer userId = jwtService.extractAccessToken(request)
+                    .filter(jwtService::isTokenValid)
                     .flatMap(jwtService::extractId)
                     .orElse(null);
 

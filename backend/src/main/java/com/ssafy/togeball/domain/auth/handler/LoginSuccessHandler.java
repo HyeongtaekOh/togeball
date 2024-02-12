@@ -2,6 +2,7 @@ package com.ssafy.togeball.domain.auth.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ssafy.togeball.domain.auth.service.AuthService;
 import com.ssafy.togeball.domain.security.jwt.JwtService;
 import com.ssafy.togeball.domain.user.dto.UserResponse;
@@ -39,11 +40,12 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         User user = userService.findUserById(id).orElseThrow(() -> new RuntimeException("User not found"));
 
         ObjectMapper objectMapper = new ObjectMapper();
-        String userJson = objectMapper.writeValueAsString(UserResponse.of(user));
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(userJson);
+        objectMapper.writeValue(response.getWriter(), UserResponse.of(user));
 
         authService.updateRefreshToken(id, refreshToken);
     }

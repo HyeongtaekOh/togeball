@@ -72,9 +72,12 @@ rabbitmq:
   password: ssafy
   exchange:
     name: togeball.exchange
-  queue:
-    name: chat.queue
-  routing-key: togeball.chat
+  chat:
+    queue: chat.queue
+    routing-key: togeball.chat
+  notification:
+    queue: notification.queue
+    routing-key: togeball.notification
 
 jwt:
   secretKey: ${JWT_SECRET_KEY}

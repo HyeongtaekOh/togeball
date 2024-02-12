@@ -85,6 +85,8 @@ rabbitmq:
   matching:
     queue: matching.queue
     routing-key: togeball.matching
+  notification:
+    queue: notification.queue
 
 cloud:
   aws:
