@@ -28,18 +28,23 @@ public class ChatController {
         return ResponseEntity.ok("pong");
     }
 
+    @UserContext
     @GetMapping("/chats/{roomId}")
-    public ResponseEntity<?> findChatMessagePageByRoomId(@PathVariable(value = "roomId") Integer roomId,
-                                                      Integer userId,
-                                                      Pageable pageable) {
+    public ResponseEntity<?> findChatMessagePageByRoomId(Integer userId,
+                                                         HttpServletRequest request,
+                                                         @PathVariable(value = "roomId") Integer roomId,
+                                                         Pageable pageable) {
         Page<ChatMessageDto> response = chatFacade.findChatMessagePageByRoomId(roomId, userId, pageable);
         log.info("response: {}", response.getContent());
         return ResponseEntity.ok(response);
     }
 
+    @UserContext
     @GetMapping("/chats/{roomId}/game")
-    public ResponseEntity<?> findGameChatMessagePageByRoomId(@PathVariable(value = "roomId") Integer roomId,
-                                                      Pageable pageable) {
+    public ResponseEntity<?> findGameChatMessagePageByRoomId(Integer userId,
+                                                             HttpServletRequest request,
+                                                             @PathVariable(value = "roomId") Integer roomId,
+                                                             Pageable pageable) {
         Page<ChatMessageDto> response = chatFacade.findGameChatMessagePageByRoomId(roomId, pageable);
         log.info("response: {}", response.getContent());
         return ResponseEntity.ok(response);
