@@ -2,6 +2,7 @@ package com.ssafy.togeball.domain.security.filter;
 
 import com.ssafy.togeball.domain.auth.entity.Auth;
 import com.ssafy.togeball.domain.auth.service.AuthService;
+import com.ssafy.togeball.domain.security.exception.JwtAuthenticationException;
 import com.ssafy.togeball.domain.security.jwt.JwtService;
 import com.ssafy.togeball.domain.user.entity.User;
 import com.ssafy.togeball.domain.user.service.UserService;
@@ -39,8 +40,15 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         if (!request.getRequestURI().equals(NO_CHECK_URL)) {
-            Integer userId = jwtService.extractAccessToken(request)
-                    .filter(jwtService::isTokenValid)
+
+            Optional<String> jwt = jwtService.extractAccessToken(request);
+
+            if (jwt.isEmpty()) {
+                log.warn("Missing access token in request to {}", request.getRequestURI());
+                throw new JwtAuthenticationException("Missing access token");
+            }
+
+            Integer userId = jwt.filter(jwtService::isTokenValid)
                     .flatMap(jwtService::extractId)
                     .orElse(null);
 
