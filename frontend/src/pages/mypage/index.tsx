@@ -138,7 +138,7 @@ const MyPage = (() => {
                     </SubjectWrapper>
                     <ItemListWrapper>
                         { chats && chats.map(chatItem => (
-                         <ChatItem key={chatItem.id} item={ chatItem }></ChatItem>
+                         <ChatItem key={chatItem.id} item={ chatItem } width='130% ' ></ChatItem>
                             ))}
                         <div id="chatObserver" style={{ height: "10px" }}></div>
                     </ItemListWrapper>
