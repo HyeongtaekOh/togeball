@@ -19,7 +19,7 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
 
         log.info("beforeHandshake");
         String query = request.getURI().getQuery();
-        String token = query.split("Authorization=")[1];
+        String token = query.split("=")[1];
 
         log.info("token: {}", token);
         return jwtService.isTokenValid(token);
