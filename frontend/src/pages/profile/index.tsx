@@ -52,7 +52,7 @@ const ButtonWrapper = styled.div`
 const Profile = () => {
 
   const { data: userInfo } = useQuery([ 'user' ], () => getMyInfo())
-  console.log(userInfo)
+  // console.log(userInfo)
 
   const [ id, setId ] = useState( userInfo?.email )
   const [ nickName, setNickName ] = useState( userInfo?.nickname )
@@ -60,7 +60,12 @@ const Profile = () => {
   const { selectTags, team, image, stadiums } = useModel()
   const [ isOk, setIsOk ] = useState<boolean>(true)
   const profileMutation = useMutation( patchProfile )
-
+  useEffect(() => {
+    console.log("selectTags:", selectTags);
+    console.log("team:", team);
+    console.log("image:", image);
+    console.log("stadiums:", stadiums);
+  }, [selectTags, team, image, stadiums]);
   const param = {
     page: 0,
     size: 100
@@ -76,8 +81,6 @@ const Profile = () => {
   const seasonPass = tags?.content.filter(item => item.type === "SEASON_PASS");
   const unlabeled = tags?.content.filter(item => item.type === "UNLABELED");
   
-  const isSelect = team
-
   const data = {
     nickname: nickName,
     clubId: team,
