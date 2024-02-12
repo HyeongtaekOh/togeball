@@ -3,12 +3,12 @@ import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { Title } from 'src/components'
 import styled from 'styled-components'
-import useStore from 'src/store'
-import { TagType } from '@/types'
 
-const ChatWrapper = styled.div`
+
+const ChatWrapper = styled.div<{ width?: string }>`
     display: flex;
     Background-color: white;
+    width:  ${( props ) => props.width || '100%' };
     border-radius: 10px;
     border: 2px solid #6A60A9;
     height: 50px;
@@ -24,7 +24,7 @@ const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 70%
+  width: 60%
 `
 const DescribeWrapper = styled.p`
 display: flex;
@@ -41,7 +41,7 @@ const TagWrapper = styled.div`
 
 const ChatItem = ( props: ChatListProps ) => {
 
-  const { item, type } = props
+  const { item, type, width } = props
 
   const navigator = useNavigate()
   const partiMutation = useMutation( partiChat )
@@ -52,7 +52,7 @@ const ChatItem = ( props: ChatListProps ) => {
   }
 
   return(
-   <ChatWrapper onClick={()=> goChat() }>
+   <ChatWrapper onClick={()=> goChat()} width={ width }>
      <img src={ item?.cheeringClub?.logo } alt='로고' style={{ width: '20%' }}/> 
     <TextWrapper>
       <Title type='medium' style={{ display: 'flex', flexWrap: 'wrap'}}>{ item?.title }</Title>
@@ -65,7 +65,7 @@ const ChatItem = ( props: ChatListProps ) => {
     </TextWrapper>
     {
       type !== 'my' &&
-      <p style={{ paddingTop: '40px' }}>{ item?.members?.length | 0}/ { item?.capacity }명</p> 
+      <p style={{ paddingTop: '40px'}}>{ item?.members?.length | 0}/ { item?.capacity }명</p> 
     }
    </ChatWrapper>
   )
@@ -75,5 +75,6 @@ export default ChatItem
 
 type ChatListProps = {
   item?: any,
-  type?: string
+  type?: string,
+  width?: string
 }

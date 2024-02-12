@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { getMyInfo } from 'src/api'
 import { TagList } from './index';
 import lufi from 'src/asset/images/lufi.jpg'
-import lgtwinslogo from'src/asset/images/lgtwinslogo.jpg'
 import barcode from 'src/asset/images/barcode.jpg'
 import { useQuery } from 'react-query';
 
@@ -22,7 +21,7 @@ const BarcodeWrapper = styled.div`
     justify-content: center;
     align-items: center;
     background-color: #7D74B4;
-    `
+`
     
 const InfoWrapper = styled.div`
     height: 280px;
@@ -88,7 +87,7 @@ const Ticket = ( () => {
     const navigate = useNavigate()
 
     const EditProfile = () => {
-        navigate('/profile') // 홈으로 이동
+        navigate('/profile')
     }
 
     const { data: userInfo } = useQuery([ 'user' ], () => getMyInfo())
@@ -97,7 +96,7 @@ const Ticket = ( () => {
         profileImage : userInfo?.profileImage, nickName: userInfo?.nickname,
         tag: userInfo?.tags.map(( tag ) =>{ return '#'+tag.content }), logo: userInfo?.clubLogo
     }
-    
+
     return (
             <TicketWrapper>
                 <BarcodeWrapper>
@@ -107,20 +106,26 @@ const Ticket = ( () => {
                 <MyinfoWrapper>
                     <div style={{ width: '65%', height: '100%', display: 'flex', flexWrap: 'wrap' }}>
                         <div style={{ width:'30%'}}>
-                            <PictureWrapper src={ lufi } alt = { lufi }/>
+                            <PictureWrapper src={ user.profileImage==null? lufi: user.profileImage } alt = { lufi }/>
                         </div>
                         <MySelfWrapper>
-                            <IndexWrapper>이메일:  <ValueWrapper>{ user.email }</ValueWrapper></IndexWrapper>
-                            <div style={{ display: 'flex', gap: '40px'}}>
-                                <IndexWrapper>응원팀:  <ValueWrapper>{ user.myTeam===0? '미정' : user.myTeam } </ValueWrapper></IndexWrapper>
-                                <IndexWrapper>닉네임:  <ValueWrapper>{ user.nickName }</ValueWrapper></IndexWrapper>
+                            <IndexWrapper>이메일:  
+                                <ValueWrapper>{ user.email }</ValueWrapper>
+                            </IndexWrapper>
+                            <div style={{ display: 'flex', gap: '40px' }}>
+                                <IndexWrapper>응원팀:  
+                                    <ValueWrapper>{ user.myTeam===0 ? '미정' : user.myTeam }</ValueWrapper>
+                                </IndexWrapper>
+                                <IndexWrapper>닉네임:  
+                                    <ValueWrapper>{ user.nickName }</ValueWrapper>
+                                </IndexWrapper>
                             </div>
                         </MySelfWrapper>
                         <TagList tags = { user.tag }/>  
                     </div>
-                    <div style={{ width: '30%', height: '100%'}}>
-                        <img src={ lgtwinslogo } alt='' 
-                            style={{ width: '90%', height: '90%', opacity: '0.5', marginTop: '5%'}}/>
+                    <div style={{ width: '30%', height: '100%' }}>
+                        <img src={ user.logo } alt='' 
+                            style={{ width: '90%', height: '90%', opacity: '0.5', marginTop: '5%' }}/>
                     </div>
                     <EditProfileWrapper onClick={ EditProfile }>회원정보수정</EditProfileWrapper>  
                 </MyinfoWrapper>

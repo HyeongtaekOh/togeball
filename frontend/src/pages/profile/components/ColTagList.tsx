@@ -1,7 +1,6 @@
 import { Title } from 'src/components'
 import { TagList } from './index'
 import styled from 'styled-components'
-import { TagType } from '@/types'
 
 const ColTagListWrapper = styled.div`
   box-sizing: border-box;
@@ -22,7 +21,6 @@ const ColTitleWrapper = styled.div`
 const ColTagList = ( props : RowTagListProp ) => {
 
   const { children, list, mytags } = props
-  // console.log(list)
 
   return(
   <ColTagListWrapper>
@@ -39,8 +37,7 @@ export default ColTagList
 interface dataSource  {
   id?: number,
   content?: string,
-  type?: string,
-  isSelect?: boolean
+  type?: string
 }
 
 type RowTagListProp = {
