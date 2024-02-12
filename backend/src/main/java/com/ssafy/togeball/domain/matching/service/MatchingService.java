@@ -31,9 +31,8 @@ public class MatchingService {
      */
     @Transactional
     @RabbitListener(queues = "${rabbitmq.matching.queue}")
-    public MatchingResponse createMatchingAndChatroom(MatchingRequest matchingDto) {
+    public void createMatchingAndChatroom(MatchingRequest matchingDto) {
         log.info("createMatchingAndChatroom: {}", matchingDto);
-        Matching matching = matchingRepository.createMatchingAndChatroom(matchingDto);
-        return MatchingResponse.of(matching);
+        matchingRepository.createMatchingAndChatroom(matchingDto);
     }
 }
