@@ -1,6 +1,8 @@
 package com.ssafy.togeballchatting.config;
 
 import com.ssafy.togeballchatting.interceptor.AuthHandshakeInterceptor;
+import com.ssafy.togeballchatting.service.JwtService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +20,7 @@ import java.util.Map;
 
 @Slf4j
 @Configuration
+@RequiredArgsConstructor
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
@@ -39,6 +42,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Value("${websocket.relay.system.passcode}")
     private String systemPasscode;
 
+    private final JwtService jwtService;
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // 채팅 서비스에 사용할 웹 소켓 엔드포인트를 "/chat"으로 설정합니다.
@@ -46,7 +51,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .addEndpoint("/chat-server/chat")
                 .setAllowedOriginPatterns("*")
                 .withSockJS()
-                .setInterceptors(new AuthHandshakeInterceptor());
+                .setInterceptors(new AuthHandshakeInterceptor(jwtService));
     }
 
     @Override

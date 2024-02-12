@@ -1,8 +1,8 @@
 package com.ssafy.togeballchatting.interceptor;
 
 import com.ssafy.togeballchatting.service.JwtService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.socket.WebSocketHandler;
@@ -13,9 +13,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
+@RequiredArgsConstructor
 public class AuthHandshakeInterceptor implements HandshakeInterceptor {
 
-    private final JwtService jwtService = new JwtService();
+    private final JwtService jwtService;
 
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
@@ -23,8 +24,13 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
         log.info("beforeHandshake");
         String query = request.getURI().getQuery();
         Matcher matcher = authMatcher(query);
-
-        return matcher.find() && jwtService.isTokenValid(matcher.group(1));
+        log.info("query: {}", query);
+        if (!matcher.find()) {
+            log.error("beforeHandshake: Authorization is not found");
+            return false;
+        }
+        String accessToken = matcher.group(1).replace("Bearer ", "");
+        return jwtService.isTokenValid(accessToken);
     }
 
     @Override
@@ -32,7 +38,7 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
 
     }
     public Matcher authMatcher(String query) {
-        String pattern = "Authorization([^&]+)";
+        String pattern = "Authorization=([^&]+)";
         Pattern r = Pattern.compile(pattern);
         return r.matcher(query);
     }
