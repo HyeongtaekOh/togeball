@@ -116,7 +116,7 @@ public class NoticeServiceTest {
         when(emitterRepository.findAllEventCacheStartWithId(any())).thenReturn(Collections.emptyMap());
 
         // When
-        SseEmitter result = noticeService.subscribe(loginUser, lastEventId);
+        SseEmitter result = noticeService.subscribe(loginUser.getId(), lastEventId);
 
         // Then
         verify(emitterRepository, times(1)).save(any(), any());
@@ -165,7 +165,7 @@ public class NoticeServiceTest {
         when(noticeRepository.findAllByUserId(loginUser.getId())).thenReturn(noticeList());
 
         // When
-        NoticesResponse noticesResponse = noticeService.findAllByUserId(loginUser);
+        NoticesResponse noticesResponse = noticeService.findAllByUserId(loginUser.getId());
 
         // Then
         verify(noticeRepository, times(loginUser.getId())).findAllByUserId(1);

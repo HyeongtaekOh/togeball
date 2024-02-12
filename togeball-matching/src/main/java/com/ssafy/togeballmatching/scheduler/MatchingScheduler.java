@@ -96,7 +96,7 @@ public class MatchingScheduler {
                     .title(LocalDateTime.now().toString()+"에 이루어진 매칭입니다.")
                     .capacity(userIds.size())
                     .userIds(userIds)
-                    .tagIds(sortedTagIds) // TODO: 매칭된 유저의 태그 ID 목록을 가져와 설정한다. (중복 제거 필수)
+                    .tagIds(sortedTagIds)
                     .build();
             rabbitService.sendMessage(exchange, routingKey, matchingRequest);
             messagingService.sendMatchingResultToUsers(userIds.subList(0, 2));
