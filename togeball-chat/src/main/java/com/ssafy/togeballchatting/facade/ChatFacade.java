@@ -11,6 +11,8 @@ import com.ssafy.togeballchatting.service.ChatMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -26,6 +28,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatFacade {
 
+    @Value("${rabbitmq.exchange.name}")
+    private String exchange;
+
+    @Value("${rabbitmq.notification.routing-key}")
+    private String notificationRoutingKey;
+
+    private final RabbitTemplate rabbitTemplate;
     private final ChatHistoryService chatHistoryService;
     private final ChatMessageService chatMessageService;
     private final SimpMessageSendingOperations messagingTemplate;
@@ -35,6 +44,7 @@ public class ChatFacade {
         log.info("message: {}", message);
         messagingTemplate.convertAndSend("/topic/room." + roomId, message);
         if (message.getType() != MessageType.NOTICE) {
+            rabbitTemplate.convertAndSend(exchange, notificationRoutingKey, message);
             ChatHistoryDto chatHistoryDto = chatHistoryService.findChatHistoryByRoomIdAndUserId(roomId, message.getSenderId());
             if (chatHistoryDto == null) {
                 throw new NotParticipatingException("사용자가 채팅방에 참여하지 않았습니다.");
@@ -107,7 +117,7 @@ public class ChatFacade {
     }
 
     @Transactional
-    @RabbitListener(queues = "${rabbitmq.queue.name}")
+    @RabbitListener(queues = "${rabbitmq.chat.queue}")
     public void handleJoinEvent(ChatroomJoinMessage message) {
         log.info("message: {}", message);
         if (message.getType() == ChatroomJoinMessage.Type.LEAVE) {
