@@ -23,6 +23,9 @@ public class RabbitMQConfig {
     @Value("${rabbitmq.chat.queue}")
     private String chatQueue;
 
+    @Value("${rabbitmq.notification.queue}")
+    private String notificationQueue;
+
     @Value("${rabbitmq.chat.routing-key}")
     private String chatRoutingKey;
 
@@ -55,6 +58,11 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Queue notificationQueue() {
+        return new Queue(notificationQueue, false);
+    }
+
+    @Bean
     public Binding chatBinding(Queue chatQueue, DirectExchange exchange) {
         return BindingBuilder.bind(chatQueue).to(exchange).with(chatRoutingKey);
     }
@@ -84,13 +92,6 @@ public class RabbitMQConfig {
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
         rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
-        rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
-            if (ack) {
-                System.out.println("Message sent successfully");
-            } else {
-                System.out.println("Message sending failed: " + cause);
-            }
-        });
         rabbitTemplate.setChannelTransacted(true);
         return rabbitTemplate;
     }
