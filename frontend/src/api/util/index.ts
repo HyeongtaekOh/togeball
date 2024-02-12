@@ -76,18 +76,25 @@ export const postAxios =  async( url: string, data?: any )  =>{
 }
 
 export const patchAxios = async(url: string, data?: any ) =>{
-  fetch(process.env.REACT_APP_BASE_URL+url, {
-	headers: {
-	'Accept': '*/*',
-	'Content-Type': 'application/json',
-  'charset': 'utf-8',
-  'Authorization': `${ localStorage.getItem('accessToken')}`
-	},
-	method: "PATCH",	
-	body: JSON.stringify({ data })
-  }).then((response) => 
-    response.ok ).then((data) =>
-	  console.log(data))
+  try{
+    const response = await useAxios.patch( url, data )
+    console.log(response)
+    return response
+  } catch( error ){
+    return Promise.reject( error )
+  }
+  // fetch(process.env.REACT_APP_BASE_URL+url, {
+	// headers: {
+	// 'Accept': '*/*',
+	// 'Content-Type': 'application/json',
+  // 'charset': 'utf-8',
+  // 'Authorization': `${ localStorage.getItem('accessToken')}`
+	// },
+	// method: "PATCH",	
+	// body: JSON.stringify({ data })
+  // }).then((response) => 
+  //   response.ok ).then((data) =>
+	//   console.log(data))
 }
 
 export default useAxios
