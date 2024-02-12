@@ -120,6 +120,7 @@ const Profile = () => {
   };
 
   const goMyPage = () =>{
+    resetTags()
     navigator('/mypage')
   }
 

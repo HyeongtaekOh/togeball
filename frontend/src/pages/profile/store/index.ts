@@ -19,7 +19,7 @@ const useModel = create<Model>( ( set, get ) => (
           state.selectTags.filter(( item ) => item.content !== tag.content )
       }
     )),
-    resetTags: () => set((state) =>({
+    resetTags: () => set(() =>({
       selectTags:
       []
     }
