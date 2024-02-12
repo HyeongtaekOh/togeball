@@ -35,9 +35,8 @@ public class NoticeService {
     private final EmitterRepository emitterRepository;
 
 
-    public SseEmitter subscribe(User loginUser, String lastEventId) {
+    public SseEmitter subscribe(Integer userId, String lastEventId) {
 
-        Integer userId = loginUser.getId();
         String id = userId + "_" + System.currentTimeMillis();
         SseEmitter emitter = emitterRepository.save(id, new SseEmitter(DEFAULT_TIMEOUT));
         emitter.onCompletion(() -> emitterRepository.deleteById(id));
@@ -93,8 +92,8 @@ public class NoticeService {
     }
 
     @Transactional
-    public NoticesResponse findAllByUserId(User loginUser) {
-        List<NoticeResponse> responses = noticeRepository.findAllByUserId(loginUser.getId()).stream()
+    public NoticesResponse findAllByUserId(Integer userId) {
+        List<NoticeResponse> responses = noticeRepository.findAllByUserId(userId).stream()
                 .map(NoticeResponse::of)
                 .collect(Collectors.toList());
         long unreadCount = responses.stream()

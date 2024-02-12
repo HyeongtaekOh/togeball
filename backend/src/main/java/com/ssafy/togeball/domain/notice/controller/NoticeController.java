@@ -1,5 +1,6 @@
 package com.ssafy.togeball.domain.notice.controller;
 
+import com.ssafy.togeball.domain.auth.aop.UserContext;
 import com.ssafy.togeball.domain.notice.dto.NoticeResponse;
 import com.ssafy.togeball.domain.notice.dto.NoticesResponse;
 import com.ssafy.togeball.domain.notice.service.NoticeService;
@@ -16,16 +17,18 @@ public class NoticeController {
 
     private final NoticeService noticeService;
 
+    @UserContext
     @GetMapping(value = "/subscribe", produces = "text/event-stream")
-    public SseEmitter subscribe(User loginUser,
+    public SseEmitter subscribe(Integer userId,
                                 @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) {
-        return noticeService.subscribe(loginUser, lastEventId);
+        return noticeService.subscribe(userId, lastEventId);
     }
 
     //로그인 유저의 모든 알림 조회
+    @UserContext
     @GetMapping("/api/notices")
-    public ResponseEntity<NoticesResponse> notices(User loginUser) {
-        return ResponseEntity.ok().body(noticeService.findAllByUserId(loginUser));
+    public ResponseEntity<NoticesResponse> notices(Integer userId) {
+        return ResponseEntity.ok().body(noticeService.findAllByUserId(userId));
     }
 
     //알림 읽음 상태 변경
