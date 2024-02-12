@@ -67,7 +67,7 @@ public class ChatroomService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ChatroomResponse> findChatroomsByUserId(Integer userId, Pageable pageable) {
+    public Page<ChatroomResponse> findChatroomsByUserId(Integer userId, String token, Pageable pageable) {
         log.info("userId: {}", userId);
         Page<Chatroom> chatrooms = chatroomRepository.findChatroomsByUserId(userId, pageable);
         log.info("chatrooms: {}", chatrooms.map(Chatroom::getId).toList());
@@ -78,7 +78,7 @@ public class ChatroomService {
         }
 
         Map<Integer, ChatroomStatus> statuses =
-                getChatroomStatuses(userId, chatrooms.map(Chatroom::getId).toList());
+                getChatroomStatuses(userId, token, chatrooms.map(Chatroom::getId).toList());
         log.info("statuses: {}", statuses);
         chatroomResponses.forEach(chatroom -> addChatroomStatus(chatroom, statuses.get(chatroom.getId())));
         return chatroomResponses;
@@ -196,14 +196,15 @@ public class ChatroomService {
         return chatrooms.map(this::convertChatroomResponse);
     }
 
-    private Map<Integer, ChatroomStatus> getChatroomStatuses(Integer userId, List<Integer> roomIds) {
+    private Map<Integer, ChatroomStatus> getChatroomStatuses(Integer userId, String token, List<Integer> roomIds) {
 
         List<ChatroomStatus> response = webClient.get()
                 .uri(uriBuilder -> {
-                    uriBuilder.path("/chat-server/users/" + userId + "/chats/unread");
+                    uriBuilder.path("/chat-server/me" + "/chats/unread");
                     roomIds.forEach(roomId -> uriBuilder.queryParam("roomId", roomId));
                     return uriBuilder.build();
                 })
+                .header("Authorization", "Bearer " + token)
                 .retrieve()
                 .bodyToFlux(ChatroomStatus.class)
                 .collectList()
