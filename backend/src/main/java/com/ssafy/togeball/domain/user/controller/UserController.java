@@ -27,6 +27,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URL;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -73,6 +74,11 @@ public class UserController {
         User user = userService.findUserById(userId).orElseThrow(() -> new ApiException(UserErrorCode.USER_NOT_FOUND));
         UserResponse userResponse = UserResponse.of(user);
         return ResponseEntity.ok(userResponse);
+    }
+
+    @GetMapping("/userIds")
+    public ResponseEntity<?> findUsersByIdIn(@RequestParam(name = "userId") List<Integer> userIds) {
+        return ResponseEntity.ok(userService.findAllByIdIn(userIds));
     }
 
     @UserContext

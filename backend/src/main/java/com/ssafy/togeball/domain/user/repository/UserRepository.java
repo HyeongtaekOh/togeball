@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer>, CustomUserRepository {
@@ -18,4 +19,7 @@ public interface UserRepository extends JpaRepository<User, Integer>, CustomUser
     Optional<User> findByEmail(String email);
 
     Optional<User> findByNickname(String nickname);
+
+    @Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.userTags ut LEFT JOIN FETCH ut.tag WHERE u.id IN :userIds")
+    List<User> findAllWithTagsByIds(@Param("userIds") List<Integer> userIds);
 }
