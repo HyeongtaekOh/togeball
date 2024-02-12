@@ -30,12 +30,12 @@ public class MessageController {
     private final SimpMessageSendingOperations messagingTemplate;
 
     @MessageMapping("chat.{roomId}")
-    public void messaging(@DestinationVariable(value = "roomId") Long roomId,
+    public void messaging(@DestinationVariable(value = "roomId") Integer roomId,
                           @Header(value = "Authorization") String token,
                           @Payload ChatMessageDto messageDto) {
 
         log.info("roomId: {}, message: {}, token: {}", roomId, messageDto, token);
-        chatFacade.sendChatMessage(roomId.intValue(), messageDto);
+        chatFacade.sendChatMessage(roomId, messageDto);
     }
 
     @PostMapping("/chat-server/chats/{roomId}/images")

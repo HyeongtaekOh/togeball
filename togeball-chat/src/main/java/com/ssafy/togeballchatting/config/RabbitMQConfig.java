@@ -7,6 +7,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -18,11 +19,14 @@ public class RabbitMQConfig {
     @Value("${rabbitmq.exchange.name}")
     private String exchange;
 
-    @Value("${rabbitmq.queue.name}")
-    private String queue;
+    @Value("${rabbitmq.chat.queue}")
+    private String joinQueue;
 
-    @Value("${rabbitmq.routing-key}")
-    private String routingKey;
+    @Value("${rabbitmq.notification.queue}")
+    private String notificationQueue;
+
+    @Value("${rabbitmq.notification.routing-key}")
+    private String notificationRoutingKey;
 
     @Value("${rabbitmq.host}")
     private String host;
@@ -42,13 +46,18 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Queue queue() {
-        return new Queue(queue, false);
+    public Queue joinQueue() {
+        return new Queue(joinQueue, false);
     }
 
     @Bean
-    public Binding binding(Queue queue, DirectExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(routingKey);
+    public Queue notificationQueue() {
+        return new Queue(notificationQueue, false);
+    }
+
+    @Bean
+    public Binding binding(DirectExchange exchange) {
+        return BindingBuilder.bind(notificationQueue()).to(exchange).with(notificationRoutingKey);
     }
 
     @Bean
@@ -60,6 +69,14 @@ public class RabbitMQConfig {
         connectionFactory.setUsername(username);
         connectionFactory.setPassword(password);
         return connectionFactory;
+    }
+
+    @Bean
+    public RabbitTemplate rabbitTemplate() {
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
+        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+        rabbitTemplate.setChannelTransacted(true);
+        return rabbitTemplate;
     }
 
     @Bean
