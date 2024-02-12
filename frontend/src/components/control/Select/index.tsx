@@ -59,7 +59,7 @@ const SelectBox = ( props: SelectBoxProps ) => {
   const changeHandler = ( data : SourceData | TagType ) => {
     setSelectedValue( data?.content )
     setIsOpen( false )
-    props.setState(data?.content);
+    props.setState(data?.id)
   }
 
   return (

@@ -14,7 +14,7 @@ const useStore = create<Model>(( set, get ) => ({
     tagItem: '',
     tagList: [],
     setTagItem: ( tag ) => set(() => ({ tagItem: tag })),
-    setTagList:( tag ) => set(( state ) => ({tagList: [...state.tagList, state.tagItem] })),
+    setTagList:( tagList ) => set({ tagList: [...tagList ]}),
 
     isModalOpened: false,
     updateModal: () => set(( state ) => ({ isModalOpened: !state.isModalOpened })),

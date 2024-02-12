@@ -11,6 +11,9 @@ const HeaderWrapper = styled.div`
   height: 60px;
   padding: 50px 70px;
   align-items: center;
+  position:fixed;
+  z-index:999;
+  background-color: white
 `
 
 const Header = (props: HeaderProps) => {

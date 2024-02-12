@@ -9,7 +9,6 @@ const TagsInputWrapper = styled.div`
   gap: 10px;
   margin-top: 5px;
 `
-
 const TagItem = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -22,7 +21,6 @@ const TagItem = styled.div`
   border: none;
   border-radius: 20px;
 `
-
 const Button = styled.button`
   cursor: pointer;
   display: flex;
@@ -35,7 +33,6 @@ const Button = styled.button`
   background-color: inherit;
   border: none;
 `
-
 const TagInput = styled.input`
   cursor: text;
   box-sizing: border-box;
@@ -61,28 +58,26 @@ export const TagsInput = () => {
 
   const onKeyDown = ( event ) => {
     if(event.target.value.length === 0 && event.key === 'Backspace' ){
-      deleteTagItem( tagList[ tagList.length - 1 ] );
-      setTagItem("");
+      deleteTagItem( tagList[ tagList.length - 1 ] )
+      setTagItem("")
     }
   }
 
   const onKeyUp = ( event ) => {
     if (event.target.value.length !== 0 && event.key === "Enter" ) {
       if( tagList.length >= 10 ) {
-        alert( '태그는 최대 10개입니다.' );
-        setPlaceholder( '태그는 최대 10개입니다.' );
+        alert( '태그는 최대 10개입니다.' )
+        setPlaceholder( '태그는 최대 10개입니다.' )
       }
       else if( duplicateCheck( event.target.value )) setTagList([ ...tagList, tagItem ]);
-      setTagItem('');
+      setTagItem('')
     }
-  };
+  }
 
   const deleteTagItem = ( item ) => {
-    const filteredTagList = tagList.filter(
-      ( tagItem ) => tagItem !== item
-    );
-    setTagList( filteredTagList );
-  };
+    const filteredTagList = tagList.filter(tagItem => tagItem !== item)
+    setTagList(filteredTagList);
+  }
 
   return (
     <TagsInputWrapper>
@@ -92,7 +87,7 @@ export const TagsInput = () => {
             <span style={{ fontWeight: 'bold' }}>#{ tagItem }</span>
             <Button onClick={ () => deleteTagItem( tagItem ) }>X</Button>
           </TagItem>
-        );
+      )
       })}
       <TagInput
         type="text"

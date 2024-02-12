@@ -6,19 +6,18 @@ import styled from 'styled-components'
 
 
 const ChatWrapper = styled.div<{ width?: string }>`
-    display: flex;
-    Background-color: white;
-    width:  ${( props ) => props.width || '100%' };
-    border-radius: 10px;
-    border: 2px solid #6A60A9;
-    height: 50px;
-    padding: 10px;
-    justify-content: space-around;
-    &:hover{
-      background-color: #E4E2DD;
-      cursor: pointer;
+  display: flex;
+  Background-color: white;
+  width:  ${( props ) => props.width  };
+  border-radius: 10px;
+  border: 2px solid #6A60A9;
+  height: 50px;
+  padding: 10px;
+  justify-content: space-around;
+  &:hover{
+    background-color: #E4E2DD;
+    cursor: pointer;
   }
-  margin-top: 20px;
 `
 const TextWrapper = styled.div`
   display: flex;
@@ -32,7 +31,6 @@ flex-wrap: wrap;
 margin-top: 2px;
 margin-bottom: 8px;
 `
-
 const TagWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;

@@ -10,7 +10,6 @@ const PageWrapper = styled.div`
     align-items: center;
 `
 
-
 const Pagination = ( props ) => {
   
   const { chats, type = 'all' } = props
@@ -50,13 +49,15 @@ const Pagination = ( props ) => {
     const startIndex = ( currentPage - 1 ) * itemsPerPage
     const endIndex = startIndex + itemsPerPage
     return chats?.content?.slice( startIndex, endIndex ).map(( chat ) => (
-        <ChatItem type = { type } key = { chat?.id } item= { chat }/>
+      <ChatItem type = { type } key = { chat?.id } item= { chat }/>
     ))
   }
 
   return (
     <>
+    <div style={{ display: 'flex', gap: '10px', flexDirection: 'column', width: '100%' }}>
       { renderItems() }
+    </div>
     <PageWrapper>
         <LeftIcon size= { 20 } onClick={ handlePrevClick } disabled={ currentPage === 1 }/>
         { renderPagination() }

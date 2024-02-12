@@ -1,16 +1,15 @@
 import { Button, InputBox, Select, MainLayout, HomeLayout, Title } from 'src/components';
-import { TagsInput, WeekCalendar } from '../components';
-import { postRecruit } from './api';
+import { TagsInput, WeekCalendar } from '../components'
 import useStore from '../store'
-import { useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useMutation, useQuery } from 'react-query'
+import { RecruitType, TagApiType } from 'src/types'
+import { getTagId, getTags, makeRecruitChat, makeTags } from 'src/api'
 import { styled } from 'styled-components'
-import { TagApiType } from 'src/types';
-import { getTags } from 'src/api';
 
 const MatchBtn = styled.button`
-    width: 430px;
+    width: 410px;
     height: 48px;
     background-color: #fff; 
     border-radius: 20px;
@@ -18,10 +17,15 @@ const MatchBtn = styled.button`
     font-weight: bold;
     font-size: 18px;
     cursor: pointer;
+    &:hover{
+        background-color: lightgray;
+    }
 `
 const Contents = styled.div`
     display: flex;
-    gap: 30px;
+    gap: 20px;
+    align-items: center;
+    min-height: 50px;
 `
 const Input = styled.textarea<{ maxLength: string }>`
     height: 60px;
@@ -50,35 +54,51 @@ const Modal = styled.div`
 `
 
 const RecruitPost = () => {
-    const [ inputCount, setInputCount ] = useState(0)
+    const inputCount =  useRef(0)
+
     const [ title, setTitle ] = useState('')
     const [ team, setTeam ] = useState('')
     const [ seat, setSeat] = useState('')
-    const [ capacity, setCapacity ] = useState()
-    const { tagList } = useStore()
+    const [ capacity, setCapacity ] = useState(0)
     const [ textarea, setTextarea ] = useState('')
 
-    const { match, isModalOpened, updateModal } = useStore()
+    const { data: tags } = useQuery<TagApiType>([ 'tags', { page: 0, size: 100 }], () => getTags({ page: 0, size: 100 }))
 
-    const recruitMutation = useMutation( postRecruit );
+    const teams = tags?.content.filter(item => item.type === "PREFERRED_TEAM")
+    const seats = tags?.content.filter(item => item.type === "PREFERRED_SEAT")
+
+    const [nums, setNums] = useState([
+        { id: 2, content: '2명' },
+        { id: 3, content: '3명' },
+        { id: 4, content: '4명' },
+        { id: 5, content: '5명' },
+        { id: 6, content: '6명' },
+        { id: 7, content: '7명' },
+        { id: 8, content: '8명' },
+        { id: 9, content: '9명' },
+        { id: 10, content: '10명' }
+    ])
+
+    const { match, isModalOpened, updateModal, tagList } = useStore()
+
+    const recruitMutation = useMutation( makeRecruitChat )
+    const createTags = useMutation( makeTags )
 
     const onInputHandler = (e) => {
-        const textareaValue = e.target.id;
-        setInputCount(
-            textareaValue.replace(/<br\s*V?>/gm, '\n').length
-        )
-        setTextarea( textareaValue )
+      const textareaValue = e.target.value
+      inputCount.current = 
+          textareaValue.replace(/<br\s*V?>/gm, '\n').length
+      setTextarea( textareaValue )
     }
 
-    const html = document.querySelector('html');
+    const html = document.querySelector('html')
 
     const openModal = () => {
         updateModal()
         html?.classList.add('scroll-locked')
     }
-        
     const closeModal = () => {
-        updateModal();
+        updateModal()
         html?.classList.remove('scroll-locked')
     }
 
@@ -86,7 +106,6 @@ const RecruitPost = () => {
       const handleBackgroundClick = (e) => {
         (e.target === e.currentTarget) && onClose()
       }
-
       return createPortal(
         <ModalBackground onClick={ handleBackgroundClick }>
           <Modal>{ children }</Modal>
@@ -95,83 +114,91 @@ const RecruitPost = () => {
       )
     }
 
-    const { data: tags } = useQuery<TagApiType>([ 'tags', { page: 0, size: 100 }], () => getTags({ page: 0, size: 100 }))
-
-    const teams = tags?.content.filter(item => item.type === "PREFERRED_TEAM")
-    const seats = tags?.content.filter(item => item.type === "PREFERRED_SEAT")
-
-    const [nums, setNums] = useState([
-        { id: 1, content: '1' },
-        { id: 2, content: '2' },
-        { id: 3, content: '3' },
-        { id: 4, content: '4' },
-        { id: 5, content: '5' },
-        { id: 6, content: '6' },
-        { id: 7, content: '7' },
-        { id: 8, content: '8' },
-        { id: 9, content: '9' },
-        { id: 10, content: '10' }
-    ])
-    
-
-    const data = {
-        gameId: match.id,
-        userId: 123,
-        title: title,
-        description: textarea,
-        capacity: capacity,
-        cheeringTeam: team,
-        tags: tagList,
-        preferSeats: seat,
-    }
-
-    const makeChatting = () => {
-        recruitMutation.mutateAsync( data )
+  
+    const makeChatting = async () => {
+      if( title === '' ) {
+        alert('제목 입력하세요')
+        return
+      }
+      if( capacity === 0 ) {
+        alert('인원 선택하세요')
+        return
+      }
+      const response =  await createTags.mutateAsync({ tags : tagList })
+      if( response.length >= 0 )  {
+        const data : RecruitType = {
+            title: title,
+            description: textarea,
+            capacity: capacity,
+            managerId: Number(localStorage.getItem('userId')),
+            gameId: match.id,
+            cheeringClubId: Number( team ),
+            tagIds: [ ...response, seat ]
+          }
+        await recruitMutation.mutateAsync( data )
+      }
     }
 
     return (
       <MainLayout title='직관 메이트 모집하기 '>  
-          <HomeLayout>
-            <Title style={{ marginTop: '20px', marginLeft: '20px' }}>제목(최대 60자)</Title>
-            <InputBox height='20px' width='100%' onChange={(e) => { setTitle( e.target.id )}}/>
-            <MatchBtn onClick={ openModal }>
-                { match.homeClubName ? match.homeClubName +' VS '+ match.awayClubName : '경기를 선택하세요' }
-            </MatchBtn>
-            { 
-                isModalOpened 
-                && createPortal(
-                  <ModalPortal onClose={ closeModal }>
-                    <Modal><WeekCalendar/></Modal>
-                  </ModalPortal>,
-                  document.body )
+        <HomeLayout>
+          <Title type='medium' style={{ marginTop: '20px' }}>제목</Title>
+          <InputBox 
+            width='100%' 
+            value= { title }
+            onChange={(e) => { setTitle( e.target.value )}}
+            placeholder='제목을 입력하세요(최대 60자)'
+            fontSize= '17px'
+          />
+          <MatchBtn onClick={ openModal }>
+            {
+                match.homeClubName ? 
+                match.homeClubName +' VS '+ match.awayClubName + ' '+ match.datetime : 
+                '경기를 선택하세요' 
             }
-            <Contents>
-                <Select dataSource={ teams } placeholder='응원하는 팀' height='40px'
-                 setState={ setTeam }></Select>
-                <Select dataSource={ seats } placeholder='선호하는 좌석' height= '40px' 
-                 setState={ setSeat }></Select>
-            </Contents>
-            <Contents>
-                <Title type='medium' style={{ marginTop: '6px' }}>인원</Title>
-                <Select dataSource={ nums } placeholder='인원' width='120px' height='36px' 
-                   setState={ setCapacity }></Select>
-            </Contents>
-            <Contents>
-                <Title type='medium'>태그</Title><TagsInput />
-            </Contents>
-                <Title type='medium'>채팅방 소개</Title>
-            <Input onChange={ onInputHandler } maxLength="300" />
-            <p style={{ textAlign: 'right' }}>
-                <span>{ inputCount }</span>
-                <span>/300 자</span>
-            </p>
-            <div style={{ display:'flex', justifyContent: 'right', gap: '10px' }}>
-                <Button type='parti' width='120px' onClick= { makeChatting }>채팅방 만들기</Button>
-                <Button type='reset' width='90px'>초기화</Button>
-                <Button type='cancel' width='80px'>취소</Button>
-            </div>
-          </HomeLayout>
-        </MainLayout>
+          </MatchBtn>
+          { 
+              isModalOpened 
+              && createPortal(
+                <ModalPortal onClose={ closeModal }>
+                  <Modal><WeekCalendar/></Modal>
+                </ModalPortal>,
+                document.body )
+          }
+          <Contents>
+            <Title type='medium'>응원팀</Title>
+            <Select dataSource={ teams } placeholder='팀 선택' height='40px'
+             setState={ setTeam }></Select>
+             <Title type='medium'>선호 좌석</Title>
+            <Select dataSource={ seats } placeholder='좌석 선택' height= '40px' 
+             setState={ setSeat }></Select>
+          </Contents>
+          <Contents>
+            <Title type='medium'>인원</Title>
+              <Select 
+                 dataSource={ nums } placeholder='(2명 ~ 10명)' width='220px' height='40px' 
+               setState={ setCapacity }/>
+          </Contents>
+          <Contents>
+            <Title type='medium'>태그</Title><TagsInput />
+          </Contents>
+            <Title type='medium'>채팅방 소개</Title>
+          <Input 
+            value={ textarea } 
+            onChange={(e) => onInputHandler(e) } 
+            maxLength="300" 
+          />
+          <p style={{ textAlign: 'right' }}>
+            <span>{ inputCount.current }</span>
+            <span>/300 자</span>
+          </p>
+          <div style={{ display:'flex', justifyContent: 'right', gap: '10px' }}>
+            <Button type='parti' width='120px' onClick= { makeChatting }>채팅방 만들기</Button>
+            <Button type='reset' width='90px'>초기화</Button>
+            <Button type='cancel' width='80px'>취소</Button>
+          </div>
+        </HomeLayout>
+      </MainLayout>
     )
 }
 

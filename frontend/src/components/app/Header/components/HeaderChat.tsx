@@ -24,7 +24,7 @@ const HeaderChat = ( props  ) => {
 
    <HeaderChatWrapper>
       <Title color ='#6A60A9'>나의 채팅방</Title>
-      <div>
+      <div style={{ width: '100%', marginTop: '20px' }}>
         <Pagination type= 'my' chats={ chats } />
       </div>
    </HeaderChatWrapper>

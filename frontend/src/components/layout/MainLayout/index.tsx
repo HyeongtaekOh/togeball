@@ -8,6 +8,7 @@ const MainWrapper = styled.div`
     height: 85%;
     flex-direction: column;
     align-items: center;
+    margin-top: 100px;
 `
 
 const MainLayout = ( props : MainLayoutProps ) =>{
