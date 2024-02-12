@@ -1,9 +1,11 @@
 package com.ssafy.togeball.domain.chatroom.repository;
 
+import com.ssafy.togeball.domain.chatroom.dto.GameChatroomRequest;
 import com.ssafy.togeball.domain.chatroom.dto.MatchingChatroomRequest;
 import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomRequest;
 import com.ssafy.togeball.domain.chatroom.dto.RecruitChatroomSearchCondition;
 import com.ssafy.togeball.domain.chatroom.entity.Chatroom;
+import com.ssafy.togeball.domain.chatroom.entity.GameChatroom;
 import com.ssafy.togeball.domain.chatroom.entity.MatchingChatroom;
 import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
 import com.ssafy.togeball.domain.user.entity.User;
@@ -27,6 +29,8 @@ public interface CustomChatroomRepository {
     void addParticipants(Integer chatroomId, List<Integer> userIds);
 
     RecruitChatroom createRecruitChatroom(RecruitChatroomRequest chatroomDto);
+
+    GameChatroom createGameChatroom(GameChatroomRequest chatroomDto);
 
     MatchingChatroom createMatchingChatroom(MatchingChatroomRequest chatroomDto);
 

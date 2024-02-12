@@ -1,5 +1,6 @@
 package com.ssafy.togeball.domain.user.dto;
 
+import com.ssafy.togeball.domain.league.entity.Club;
 import com.ssafy.togeball.domain.tag.dto.TagResponse;
 import com.ssafy.togeball.domain.user.entity.Gender;
 import com.ssafy.togeball.domain.user.entity.User;
@@ -21,12 +22,18 @@ public class UserResponse {
     private LocalDateTime birthdate;
     private String profileImage;
     private List<TagResponse> tags;
+    private String clubSponsorName;
+    private String clubName;
+    private String clubLogo;
 
     public static UserResponse of(User user) {
 
         List<TagResponse> tags = user.getUserTags().stream()
                 .map(userTag -> TagResponse.of(userTag.getTag()))
                 .toList();
+
+        Club club = user.getClub();
+
         return UserResponse.builder()
                 .id(user.getId())
                 .nickname(user.getNickname())
@@ -34,6 +41,9 @@ public class UserResponse {
                 .birthdate(user.getBirthdate())
                 .profileImage(user.getProfileImage())
                 .tags(tags)
+                .clubSponsorName(club != null ? club.getSponsorName() : null)
+                .clubName(club != null ? club.getClubName() : null)
+                .clubLogo(club != null ? club.getLogo() : null)
                 .build();
     }
 }

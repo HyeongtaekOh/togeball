@@ -3,6 +3,7 @@ package com.ssafy.togeball.domain.user.dto;
 import com.ssafy.togeball.domain.league.entity.Club;
 import com.ssafy.togeball.domain.tag.dto.TagResponse;
 import com.ssafy.togeball.domain.user.entity.Gender;
+import com.ssafy.togeball.domain.user.entity.Role;
 import com.ssafy.togeball.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class UserMeResponse {
     private String phone;
     private String profileImage;
     private List<TagResponse> tags;
+    private Role role;
     private String clubSponsorName;
     private String clubName;
     private String clubLogo;
@@ -45,6 +47,7 @@ public class UserMeResponse {
                 .phone(user.getPhone())
                 .profileImage(user.getProfileImage())
                 .tags(tags)
+                .role(user.getRole())
                 .clubSponsorName(club != null ? club.getSponsorName() : null)
                 .clubName(club != null ? club.getClubName() : null)
                 .clubLogo(club != null ? club.getLogo() : null)

@@ -55,12 +55,13 @@ public class SecurityConfig {
                  */
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/oauth2/**", "/h2-console/**", "/error", "/login/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/reissue", "/api/auth/code", "/api/users").permitAll()
-                        .requestMatchers("/api/users/email", "/api/users/nickname", "/api/users").permitAll() // 개발용
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/reissue", "/api/auth/code").permitAll()
+                        .requestMatchers("/api/users/me/**").authenticated()
+                        .requestMatchers( "/api/users/**").permitAll()
                         .requestMatchers("/api/hashtags/**").permitAll() // 개발용
                         .requestMatchers("/api/league/**").permitAll()
                         .requestMatchers("/api/posts/**").permitAll()
-                        .requestMatchers("/social/**").permitAll()
+                        .requestMatchers("/api/chatrooms/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2Login(oauth2Login -> oauth2Login.permitAll()
                         .successHandler(oAuth2LoginSuccessHandler)

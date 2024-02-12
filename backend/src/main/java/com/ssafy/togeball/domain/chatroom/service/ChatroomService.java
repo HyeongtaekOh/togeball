@@ -21,7 +21,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.List;
@@ -68,14 +67,19 @@ public class ChatroomService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ChatroomResponse> findChatroomsByUserId(Integer userId, Pageable pageable) {
+    public Page<ChatroomResponse> findChatroomsByUserId(Integer userId, String token, Pageable pageable) {
         log.info("userId: {}", userId);
         Page<Chatroom> chatrooms = chatroomRepository.findChatroomsByUserId(userId, pageable);
         log.info("chatrooms: {}", chatrooms.map(Chatroom::getId).toList());
-        Map<Integer, ChatroomStatus> statuses =
-                getChatroomStatuses(userId, chatrooms.map(Chatroom::getId).toList());
-        log.info("statuses: {}", statuses);
         Page<ChatroomResponse> chatroomResponses = getChatroomResponses(chatrooms);
+
+        if (chatroomResponses.isEmpty()) {
+            return chatroomResponses;
+        }
+
+        Map<Integer, ChatroomStatus> statuses =
+                getChatroomStatuses(userId, token, chatrooms.map(Chatroom::getId).toList());
+        log.info("statuses: {}", statuses);
         chatroomResponses.forEach(chatroom -> addChatroomStatus(chatroom, statuses.get(chatroom.getId())));
         return chatroomResponses;
     }
@@ -89,6 +93,11 @@ public class ChatroomService {
     @Transactional
     public Integer createRecruitChatroom(RecruitChatroomRequest chatroomDto) {
         return chatroomRepository.createRecruitChatroom(chatroomDto).getId();
+    }
+
+    @Transactional
+    public Integer createGameChatroom(GameChatroomRequest chatroomDto) {
+        return chatroomRepository.createGameChatroom(chatroomDto).getId();
     }
 
     @Transactional
@@ -158,43 +167,50 @@ public class ChatroomService {
     }
 
     private ChatroomResponse convertChatroomResponse(Chatroom chatroom) {
+
+        List<UserResponse> members = chatroom.getChatroomMemberships().stream()
+                .map(membership -> UserResponse.of(membership.getUser()))
+                .toList();
+
+        ChatroomResponse chatroomResponse = null;
+
         if (chatroom instanceof RecruitChatroom) {
-            return RecruitChatroomResponse.of((RecruitChatroom) chatroom);
-        } else if (chatroom instanceof GameChatroom) {
-            return GameChatroomResponse.of((GameChatroom) chatroom);
+            chatroomResponse = RecruitChatroomResponse.of((RecruitChatroom) chatroom);
         } else if (chatroom instanceof MatchingChatroom) {
-            return MatchingChatroomResponse.of((MatchingChatroom) chatroom);
+            chatroomResponse = MatchingChatroomResponse.of((MatchingChatroom) chatroom);
+        } else if (chatroom instanceof GameChatroom) {
+            chatroomResponse = GameChatroomResponse.of((GameChatroom) chatroom);
+        } else {
+            throw new ApiException(ChatroomErrorCode.INVALID_CHATROOM_TYPE);
         }
 
-        throw new ApiException(ChatroomErrorCode.INVALID_CHATROOM_TYPE);
+        chatroomResponse.setMembers(members);
+        return chatroomResponse;
     }
 
-    private ChatroomResponse addChatroomStatus(ChatroomResponse chatroom, ChatroomStatus status) {
+    private void addChatroomStatus(ChatroomResponse chatroom, ChatroomStatus status) {
         chatroom.setStatus(status);
-        return chatroom;
     }
 
     private Page<ChatroomResponse> getChatroomResponses(Page<Chatroom> chatrooms) {
-        Page<ChatroomResponse> page = chatrooms.map(this::convertChatroomResponse);
-        return page;
+        return chatrooms.map(this::convertChatroomResponse);
     }
 
-    private Map<Integer, ChatroomStatus> getChatroomStatuses(Integer userId, List<Integer> roomIds) {
+    private Map<Integer, ChatroomStatus> getChatroomStatuses(Integer userId, String token, List<Integer> roomIds) {
 
         List<ChatroomStatus> response = webClient.get()
                 .uri(uriBuilder -> {
-                    uriBuilder.path("/chat-server/users/" + userId + "/chats/unread");
-                    roomIds.stream()
-                            .forEach(roomId -> uriBuilder.queryParam("roomId", roomId));
+                    uriBuilder.path("/chat-server/me" + "/chats/unread");
+                    roomIds.forEach(roomId -> uriBuilder.queryParam("roomId", roomId));
                     return uriBuilder.build();
                 })
+                .header("Authorization", "Bearer " + token)
                 .retrieve()
                 .bodyToFlux(ChatroomStatus.class)
                 .collectList()
                 .block();
         Map<Integer, ChatroomStatus> statuses = new HashMap<>();
-        response.stream().forEach(status -> statuses.put(status.getRoomId(), status));
+        response.forEach(status -> statuses.put(status.getRoomId(), status));
         return statuses;
     }
-
 }

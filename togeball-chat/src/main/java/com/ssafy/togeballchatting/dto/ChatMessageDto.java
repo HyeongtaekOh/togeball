@@ -13,16 +13,18 @@ import java.time.Instant;
 @ToString
 public class ChatMessageDto {
 
-        private Integer senderId;
         private Integer roomId;
+        private Integer senderId;
+        private String nickname;
         private MessageType type;
         private String content;
         private Instant timestamp;
 
         public static ChatMessageDto of(ChatMessage chatMessage) {
                 return ChatMessageDto.builder()
-                        .senderId(chatMessage.getSenderId())
                         .roomId(chatMessage.getRoomId())
+                        .senderId(chatMessage.getSenderId())
+                        .nickname(chatMessage.getNickname())
                         .type(chatMessage.getType())
                         .content(chatMessage.getContent())
                         .timestamp(chatMessage.getTimestamp())
@@ -31,8 +33,9 @@ public class ChatMessageDto {
 
         public ChatMessage toEntity() {
                 return ChatMessage.builder()
-                        .senderId(senderId)
                         .roomId(roomId)
+                        .senderId(senderId)
+                        .nickname(nickname)
                         .type(type)
                         .content(content)
                         .timestamp(timestamp)
