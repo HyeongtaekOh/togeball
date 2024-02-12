@@ -34,16 +34,16 @@ const LabberWrapper = styled.label`
   cursor: pointer;
 `
 
-const ImgUpload = () => {
+const ImgUpload = (props) => {
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const [ imgSrc, setImgSrc ] = useState(lufi)
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  const [ imgSrc, setImgSrc ] = useState(props.profileImage)
   const { setImage } = useModel()
 
   const onUploadImage = useCallback( async( e: React.ChangeEvent<HTMLInputElement> ) => {
     if ( !e.target.files || e.target.files.length ===0 ) return
 
-    const file = e.target.files[0];
+    const file = e.target.files[0]
     try {
       const presignedUrl = await getImgPath()
       const path = presignedUrl.objectKey.match(/\/profiles\/(.*)/)?.[1];
@@ -54,8 +54,8 @@ const ImgUpload = () => {
         },
         body: file
       });
-      setImgSrc(URL.createObjectURL(file))
-      setImage(path) 
+      setImgSrc( URL.createObjectURL( file ))
+      setImage( path ) 
     } catch (error) {
       console.error('Error uploading image:', error);
     }
@@ -64,7 +64,7 @@ const ImgUpload = () => {
   
   return (
     <ImgUploadWrapper>
-      <ImgWrapper src={ imgSrc }/>
+      <ImgWrapper src={ imgSrc } alt={ lufi }/>
       <input style= {{ display: 'none' }} type= 'file' accept= 'image/*' id= 'files' ref={ inputRef } onChange={ onUploadImage }/>
       <div style= {{ display: 'flex', flexDirection: 'column' }}>
         <LabberWrapper htmlFor= 'files'>변경</LabberWrapper>

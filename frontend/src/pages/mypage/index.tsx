@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 import { ChatItem, HomeLayout, MainLayout } from 'src/components'
-import { useNavigate } from 'react-router-dom'
 import { Ticket } from './components'
-import { useQuery } from 'react-query'
 import { useState, useEffect, useRef } from 'react';
 import { getAxios } from 'src/api/util'
 
@@ -31,101 +29,94 @@ const ItemListWrapper= styled.div`
 const MyPage = (() => {
     const [ chats, setChats ] = useState([]);
     const [ chatPage, setChatPage ] = useState<number>(0);
-    const [ chatLoading, setChatLoading ] = useState<boolean>(false);
+    const [ chatLoading, setChatLoading ] = useState<boolean>( false );
     const chatObserver = useRef<IntersectionObserver>(); 
 
     const [ boards, setBoards ] = useState([]);
     const [ boardPage, setBoardPage ] = useState<number>(0);
-    const [ boardLoading, setBoardLoading ] = useState<boolean>(false);
+    const [ boardLoading, setBoardLoading ] = useState<boolean>( false );
     const boardObserver = useRef<IntersectionObserver>(); 
 
     useEffect(() => {
         const fetchData = async () => {
-            setChatLoading(true);
+            setChatLoading( true )
           try {
-            const response = await getAxios(`/api/users/me/chatrooms?page=${chatPage}`)
+            const response = await getAxios( `/api/users/me/chatrooms?page=${chatPage}` )
             const newData = response?.content
             setChats(prevData => [ ...prevData, ...newData ])
-            setChatLoading(false);
-          } catch (error) {
-            console.error('Error fetching data:', error);
-            setChatLoading(false);
+            setChatLoading( false )
+          } catch ( error ) {
+            console.error( 'Error fetching data:', error )
+            setChatLoading( false );
           }
         };
         fetchData();
-      }, [chatPage]);
+      }, [ chatPage ]);
 
     useEffect(() => {
         const fetchData = async () => {
-            setBoardLoading(true);
+            setBoardLoading( true )
           try {
-            const response = await getAxios(`/api/users/me/posts?page=${boardPage}`)
+            const response = await getAxios( `/api/users/me/posts?page=${boardPage}` )
             const newData = response?.content
-            setBoards(prevData => [...prevData, ...newData])
-            setBoardLoading(false);
-          } catch (error) {
-            console.error('Error fetching data:', error);
-            setBoardLoading(false);
+            setBoards(prevData => [ ...prevData, ...newData ])
+            setBoardLoading( false )
+          } catch ( error ) {
+            console.error( 'Error fetching data:', error )
+            setBoardLoading( false )
           }
         };
-        fetchData();
-    }, [boardPage]);
+        fetchData()
+    }, [ boardPage ])
 
     useEffect(() => {
         const options = {
           root: null,
           rootMargin: '0px',
           threshold: 1.0,
-        };
-    
-        const handleObserver = (entries) => {
-          const target = entries[0];
-          if (target.isIntersecting && !chatLoading) {
-            setChatPage(prevPage => prevPage + 1);
-          }
-        };
-    
-        chatObserver.current = new IntersectionObserver(handleObserver, options);
-    
-        if (chatObserver.current && chatLoading) {
-            chatObserver.current.observe(document.getElementById('chatObserver')); 
         }
     
-        return () => {
-          if (chatObserver.current) {
-            chatObserver.current.disconnect(); 
-          }
-        };
+        const handleObserver = ( entries ) => {
+          const target = entries[0]
+          target.isIntersecting && !chatLoading &&
+            setChatPage( prevPage => prevPage + 1 )
+        }
     
-    }, [chatLoading]);
+        chatObserver.current = new IntersectionObserver(handleObserver, options)
+    
+        chatObserver.current && chatLoading &&
+            chatObserver.current.observe(document.getElementById('chatObserver'))
+    
+        return () => {
+          chatObserver.current &&
+            chatObserver.current.disconnect()
+        }
+    
+    }, [ chatLoading ])
 
     useEffect(() => {
         const options = {
           root: null,
           rootMargin: '0px',
           threshold: 1.0,
-        };
-    
-        const handleObserver = (entries) => {
-          const target = entries[0];
-          if (target.isIntersecting && !boardLoading) {
-            setBoardPage(prevPage => prevPage + 1);
-          }
-        };
-    
-        boardObserver.current = new IntersectionObserver(handleObserver, options);
-    
-        if (boardObserver.current && boardLoading) {
-            boardObserver.current.observe(document.getElementById('boardObserver')); 
         }
     
-        return () => {
-          if (boardObserver.current) {
-            boardObserver.current.disconnect(); 
-          }
+        const handleObserver = ( entries ) => {
+          const target = entries[0];
+          target.isIntersecting && !boardLoading &&
+            setBoardPage( prevPage => prevPage + 1 )
         };
     
-      }, [boardLoading]);
+        boardObserver.current = new IntersectionObserver( handleObserver, options )
+        boardObserver.current && boardLoading &&
+            boardObserver.current.observe( document.getElementById( 'boardObserver' ))
+        
+        return () => {
+          boardObserver.current &&
+            boardObserver.current.disconnect()
+        }
+    
+      }, [ boardLoading ])
     
     return (
         <MainLayout title='마이 페이지'>
