@@ -33,19 +33,19 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
         // 2. 로그인한 유저의 jwtToken 가져옴
 
         // 2-1. Header에서 Authorization의 bearer 토큰을 가져옴
-//        String bearerToken = request.getHeaders().get("Authorization").toString();
-//        String jwtToken;
-//        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-//            jwtToken = bearerToken.substring(7);
-//            log.info("jwtToken : {}", jwtToken);
-//        } else {
-//            log.info("토큰이 안 들어왔어요!!");
-//            return false;
-//        }
+        String bearerToken = request.getHeaders().get("Authorization").toString();
+        String jwtToken;
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            jwtToken = bearerToken.substring(7);
+            log.info("jwtToken : {}", jwtToken);
+        } else {
+            log.info("토큰이 안 들어왔어요!!");
+            return false;
+        }
 
         // 2-2. 테스트를 위해 쿼리 스트링으로 토큰을 받아옴
-        if (request.getURI().getQuery() == null) return false;
-        String jwtToken = request.getURI().getQuery().split("token=")[1];
+//        if (request.getURI().getQuery() == null) return false;
+//        String jwtToken = request.getURI().getQuery().split("token=")[1];
 
         // JWT 토큰 처리 로직 시작
         String[] parts = jwtToken.split("\\."); // JWT 토큰 파싱
