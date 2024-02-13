@@ -29,8 +29,8 @@ const RightHeader = () => {
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('userId')
-    window.location.reload()
     navigator('/')
+    window.location.reload()
   }
 
   const personMenu = [

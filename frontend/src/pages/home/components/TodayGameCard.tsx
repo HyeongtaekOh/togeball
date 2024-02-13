@@ -64,10 +64,7 @@ const TodayGameCard = () =>{
           로딩 중...
         </Title>
       ) : curGame ? (
-        <GameItem
-          game={ curGame }
-          // onClick={() => navigator(`/select/${curGame?.chatroomId}`)}
-        />
+        <GameItem game={ curGame }/>
       ) : (
         <Title color='#746E6E' type='medium'>
           오늘의 경기가 없습니다.

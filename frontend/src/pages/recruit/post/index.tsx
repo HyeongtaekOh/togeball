@@ -79,7 +79,7 @@ const RecruitPost = () => {
         { id: 10, content: '10명' }
     ])
 
-    const { match, isModalOpened, updateModal, tagList } = useStore()
+    const { match, isModalOpened, updateModal, tagList, updateMatch } = useStore()
 
     const recruitMutation = useMutation( makeRecruitChat )
     const createTags = useMutation( makeTags )
@@ -89,6 +89,15 @@ const RecruitPost = () => {
       inputCount.current = 
           textareaValue.replace(/<br\s*V?>/gm, '\n').length
       setTextarea( textareaValue )
+    }
+
+    const onReset = () => {
+      setTitle('')
+      setTeam('')
+      setSeat('')
+      setCapacity(0)
+      setTextarea('')
+      updateMatch({})
     }
 
     const html = document.querySelector('html')
@@ -125,7 +134,7 @@ const RecruitPost = () => {
         return
       }
       const response =  await createTags.mutateAsync({ tags : tagList })
-      if( response.length >= 0 )  {
+      if( response?.length >= 0 )  {
         const data : RecruitType = {
             title: title,
             description: textarea,
@@ -151,19 +160,19 @@ const RecruitPost = () => {
             fontSize= '17px'
           />
           <MatchBtn onClick={ openModal }>
-            {
-                match.homeClubName ? 
-                match.homeClubName +' VS '+ match.awayClubName + ' '+ match.datetime : 
-                '경기를 선택하세요' 
-            }
+          {
+            match.homeClubName ? 
+            `${ match.homeClubName } VS ${ match.awayClubName } ${ match.datetime.substring(0,10) + ' ' + match.datetime.substring(11,16)}`
+            :'경기를 선택하세요' 
+          }
           </MatchBtn>
           { 
-              isModalOpened 
-              && createPortal(
-                <ModalPortal onClose={ closeModal }>
-                  <Modal><WeekCalendar/></Modal>
-                </ModalPortal>,
-                document.body )
+            isModalOpened 
+            && createPortal(
+              <ModalPortal onClose={ closeModal }>
+                <Modal><WeekCalendar/></Modal>
+              </ModalPortal>,
+              document.body )
           }
           <Contents>
             <Title type='medium'>응원팀</Title>
@@ -176,7 +185,7 @@ const RecruitPost = () => {
           <Contents>
             <Title type='medium'>인원</Title>
               <Select 
-                 dataSource={ nums } placeholder='(2명 ~ 10명)' width='220px' height='40px' 
+                dataSource={ nums } placeholder='(2명 ~ 10명)' width='220px' height='40px' 
                setState={ setCapacity }/>
           </Contents>
           <Contents>
@@ -194,7 +203,7 @@ const RecruitPost = () => {
           </p>
           <div style={{ display:'flex', justifyContent: 'right', gap: '10px' }}>
             <Button type='parti' width='120px' onClick= { makeChatting }>채팅방 만들기</Button>
-            <Button type='reset' width='90px'>초기화</Button>
+            <Button type='reset' width='90px' onClick= { onReset }>초기화</Button>
             <Button type='cancel' width='80px'>취소</Button>
           </div>
         </HomeLayout>

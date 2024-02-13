@@ -34,6 +34,10 @@ useAxios.interceptors.response.use(
 
     console.log(error)
 
+    if( error.response.status === 409 ){
+      return error.response
+    }
+
     if( status === 401 || error === 401 ){
 
       if(localStorage.getItem('refreshToken')){
