@@ -231,10 +231,9 @@ public class AuthService implements UserDetailsService {
         String refreshToken = jwtService.extractRefreshToken(request).orElseThrow(InvalidTokenException::new);
 
         if (jwtService.isTokenValid(refreshToken)) {
-            authRepository.findByRefreshToken(refreshToken).ifPresent(auth -> {
-                String newAccessToken = jwtService.createAccessToken(auth.getId());
-                jwtService.sendAccessToken(response, newAccessToken);
-            });
+            Auth auth = authRepository.findByRefreshToken(refreshToken).orElseThrow(InvalidTokenException::new);
+            String newAccessToken = jwtService.createAccessToken(auth.getId());
+            jwtService.sendAccessToken(response, newAccessToken);
         } else {
             throw new InvalidTokenException();
         }
