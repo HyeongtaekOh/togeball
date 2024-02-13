@@ -29,6 +29,7 @@ const ItemListWrapper= styled.div`
 
 
 const MyPage = (() => {
+
     const [ chats, setChats ] = useState([]);
     const [ chatPage, setChatPage ] = useState<number>(0);
     const [ chatLoading, setChatLoading ] = useState<boolean>( false );
@@ -41,6 +42,10 @@ const MyPage = (() => {
 
     const [ newChatData, setNewChatData ] = useState([])
     const [ newBoardData, setNewBoardData ] = useState([])
+
+    useEffect(()=>{
+    },[])
+
     useEffect(() => {
         const fetchData = async () => {
             setChatLoading( true )
