@@ -61,6 +61,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/hashtags/**").permitAll() // 개발용
                         .requestMatchers("/api/league/**").permitAll()
                         .requestMatchers("/api/posts/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/chatrooms").permitAll()
                         .requestMatchers("/api/chatrooms/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2Login(oauth2Login -> oauth2Login.permitAll()
