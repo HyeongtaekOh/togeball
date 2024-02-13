@@ -18,14 +18,18 @@ const HeaderChatWrapper = styled.div`
 
 const HeaderChat = ( props  ) => {  
 
-  const { data: chats } = useQuery( 'chats', getMyChats )
+  const { data: chats, isLoading } = useQuery( 'chats', getMyChats )
   
   return(
 
    <HeaderChatWrapper>
       <Title color ='#6A60A9'>나의 채팅방</Title>
       <div style={{ width: '100%', marginTop: '20px' }}>
-        <Pagination type= 'my' chats={ chats } />
+        {
+          isLoading ? 
+          <Title>로딩중</Title>:
+          <Pagination type= 'my' chats={ chats } />
+        }
       </div>
    </HeaderChatWrapper>
 

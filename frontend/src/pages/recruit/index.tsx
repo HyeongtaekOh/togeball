@@ -33,6 +33,14 @@ const RecruitList = () => {
 
   const { data : chats } = useQuery([ 'chats', { type: 'RECRUIT' }], () => getRecruits({ type: 'RECRUIT' }))
 
+  const goWrite = () => {
+    if( !localStorage.getItem('userId') ){
+      alert(' 로그인 하세요 ')
+      navigator('/login')
+    } 
+    else navigator('/recruit/post')
+  }
+
   const FilterMine = () => {
 
     }
@@ -47,7 +55,7 @@ const RecruitList = () => {
             </SettingWrapper>
             <Button 
               style={{ alignSelf: 'flex-end', padding: '10px', marginTop: '-15px' }}
-              onClick={ () => navigator('/recruit/post') }
+              onClick={ goWrite }
             >채팅방 생성</Button>
             <div style={{ paddingBottom : '50px' }}>
                 <Pagination chats={ chats } />

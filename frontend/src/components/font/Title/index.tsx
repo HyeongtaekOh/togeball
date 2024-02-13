@@ -11,6 +11,8 @@ const TitleWrapper = styled.p<{ type : string, color : string, bold : boolean }>
     color: ${ ( props ) => props.color };
     line-height: 130%;
     white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden; 
     
     ${(props) =>
         ( props.type !== 'small' || props.bold ) &&

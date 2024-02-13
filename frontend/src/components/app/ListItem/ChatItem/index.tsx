@@ -23,7 +23,7 @@ const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 60%
+  width: 60%;
 `
 const DescribeWrapper = styled.p`
 display: flex;
@@ -45,18 +45,26 @@ const ChatItem = ( props: ChatListProps ) => {
   const partiMutation = useMutation( partiChat )
 
   const goChat = () => {
-    partiMutation.mutateAsync({ chatRoomId : item?.id })
-    navigator(`/chat/${ item?.id }`)
+    if( !localStorage.getItem('userId') ){
+      alert(' 로그인 하세요 ')
+      navigator('/login')
+    } 
+    else {
+      partiMutation.mutateAsync({ chatRoomId : item?.id })
+      navigator(`/chat/${ item?.id }`)
+    }
   }
 
   return(
    <ChatWrapper onClick={()=> goChat()} width={ width }>
      <img src={ item?.cheeringClub?.logo } alt='로고' style={{ width: '20%' }}/> 
     <TextWrapper>
-      <Title type='medium' style={{ display: 'flex', flexWrap: 'wrap'}}>{ item?.title }</Title>
-        <DescribeWrapper>{ item?.description }</DescribeWrapper>
+      <div style={{ display: 'block', width:'100%' }}>
+      <Title type='medium'>{ item?.title }</Title>
+      <DescribeWrapper>{ item?.description }</DescribeWrapper>
+      </div>
         <TagWrapper>
-          { item.tags.map(( tag, index ) => (
+          { item.tags.map(( tag ) => (
             <Title type='small'>#{ tag?.content }&nbsp;</Title>
           ))}
         </TagWrapper>
