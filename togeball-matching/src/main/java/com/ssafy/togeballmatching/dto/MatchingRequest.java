@@ -12,6 +12,6 @@ public class MatchingRequest {
 
     private String title;
     private Integer capacity;
-    private Set<Integer> userIds;
+    private List<Integer> userIds;
     private Set<Integer> tagIds;
 }
