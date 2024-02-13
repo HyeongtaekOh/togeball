@@ -4,6 +4,7 @@ interface dataType {
         nickname?: string,
         clubId?: number,
         role?: string,
+        gender?: string,
         profileImage?: string,
         tags?: number[]
 }

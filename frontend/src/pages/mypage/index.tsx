@@ -47,7 +47,7 @@ const MyPage = (() => {
         const fetchData = async () => {
             setChatLoading( true )
           try {
-            const response = await getAxios( `/api/users/me/chatrooms?page=${chatPage}` )
+            const response = await getAxios( `/api/users/me/chatrooms/owned?page=${chatPage}&size=4` )
             setNewChatData(response?.content)
             setChats(prevData => [ ...prevData, ...newChatData ])
             setChatLoading( false )
@@ -63,7 +63,7 @@ const MyPage = (() => {
         const fetchData = async () => {
             setBoardLoading( true )
           try {
-            const response = await getAxios( `/api/users/me/posts?page=${boardPage}` )
+            const response = await getAxios( `/api/users/me/posts?page=${ boardPage }&size=4` )
             setNewBoardData(response?.content)
             setBoards(prevData => [ ...prevData, ...newBoardData ])
             setBoardLoading( false )

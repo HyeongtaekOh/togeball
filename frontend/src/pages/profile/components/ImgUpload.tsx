@@ -35,7 +35,7 @@ const LabberWrapper = styled.label`
 `
 
 const ImgUpload = (props) => {
-  console.log(props.profileImage)
+  
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [ imgSrc, setImgSrc ] = useState(props.profileImage===''? lufi : props.profileImage)
   const { setImage } = useModel()
@@ -45,9 +45,7 @@ const ImgUpload = (props) => {
 
     const file = e.target.files[0]
     try {
-      const presignedUrl = await getImgPath(`profiles/${localStorage.userId}/profile`)
-      console.log(presignedUrl)
-      // const path = presignedUrl.objectKey.match(/\/profiles\/(.*)/)?.[1];
+      const presignedUrl = await getImgPath()
       await fetch(presignedUrl.preSignedURL, {
         method: 'PUT',
         headers: {
