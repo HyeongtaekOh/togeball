@@ -38,9 +38,10 @@ const TagBtn = ( props: TagBtnProps ) => {
     const letterColor = isClick.current ? 'white' : 'black';
 
     const changeColor = () => {
-      if(selectTags.length<15)
-      isClick.current =!isClick.current;      
-      isClick.current ? addSelectTags( item ) : deleteTags( item ) ;
+      if(selectTags.length<15){
+        isClick.current =!isClick.current
+        isClick.current ? addSelectTags( item ) : deleteTags( item ) 
+      }
     }
 
     return (

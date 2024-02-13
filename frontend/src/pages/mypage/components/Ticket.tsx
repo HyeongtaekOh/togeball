@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getMyInfo } from 'src/api'
 import { TagList } from './index';
 import lufi from 'src/asset/images/lufi.jpg'
+import Logo from 'src/asset/images/Logo.jpg'
 import barcode from 'src/asset/images/barcode.jpg'
 import { useQuery } from 'react-query';
 
@@ -40,7 +41,7 @@ const MyinfoWrapper = styled.div`
     height: 75%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
 `
 
 const PictureWrapper = styled.img`
@@ -82,6 +83,7 @@ const EditProfileWrapper = styled.p`
 `
 
 
+
 const Ticket = ( () => {
 
     const navigate = useNavigate()
@@ -97,6 +99,8 @@ const Ticket = ( () => {
         tag: userInfo?.tags.map(( tag ) =>{ return '#'+tag.content }), logo: userInfo?.clubLogo
     }
 
+    console.log(user.profileImage)
+
     return (
             <TicketWrapper>
                 <BarcodeWrapper>
@@ -106,7 +110,7 @@ const Ticket = ( () => {
                 <MyinfoWrapper>
                     <div style={{ width: '65%', height: '100%', display: 'flex', flexWrap: 'wrap' }}>
                         <div style={{ width:'30%'}}>
-                            <PictureWrapper src={ user.profileImage } alt = ''/>
+                            <PictureWrapper src={ ( user.profileImage===null || user.profileImage==='' )? lufi : user.profileImage } />
                         </div>
                         <MySelfWrapper>
                             <IndexWrapper>이메일:  
@@ -114,7 +118,7 @@ const Ticket = ( () => {
                             </IndexWrapper>
                             <div style={{ display: 'flex', gap: '40px' }}>
                                 <IndexWrapper>응원팀:  
-                                    <ValueWrapper>{ user.myTeam===0 ? '미정' : user.myTeam }</ValueWrapper>
+                                    <ValueWrapper>{ ( user.myTeam===0 ) ? '미정' : user.myTeam }</ValueWrapper>
                                 </IndexWrapper>
                                 <IndexWrapper>닉네임:  
                                     <ValueWrapper>{ user.nickName }</ValueWrapper>
@@ -124,7 +128,7 @@ const Ticket = ( () => {
                         <TagList tags = { user.tag }/>  
                     </div>
                     <div style={{ width: '30%', height: '100%' }}>
-                        <img src={ user.logo } alt='' 
+                        <img src={ user.logo===null ? Logo : user.logo } alt=''
                             style={{ width: '90%', height: '90%', opacity: '0.5', marginTop: '5%' }}/>
                     </div>
                     <EditProfileWrapper onClick={ EditProfile }>회원정보수정</EditProfileWrapper>  
