@@ -17,16 +17,18 @@ function App() {
   useEffect( () => {
     if( localStorage.getItem('accessToken') ) {
 
-        setIsLogin( true )
-        setAccessToken( localStorage.getItem( 'accessToken' ) )
-
-        const setUser = async() => {
-          const user = await getUserInfo(localStorage.getItem( 'userId' ))
+      const setUser = async() => {
+        const user = await getUserInfo(localStorage.getItem( 'userId' ))
+        if( user ){
+          setIsLogin( true )
+          setAccessToken( localStorage.getItem( 'accessToken' ) )
           setSession( user )
         }
+      }
 
-        setUser()
-    }
+      setUser()
+      
+  }
   }, [ setAccessToken, setIsLogin, setSession, accessToken ] )
 
 

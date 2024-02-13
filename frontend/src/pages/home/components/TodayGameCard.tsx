@@ -21,7 +21,6 @@ const GameCard = styled.div`
   align-items: center;
   justify-content: space-around;
   cursor: pointer;
-  background-color: #DEDCEE;
   `
 const TodayGameCard = () =>{
 
