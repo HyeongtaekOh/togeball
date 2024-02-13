@@ -42,7 +42,11 @@ const ChatItem = ( props: ChatListProps ) => {
   const { item, type, width } = props
 
   const navigator = useNavigate()
-  const partiMutation = useMutation( partiChat )
+  const partiMutation = useMutation( partiChat, {
+    onSuccess: () => {
+      navigator(`/chat/${ item?.id }`)
+    }
+  } )
 
   const goChat = () => {
     if( !localStorage.getItem('userId') ){
@@ -51,7 +55,6 @@ const ChatItem = ( props: ChatListProps ) => {
     } 
     else {
       partiMutation.mutateAsync({ chatRoomId : item?.id })
-      navigator(`/chat/${ item?.id }`)
     }
   }
 

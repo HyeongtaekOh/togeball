@@ -26,7 +26,6 @@ const TodayGameCard = () =>{
 
   const navigator = useNavigate()
 
-  const makeMutation = useMutation( makeGameChat ) 
   const { data: todayGames, isLoading } = useQuery( 'todayGames', getTodayGames )
 
   const indRef = useRef(0)
@@ -46,15 +45,7 @@ const TodayGameCard = () =>{
   
   useEffect(()=>{
     todayGames && setCurGame( todayGames[ indRef.current ] )
-  }, [ makeMutation, todayGames ] )
-
-  useEffect(()=>{
-    todayGames?.map(( game : GameType ) => {
-      makeMutation.mutateAsync({ title: 'game', gameId: game?.id })
-    })
-  },[ todayGames ])
-
-
+  }, [ todayGames ] )
   
   return(
     <GameCard>
