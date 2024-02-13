@@ -2,14 +2,11 @@ package com.ssafy.togeballmatching.interceptor;
 
 import com.ssafy.togeballmatching.config.WebConfig;
 import com.ssafy.togeballmatching.dto.MatchingUser;
-import com.ssafy.togeballmatching.dto.Tag;
 import com.ssafy.togeballmatching.service.queue.RedisWaitingQueueService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -17,18 +14,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
-import javax.swing.*;
-import java.io.DataInput;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class AuthHandshakeInterceptor implements HandshakeInterceptor {
-
-    private RedisWaitingQueueService redisWaitingQueueService;
 
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
@@ -69,8 +61,7 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
 
         attributes.put("userId", user.getUserId());
         attributes.put("tags", user.getTags());
-
-        redisWaitingQueueService.addQueue(user); // 대기열 큐에 유저를 저장
+        attributes.put("user", user);
 
         return true;
     }
