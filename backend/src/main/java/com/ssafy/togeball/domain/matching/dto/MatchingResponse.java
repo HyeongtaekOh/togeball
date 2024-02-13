@@ -13,6 +13,7 @@ import java.util.List;
 public class MatchingResponse {
 
     private Integer id;
+    private Integer matchingChatroomId;
     private String title;
     private Integer capacity;
     private List<UserResponse> users;
@@ -28,6 +29,7 @@ public class MatchingResponse {
                 .toList();
         return MatchingResponse.builder()
                 .id(matching.getId())
+                .matchingChatroomId(matching.getMatchingChatroom().getId())
                 .title(matching.getTitle())
                 .capacity(matching.getCapacity())
                 .users(users)
