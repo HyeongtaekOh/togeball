@@ -12,7 +12,7 @@ const SettingWrapper = styled.div`
     width: 100%;
     justify-content: left;
     gap: 10px;
-    margin-top: 40px;
+    margin-top: 20px;
 `
 const MatchBtn = styled.button`
     width: 200px;
@@ -65,7 +65,7 @@ const RecruitList = () => {
             {/* <Select dataSource={ seats } placeholder='선호 좌석' background='#DEDCEE' width='120px' height='36px' ></Select> */}
           </SettingWrapper>
           <Button 
-            style={{ alignSelf: 'flex-end', padding: '10px', marginTop: '-15px' }}
+            style={{ alignSelf: 'flex-end', padding: '10px', marginTop: '-15px', marginBottom: '-5px' }}
             onClick={ goWrite }>채팅방 생성</Button>
           <div style={{ paddingBottom : '50px' }}>
               <Pagination team = { team } chats={ chats } chatContent={ chatContent } setChatContent = { setChatContent }/>
