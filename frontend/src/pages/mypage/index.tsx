@@ -43,9 +43,6 @@ const MyPage = (() => {
     const [ newChatData, setNewChatData ] = useState([])
     const [ newBoardData, setNewBoardData ] = useState([])
 
-    useEffect(()=>{
-    },[])
-
     useEffect(() => {
         const fetchData = async () => {
             setChatLoading( true )
