@@ -30,6 +30,7 @@ const ChatTopWrapper = styled.div<{ type?: string }>`
 const TimeWrapper = styled.p<{ type? : string }>`
   align-self: flex-end;
   font-size: 10px;
+  min-width:50px;
   width:20%;
   text-align: ${(props)=>props.type === 'me'? 'right': 'left' }
 `
@@ -52,12 +53,12 @@ const ChatMessage = ( props: ChatMessageProps ) => {
       senderId? (
       <ChatTopWrapper type = { type }>
         <div style={{ display:'flex', flexDirection: 'row', gap: '5px' }}>
-          { type === 'me' &&  <TimeWrapper type={ type }>{ time.substring(0, 7) }</TimeWrapper>}
+          { type === 'me' &&  <TimeWrapper type={ type }>{ time.substring(0, 8) }</TimeWrapper>}
           <div style={{ display:'flex', flexDirection: 'column', gap : '5px', width:'100%' }}>
             <NickWrapper type = { type }>{ nickname } </NickWrapper>
             <ChatWrapper type = { type }>{ content }</ChatWrapper>
           </div>  
-          { type === 'you' && <TimeWrapper type={ type }>{ time.substring(0, 7) }</TimeWrapper>}
+          { type === 'you' && <TimeWrapper type={ type }>{ time.substring(0, 8) }</TimeWrapper>}
         </div>  
       </ChatTopWrapper>
       ):( 
