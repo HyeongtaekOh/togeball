@@ -29,12 +29,12 @@
     mounted() {
       const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImlkIjoxNSwiZXhwIjoxNzA3NzMxMDM3fQ.dBUFxYae9nuzFSG9V1eTOYxB9LKw9eEwNpnhOCLEhzQEdGDV6XCDzk19fnQ81_0KpIJ_iM-JzGaWRDbRThfasw";
       // const token = "asdfasdf"
-      const apiUrl = "https://localhost:8080/matching-server/matching?token="+token;
+      const apiUrl = "https://localhost:8080/matching-server/matching";
 
       axios.get(apiUrl)
               .then(response => {
                 console.log("WebSocket 연결 시도...");
-                const socket = new SockJS("https://localhost:8080/matching-server/matching");
+                const socket = new SockJS("https://localhost:8080/matching-server/matching?token="+token);
 
                 socket.onopen = () => {
                   console.log("WebSocket 연결이 열렸습니다.");

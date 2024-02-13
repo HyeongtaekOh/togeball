@@ -30,10 +30,19 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
             return false;
         }
 
-        String jwtToken = request.getURI().getQuery().split("token=")[1];
-        log.info("jwtToken:{}",jwtToken);
+        String query = request.getURI().getQuery();
+        Matcher matcher = tokenMatcher(query);
+        log.info("query: {}", query);
+        if (!matcher.find()) {
+            log.error("beforeHandshake: Authorization is not found");
+            return false;
+        }
+        String accessToken = matcher.group(1);
 
-        String[] parts = jwtToken.split("\\."); // JWT 토큰 파싱
+//        String accessToken = request.getURI().getQuery().split("token=")[1];
+//        log.info("accessToken:{}",accessToken);
+
+        String[] parts = accessToken.split("\\."); // JWT 토큰 파싱
         byte[] decodedBytes = Base64.getUrlDecoder().decode(parts[1]); // 디코딩
         String decodedPayload = new String(decodedBytes);
 
@@ -56,6 +65,12 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
         attributes.put("tags", user.getTags());
 
         return true;
+    }
+
+    public Matcher tokenMatcher(String query) {
+        String pattern = "token=([^&]+)";
+        Pattern r = Pattern.compile(pattern);
+        return r.matcher(query);
     }
 
     @Override
