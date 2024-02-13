@@ -31,16 +31,10 @@
       // const token = "asdfasdf"
       const apiUrl = "https://localhost:8080/matching-server/matching";
 
-      axios.get(apiUrl, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'userId':3
-        },
-        exposeHeaders: 'Authorization'
-      })
+      axios.get(apiUrl)
               .then(response => {
                 console.log("WebSocket 연결 시도...");
-                const socket = new SockJS("https://localhost:8080/matching-server/matching");
+                const socket = new SockJS("https://localhost:8080/matching-server/matching?token="+token);
 
                 socket.onopen = () => {
                   console.log("WebSocket 연결이 열렸습니다.");
