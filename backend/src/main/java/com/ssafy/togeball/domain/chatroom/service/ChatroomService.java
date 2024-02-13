@@ -168,6 +168,7 @@ public class ChatroomService {
         return getChatroomResponses(chatrooms);
     }
 
+    @Transactional(readOnly = true)
     public Page<RecruitChatroomResponse> findAllRecruitChatroomsByManagerId(Integer managerId, Pageable pageable) {
         Page<RecruitChatroom> chatrooms = chatroomRepository.findRecruitChatroomsByManagerId(managerId, pageable);
         return chatrooms.map(RecruitChatroomResponse::of);
