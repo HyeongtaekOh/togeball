@@ -45,7 +45,7 @@ const ImgUpload = (props) => {
 
     const file = e.target.files[0]
     try {
-      const presignedUrl = await getImgPath(`/profiles/${localStorage.userId}/profile`)
+      const presignedUrl = await getImgPath(`profiles/${localStorage.userId}/profile`)
       console.log(presignedUrl)
       // const path = presignedUrl.objectKey.match(/\/profiles\/(.*)/)?.[1];
       await fetch(presignedUrl.preSignedURL, {
