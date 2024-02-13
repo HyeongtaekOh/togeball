@@ -5,6 +5,7 @@ import type { MenuItemProps } from './MenuItem'
 import useStore from 'src/store'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+import { EventSourcePolyfill } from 'event-source-polyfill'
 
 const HeaderMenuWrapper = styled.div`
   box-sizing: border-box;  
@@ -18,16 +19,45 @@ const HeaderIconWrapper = styled( HeaderMenuWrapper )`
   align-items: center;
 `
 
-const RightHeader = ( props ) => {
+const RightHeader = (  ) => {
 
-  const { eventSource } = props
+  useEffect(() => {
+    let eventSource;
 
-  useEffect(()=>{
-    eventSource && eventSource.addEventListener("chat", ( event ) => {
-      let data = JSON.parse(event.data)
-      console.log(data);
-    })
-  },[ eventSource ])
+    if (!localStorage.getItem('accessToken')) return;
+
+    const createSource = () => {
+      const url = 'https://i10a610.p.ssafy.io:8080/sse/notification/subscribe';
+      eventSource = new EventSourcePolyfill( url, {
+        headers: {
+          Authorization: localStorage.getItem('accessToken')
+        }
+      })
+
+      eventSource.addEventListener('connected', data => {
+        console.log(data)
+      })
+
+      eventSource.addEventListener('chat', data => {
+        console.log(data)
+      })
+
+      eventSource.onopen = () => {
+        console.log("onopen....")
+      }
+
+      eventSource.onerror = err => {
+        console.log("Error occurred:", err)
+        eventSource?.close()
+      }
+    }
+
+    createSource()
+
+    return () => {
+        eventSource?.close()
+    }
+  }, [])
 
   const navigator = useNavigate()
 
