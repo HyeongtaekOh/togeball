@@ -9,6 +9,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,15 +26,24 @@ public class MessagingService {
         TextMessage textMessage = new TextMessage(message);
         webSocketSessionStoreService.getWebSocketSession(userId).sendMessage(textMessage);
     }
-    public void sendTagsToAll(Map<String, Integer> sortedTagIds) {
+    public void sendTagsToAll(List<String> sortedTagIds, Map<String, Integer> sortedTags) {
 
         List<WebSocketSession> sessions = webSocketSessionStoreService.getAllWebSocketSession();
         sessions.forEach(session -> {
             try {
-                String json = objectMapper.writeValueAsString(sortedTagIds);
-                log.info("sendTegsToAll json : {}",json);
+                Map<String, Object> combinedData = new HashMap<>();
+                combinedData.put("hashtags", sortedTagIds);
+                combinedData.put("counts", sortedTags);
+                String json = objectMapper.writeValueAsString(combinedData);
                 TextMessage textMessage = new TextMessage(json);
                 session.sendMessage(textMessage);
+//                String hashtags = objectMapper.writeValueAsString(sortedTagIds);
+//                String counts = objectMapper.writeValueAsString(sortedTags);
+//                log.info("hashtags:{}",hashtags);
+//                log.info("counts:{}",counts);
+//                TextMessage hashtagsTextMessage = new TextMessage(hashtags);
+//                TextMessage countsTextMessage = new TextMessage(counts);
+//                session.sendMessage(hashtagsTextMessage,countsTextMessage);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
