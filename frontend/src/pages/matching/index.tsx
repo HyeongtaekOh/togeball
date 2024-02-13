@@ -18,26 +18,22 @@ const MatchingWrapper = styled.div`
 const Matching: React.FC = () => {
   // 매칭에 올라온 큐를 다음과 같이 바꿔야함.
   const [ matchingData, setMatchingData ] = useState({
-    hashtags: [ 'tag1', 'tag2', 'tag3', 'tag4', 'tag5', 'tag6', 'tag7' ],
+    hashtags: [  ],
     counts: {
-      tag1: 10,
-      tag2: 20,
-      tag3: 30,
-      tag4: 20,
-      tag5: 20,
-      tag6: 10,
-      tag7: 20,
+      
     },
   });
 
   useEffect(() => {
 
      // WebSocket 연결 설정
-    const clientId = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImlkIjoyMCwiZXhwIjoxNzA3NzMwMTYzfQ.t36P_okRuEJA17q2lUfL622z9i2aZQspfTNRerBXOLm9TT34xDw7-N6SSHLaQfnOfR6MeUjaTWPsana8Tc2P1A`
+    const clientId = localStorage.getItem('accessToken')
+    const token = clientId.substring(7)
     console.log(clientId)
-    const URL = 'https://i10a610.p.ssafy.io:8083/matching-server/matching'
-    const socket = new SockJS(`${ URL }`)
-    console.log(URL)
+    console.log(token)
+   
+    const socket = new SockJS(`https://i10a610.p.ssafy.io:8083/matching-server/matching?token=` + token)
+    
     console.log(socket) 
 
     socket.onopen = function(event) {
@@ -61,7 +57,7 @@ const Matching: React.FC = () => {
 }, [])
 
   // 웹소켓서버 연결하면 false를 기본값으로 바꿀 예정
-  const [isModalOpened, setIsModalOpened] = useState( false )
+  const [isModalOpened, setIsModalOpened] = useState( true )
 
   const closeModal = () => {
     setIsModalOpened( false )

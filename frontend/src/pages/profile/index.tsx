@@ -103,7 +103,7 @@ const Profile = () => {
       const isAvailable = await getCheckNickname( nickName );
       if( isAvailable ){
         setNicknameError('')
-        setIsOk( true)
+        setIsOk( true )
       }else{
         if(nickName ===userInfo?.nickname){
         }else{

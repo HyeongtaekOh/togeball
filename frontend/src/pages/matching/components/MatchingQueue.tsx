@@ -10,10 +10,11 @@ const MatchingQueue = ( props ) => {
 
   useEffect(() => {
     if (!svgRef.current) return;
+    const parentHeight = svgRef.current.parentElement.clientHeight
 
     const svg = d3.select( svgRef.current )
     const width = +svg.attr( 'width' )
-    const height = +svg.attr( 'height' )
+    const height = parentHeight
 
     const newBubbleData = data.hashtags.map(( tagName ) => ({
       label: tagName,
@@ -28,7 +29,7 @@ const MatchingQueue = ( props ) => {
       .force( 'charge', d3.forceManyBody().strength(5))
       .force( 'x', d3.forceX( width / 2 ).strength(0.1))
       .force( 'y', d3.forceY( height / 2 ).strength(0.1))
-      .force( 'collision', d3.forceCollide().radius(d => Math.sqrt( d.value ) * 20))
+      .force( 'collision', d3.forceCollide().radius(d => Math.sqrt( d.value ) * 18))
       
       
     const filter = svg.append('defs').append('filter').attr('id', 'blur-filter').append('feGaussianBlur').attr('stdDeviation', 5)  
@@ -44,7 +45,7 @@ const MatchingQueue = ( props ) => {
       .merge( circles )
       .attr( 'cx', d => d.x )
       .attr( 'cy', d => d.y )
-      .attr( 'r', d => Math.sqrt( d.value ) * 20 )
+      .attr( 'r', d => Math.sqrt( d.value ) * 17 )
 
     // 텍스트 추가
     const texts = svg.selectAll( 'text' ).data( newBubbleData );
@@ -67,7 +68,7 @@ const MatchingQueue = ( props ) => {
   }, [ data ])
 
   return (
-    <svg ref={ svgRef } width={ 1000 } height={ 1000 } style={{ backgroundColor:'#7D74B4'}}></svg>
+    <svg ref={ svgRef } width={ 1000 } height='100%' style={{ backgroundColor:'#7D74B4'}}></svg>
   )
 }
 
