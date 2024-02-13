@@ -12,15 +12,15 @@ const PageWrapper = styled.div`
 
 const Pagination = ( props ) => {
   
-  const { chats, type = 'all', team } = props
+  const { chats, type = 'all', team, chatContent, setChatContent } = props
+
   
   const itemsPerPage = 5
   const [ currentPage, setCurrentPage ] = useState( 1 )
 
-  const [ chatContent, setChatContent ] = useState([])
-
   const totalPages = Math.ceil( chats?.totalElements / itemsPerPage )
 
+  
   useEffect(()=>{
    setChatContent( chats?.content )
    if( chatContent &&  team !== 11 ){
