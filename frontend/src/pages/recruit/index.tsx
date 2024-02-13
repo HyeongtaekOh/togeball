@@ -30,6 +30,7 @@ const RecruitList = () => {
   const navigator = useNavigate()
 
   const [ team, setTeam ] = useState()
+  const [ chatContent, setChatContent ] = useState()
 
   const teams = tags?.content.filter(item => item.type === 'PREFERRED_TEAM')
   const seats = tags?.content.filter(item => item.type === 'PREFERRED_SEAT')
@@ -49,29 +50,28 @@ const RecruitList = () => {
     }
     
     return (
-        <MainLayout title='직접 방 선택'>  
-          <HomeLayout>
-            <SettingWrapper>
-              <MatchBtn >경기를 선택하세요</MatchBtn>
-              <Select 
-                dataSource={ teams } 
-                placeholder='응원팀' 
-                background='#DEDCEE' 
-                width='100px' 
-                height='36px' 
-                setState={ setTeam }
-              />
-              <Select dataSource={ seats } placeholder='선호 좌석' background='#DEDCEE' width='120px' height='36px' ></Select>
-            </SettingWrapper>
-            <Button 
-              style={{ alignSelf: 'flex-end', padding: '10px', marginTop: '-15px' }}
-              onClick={ goWrite }
-            >채팅방 생성</Button>
-            <div style={{ paddingBottom : '50px' }}>
-                <Pagination team = { team } chats={ chats } />
-            </div>
-          </HomeLayout>
-        </MainLayout>
+      <MainLayout title='직접 방 선택'>  
+        <HomeLayout>
+          <SettingWrapper>
+            <MatchBtn >경기를 선택하세요</MatchBtn>
+            <Select 
+              dataSource={ teams } 
+              placeholder='응원팀' 
+              background='#DEDCEE' 
+              width='100px' 
+              height='36px' 
+              setState={ setTeam }
+            />
+            {/* <Select dataSource={ seats } placeholder='선호 좌석' background='#DEDCEE' width='120px' height='36px' ></Select> */}
+          </SettingWrapper>
+          <Button 
+            style={{ alignSelf: 'flex-end', padding: '10px', marginTop: '-15px' }}
+            onClick={ goWrite }>채팅방 생성</Button>
+          <div style={{ paddingBottom : '50px' }}>
+              <Pagination team = { team } chats={ chats } chatContent={ chatContent } setChatContent = { setChatContent }/>
+          </div>
+        </HomeLayout>
+      </MainLayout>
     )
 }
 

@@ -23,7 +23,7 @@ const InfomWrapper = styled.div`
   width: 200px;
   height: 80%;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
 `
 
 const GameItem = ( props : GameItemProp ) => {
