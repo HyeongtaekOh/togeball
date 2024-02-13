@@ -29,7 +29,7 @@ const MatchingQueue = ( props ) => {
       .force( 'charge', d3.forceManyBody().strength(5))
       .force( 'x', d3.forceX( width / 2 ).strength(0.1))
       .force( 'y', d3.forceY( height / 2 ).strength(0.1))
-      .force( 'collision', d3.forceCollide().radius(d => Math.sqrt( d.value ) * 18))
+      .force( 'collision', d3.forceCollide().radius(d => Math.sqrt( d.value ) * 90))
       
       
     const filter = svg.append('defs').append('filter').attr('id', 'blur-filter').append('feGaussianBlur').attr('stdDeviation', 5)  
@@ -40,12 +40,12 @@ const MatchingQueue = ( props ) => {
     circles.enter().append( 'circle' )
       .attr( 'fill', 'white' )
       .attr('stroke', '#E48BF4') // 테두리 색 설정
-      .attr('stroke-width', 2) // 테두리 두께 설정
+      .attr('stroke-width', 4) // 테두리 두께 설정
       .style('filter', 'url(#blur-filter)')
       .merge( circles )
       .attr( 'cx', d => d.x )
       .attr( 'cy', d => d.y )
-      .attr( 'r', d => Math.sqrt( d.value ) * 17 )
+      .attr( 'r', d => Math.sqrt( d.value ) * 90 )
 
     // 텍스트 추가
     const texts = svg.selectAll( 'text' ).data( newBubbleData );
@@ -68,7 +68,15 @@ const MatchingQueue = ( props ) => {
   }, [ data ])
 
   return (
-    <svg ref={ svgRef } width={ 1000 } height='100%' style={{ backgroundColor:'#7D74B4'}}></svg>
+    <svg ref={ svgRef } width={ 1000 } height='100%' style={{ backgroundColor:'#7D74B4'}}>
+      <style>
+        {`
+          text {
+            font-size: 22px;
+          }
+        `}
+      </style>
+    </svg>
   )
 }
 

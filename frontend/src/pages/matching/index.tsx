@@ -24,6 +24,8 @@ const Matching: React.FC = () => {
     },
   });
 
+  const [ participants, setParticipants ] = useState(null)
+
   useEffect(() => {
 
      // WebSocket 연결 설정
@@ -32,7 +34,7 @@ const Matching: React.FC = () => {
     console.log(clientId)
     console.log(token)
    
-    const socket = new SockJS(`https://i10a610.p.ssafy.io:8083/matching-server/matching?token=` + token)
+    const socket = new SockJS('https://i10a610.p.ssafy.io:8083/matching-server/matching?token=' + token)
     
     console.log(socket) 
 
@@ -48,24 +50,32 @@ const Matching: React.FC = () => {
       // 서버에서 메시지를 받았을 때 실행되는 코드
       const message = event.data
       //TODO : state를 업데이트하는 useState 추가.
-      console.log("서버로부터 메시지를 받았습니다: " + message)      
+      console.log("서버로부터 메시지를 받았습니다: " + message)
+      const newMessage = JSON.parse(message)
+      console.log(message)
+     
+      console.log(newMessage)
+     
+      setMatchingData({
+        hashtags: newMessage.hashtags, 
+        counts: newMessage.counts
+      });
+      
   }
 
   return () => {
     socket.close()
   }
-}, [])
+}, [ matchingData, participants ])
 
   // 웹소켓서버 연결하면 false를 기본값으로 바꿀 예정
-  const [isModalOpened, setIsModalOpened] = useState( true )
+  const [isModalOpened, setIsModalOpened] = useState( false )
 
   const closeModal = () => {
     setIsModalOpened( false )
   }
 
-  const openModal = () => {
-    setIsModalOpened (true )
-  }
+  
 
   return (
     <MatchingWrapper>
@@ -75,7 +85,7 @@ const Matching: React.FC = () => {
       </div>
       <div style={{ display: 'flex', justifyContent:'center', height:'80%'}}>
       <MatchingQueue data={ matchingData }/>
-      { isModalOpened && <MatchingModal isOpen={ isModalOpened } onClose={ closeModal } />}
+      { isModalOpened && <MatchingModal isOpen={ isModalOpened } onClose={ closeModal } participants={ participants } />}
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10%'}}>
         <Timer duration={ 180 }/>
