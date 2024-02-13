@@ -95,7 +95,7 @@ public class MatchingScheduler {
             MatchingRequest matchingRequest = MatchingRequest.builder()
                     .title(LocalDateTime.now().toString()+"에 이루어진 매칭입니다.")
                     .capacity(userIds.size())
-                    .userIds((Set<Integer>) userIds)
+                    .userIds(userIds)
                     .tagIds((Set<Integer>) sortedTagIds)
                     .build();
             rabbitService.sendMessage(exchange, routingKey, matchingRequest);
