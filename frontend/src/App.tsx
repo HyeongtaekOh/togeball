@@ -24,6 +24,13 @@ function App() {
           setAccessToken( localStorage.getItem( 'accessToken' ) )
           setSession( user )
         }
+        else{
+          setIsLogin( false )
+          localStorage.removeItem( 'accessToken' )
+          localStorage.removeItem( 'refreshToken' )
+          localStorage.removeItem( 'userId' )
+          window.location.reload()         
+        }
       }
 
       setUser()
