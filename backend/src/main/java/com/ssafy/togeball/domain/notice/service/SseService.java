@@ -33,8 +33,11 @@ public class SseService {
 
     public void sendToUser(Integer userId, String eventName , Object data) {
         SseEmitter emitter = sseEmitterStore.getEmitterByUserId(userId);
+        log.info("send to user: {}", userId);
+        log.info("emitter: {}", emitter);
         if (emitter != null) {
             try {
+                log.info("match ressult: {}", data);
                 emitter.send(SseEmitter.event()
                         .name(eventName)
                         .data(data));

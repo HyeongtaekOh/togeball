@@ -18,9 +18,8 @@ public class MatchingChatroom extends Chatroom {
     private Matching matching;
 
     @Builder
-    public MatchingChatroom(String title, Matching matching) {
+    public MatchingChatroom(String title, Integer capacity) {
         this.title = title;
-        this.matching = matching;
-        this.capacity = matching != null ? matching.getCapacity() : null;
+        this.capacity = capacity;
     }
 }

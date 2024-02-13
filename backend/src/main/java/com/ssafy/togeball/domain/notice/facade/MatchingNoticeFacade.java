@@ -34,7 +34,8 @@ public class MatchingNoticeFacade {
                     .isRead(false)
                     .build();
             NoticeResponse message = noticeService.save(notice);
-            sseService.sendToUser(matchingUser.getId(), "matching", message);
+            log.info("send matching notice to user: {}", matchingUser.getUser().getId());
+            sseService.sendToUser(matchingUser.getUser().getId(), "matching", message);
         }
 
         return MatchingResponse.of(matchingResult);
