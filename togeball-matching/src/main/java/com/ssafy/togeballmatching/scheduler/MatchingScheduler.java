@@ -30,6 +30,8 @@ public class MatchingScheduler {
     @Value("${rabbitmq.matching.routing-key}")
     private String routingKey;
 
+    private WebClient webClient = WebConfig.getBaseUrl();
+
     private final RabbitMQService rabbitService;
     private final MessagingService messagingService;
     private final WaitingQueueService waitingQueueService;
@@ -46,24 +48,20 @@ public class MatchingScheduler {
 
             // 1. 유저 목록 받아옴
             List<Integer> userIds = sessions.stream().map(session -> (Integer) session.getAttributes().get("userId")).toList();
-
             // 2. 매칭 알고리즘 수행
             List<MatchingRequest> matchings = matchingService.matchUsers(waitingUsers);
 
             // 3. API 서버에 매칭 결과 전송, 4. 매칭된 사용자들에게 매칭 결과 전송
             for (MatchingRequest matching : matchings) {
                 rabbitService.sendMessage(exchange, routingKey, matching);
-
-//                WebClient webClient = WebConfig.getBaseUrl(); // token에서 추출한 userId로 WebClient를 이용해 유저 정보를 요청
-//                MatchingUser user = webClient.get()
-//                        .uri("/api/chatrooms/" + userId)
+//                Integer chatroomId = webClient.post()
+//                        .uri("/api/matching")
+//                        //.header(HttpHeaders.AUTHORIZATION, "Bearer "+accessToken)
+//                        .bodyValue(matching)
 //                        .retrieve()
-//                        .bodyToMono(MatchingUser.class)
-//                        .block();
+//                        .toEntity(Integer.class);
 
-
-
-//                messagingService.sendMatchingResultToUsers(matching.getUserIds(), chatroomId, participants);
+//                messagingService.sendMatchingResultToUsers(matching.getTitle(), matching.getUserIds(), chatroomId, participants);
             }
             waitingQueueService.clearQueue();
         }
