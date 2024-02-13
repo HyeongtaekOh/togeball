@@ -1,6 +1,7 @@
 import { GameType } from 'src/types';
 import { Title } from 'src/components'
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const GameItemWrapper = styled.div`
   display: flex;
@@ -12,6 +13,8 @@ const GameItemWrapper = styled.div`
   justify-content: space-around;
   gap: 5px;
   text-align: center;
+  margin-left: 30px;
+  margin-right: 30px;
 `
 
 const InfomWrapper = styled.div`
@@ -25,17 +28,21 @@ const InfomWrapper = styled.div`
 
 const GameItem = ( props : GameItemProp ) => {
 
-  const { game, onClick } = props;
+  const { game } = props
+  const navigator = useNavigate()
+
+  const goChat =  ( id ) => {
+    navigator( `/chat/${id}` )
+  }
 
   return(
-    <GameItemWrapper onClick={ onClick }>
-        <img style={{ width : '25%' }} src={ game?.homeClubLogo } alt= { game?.homeClubName } ></img>
+    <GameItemWrapper onClick={() => goChat(game?.id) }>
+        <img style={{ width : '25%' }} alt={ game?.homeClubName } src={ game?.homeClubLogo }/>
         <InfomWrapper>
           <Title>VS</Title>
           <Title type='small'>{ game?.datetime.substring(0,10) + ' ' + game?.datetime.substring(11,16) }</Title>
         </InfomWrapper>
-        <img style={{ width : '25%' }} src={ game?.awayClubLogo } alt={ game?.awayClubName } ></img>
-        
+        <img style={{ width : '25%' }} alt={ game?.awayClubName } src={ game?.awayClubLogo }/>
     </GameItemWrapper>
   )
 }
@@ -44,7 +51,6 @@ export default GameItem;
 
 type GameItemProp  = {
   game?: GameType
-  onClick? : () => void
 }
 
  

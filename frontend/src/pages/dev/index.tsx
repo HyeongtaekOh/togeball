@@ -62,12 +62,10 @@ const Dev = () => {
   const board = { creatorName:'이운재', title: 'LG', createdTime: '2021-09-20', logo:'https://avatars.githubusercontent.com/u/10000000?v'}
 const [ participant, setParticipant ] = useState<ParticipantsType>(
   {
-    userId: 1,
+    id: 1,
     nickname: '이운재',
-    age: 32,
     gender: '남성',
-    profileImg: 'https://i.namu.wiki/i/qA822LZ7zUrIq-AH8Q7IhXiCv_YyBYnZLwGYosmEpAz25gvsgBIUusUXsTJqxKhbSsBbYvSeqavdNmHc06s0FQ.webp',
-    hashtags: ['#LG', '#KT', '#SSG', '#NC', '#LG', '#KT', '#SSG', '#NC','#LG', '#KT', '#SSG', '#NC' ]
+    profileImage: 'https://i.namu.wiki/i/qA822LZ7zUrIq-AH8Q7IhXiCv_YyBYnZLwGYosmEpAz25gvsgBIUusUXsTJqxKhbSsBbYvSeqavdNmHc06s0FQ.webp',
   }
 )
 

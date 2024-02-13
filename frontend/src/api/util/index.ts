@@ -1,7 +1,4 @@
-import { NaverIcon } from '@/components'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import useStore from 'src/store'
 
 const useAxios = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -19,9 +16,6 @@ useAxios.interceptors.request.use(
     
       if( accessToken ){
         config.headers['Authorization'] = `${ accessToken }`
-      }else{
-
-        return Promise.reject( 401 )
       }
 
       return config
@@ -33,7 +27,6 @@ useAxios.interceptors.request.use(
 
 useAxios.interceptors.response.use(
   async( response ) => {
-    console.log(response)
     return response
   },
   async( error ) => {
@@ -66,9 +59,8 @@ useAxios.interceptors.response.use(
 export const getAxios =  async ( url: string, params?: any )  => {
   try {
     const response = await useAxios.get( url, { params } )
-    console.log(process.env.REACT_APP_BASE_URL)
-    return response.data
-  } catch( error ){console.log(process.env.REACT_APP_BASE_URL)
+    return response?.data
+  } catch( error ){
     return Promise.reject(error)
   }
 } 
@@ -81,6 +73,28 @@ export const postAxios =  async( url: string, data?: any )  =>{
   } catch( error ){
     return Promise.reject( error )
   }
+}
+
+export const patchAxios = async(url: string, data?: any ) =>{
+  try{
+    const response = await useAxios.patch( url, data )
+    console.log(response)
+    return response
+  } catch( error ){
+    return Promise.reject( error )
+  }
+  // fetch(process.env.REACT_APP_BASE_URL+url, {
+	// headers: {
+	// 'Accept': '*/*',
+	// 'Content-Type': 'application/json',
+  // 'charset': 'utf-8',
+  // 'Authorization': `${ localStorage.getItem('accessToken')}`
+	// },
+	// method: "PATCH",	
+	// body: JSON.stringify({ data })
+  // }).then((response) => 
+  //   response.ok ).then((data) =>
+	//   console.log(data))
 }
 
 export default useAxios

@@ -12,7 +12,7 @@ const queryClient = new QueryClient() // QueryClient 생성
 
 function App() {
 
-  const { setAccessToken, setIsLogin, setSession } = useStore()
+  const { accessToken, setAccessToken, setIsLogin, setSession } = useStore()
 
   useEffect( () => {
     if( localStorage.getItem('accessToken') ) {
@@ -27,7 +27,7 @@ function App() {
 
         setUser()
     }
-  }, [ setAccessToken, setIsLogin, setSession ] )
+  }, [ setAccessToken, setIsLogin, setSession, accessToken ] )
 
 
   const [ router ] = useState( createBrowserRouter( routers ))

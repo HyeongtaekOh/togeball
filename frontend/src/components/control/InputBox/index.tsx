@@ -1,10 +1,4 @@
-import { useState } from 'react'
-import { Title } from 'src/components'
 import styled from 'styled-components'
-
-const MessageWrapper = styled.div`
-  box-sizing: border-box;
-`
 
 const InputWrapper = styled.div<{ height: string; width: string }>`
   height: ${( props ) => props.height };
@@ -16,9 +10,7 @@ const InputWrapper = styled.div<{ height: string; width: string }>`
   flex-direction: row;
   justify-content: space-between;
   margin: 3px 0px 3px 0px;
-  padding: 10px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding : 2%;
   align-items: center;
 `
 
@@ -27,12 +19,12 @@ const InputBox = ( props: InputProps ) => {
   const {
     title, height = '60px', width = '100%', 
     placeholder = '내용을 입력하세요', value, 
-    onChange, onKeyDown, children
+    onChange, onKeyDown, children,
+    fontSize = '12px'
   } = props
 
 
   return (
-    <MessageWrapper>
     <InputWrapper height={ height } width={ width }>
       {
         title && 
@@ -42,12 +34,11 @@ const InputBox = ( props: InputProps ) => {
         value = { value } 
         onChange={ onChange } 
         onKeyDown={ onKeyDown }
-        style={{ width: '70%', fontSize: '12px' }} 
+        style={{ width: '70%', fontSize: `${ fontSize }` }} 
         placeholder={ placeholder }
       />  
       { children } 
     </InputWrapper>
-    </MessageWrapper>
   )
 
 }
@@ -63,5 +54,6 @@ export type InputProps = {
   value? : string,
   onChange? : ( value?: any ) => void
   onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void
-  children?: React.ReactNode
+  children?: React.ReactNode,
+  fontSize?: string | number
 }

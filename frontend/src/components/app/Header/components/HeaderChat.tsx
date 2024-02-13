@@ -1,5 +1,7 @@
 import styled from 'styled-components'
-import { Title } from 'src/components'
+import { Pagination, Title } from 'src/components'
+import { useQuery } from 'react-query'
+import { getMyChats } from 'src/api'
 
 const HeaderChatWrapper = styled.div`
   position: absolute;
@@ -11,15 +13,20 @@ const HeaderChatWrapper = styled.div`
   border-radius: 10px;
   background-color: white;
   z-index:999;
-  padding: 20px;
+  padding: 10px;
 `
 
 const HeaderChat = ( props  ) => {  
+
+  const { data: chats } = useQuery( 'chats', getMyChats )
   
   return(
 
    <HeaderChatWrapper>
       <Title color ='#6A60A9'>나의 채팅방</Title>
+      <div style={{ width: '100%', marginTop: '20px' }}>
+        <Pagination type= 'my' chats={ chats } />
+      </div>
    </HeaderChatWrapper>
 
   )

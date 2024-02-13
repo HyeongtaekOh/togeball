@@ -1,6 +1,7 @@
 import { Title } from 'src/components'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import axios from 'axios'
+import { getImgPath } from 'src/api'
+import { useCallback, useRef, useState } from 'react'
+import lufi from 'src/asset/images/lufi.jpg'
 import styled from 'styled-components'
 import useModel from '../store'
 
@@ -33,42 +34,31 @@ const LabberWrapper = styled.label`
   cursor: pointer;
 `
 
-const ImgUpload = () => {
+const ImgUpload = (props) => {
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const [ imgSrc, setImgSrc ] = useState(null)
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  const [ imgSrc, setImgSrc ] = useState(props.profileImage)
   const { setImage } = useModel()
 
-  const onUploadImage = useCallback(( e: React.ChangeEvent<HTMLInputElement> ) => {
-    
+  const onUploadImage = useCallback( async( e: React.ChangeEvent<HTMLInputElement> ) => {
     if ( !e.target.files || e.target.files.length ===0 ) return
 
-    const formData = new FormData();
-    const reader = new FileReader();
-
-    formData.append( 'image', e.target.files[0] )
-
-    reader.readAsDataURL( e.target.files[0] )
-    reader.onloadend = () => {
-      setImgSrc( reader.result )
-      setImage( reader.result )
+    const file = e.target.files[0]
+    try {
+      const presignedUrl = await getImgPath()
+      const path = presignedUrl.objectKey.match(/\/profiles\/(.*)/)?.[1];
+      await fetch(presignedUrl.preSignedURL, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': file.type
+        },
+        body: file
+      });
+      setImgSrc( URL.createObjectURL( file ))
+      setImage( path ) 
+    } catch (error) {
+      console.error('Error uploading image:', error);
     }
-
-    // axios({
-    //   baseURL: process.env.REACT_APP_BASE_URL,
-    //   url: '/images/:username/thumbnail',
-    //   method: 'POST',
-    //   data: formData,
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data',
-    //   },
-    // })
-    //   .then(response => {
-    //     console.log(response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //   });
   }, []);
   
   

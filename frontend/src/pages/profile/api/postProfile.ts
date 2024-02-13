@@ -1,17 +1,16 @@
-import { TagType } from 'src/types'
-import { postAxios } from 'src/api/util'
+import { patchAxios } from 'src/api/util'
 
 interface dataType {
         nickname?: string,
         clubId?: number,
         role?: string,
-        profileImage?: object,
-        tags?: TagType[]
+        profileImage?: string,
+        tags?: number[]
 }
 
-export const postProfile = async( data: dataType ) => {
+export const patchProfile = async( data: dataType ) => {
     try{
-        return await postAxios('/api/users/', data)
+        return await patchAxios('/api/users/me', data)
     }catch( err ){
         console.log(err)
     }
