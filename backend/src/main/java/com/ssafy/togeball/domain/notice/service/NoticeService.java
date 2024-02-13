@@ -8,7 +8,6 @@ import com.ssafy.togeball.domain.notice.entity.Notice;
 import com.ssafy.togeball.domain.notice.repository.EmitterRepository;
 import com.ssafy.togeball.domain.notice.repository.NoticeRepository;
 import com.ssafy.togeball.domain.user.dto.UserResponse;
-import com.ssafy.togeball.domain.user.entity.User;
 import com.ssafy.togeball.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +33,10 @@ public class NoticeService {
 
     private final EmitterRepository emitterRepository;
 
+
+    public NoticeResponse save(Notice notice) {
+        return NoticeResponse.of(noticeRepository.save(notice));
+    }
 
     public SseEmitter subscribe(Integer userId, String lastEventId) {
 

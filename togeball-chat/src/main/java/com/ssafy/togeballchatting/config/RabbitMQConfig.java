@@ -21,7 +21,7 @@ public class RabbitMQConfig {
     @Value("${rabbitmq.exchange.name}")
     private String exchange;
 
-    @Value("${rabbitmq.chat.queue}")
+    @Value("${rabbitmq.join.queue}")
     private String joinQueue;
 
     @Value("${rabbitmq.notification.queue}")
