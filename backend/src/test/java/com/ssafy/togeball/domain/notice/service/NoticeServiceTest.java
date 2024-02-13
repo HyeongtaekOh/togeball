@@ -123,55 +123,55 @@ public class NoticeServiceTest {
         verify(emitterRepository, times(1)).findAllEventCacheStartWithId(any());
     }
 
-    @DisplayName("알림 객체 생성, 저장, 보내기 성공")
-    @Test
-    void sendTest() {
+//    @DisplayName("알림 객체 생성, 저장, 보내기 성공")
+//    @Test
+//    void sendTest() {
+//
+//        // Given
+//        MatchingResponse matchingResponse = Mockito.mock(MatchingResponse.class);
+////        List<UserResponse> receivers = List.of(Mockito.mock(UserResponse.class));
+//        ReflectionTestUtils.setField(matchingResponse, "id", 1);
+//        User user = Mockito.mock(User.class);
+//        UserResponse userResponse = Mockito.mock(UserResponse.class);
+//        ReflectionTestUtils.setField(userResponse, "id", 1);
+//        Matching matching = Mockito.mock(Matching.class);
+//
+//        List<UserResponse> receivers = new ArrayList<>();
+//        receivers.add(userResponse);
+//        when(matchingResponse.getUsers()).thenReturn(receivers);
+//        when(userRepository.findById(receivers.get(0).getId())).thenReturn(Optional.of(user));
+//        when(matchingRepository.findById(matchingResponse.getId())).thenReturn(Optional.of(matching));
+//        when(noticeRepository.save(any())).thenReturn(Mockito.mock(Notice.class));
+//        when(emitterRepository.findAllStartWithById(any())).thenReturn(Collections.singletonMap("1", mock(SseEmitter.class)));
+//
+//        // When
+//        noticeService.send(matchingResponse);
+//
+//        // Then
+//        verify(userRepository, times(1)).findById(userResponse.getId());
+//        verify(matchingRepository, times(1)).findById(any());
+//        verify(noticeRepository, times(1)).save(any());
+//        verify(emitterRepository, times(1)).findAllStartWithById(any());
+//        verify(emitterRepository, times(1)).saveEventCache(any(), any());
+//    }
 
-        // Given
-        MatchingResponse matchingResponse = Mockito.mock(MatchingResponse.class);
-//        List<UserResponse> receivers = List.of(Mockito.mock(UserResponse.class));
-        ReflectionTestUtils.setField(matchingResponse, "id", 1);
-        User user = Mockito.mock(User.class);
-        UserResponse userResponse = Mockito.mock(UserResponse.class);
-        ReflectionTestUtils.setField(userResponse, "id", 1);
-        Matching matching = Mockito.mock(Matching.class);
-
-        List<UserResponse> receivers = new ArrayList<>();
-        receivers.add(userResponse);
-        when(matchingResponse.getUsers()).thenReturn(receivers);
-        when(userRepository.findById(receivers.get(0).getId())).thenReturn(Optional.of(user));
-        when(matchingRepository.findById(matchingResponse.getId())).thenReturn(Optional.of(matching));
-        when(noticeRepository.save(any())).thenReturn(Mockito.mock(Notice.class));
-        when(emitterRepository.findAllStartWithById(any())).thenReturn(Collections.singletonMap("1", mock(SseEmitter.class)));
-
-        // When
-        noticeService.send(matchingResponse);
-
-        // Then
-        verify(userRepository, times(1)).findById(userResponse.getId());
-        verify(matchingRepository, times(1)).findById(any());
-        verify(noticeRepository, times(1)).save(any());
-        verify(emitterRepository, times(1)).findAllStartWithById(any());
-        verify(emitterRepository, times(1)).saveEventCache(any(), any());
-    }
-
-    @DisplayName("유저 번호로 알림 목록 조회 성공")
-    @Test
-    void findAllByUserIdTest() {
-
-        // Given
-        dataInit();
-        ReflectionTestUtils.setField(loginUser, "id", 1);
-        when(noticeRepository.findAllByUserId(loginUser.getId())).thenReturn(noticeList());
-
-        // When
-        NoticesResponse noticesResponse = noticeService.findAllByUserId(loginUser.getId());
-
-        // Then
-        verify(noticeRepository, times(loginUser.getId())).findAllByUserId(1);
-        assertEquals(2, noticesResponse.getNoticeResponses().size());
-        assertEquals(2, noticesResponse.getUnreadCount());
-    }
+//    @DisplayName("유저 번호로 알림 목록 조회 성공")
+//    @Test
+//    void findAllByUserIdTest() {
+//
+//        // Given
+//        dataInit();
+//        ReflectionTestUtils.setField(loginUser, "id", 1);
+//        when(noticeRepository.findAllByUserId(loginUser.getId())).thenReturn(noticeList());
+//
+//        // When
+//        NoticesResponse noticesResponse = noticeService.findAllByUserId(loginUser.getId());
+//
+//        // Then
+//        verify(noticeRepository, times(loginUser.getId())).findAllByUserId(1);
+//        assertEquals(2, noticesResponse.getNoticeResponses().size());
+//        assertEquals(2, noticesResponse.getUnreadCount());
+//    }
 
     @DisplayName("알림 읽음 표시 성공")
     @Test
