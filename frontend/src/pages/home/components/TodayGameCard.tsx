@@ -21,13 +21,11 @@ const GameCard = styled.div`
   align-items: center;
   justify-content: space-around;
   cursor: pointer;
-  background-color: #DEDCEE;
   `
 const TodayGameCard = () =>{
 
   const navigator = useNavigate()
 
-  const makeMutation = useMutation( makeGameChat ) 
   const { data: todayGames, isLoading } = useQuery( 'todayGames', getTodayGames )
 
   const indRef = useRef(0)
@@ -47,15 +45,7 @@ const TodayGameCard = () =>{
   
   useEffect(()=>{
     todayGames && setCurGame( todayGames[ indRef.current ] )
-  }, [ makeMutation, todayGames ] )
-
-  useEffect(()=>{
-    todayGames?.map(( game : GameType ) => {
-      makeMutation.mutateAsync({ title: 'game', gameId: game?.id })
-    })
-  },[ todayGames ])
-
-
+  }, [ todayGames ] )
   
   return(
     <GameCard>
@@ -65,10 +55,7 @@ const TodayGameCard = () =>{
           로딩 중...
         </Title>
       ) : curGame ? (
-        <GameItem
-          game={ curGame }
-          // onClick={() => navigator(`/select/${curGame?.chatroomId}`)}
-        />
+        <GameItem game={ curGame }/>
       ) : (
         <Title color='#746E6E' type='medium'>
           오늘의 경기가 없습니다.

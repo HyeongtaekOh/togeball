@@ -23,16 +23,13 @@ const LiDivWrapper = styled.div<{ width : string, background: string }>`
   width: ${( props )=> props.width };
   background: ${( props )=> props.background };
   border: 1px solid #DEDCEE;
-  padding: 10px;
   border-top: none;
   position: absolute;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   margin: 40px 0px;
-  padding: 20px 10px;
   cursor: pointer;
-  gap: 15px;
   z-index: 333;
   background-color: white;
   border-radius: 10px;
@@ -40,6 +37,10 @@ const LiDivWrapper = styled.div<{ width : string, background: string }>`
 
 const LiWrapper = styled.li`
   cursor: pointer;
+  padding: 8px 15px;
+  &:hover{
+    background-color: #f2f2f2;
+  }
 `
 
 const SelectBox = ( props: SelectBoxProps ) => {
@@ -59,7 +60,7 @@ const SelectBox = ( props: SelectBoxProps ) => {
   const changeHandler = ( data : SourceData | TagType ) => {
     setSelectedValue( data?.content )
     setIsOpen( false )
-    props.setState(data?.id)
+    props.setState( data?.id )
   }
 
   return (

@@ -1,4 +1,6 @@
-import { LeftHeader, RightHeader } from './components';
+import { useEffect, useState } from 'react'
+import { LeftHeader, RightHeader } from './components'
+import { EventSourcePolyfill } from 'event-source-polyfill'
 import styled from 'styled-components'
 
 
@@ -16,14 +18,32 @@ const HeaderWrapper = styled.div`
   background-color: white
 `
 
-const Header = (props: HeaderProps) => {
+const Header = ( props: HeaderProps ) => {
 
-  const { title } = props;
+  const { title } = props
+  const [ eventSource, setEventSource ] = useState( null )
+
+  useEffect (()=>{
+
+    const url = 'https://i10a610.p.ssafy.io:8080/sse/notification/subscribe'
+
+    if( !localStorage.getItem('accessToken') || eventSource ) return
+
+    const source = new EventSourcePolyfill(url, {
+      headers:{
+        Authorization: localStorage.getItem('accessToken')
+      }
+    })
+
+    setEventSource( source )
+
+  }, [])
+
   
   return(
     <HeaderWrapper>
       <LeftHeader children={ title }/>
-      <RightHeader />
+      <RightHeader eventSource={ eventSource }/>
     </HeaderWrapper>
   )
 
