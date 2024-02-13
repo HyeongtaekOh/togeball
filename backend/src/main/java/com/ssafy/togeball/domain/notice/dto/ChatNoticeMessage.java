@@ -14,15 +14,17 @@ import java.time.Instant;
 public class ChatNoticeMessage {
 
     private Integer roomId;
-    private MessageType type;
+    private String nickname;
     private String content;
+    private MessageType type;
     private Instant timestamp;
 
     public static ChatNoticeMessage of(ChatMessage chatMessage) {
         return ChatNoticeMessage.builder()
                 .roomId(chatMessage.getRoomId())
-                .type(chatMessage.getType())
+                .nickname(chatMessage.getNickname())
                 .content(chatMessage.getContent())
+                .type(chatMessage.getType())
                 .timestamp(chatMessage.getTimestamp())
                 .build();}
 }
