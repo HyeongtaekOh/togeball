@@ -3,6 +3,7 @@ package com.ssafy.togeballmatching.service.messaging;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.togeballmatching.service.sessionstore.WebSocketSessionStoreService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -11,11 +12,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MessagingService {
 
     private final WebSocketSessionStoreService webSocketSessionStoreService;
+
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     public void sendMessage(Integer userId, String message) throws IOException {
         TextMessage textMessage = new TextMessage(message);
@@ -26,10 +30,10 @@ public class MessagingService {
         List<WebSocketSession> sessions = webSocketSessionStoreService.getAllWebSocketSession();
         sessions.forEach(session -> {
             try {
-                ObjectMapper objectMapper = new ObjectMapper();
                 String json = objectMapper.writeValueAsString(sortedTagIds);
+                log.info("sendTegsToAll json : {}",json);
                 TextMessage textMessage = new TextMessage(json);
-                session.sendMessage(new TextMessage("tags:" + textMessage));
+                session.sendMessage(textMessage);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
