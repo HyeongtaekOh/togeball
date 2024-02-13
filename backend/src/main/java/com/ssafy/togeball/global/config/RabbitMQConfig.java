@@ -8,7 +8,6 @@ import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,17 +24,14 @@ public class RabbitMQConfig {
     @Value("${rabbitmq.chat.queue}")
     private String chatQueue;
 
-    @Value("${rabbitmq.notification.queue}")
-    private String notificationQueue;
+    @Value("${rabbitmq.notification.chat.queue}")
+    private String chatNotificationQueue;
+
+    @Value("${rabbitmq.notification.matching.queue}")
+    private String matchingNotificationQueue;
 
     @Value("${rabbitmq.chat.routing-key}")
     private String chatRoutingKey;
-
-    @Value("${rabbitmq.matching.queue}")
-    private String matchingQueue;
-
-    @Value("${rabbitmq.matching.routing-key}")
-    private String matchingRoutingKey;
 
     @Value("${rabbitmq.host}")
     private String host;
@@ -60,23 +56,18 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Queue notificationQueue() {
-        return new Queue(notificationQueue, false);
+    public Queue chatNotificationQueue() {
+        return new Queue(chatNotificationQueue, false);
+    }
+
+    @Bean
+    public Queue matchingNotificationQueue() {
+        return new Queue(matchingNotificationQueue, false);
     }
 
     @Bean
     public Binding chatBinding(Queue chatQueue, DirectExchange exchange) {
         return BindingBuilder.bind(chatQueue).to(exchange).with(chatRoutingKey);
-    }
-
-    @Bean
-    public Queue matchingQueue() {
-        return new Queue(matchingQueue, false);
-    }
-
-    @Bean
-    public Binding matchingBinding(Queue matchingQueue, DirectExchange exchange) {
-        return BindingBuilder.bind(matchingQueue).to(exchange).with(matchingRoutingKey);
     }
 
     @Bean

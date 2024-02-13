@@ -1,13 +1,12 @@
 package com.ssafy.togeball.domain.matching.service;
 
-import com.ssafy.togeball.domain.matching.exception.MatchingNotFoundException;
 import com.ssafy.togeball.domain.matching.dto.MatchingRequest;
 import com.ssafy.togeball.domain.matching.dto.MatchingResponse;
 import com.ssafy.togeball.domain.matching.entity.Matching;
+import com.ssafy.togeball.domain.matching.exception.MatchingNotFoundException;
 import com.ssafy.togeball.domain.matching.repository.MatchingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,10 +29,16 @@ public class MatchingService {
      * 매칭과 매칭 채팅방을 생성하고, 매칭에 참여하는 유저들을 추가한다.
      */
     @Transactional
+<<<<<<< 83bc92c9600b3945292071b2c43217cd71c59f36
     @RabbitListener(queues = "${rabbitmq.matching.queue}")
     public Integer createMatchingAndChatroom(MatchingRequest matchingDto) {
         log.info("createMatchingAndChatroom: {}", matchingDto);
 
         matchingRepository.createMatchingAndChatroom(matchingDto);
+=======
+    public Matching createMatchingAndChatroom(MatchingRequest matchingDto) {
+        log.info("createMatchingAndChatroom: {}", matchingDto);
+        return matchingRepository.createMatchingAndChatroom(matchingDto);
+>>>>>>> 4a77d2b9df84d42bb9fa627eb946c7e70519dc5a
     }
 }
