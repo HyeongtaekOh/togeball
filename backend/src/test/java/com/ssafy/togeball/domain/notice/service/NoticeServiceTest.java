@@ -84,15 +84,17 @@ public class NoticeServiceTest {
         matchingRepository.save(matching2);
 
         matchingChatroom1 = MatchingChatroom.builder()
-                .matching(matching1)
                 .title("매칭 채팅방 제목 1")
+                .capacity(2)
                 .build();
+        matchingChatroom1.setMatching(matching1);
         chatroomRepository.save(matchingChatroom1);
 
         matchingChatroom2 = MatchingChatroom.builder()
-                .matching(matching2)
                 .title("매칭 채팅방 제목 2")
+                .capacity(2)
                 .build();
+        matchingChatroom2.setMatching(matching2);
         chatroomRepository.save(matchingChatroom2);
     }
 
