@@ -15,7 +15,6 @@ const InputWrapper = styled.div`
     width : 100%;
     gap: 10px;
   `
-  
 const IconWrapper = styled.div`
     box-sizing: border-box;
     display: flex;
@@ -95,9 +94,7 @@ const Login = () => {
             onChange={(e) => { setPassword( e.target.value )}}
           />
       </InputWrapper>
-      <SignButton onClick={ onLogin }>
-        로그인
-      </SignButton>
+      <SignButton onClick={ onLogin }>로그인</SignButton>
       <Title type='small'>SNS 로그인</Title>
       <IconWrapper><NaverIcon />
       <KakaoIcon onClick={ handleKakao }/>

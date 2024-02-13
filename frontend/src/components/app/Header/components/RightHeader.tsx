@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PersonIcon, ChatIcon } from 'src/components'
 import { MenuItem, HeaderChat, IconItem } from './index'
 import type { MenuItemProps } from './MenuItem'
@@ -18,7 +18,16 @@ const HeaderIconWrapper = styled( HeaderMenuWrapper )`
   align-items: center;
 `
 
-const RightHeader = () => {
+const RightHeader = ( props ) => {
+
+  const { eventSource } = props
+
+  useEffect(()=>{
+    eventSource && eventSource.addEventListener("chat", ( event ) => {
+      let data = JSON.parse(event.data)
+      console.log(data);
+    })
+  },[ eventSource ])
 
   const navigator = useNavigate()
 

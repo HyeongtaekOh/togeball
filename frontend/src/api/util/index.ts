@@ -34,25 +34,25 @@ useAxios.interceptors.response.use(
 
     console.log(error)
 
-    if( error.response.status === 409 ){
+    if( error?.response?.status === 409 ){
       return error.response
     }
 
-    if( status === 401 || error === 401 ){
+    if( error?.response?.status === 401 || error === 401 ){
 
       if(localStorage.getItem('refreshToken')){
         const refreshToken = localStorage.getItem('refreshToken')
         console.log(refreshToken)
         const data = { "Authorization-refresh" : refreshToken }
-        const response = await useAxios.post<string>('/api/auth/reissue', { headers : data });
+        // const response = await axios.post<string>('https://i10a610.p.ssafy.io:8080/api/auth/reissue', { headers : data });
+        // const response = await useAxios.post<string>('/api/auth/reissue', { headers : data });
        
-        console.log(response)
         // localStorage.setItem("accessToken", response?.headers?.authorization )
         // localStorage.setItem("refreshToken", response?.headers[`refresh-token`] )
 
       } else{
         // if ( window.location.pathname !== "/" && window.location.pathname !== "/home") {
-        //   window.location.href = "/login"
+          // window.location.href = "/login"
         // }
       }
     }
