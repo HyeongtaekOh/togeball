@@ -71,6 +71,12 @@ public class ChatroomController {
         return ResponseEntity.created(location).body(Map.of("id", chatroomId));
     }
 
+    @GetMapping("/game")
+    public ResponseEntity<?> findGameChatroomByGameId(@RequestParam(value = "gameId") Integer gameId) {
+        GameChatroomResponse chatroom = chatroomService.findGameChatroomByGameId(gameId);
+        return ResponseEntity.ok(chatroom);
+    }
+
     @PostMapping("/game")
     public ResponseEntity<?> createGameChatroom(@RequestBody GameChatroomRequest chatroomDto) {
 
