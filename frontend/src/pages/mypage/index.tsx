@@ -23,6 +23,8 @@ const ItemListWrapper= styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
 `
 
 
@@ -37,13 +39,15 @@ const MyPage = (() => {
     const [ boardLoading, setBoardLoading ] = useState<boolean>( false );
     const boardObserver = useRef<IntersectionObserver>(); 
 
+    const [ newChatData, setNewChatData ] = useState([])
+    const [ newBoardData, setNewBoardData ] = useState([])
     useEffect(() => {
         const fetchData = async () => {
             setChatLoading( true )
           try {
             const response = await getAxios( `/api/users/me/chatrooms?page=${chatPage}` )
-            const newData = response?.content
-            setChats(prevData => [ ...prevData, ...newData ])
+            setNewChatData(response?.content)
+            setChats(prevData => [ ...prevData, ...newChatData ])
             setChatLoading( false )
           } catch ( error ) {
             console.error( 'Error fetching data:', error )
@@ -58,8 +62,8 @@ const MyPage = (() => {
             setBoardLoading( true )
           try {
             const response = await getAxios( `/api/users/me/posts?page=${boardPage}` )
-            const newData = response?.content
-            setBoards(prevData => [ ...prevData, ...newData ])
+            setNewBoardData(response?.content)
+            setBoards(prevData => [ ...prevData, ...newBoardData ])
             setBoardLoading( false )
           } catch ( error ) {
             console.error( 'Error fetching data:', error )
@@ -134,7 +138,7 @@ const MyPage = (() => {
                         <div id="chatObserver" style={{ height: "10px" }}></div>
                     </ItemListWrapper>
                     </div>
-                    <div>
+                    <div style={{ display: 'flex', flexDirection: 'column'}}>
                     <SubjectWrapper>
                         내가 쓴 게시글
                     </SubjectWrapper>
