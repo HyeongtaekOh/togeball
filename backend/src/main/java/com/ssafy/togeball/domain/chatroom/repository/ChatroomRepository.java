@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ChatroomRepository extends JpaRepository<Chatroom, Integer>, CustomChatroomRepository {
 
@@ -18,4 +19,7 @@ public interface ChatroomRepository extends JpaRepository<Chatroom, Integer>, Cu
 
     @Query("SELECT c.capacity FROM Chatroom c WHERE c.id = :id")
     Integer findCapacityById(Integer id);
+
+    @Query("SELECT gc FROM GameChatroom gc WHERE gc.game.id = :gameId")
+    Optional<GameChatroom> findGameChatroomByGameId(Integer gameId);
 }

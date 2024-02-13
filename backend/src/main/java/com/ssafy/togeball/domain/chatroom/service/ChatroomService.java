@@ -244,4 +244,10 @@ public class ChatroomService {
             }
         });
     }
+
+    @Transactional
+    public GameChatroomResponse findGameChatroomByGameId(Integer gameId) {
+        GameChatroom chatroom = chatroomRepository.findGameChatroomByGameId(gameId).orElseThrow(ChatroomNotFoundException::new);
+        return GameChatroomResponse.of(chatroom);
+    }
 }
