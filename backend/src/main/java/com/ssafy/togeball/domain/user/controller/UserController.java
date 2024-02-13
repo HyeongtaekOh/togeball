@@ -127,11 +127,11 @@ public class UserController {
     @UserContext
     @GetMapping("/me/profile/presigned-url")
     public ResponseEntity<?> getPreSignedUrlToUploadProfileImage(Integer userId) {
-        String objectKey = s3Service.getObjectUrl() + "/profiles/" + userId + "/profile";
+        String objectKey = "profiles/" + userId + "/profile";
         URL presignedUrl = s3Service.generatePresignedUrl(objectKey);
 
         PreSignedURLResponse response = PreSignedURLResponse.builder()
-                .objectKey(objectKey)
+                .objectKey(s3Service.getObjectUrl() + objectKey)
                 .preSignedURL(presignedUrl.toString())
                 .build();
 
