@@ -11,7 +11,7 @@ server:
       - TLSv1.1
       - TLSv1.2
     key-store: "classpath:ssl/keystore.p12"
-    key-store-password: "togeball"
+    key-store-password: ${SSL_KEYSTORE_PASSWORD}
     key-store-type: "PKCS12"
 
 spring:
@@ -19,14 +19,20 @@ spring:
     redis:
       host: i10a610.p.ssafy.io
       port: 6379
-      password: togeball
+      password: ${REDIS_PASSWORD}
+  config:
+    import: optional:env/env.yml
 
 rabbitmq:
   host: i10a610.p.ssafy.io
   port: 4672
-  username: ssafy
-  password: ssafy
+  username: ${RABBITMQ_USERNAME}
+  password: ${RABBITMQ_PASSWORD}
   exchange: togeball.exchange
   matching:
     queue: matching.notification.queue
     routing-key: togeball.matching
+
+openai:
+  api:
+    key: ${GPT_API_KEY}
