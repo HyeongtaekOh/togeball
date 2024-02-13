@@ -5,6 +5,7 @@ import { TagApiType } from 'src/types'
 import { getTags } from 'src/api'
 import { getRecruits } from './api'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 const SettingWrapper = styled.div`
     display: flex;
@@ -28,10 +29,20 @@ const RecruitList = () => {
   const { data: tags } = useQuery<TagApiType>([ 'tags', { page: 0, size: 100 }], () => getTags({ page: 0, size: 100 }))
   const navigator = useNavigate()
 
+  const [ team, setTeam ] = useState()
+
   const teams = tags?.content.filter(item => item.type === 'PREFERRED_TEAM')
   const seats = tags?.content.filter(item => item.type === 'PREFERRED_SEAT')
 
   const { data : chats } = useQuery([ 'chats', { type: 'RECRUIT' }], () => getRecruits({ type: 'RECRUIT' }))
+
+  const goWrite = () => {
+    if( !localStorage.getItem('userId') ){
+      alert(' 로그인 하세요 ')
+      navigator('/login')
+    } 
+    else navigator('/recruit/post')
+  }
 
   const FilterMine = () => {
 
@@ -42,15 +53,22 @@ const RecruitList = () => {
           <HomeLayout>
             <SettingWrapper>
               <MatchBtn >경기를 선택하세요</MatchBtn>
-              <Select dataSource={ teams } placeholder='응원팀' background='#DEDCEE' width='100px' height='36px' ></Select>
+              <Select 
+                dataSource={ teams } 
+                placeholder='응원팀' 
+                background='#DEDCEE' 
+                width='100px' 
+                height='36px' 
+                setState={ setTeam }
+              />
               <Select dataSource={ seats } placeholder='선호 좌석' background='#DEDCEE' width='120px' height='36px' ></Select>
             </SettingWrapper>
             <Button 
               style={{ alignSelf: 'flex-end', padding: '10px', marginTop: '-15px' }}
-              onClick={ () => navigator('/recruit/post') }
+              onClick={ goWrite }
             >채팅방 생성</Button>
             <div style={{ paddingBottom : '50px' }}>
-                <Pagination chats={ chats } />
+                <Pagination team = { team } chats={ chats } />
             </div>
           </HomeLayout>
         </MainLayout>

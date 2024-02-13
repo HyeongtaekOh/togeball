@@ -69,7 +69,7 @@ const Profile = () => {
     console.log("image:", image);
     console.log("stadiums:", stadiums);
   }, [selectTags, team, image, stadiums]);
-  
+    
   const param = {
     page: 0,
     size: 100
@@ -92,6 +92,8 @@ const Profile = () => {
     role: 'BASIC',
     tagIds: [ ...selectTags, ...stadiums ].map( item => item.id )
   }
+
+  // useEffect(()=>{ resetTags() }, [])
 
   useEffect(() => {
     const validateNickname = async () => {

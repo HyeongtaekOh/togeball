@@ -32,7 +32,11 @@ const GameItem = ( props : GameItemProp ) => {
   const navigator = useNavigate()
 
   const goChat =  ( id ) => {
-    navigator( `/chat/${id}` )
+    if( !localStorage.getItem('userId') ){
+      alert(' 로그인 하세요 ')
+      navigator('/login')
+    } 
+    else navigator( `/chat/${id}` )
   }
 
   return(

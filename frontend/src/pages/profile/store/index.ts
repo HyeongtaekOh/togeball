@@ -6,7 +6,7 @@ const useModel = create<Model>( ( set, get ) => (
     selectTags: [],
     addSelectTags: (tag) => set((state) => {
       const isDuplicate = state.selectTags.some(item => item.id === tag.id);
-      if (!isDuplicate && state.selectTags.length < 15) {
+      if ( !isDuplicate ) {
           return {
               selectTags: [...state.selectTags, tag]
           };

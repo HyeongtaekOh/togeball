@@ -35,6 +35,9 @@ const TagBtn = (props: TagBtnProps) => {
       if (stadiumFlag && isMine) {
           addStadiums(item);
       }
+      if(isMine && team==0){
+        setTeam(item.id)
+      }
   }, []);
     
     const backgroundColor = isClick? '#6A60A9' : '#DEDCEE';

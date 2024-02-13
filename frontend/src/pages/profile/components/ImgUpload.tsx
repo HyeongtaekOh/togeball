@@ -35,9 +35,9 @@ const LabberWrapper = styled.label`
 `
 
 const ImgUpload = (props) => {
-
+  console.log(props.profileImage)
   const inputRef = useRef<HTMLInputElement | null>(null)
-  const [ imgSrc, setImgSrc ] = useState(props.profileImage)
+  const [ imgSrc, setImgSrc ] = useState(props.profileImage===''? lufi : props.profileImage)
   const { setImage } = useModel()
 
   const onUploadImage = useCallback( async( e: React.ChangeEvent<HTMLInputElement> ) => {
