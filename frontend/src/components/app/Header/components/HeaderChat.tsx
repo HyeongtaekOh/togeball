@@ -5,10 +5,9 @@ import { getMyChats } from 'src/api'
 
 const HeaderChatWrapper = styled.div`
   position: absolute;
-  top: 110px;
+  top: 90px;
   right: 5px;
-  width: 250px;
-  height: calc(100vh - 155px);
+  width: 280px;
   border: 1px solid #DEDCEE;
   border-radius: 10px;
   background-color: white;
