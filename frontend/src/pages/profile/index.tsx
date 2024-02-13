@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { HomeLayout, MainLayout, Title,  InputBox, Button } from 'src/components'
 import { patchProfile, getCheckNickname } from './api'
 import { getTags } from 'src/api'
-import { RowTagList, ColTagList, TagList, GenderTag } from './components'
+import { RowTagList, ColTagList, TagList, GenderTag, BirthdayPicker } from './components'
 import useModel from './store'
 import { getMyInfo } from 'src/api'
 import { useNavigate } from 'react-router-dom';
@@ -58,19 +58,10 @@ const Profile = () => {
   const [ id, setId ] = useState( userInfo?.email )
   const [ nickName, setNickName ] = useState( userInfo?.nickname )
   const [ nicknameError, setNicknameError ] = useState('')
-  const { selectTags, team, image, stadiums, resetTags, gender } = useModel()
+  const { selectTags, team, image, stadiums, resetTags, gender, selectedDate } = useModel()
   const [ isOk, setIsOk ] = useState<boolean>(true)
   const profileMutation = useMutation( patchProfile )
 
-
-  useEffect(() => {
-    console.log("selectTags:", selectTags);
-    console.log("team:", team);
-    console.log("image:", image);
-    console.log("gender:", gender);
-    console.log("stadiums:", stadiums);
-  }, [selectTags, team, image, stadiums, gender]);
-    
   const param = {
     page: 0,
     size: 100
@@ -92,6 +83,7 @@ const Profile = () => {
     profileImage: image,
     role: 'BASIC',
     gender: gender,
+    birthdate: selectedDate==='' ? null : selectedDate,
     tagIds: [ ...selectTags, ...stadiums ].map( item => item.id )
   }
 
@@ -129,9 +121,11 @@ const Profile = () => {
   const postProfileSetting = () => {
     if ( !isOk ){
       alert('닉네임을 설정해주세요')
-    }else if(gender===''){
+    }else if( gender==='' ){
       alert('성별을 설정해주세요')
-    }else if(team===0){
+    }else if( selectedDate==='' ){
+      alert('생일을 설정해주세요')
+    }else if( team===0 ){
       alert('팀을 선택해주세요')
     }else{
       profileMutation.mutateAsync( data )
@@ -164,7 +158,10 @@ const Profile = () => {
             />
             {nicknameError && <ErrorText>{ nicknameError }</ErrorText>}
           </InputWrapper>
+          <div style={{ display:'flex', marginLeft:'45px' }}>
           <GenderTag userGen = { userInfo?.gender }/>
+          <BirthdayPicker mybirth={ userInfo?.birthdate }/>
+          </div>
           <RowTagList list = { preferredStadiums } flag = { true } mytags = { userInfo?.tags }>선호 구장</RowTagList>
           <RowTagList list = { preferredTeam } myteam = { userInfo?.clubSponsorName }>팀선택{<br/>}(1개만 선택)</RowTagList>     
         </ProfileSettingWrapper>

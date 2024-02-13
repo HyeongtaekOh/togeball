@@ -12,14 +12,11 @@ const RowTagListWrapper = styled.div`
   margin-left: 20px;
 `
 
-const TitleWrapper = styled.div<{ type? : string } >`
+const TitleWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   text-align: right;
   width: 100px;
-  padding-top: ${( prop ) => prop.type === 'input'? '13px': ( prop.type === 'value' ? '0px': '2px' ) };
   font-weight: bold;
-  margin-left:  ${( prop ) => prop.type && '-10px' };
   margin-right: 12px;
 `
 
