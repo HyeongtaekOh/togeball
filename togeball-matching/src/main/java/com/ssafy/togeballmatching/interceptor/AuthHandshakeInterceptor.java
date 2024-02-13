@@ -3,6 +3,7 @@ package com.ssafy.togeballmatching.interceptor;
 import com.ssafy.togeballmatching.config.WebConfig;
 import com.ssafy.togeballmatching.dto.MatchingUser;
 import com.ssafy.togeballmatching.dto.Tag;
+import com.ssafy.togeballmatching.service.queue.RedisWaitingQueueService;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -22,6 +23,8 @@ import java.util.regex.Pattern;
 @Slf4j
 @Component
 public class AuthHandshakeInterceptor implements HandshakeInterceptor {
+
+    private RedisWaitingQueueService redisWaitingQueueService;
 
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
@@ -63,6 +66,8 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
 //        log.info("{}",user.getTags().get(0).getType()); //PREFERRED_TEAM
 //        boolean temp = user.getTags().get(0) instanceof Tag; //true
         attributes.put("tags", user.getTags());
+
+        redisWaitingQueueService.addQueue(user); // 대기열 큐에 유저를 저장
 
         return true;
     }
