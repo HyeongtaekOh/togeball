@@ -76,6 +76,10 @@ const Login = () => {
   const handleKakao = ()=>{
       window.location.href = kakaoURL
   }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    e.key === 'Enter' &&  onLogin()
+  }
   
   return (
     <MainLayout>
@@ -87,12 +91,14 @@ const Login = () => {
             placeholder= 'ex) hongildong@gamli.com' 
             value={ email }
             onChange={(e) => { setEmail( e.target.value )}}
+            onKeyDown={ handleKeyDown }
           />
           <InputBox 
             title= '비밀번호' 
             placeholder= '비밀번호를 입력해주세요.'
             value={ password }
             onChange={(e) => { setPassword( e.target.value )}}
+            onKeyDown={ handleKeyDown }
           />
       </InputWrapper>
       <SignButton onClick={ onLogin }>
