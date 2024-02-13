@@ -24,7 +24,6 @@ public class MessagingService {
     public void sendTagsToAll(Map<String, Integer> sortedTagIds) {
 
         List<WebSocketSession> sessions = webSocketSessionStoreService.getAllWebSocketSession();
-        List<Integer> userIds = sessions.stream().map(session -> (Integer) session.getAttributes().get("userId")).toList();
         sessions.forEach(session -> {
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
