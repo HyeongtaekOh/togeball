@@ -4,6 +4,7 @@ import com.ssafy.togeball.domain.common.exception.ApiException;
 import com.ssafy.togeball.domain.common.utils.PasswordUtil;
 import com.ssafy.togeball.domain.league.entity.Club;
 import com.ssafy.togeball.domain.league.service.LeagueService;
+import com.ssafy.togeball.domain.user.dto.UserResponse;
 import com.ssafy.togeball.domain.user.dto.UserSignUpRequest;
 import com.ssafy.togeball.domain.auth.service.AuthService;
 import com.ssafy.togeball.domain.tag.service.TagService;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -136,5 +138,15 @@ public class UserService {
                 .orElseThrow(UserNotFoundException::new);
         user.changeRole(Role.BASIC);
         userRepository.save(user);
+    }
+
+    public List<UserResponse> findAllByIdIn(List<Integer> userIds) {
+        List<UserResponse> users = userRepository.findAllWithTagsByIds(userIds)
+                .stream()
+                .map(UserResponse::of)
+                .toList();
+
+        if (users.size() != userIds.size()) throw new UserNotFoundException();
+        return users;
     }
 }

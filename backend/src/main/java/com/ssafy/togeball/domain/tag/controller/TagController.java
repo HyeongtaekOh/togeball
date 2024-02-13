@@ -3,11 +3,14 @@ package com.ssafy.togeball.domain.tag.controller;
 import com.ssafy.togeball.domain.tag.dto.TagCountResponse;
 import com.ssafy.togeball.domain.tag.dto.TagCreateRequest;
 import com.ssafy.togeball.domain.tag.dto.TagResponse;
+import com.ssafy.togeball.domain.tag.entity.Tag;
+import com.ssafy.togeball.domain.tag.exception.TagNotFoundException;
 import com.ssafy.togeball.domain.tag.service.TagService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,14 +35,14 @@ public class TagController {
         return ResponseEntity.ok(tags);
     }
 
-    @GetMapping("/{tagId}")
-    public ResponseEntity<?> findTagById(@PathVariable(value = "tagId") Integer tagId) {
-        TagResponse tag = TagResponse.of(tagService.findTagById(tagId));
+    @GetMapping("/id")
+    public ResponseEntity<?> findTagById(@RequestParam(value = "id") Integer id) {
+        TagResponse tag = TagResponse.of(tagService.findTagById(id));
         return ResponseEntity.ok(tag);
     }
 
-    @GetMapping("/content/{content}")
-    public ResponseEntity<?> findTagByContent(@PathVariable(value = "content") String content) {
+    @GetMapping("/content")
+    public ResponseEntity<?> findTagByContent(@RequestParam(value = "content") String content) {
         TagResponse tag = TagResponse.of(tagService.findTagByContent(content));
         return ResponseEntity.ok(tag);
     }
@@ -70,13 +73,17 @@ public class TagController {
 
     @PostMapping
     public ResponseEntity<?> createCustomTag(@RequestBody TagCreateRequest tagCreateRequest) {
-        Integer tagId = tagService.createCustomTag(tagCreateRequest);
+        try {
+            Tag tag = tagService.findTagByContent(tagCreateRequest.getContent());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("id", tag.getId()));
+        } catch (TagNotFoundException e) {
+            Integer tagId = tagService.createCustomTag(tagCreateRequest);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{tagId}")
+                    .buildAndExpand(tagId)
+                    .toUri();
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{tagId}")
-                .buildAndExpand(tagId)
-                .toUri();
-
-        return ResponseEntity.created(location).body(Map.of("id", tagId));
+            return ResponseEntity.created(location).body(Map.of("id", tagId));
+        }
     }
 }

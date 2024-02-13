@@ -161,6 +161,7 @@ public class ChatroomService {
         return getChatroomResponses(chatrooms);
     }
 
+    @Transactional(readOnly = true)
     public Page<RecruitChatroomResponse> findAllRecruitChatroomsByManagerId(Integer managerId, Pageable pageable) {
         Page<RecruitChatroom> chatrooms = chatroomRepository.findRecruitChatroomsByManagerId(managerId, pageable);
         return chatrooms.map(RecruitChatroomResponse::of);
@@ -212,5 +213,11 @@ public class ChatroomService {
         Map<Integer, ChatroomStatus> statuses = new HashMap<>();
         response.forEach(status -> statuses.put(status.getRoomId(), status));
         return statuses;
+    }
+
+    @Transactional
+    public GameChatroomResponse findGameChatroomByGameId(Integer gameId) {
+        GameChatroom chatroom = chatroomRepository.findGameChatroomByGameId(gameId).orElseThrow(ChatroomNotFoundException::new);
+        return GameChatroomResponse.of(chatroom);
     }
 }

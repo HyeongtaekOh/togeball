@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue HTTP 요청</title>
+</head>
+<body>
+
+<div id="app">
+  <button @click="fetchData">데이터 가져오기</button>
+</div>
+
+<!-- Vue 및 Axios 라이브러리 로드 -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+  axios.defaults.withCredentials = true;
+  new Vue({
+    el: '#app',
+    data() {
+      return {
+        message: ''
+      };
+    },
+    mounted() {
+      const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImlkIjoxNSwiZXhwIjoxNzA3NzMxMDM3fQ.dBUFxYae9nuzFSG9V1eTOYxB9LKw9eEwNpnhOCLEhzQEdGDV6XCDzk19fnQ81_0KpIJ_iM-JzGaWRDbRThfasw";
+      // const token = "asdfasdf"
+      const apiUrl = "https://localhost:8080/matching-server/matching";
+
+      axios.get(apiUrl)
+              .then(response => {
+                console.log("WebSocket 연결 시도...");
+                const socket = new SockJS("https://localhost:8080/matching-server/matching?token="+token);
+
+                socket.onopen = () => {
+                  console.log("WebSocket 연결이 열렸습니다.");
+                  this.message = "WebSocket 연결이 열렸습니다.";
+                  socket.send("Hello, Server!");
+                };
+
+                socket.onmessage = (event) => {
+                  const message = event.data;
+                  console.log("서버로부터 메시지를 받았습니다: " + message);
+                  this.message = "서버로부터 메시지를 받았습니다: " + message;
+                };
+
+                socket.onclose = () => {
+                  console.log("WebSocket 연결이 닫혔습니다.");
+                  this.message = "WebSocket 연결이 닫혔습니다.";
+                };
+
+                socket.onerror = () => {
+                  console.error("WebSocket 에러가 발생했습니다.");
+                  this.message = "WebSocket 에러가 발생했습니다.";
+                };
+              })
+              .catch(error => {
+                console.error("오류 발생:", error);
+                this.message = "오류 발생: " + error.message;
+              });
+    }
+  });
+</script>
+</body>
+</html>
