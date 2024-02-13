@@ -50,15 +50,15 @@ public class WaitingTagScheduler {
                 List<Tag> tag = (ArrayList) sessions.get(i).getAttributes().get("tags");
                 for (int j=0; j<tag.size(); j++) {
 //                    int id = tag.get(i).getId();
-                    String id = tag.get(i).getContent();
+                    String id = tag.get(j).getContent();
                     if (userTags.containsKey(id)) userTags.put(id,userTags.get(id)+1);
-                    else userTags.put(id, 0);
+                    else userTags.put(id, 1);
                 }
                 tags.add(tag);
             }
 
-            log.info("userId(0):{}",userIds.get(0));
-            log.info("userTags(0):{}",tags.get(0).get(0).getType());
+//            log.info("userId(0):{}",userIds.get(0));
+//            log.info("userTags(0):{}",tags.get(0).get(0).getType());
 
             // 2-5. 태그별 빈도수로 내림차순 정렬
             List<String> keySet = new ArrayList<>(userTags.keySet());
@@ -72,8 +72,8 @@ public class WaitingTagScheduler {
                 String key = keySet.get(i);
                 sortedTagIds.put(key,userTags.get(key));
 //                sortedTagIds.add(key); //리스트에 담음
-//                System.out.print("Key: " + key); //태그명
-//                System.out.println(", Val: " + userTags.get(key)); //빈도수
+                System.out.print("Key: " + key); //태그명
+                System.out.println(", Val: " + userTags.get(key)); //빈도수
             }
 
             // 3. 클라이언트에 sortedTagIds를 전송
