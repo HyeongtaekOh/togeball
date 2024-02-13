@@ -18,25 +18,23 @@ const MatchingWrapper = styled.div`
 const Matching: React.FC = () => {
   // 매칭에 올라온 큐를 다음과 같이 바꿔야함.
   const [ matchingData, setMatchingData ] = useState({
-    hashtags: [ 'tag1', 'tag2', 'tag3', 'tag4', 'tag5', 'tag6', 'tag7' ],
+    hashtags: [  ],
     counts: {
-      tag1: 10,
-      tag2: 20,
-      tag3: 20,
-      tag4: 20,
-      tag5: 10,
-      tag6: 10,
-      tag7: 20,
+      
     },
   });
 
   useEffect(() => {
 
      // WebSocket 연결 설정
-    const clientId = 123123
-    const socket = new SockJS(`https://i10a610.p.ssafy.io:8083/matching-server/matching?userId=` + clientId)
-    console.log(socket)
+    const clientId = localStorage.getItem('accessToken')
+    const token = clientId.substring(7)
+    console.log(clientId)
+    console.log(token)
+   
+    const socket = new SockJS(`https://i10a610.p.ssafy.io:8083/matching-server/matching?token=` + token)
     
+    console.log(socket) 
 
     socket.onopen = function(event) {
       // WebSocket 연결이 열렸을 때 실행되는 코드
@@ -71,8 +69,9 @@ const Matching: React.FC = () => {
 
   return (
     <MatchingWrapper>
-      <div style={{ display:'flex', justifyContent:'center', height:'10%'}}>
+      <div style={{ display:'flex', justifyContent:'space-between', height:'10%'}}>
         <Title type='large'>직관 메이트를 찾고 있어요</Title>
+        <img src="https://cdn.pixabay.com/animation/2023/10/22/03/31/03-31-43-608_512.gif" alt="" />
       </div>
       <div style={{ display: 'flex', justifyContent:'center', height:'80%'}}>
       <MatchingQueue data={ matchingData }/>

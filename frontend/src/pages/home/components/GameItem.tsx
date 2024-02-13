@@ -44,7 +44,7 @@ const GameItem = ( props : GameItemProp ) => {
         <img style={{ width : '25%' }} alt={ game?.homeClubName } src={ game?.homeClubLogo }/>
         <InfomWrapper>
           <Title>VS</Title>
-          <Title type='small'>{ game?.datetime }</Title>
+          <Title type='small'>{ game?.datetime.substring(0,10) + ' ' + game?.datetime.substring(11,16) }</Title>
         </InfomWrapper>
         <img style={{ width : '25%' }} alt={ game?.awayClubName } src={ game?.awayClubLogo }/>
     </GameItemWrapper>

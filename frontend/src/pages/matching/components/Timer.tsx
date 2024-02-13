@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react'
+import styled from 'styled-components'
 
 // interface TimerProps {
 //   duration: number; // 타이머 기간 (초)
 // }
+
+const TimerWrapper = styled.p`
+  font-size: 40px;
+  font-weight: bold;
+  color: lightgrey; 
+`
 
 const Timer = ( props ) => {
   const { duration } = props
@@ -25,7 +32,7 @@ const Timer = ( props ) => {
 
   return (
     <div>     
-      <p>경과 시간: { formatTime( elapsedTime ) }</p>     
+      <TimerWrapper>경과 시간: { formatTime( elapsedTime ) }</TimerWrapper>     
     </div>
   )
 }
