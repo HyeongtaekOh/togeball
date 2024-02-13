@@ -29,15 +29,9 @@
     mounted() {
       const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImlkIjoxNSwiZXhwIjoxNzA3NzMxMDM3fQ.dBUFxYae9nuzFSG9V1eTOYxB9LKw9eEwNpnhOCLEhzQEdGDV6XCDzk19fnQ81_0KpIJ_iM-JzGaWRDbRThfasw";
       // const token = "asdfasdf"
-      const apiUrl = "https://localhost:8080/matching-server/matching";
+      const apiUrl = "https://localhost:8080/matching-server/matching?token="+token;
 
-      axios.get(apiUrl, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'userId':3
-        },
-        exposeHeaders: 'Authorization'
-      })
+      axios.get(apiUrl)
               .then(response => {
                 console.log("WebSocket 연결 시도...");
                 const socket = new SockJS("https://localhost:8080/matching-server/matching");
