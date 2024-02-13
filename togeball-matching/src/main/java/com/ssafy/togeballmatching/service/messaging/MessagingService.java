@@ -58,7 +58,7 @@ public class MessagingService {
         });
     }
 
-    public void sendMatchingResultToUsers(List<Integer> userIds){
+    public void sendMatchingResultToUsers(List<Integer> userIds, int chatroomId, Map<String,String> participants){
 
         List<WebSocketSession> sessions = webSocketSessionStoreService.getWebSocketSessionsByUserIds(userIds)
                 .stream()
@@ -67,7 +67,12 @@ public class MessagingService {
 
         sessions.forEach(session -> {
             try {
-                session.sendMessage(new TextMessage("matched:" + userIds));
+                Map<String, Object> combinedData = new HashMap<>();
+                combinedData.put("chatroomId", chatroomId);
+                combinedData.put("participants", participants);
+                String json = objectMapper.writeValueAsString(combinedData);
+                TextMessage textMessage = new TextMessage(json);
+                session.sendMessage(textMessage);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
