@@ -6,6 +6,7 @@ import lufi from 'src/asset/images/lufi.jpg'
 import Logo from 'src/asset/images/Logo.jpg'
 import barcode from 'src/asset/images/barcode.jpg'
 import { useQuery } from 'react-query';
+import { useEffect } from 'react';
 
 const TicketWrapper = styled.div`
     display: flex;
@@ -94,12 +95,11 @@ const Ticket = ( () => {
 
     const { data: userInfo } = useQuery([ 'user' ], () => getMyInfo())
 
+
     const user = { email: userInfo?.email, myTeam : userInfo?.clubSponsorName+userInfo?.clubName,
         profileImage : userInfo?.profileImage, nickName: userInfo?.nickname,
         tag: userInfo?.tags.map(( tag ) =>{ return '#'+tag.content }), logo: userInfo?.clubLogo
     }
-
-    console.log(user.profileImage)
 
     return (
             <TicketWrapper>

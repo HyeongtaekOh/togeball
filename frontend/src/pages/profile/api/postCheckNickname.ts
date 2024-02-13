@@ -9,7 +9,6 @@ export const getCheckNickname = async( nickname) => {
             return true;
         }
     } catch(err) {
-        console.error("Error checking nickname:", err);
         return false;
     }
 }

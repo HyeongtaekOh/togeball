@@ -47,7 +47,7 @@ const MyPage = (() => {
         const fetchData = async () => {
             setChatLoading( true )
           try {
-            const response = await getAxios( `/api/users/me/chatrooms?page=${chatPage}` )
+            const response = await getAxios( `/api/users/me/chatrooms/owned?page=${chatPage}&size=4` )
             setNewChatData(response?.content)
             setChats(prevData => [ ...prevData, ...newChatData ])
             setChatLoading( false )
@@ -63,7 +63,7 @@ const MyPage = (() => {
         const fetchData = async () => {
             setBoardLoading( true )
           try {
-            const response = await getAxios( `/api/users/me/posts?page=${boardPage}` )
+            const response = await getAxios( `/api/users/me/posts?page=${ boardPage }&size=4` )
             setNewBoardData(response?.content)
             setBoards(prevData => [ ...prevData, ...newBoardData ])
             setBoardLoading( false )
@@ -134,18 +134,18 @@ const MyPage = (() => {
                         내가 모집중인 채팅방
                     </SubjectWrapper>
                     <ItemListWrapper>
-                        { chats && chats.map(chatItem => (
-                         <ChatItem key={chatItem.id} item={ chatItem } width='130% ' ></ChatItem>
+                        { chats && chats.map( chatItem => (
+                         <ChatItem key={ chatItem.id } item={ chatItem } width='130% ' ></ChatItem>
                             ))}
                         <div id="chatObserver" style={{ height: "10px" }}></div>
                     </ItemListWrapper>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column'}}>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <SubjectWrapper>
                         내가 쓴 게시글
                     </SubjectWrapper>
                     <ItemListWrapper>
-                    { boards && boards.map(BoardItem => (
+                    { boards && boards.map( BoardItem => (
                          <BoardItem key={ BoardItem.id } item={ BoardItem }></BoardItem>
                             ))}
                         <div id="boardObserver" style={{ height: "10px" }}></div>
