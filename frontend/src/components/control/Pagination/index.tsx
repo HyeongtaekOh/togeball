@@ -15,18 +15,19 @@ const Pagination = ( props ) => {
   const { chats, type = 'all', team, chatContent, setChatContent } = props
 
   
-  const itemsPerPage = 5
+  const itemsPerPage = type === 'my'? 4 : 5
   const [ currentPage, setCurrentPage ] = useState( 1 )
 
   const totalPages = Math.ceil( chats?.totalElements / itemsPerPage )
 
-  
   useEffect(()=>{
-   setChatContent( chats?.content )
-   if( chatContent &&  team !== 11 ){
-     setChatContent( chats?.content?.filter(( chat )=> chat?.cheeringClub?.id === team ))
-     setCurrentPage( 1 )
-   }
+    if( type === 'my' ) return
+
+    setChatContent( chats?.content )
+    if( chatContent &&  team !== 11 ){
+      setChatContent( chats?.content?.filter(( chat )=> chat?.cheeringClub?.id === team ))
+      setCurrentPage( 1 )
+    }
   }, [ team, chats ])
 
   const handleClick = ( page ) => {
@@ -58,9 +59,17 @@ const Pagination = ( props ) => {
   const renderItems = () => {
     const startIndex = ( currentPage - 1 ) * itemsPerPage
     const endIndex = startIndex + itemsPerPage
-    return chatContent?.slice( startIndex, endIndex ).map(( chat ) => (
-      <ChatItem type = { type } key = { chat?.id } item= { chat }/>
-    ))
+
+    if(type === 'my'){
+      return chats?.content.slice( startIndex, endIndex ).map(( chat ) => (
+        <ChatItem type = { type } key = { chat?.id } item= { chat }/>
+      ))
+    }
+    else {
+      return chatContent?.slice( startIndex, endIndex ).map(( chat ) => (
+        <ChatItem type = { type } key = { chat?.id } item= { chat }/>
+      ))
+    }
   }
 
   return (

@@ -26,9 +26,9 @@ const RightHeader = () => {
   const [ isChatOpen, setIsChatOpen ] = useState<boolean>(false)
 
   const logout = () => {
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('refreshToken')
-    localStorage.removeItem('userId')
+    localStorage.removeItem( 'accessToken' )
+    localStorage.removeItem( 'refreshToken' )
+    localStorage.removeItem( 'userId' )
     navigator('/')
     window.location.reload()
   }

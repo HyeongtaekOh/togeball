@@ -11,8 +11,8 @@ const ChatWrapper = styled.div<{ width?: string }>`
   width:  ${( props ) => props.width  };
   border-radius: 10px;
   border: 2px solid #6A60A9;
-  height: 50px;
   padding: 10px;
+  padding-bottom: 2px;
   justify-content: space-around;
   &:hover{
     background-color: #E4E2DD;
@@ -26,10 +26,10 @@ const TextWrapper = styled.div`
   width: 60%;
 `
 const DescribeWrapper = styled.p`
-display: flex;
-flex-wrap: wrap;
-margin-top: 2px;
-margin-bottom: 8px;
+  display: flex;
+  flex-wrap: nowrap;
+  margin-top: 2px;
+  margin-bottom: 8px;
 `
 const TagWrapper = styled.div`
   display: flex;
@@ -57,7 +57,7 @@ const ChatItem = ( props: ChatListProps ) => {
 
   return(
    <ChatWrapper onClick={()=> goChat()} width={ width }>
-     <img src={ item?.cheeringClub?.logo } alt='로고' style={{ width: '20%' }}/> 
+     <img src={ item?.cheeringClub?.logo } alt='로고' style={{ width: '8%', minWidth:'60px',marginBottom: '8px' }}/> 
     <TextWrapper>
       <div style={{ display: 'block', width:'100%' }}>
       <Title type='medium'>{ item?.title }</Title>
