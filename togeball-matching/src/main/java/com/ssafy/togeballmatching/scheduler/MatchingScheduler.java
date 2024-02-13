@@ -11,7 +11,9 @@ import com.ssafy.togeballmatching.service.rabbit.RabbitMQService;
 import com.ssafy.togeballmatching.service.sessionstore.WebSocketSessionStoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -54,12 +56,14 @@ public class MatchingScheduler {
             // 3. API 서버에 매칭 결과 전송, 4. 매칭된 사용자들에게 매칭 결과 전송
             for (MatchingRequest matching : matchings) {
                 rabbitService.sendMessage(exchange, routingKey, matching);
-//                Integer chatroomId = webClient.post()
-//                        .uri("/api/matching")
-//                        //.header(HttpHeaders.AUTHORIZATION, "Bearer "+accessToken)
-//                        .bodyValue(matching)
-//                        .retrieve()
-//                        .toEntity(Integer.class);
+
+                ResponseEntity<Integer> chatroomId = webClient.post()
+                        .uri("/api/matching")
+                        //.header(HttpHeaders.AUTHORIZATION, "Bearer "+accessToken)
+                        .bodyValue(matching)
+                        .retrieve()
+                        .toEntity(Integer.class)
+                        .block();
 
 //                messagingService.sendMatchingResultToUsers(matching.getTitle(), matching.getUserIds(), chatroomId, participants);
             }
