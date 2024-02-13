@@ -28,5 +28,5 @@ rabbitmq:
   password: ssafy
   exchange: togeball.exchange
   matching:
-    queue: matching.queue
+    queue: matching.notification.queue
     routing-key: togeball.matching

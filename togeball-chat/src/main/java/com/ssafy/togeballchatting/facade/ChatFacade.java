@@ -117,7 +117,7 @@ public class ChatFacade {
     }
 
     @Transactional
-    @RabbitListener(queues = "${rabbitmq.chat.queue}")
+    @RabbitListener(queues = "${rabbitmq.join.queue}")
     public void handleJoinEvent(ChatroomJoinMessage message) {
         log.info("message: {}", message);
         if (message.getType() == ChatroomJoinMessage.Type.LEAVE) {
