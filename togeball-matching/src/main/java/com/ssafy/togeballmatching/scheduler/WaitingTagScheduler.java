@@ -65,20 +65,18 @@ public class WaitingTagScheduler {
             keySet.sort((o1,o2) -> userTags.get(o2).compareTo(userTags.get(o1))); //value값으로 내림차순 정렬
 
             // 2-6. 빈도수 많은 순으로 태그 리스트에 담음
-//            List<Integer> sortedTagIds = new ArrayList<>(); //담을 리스트
-            Map<String, Integer> sortedTagIds = new HashMap<>();
+            List<String> sortedTagIds = new ArrayList<>(); //담을 리스트
+            Map<String, Integer> sortedTags = new HashMap<>();
             int count = keySet.size()>6 ? 6 : keySet.size();
             for (int i=0; i<count; i++) {
                 String key = keySet.get(i);
-                sortedTagIds.put(key,userTags.get(key));
-//                sortedTagIds.add(key); //리스트에 담음
-                System.out.print("Key: " + key); //태그명
-                System.out.println(", Val: " + userTags.get(key)); //빈도수
+                sortedTagIds.add(key); //태그명
+                sortedTags.put(key,userTags.get(key)); //태그명, 빈도수
             }
 
             // 3. 클라이언트에 sortedTagIds를 전송
 //            rabbitService.sendMessage(exchange, routingKey, matchingRequest);
-            messagingService.sendTagsToAll(sortedTagIds);
+            messagingService.sendTagsToAll(sortedTagIds,sortedTags);
         }
     }
 }
