@@ -16,7 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +35,6 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-@DependsOn("tempSseService")
 @RequiredArgsConstructor
 public class ChatroomService {
 
@@ -44,8 +46,8 @@ public class ChatroomService {
 
     private final WebClient webClient;
     private final UserService userService;
-    private final TempSseService tempSseService;
     private final RabbitTemplate rabbitTemplate;
+    private final TempSseService tempSseService;
     private final ChatroomRepository chatroomRepository;
     private final ChatroomMembershipRepository chatroomMembershipRepository;
 
@@ -219,8 +221,9 @@ public class ChatroomService {
         return statuses;
     }
 
-//    @RabbitListener(queues = "${rabbitmq.notification.queue}")
-    private void sendNotification(ChatMessage message) {
+    @Transactional
+    @RabbitListener(queues = "${rabbitmq.notification.queue}")
+    public void sendNotification(ChatMessage message) {
         log.info("message: {}", message);
         List<Integer> participantIds = findParticipantsByChatroomId(message.getRoomId())
                 .stream()
@@ -230,7 +233,9 @@ public class ChatroomService {
             SseEmitter emitter = tempSseService.getSseEmitter(userId);
             if (emitter != null) {
                 try {
+                    log.info("emitter: {}", emitter);
                     emitter.send(SseEmitter.event().name("message").data(message));
+                    log.info("message sent");
                 } catch (Exception e) {
                     emitter.completeWithError(e);
                     tempSseService.removeSseEmitter(userId);
