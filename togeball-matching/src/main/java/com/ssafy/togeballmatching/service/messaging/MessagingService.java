@@ -62,6 +62,8 @@ public class MessagingService {
 
     public void sendMatchingResultToUsers(List<Integer> userIds, MatchingResponse matchingResponse){
 
+        log.info("sendMatchingResultToUsers Working");
+
         List<WebSocketSession> sessions = webSocketSessionStoreService.getWebSocketSessionsByUserIds(userIds)
                 .stream()
                 .filter(session -> userIds.contains((Integer) session.getAttributes().get("userId")))
@@ -72,6 +74,7 @@ public class MessagingService {
                 Map<String, Object> combinedData = new HashMap<>();
                 combinedData.put("matching", matchingResponse);
                 String json = objectMapper.writeValueAsString(combinedData);
+                log.info("matching Complete! matchingResponse : {}", json);
                 TextMessage textMessage = new TextMessage(json);
                 session.sendMessage(textMessage);
             } catch (IOException e) {
