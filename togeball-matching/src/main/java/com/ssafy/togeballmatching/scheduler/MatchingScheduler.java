@@ -45,8 +45,10 @@ public class MatchingScheduler {
     private final WebSocketSessionStoreService webSocketSessionStoreService;
     private final MatchingService matchingService;
 
-    @Scheduled(fixedDelay = 15000)
+    @Scheduled(fixedDelay = 5000, initialDelay = 1000)
     public void matching() {
+
+        log.info("matching scheduler start");
 
         List<WebSocketSession> sessions = webSocketSessionStoreService.getAllWebSocketSession();
         List<MatchingUser> waitingUsers = waitingQueueService.getWaitingUsers();
@@ -55,6 +57,8 @@ public class MatchingScheduler {
 
             // 1. 유저 목록 받아옴
             List<Integer> userIds = sessions.stream().map(session -> (Integer) session.getAttributes().get("userId")).toList();
+            log.info("userIds: {}", userIds);
+
             // 2. 매칭 알고리즘 수행
             List<MatchingRequest> matchings = matchingService.matchUsers(waitingUsers);
 
@@ -71,7 +75,9 @@ public class MatchingScheduler {
 
                 messagingService.sendMatchingResultToUsers(matching.getTitle(), matching.getUserIds(), chatroomId, participants);
             }
-//            waitingQueueService.clearQueue();
+
+        waitingQueueService.clearQueue();
+
 //        }
     }
 
@@ -98,6 +104,7 @@ public class MatchingScheduler {
 
         // Response Body 출력
         log.info("getAdminToken : {}", responseEntity.getHeaders().get("Authorization"));
+        adminToken = responseEntity.getHeaders().get("Authorization").get(0);
         return responseEntity.getHeaders().get("Authorization").get(0);
     }
 
@@ -111,15 +118,15 @@ public class MatchingScheduler {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization",adminToken);
 
-        // Request Body 설정
-        JSONObject requestBody = new JSONObject();
-        requestBody.put("matchingRequest",matching);
-
-        // Request Entity 생성
-        HttpEntity entity = new HttpEntity(requestBody.toString(), headers);
+        // Request Body 설정 (올바르게 직렬화하는 방법 예시)
+        HttpEntity<MatchingRequest> entity = new HttpEntity<>(matching, headers);
 
         // API 호출
-        ResponseEntity<String> responseEntity = restTemplate.exchange(baseUrl, HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(
+                baseUrl,
+                HttpMethod.POST,
+                entity,
+                String.class);
 
         // Response Body 출력
         System.out.println(responseEntity.getBody());
