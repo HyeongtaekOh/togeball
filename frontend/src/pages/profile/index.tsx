@@ -83,7 +83,7 @@ const Profile = () => {
     profileImage: image,
     role: 'BASIC',
     gender: gender,
-    birthdate: selectedDate==='' ? null : selectedDate,
+    birthdate: selectedDate==='' ? null : new Date(selectedDate),
     tagIds: [ ...selectTags, ...stadiums ].map( item => item.id )
   }
 
