@@ -53,12 +53,13 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, MatchingUser> redisTemplate() {
+    public RedisTemplate<String, Object> redisTemplate() {
 
-        RedisTemplate<String, MatchingUser> redisTemplate = new RedisTemplate<>();
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer(objectMapper()));
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer(objectMapper()));
         return redisTemplate;
     }
 }

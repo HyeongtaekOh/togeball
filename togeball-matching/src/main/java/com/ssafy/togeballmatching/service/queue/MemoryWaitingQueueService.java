@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
-@Primary
+//@Primary
 public class MemoryWaitingQueueService implements WaitingQueueService {
 
     private final Map<Integer, MatchingUser> waitingQueue = new ConcurrentHashMap<>();
@@ -24,13 +24,13 @@ public class MemoryWaitingQueueService implements WaitingQueueService {
     }
 
     @Override
-    public List<MatchingUser> getWaitingUsers() {
-        return waitingQueue.values().stream().toList();
+    public void removeQueue(Integer userId) {
+        waitingQueue.remove(userId);
     }
 
     @Override
-    public List<MatchingUser> getFirstNWaitingUsers(int n) {
-        return waitingQueue.values().stream().limit(n).toList();
+    public List<MatchingUser> getWaitingUsers() {
+        return waitingQueue.values().stream().toList();
     }
 
     @Override
