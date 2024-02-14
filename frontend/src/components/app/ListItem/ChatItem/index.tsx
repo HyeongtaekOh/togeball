@@ -41,6 +41,8 @@ const TagWrapper = styled.div`
 const ChatItem = ( props: ChatListProps ) => {
 
   const { item, type, width } = props
+  const { updateCount, count } = useHeaderStore()
+  const { session } = useStore()
 
   const navigator = useNavigate()
   const partiMutation = useMutation( partiChat, {
@@ -49,6 +51,15 @@ const ChatItem = ( props: ChatListProps ) => {
     }
   } )
 
+  const checkParti = () =>{
+    item?.members?.map(( member )=>{
+      if( member.id === session.id ){
+        return 1
+      }
+    })
+    return 2
+  }
+
   const goChat = () => {
     
     if( !localStorage.getItem('userId') ){
@@ -56,7 +67,21 @@ const ChatItem = ( props: ChatListProps ) => {
       navigator('/login')
     } 
     else {
-      partiMutation.mutateAsync({ chatRoomId : item?.id })
+      if( type!=='my' 
+      && item?.capacity === item?.members?.length
+      && item?.manager?.id !== session?.id
+      )
+      {
+        const check = checkParti()
+        if ( check === 2 ){
+          alert('인원이 다 찼습니다')
+          return
+        }
+      }
+      else {
+        updateCount( count - item?.status?.unreadCount )
+        partiMutation.mutateAsync({ chatRoomId : item?.id })
+      }
     }
 
   }
