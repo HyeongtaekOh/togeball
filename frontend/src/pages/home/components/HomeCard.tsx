@@ -56,7 +56,11 @@ const HomeCard = ( props : HomeCardProps ) => {
   const navigator = useNavigate()
 
   const onClickHandler = () => {
-    navigator( path )
+    if( path === '/recruit/post' && !localStorage.getItem('accessToken')){
+      alert( '로그인 하세요' )
+      navigator('/login')
+    }
+    else navigator( path )
   }
 
   const { title, type, color = '#6A60A9', children, path } = props

@@ -3,7 +3,8 @@ import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { Title } from 'src/components'
 import styled from 'styled-components'
-
+import useHeaderStore from '../../Header/store'
+import useStore from 'src/store'
 
 const ChatWrapper = styled.div<{ width?: string }>`
   display: flex;
@@ -40,6 +41,8 @@ const TagWrapper = styled.div`
 const ChatItem = ( props: ChatListProps ) => {
 
   const { item, type, width } = props
+  const { updateCount, count } = useHeaderStore()
+  const { session } = useStore()
 
   const navigator = useNavigate()
   const partiMutation = useMutation( partiChat, {
@@ -48,14 +51,39 @@ const ChatItem = ( props: ChatListProps ) => {
     }
   } )
 
+  const checkParti = () =>{
+    item?.members?.map(( member )=>{
+      if( member.id === session.id ){
+        return 1
+      }
+    })
+    return 2
+  }
+
   const goChat = () => {
+    
     if( !localStorage.getItem('userId') ){
       alert(' 로그인 하세요 ')
       navigator('/login')
     } 
     else {
-      partiMutation.mutateAsync({ chatRoomId : item?.id })
+      if( type!=='my' 
+      && item?.capacity === item?.members?.length
+      && item?.manager?.id !== session?.id
+      )
+      {
+        const check = checkParti()
+        if ( check === 2 ){
+          alert('인원이 다 찼습니다')
+          return
+        }
+      }
+      else {
+        updateCount( count - item?.status?.unreadCount )
+        partiMutation.mutateAsync({ chatRoomId : item?.id })
+      }
     }
+
   }
 
   return(
@@ -64,17 +92,30 @@ const ChatItem = ( props: ChatListProps ) => {
     <TextWrapper>
       <div style={{ display: 'block', width:'100%' }}>
       <Title type='medium'>{ item?.title }</Title>
-      <DescribeWrapper>{ item?.description }</DescribeWrapper>
+      {
+        type !== 'my' &&
+        <DescribeWrapper>{ item?.description }</DescribeWrapper>
+      }
       </div>
         <TagWrapper>
           { item.tags.map(( tag ) => (
             <Title type='small'>#{ tag?.content }&nbsp;</Title>
           ))}
         </TagWrapper>
+        {
+          type === 'my' && item?.status?.latestChatMessage?.type === 'TEXT' && 
+          <p style={{ margin: '10px 0px 2px 0px', fontSize: '12px' }}>{( item?.status?.latestChatMessage?.content).substring(0, 13) }    
+          { item?.status?.latestChatMessage?.content?.length > 13 &&  '..' }
+          </p> 
+        }
+        {
+          type === 'my' && item?.status?.latestChatMessage?.type === 'IMAGE' && 
+          <p style={{ margin: '10px 0px 2px 0px', fontSize: '12px' }}>( 사진 )</p> 
+        }
     </TextWrapper>
     {
       type !== 'my' &&
-      <p style={{ paddingTop: '40px'}}>{ item?.members?.length | 0}/ { item?.capacity }명</p> 
+      <p style={{ paddingTop: '40px'}}>{ item?.members?.length | 0 }/ { item?.capacity }명</p> 
     }
    </ChatWrapper>
   )

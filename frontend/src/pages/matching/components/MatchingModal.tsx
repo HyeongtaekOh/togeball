@@ -46,16 +46,8 @@ const CloseButton = styled.button`
 `
 
 const MatchingModal = ( props ) => {
-  const { onClose } = props
-  const participants = [
-    {
-      id: 102030,
-      nickname: 'oonjae',
-      birthdate: '2000-02-18',
-      gender: '남성',
-      profileImg: 'url',
-    },
-  ]
+  const { onClose, participants, chatroomId, title } = props
+  
 
   const handleModalClose = () => {
        onClose()
@@ -65,10 +57,10 @@ const MatchingModal = ( props ) => {
   const navigator = useNavigate()
 
   const onClickHandler = () => {
-    navigator( '/chat' )
+    navigator( `/chat/${ chatroomId }` )
   }
   
-
+ console.log(participants)
 
   return (
     <ModalOverlay>
@@ -76,11 +68,19 @@ const MatchingModal = ( props ) => {
         <CloseButton onClick={ handleModalClose }>닫기</CloseButton>
         <ModalInfoWrapper >
 
-          <p style={{ fontSize: '30px', color: '#7D74B4' , fontWeight:'bolder' }}>#응원을 좋아하고 과몰입하는</p>
+          <p style={{ fontSize: '30px', color: '#7D74B4' , fontWeight:'bolder' }}>{ title }</p>
           <div style={{ textAlign: 'center'}}>
-            { participants.map(( participant ) => (
-              <MatchingProfile key={ participant?.id } { ...participant } />
-              ))}
+                {participants.map((participant) => (
+                      <MatchingProfile
+                        key={participant?.id}
+                        name={participant.nickname}
+                        gender={participant.gender}
+                        age={participant.birthdate}
+                        profileImg={participant.profileImg}
+                        tags={participant.tags.map(tag => tag.content)} // 태그 배열에서 content 속성 추출
+                        myteam={participant.clubLogo}
+                      />
+                    ))}
           </div>
           <Title>참가 인원 수: { participants.length }</Title>
           <Button type='parti' onClick={ onClickHandler } >참가하기</Button>

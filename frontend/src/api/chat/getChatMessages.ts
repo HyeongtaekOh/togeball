@@ -8,8 +8,6 @@ interface dataType {
 
 export const getChatMessages = async( id, data : dataType ) => {
   try{
-    console.log(data)
-    console.log(id)
     const response = await getAxios(`chat-server/chats/${ id }`, data ) 
     return response
   } catch( err ){

@@ -6,7 +6,7 @@ import './asset/css/reset.css'
 import './asset/css/common.css'
 import routers from './pages/router'
 import useStore from './store'
-import { getUserInfo } from './api'
+import { getMyChats, getUserInfo } from './api'
 
 const queryClient = new QueryClient() // QueryClient 생성
 
@@ -16,21 +16,20 @@ function App() {
 
   useEffect( () => {
     if( localStorage.getItem('accessToken') ) {
-
       const setUser = async() => {
-        const user = await getUserInfo(localStorage.getItem( 'userId' ))
-        if( user ){
+        const possible = await getMyChats()
+        if( possible ){
+          const user = await getUserInfo(localStorage.getItem('userId'))
           setIsLogin( true )
           setAccessToken( localStorage.getItem( 'accessToken' ) )
           setSession( user )
         }
-        else{
-          setIsLogin( false )
-          localStorage.removeItem( 'accessToken' )
-          localStorage.removeItem( 'refreshToken' )
-          localStorage.removeItem( 'userId' )
-          window.location.reload()         
-        }
+        // else{
+        //   localStorage.removeItem( 'accessToken' )
+        //   localStorage.removeItem( 'refreshToken' )
+        //   localStorage.removeItem( 'userId' )
+        //   window.location.reload()         
+        // }
       }
 
       setUser()

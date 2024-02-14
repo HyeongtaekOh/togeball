@@ -6,7 +6,7 @@ import styled from 'styled-components'
 // }
 
 const TimerWrapper = styled.p`
-  font-size: 40px;
+  font-size: 25px;
   font-weight: bold;
   color: lightgrey; 
 `
