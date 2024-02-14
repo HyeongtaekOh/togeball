@@ -1,9 +1,7 @@
 package com.ssafy.togeballmatching.scheduler;
 
-import com.ssafy.togeballmatching.dto.MatchingRequest;
 import com.ssafy.togeballmatching.dto.MatchingUser;
 import com.ssafy.togeballmatching.dto.Tag;
-import com.ssafy.togeballmatching.dto.TagCountResponse;
 import com.ssafy.togeballmatching.service.messaging.MessagingService;
 import com.ssafy.togeballmatching.service.queue.WaitingQueueService;
 import com.ssafy.togeballmatching.service.rabbit.RabbitMQService;
@@ -15,7 +13,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Slf4j
@@ -34,7 +31,7 @@ public class WaitingTagScheduler {
     private final WaitingQueueService waitingQueueService;
     private final WebSocketSessionStoreService webSocketSessionStoreService;
 
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 5000)
     public void gathering() {
 
         List<WebSocketSession> sessions = webSocketSessionStoreService.getAllWebSocketSession();
