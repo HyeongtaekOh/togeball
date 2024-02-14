@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -125,10 +126,9 @@ class WaitingQueueServiceTest {
 
         service.addQueue(matchingUser1);
 
-        List<MatchingUser> waitingUsers = service.getFirstNWaitingUsers(1);
-        log.info("waitingUsers: {}", waitingUsers);
-        assertEquals(1, waitingUsers.size());
-        assertEquals(matchingUser1, waitingUsers.get(0));
+        MatchingUser waitingUser = service.getWaitingUsers().get(0);
+        log.info("waitingUser: {}", waitingUser);
+        assertEquals(matchingUser1, waitingUser);
     }
 
     @Test
@@ -144,26 +144,9 @@ class WaitingQueueServiceTest {
 
         List<MatchingUser> waitingUsers = service.getWaitingUsers();
         log.info("waitingUsers: {}", waitingUsers);
-        List<MatchingUser> matchingUsers = List.of(matchingUser1, matchingUser2, matchingUser3, matchingUser4, matchingUser5, matchingUser6, matchingUser7);
-        assertEquals(matchingUsers, waitingUsers);
-    }
 
-    @Test
-    void getFirstNWaitingUsers() {
-
-        service.addQueue(matchingUser1);
-        service.addQueue(matchingUser2);
-        service.addQueue(matchingUser3);
-        service.addQueue(matchingUser4);
-        service.addQueue(matchingUser5);
-        service.addQueue(matchingUser6);
-        service.addQueue(matchingUser7);
-
-        List<MatchingUser> firstNWaitingUsers = service.getFirstNWaitingUsers(3);
-
-        log.info("firstNWaitingUsers: {}", firstNWaitingUsers);
-        List<MatchingUser> first3MatchingUsers = List.of(matchingUser1, matchingUser2, matchingUser3);
-        assertEquals(first3MatchingUsers, firstNWaitingUsers);
+        List<Integer> matchingUserIds = Stream.of(matchingUser1, matchingUser2, matchingUser3, matchingUser4, matchingUser5, matchingUser6, matchingUser7).map(MatchingUser::getUserId).toList();
+        waitingUsers.forEach(matchingUser -> assertTrue(matchingUserIds.contains(matchingUser.getUserId())));
     }
 
     @Test

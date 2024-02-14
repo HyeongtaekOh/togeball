@@ -8,10 +8,9 @@ public interface WaitingQueueService {
 
     public void addQueue(MatchingUser matchingUser);
 
+    public void removeQueue(Integer userId);
+
     public List<MatchingUser> getWaitingUsers();
-
-    public List<MatchingUser> getFirstNWaitingUsers(int n);
-
 
     public void clearQueue();
 }
