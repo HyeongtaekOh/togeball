@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { PersonIcon, ChatIcon } from 'src/components'
 import { MenuItem, HeaderChat, IconItem } from './index'
 import type { MenuItemProps } from './MenuItem'
@@ -6,6 +6,7 @@ import useStore from 'src/store'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { EventSourcePolyfill } from 'event-source-polyfill'
+import { getMyChats, getUserInfo } from 'src/api'
 
 
 const HeaderMenuWrapper = styled.div`
@@ -19,13 +20,27 @@ const HeaderIconWrapper = styled( HeaderMenuWrapper )`
   display: flex;
   align-items: center;
 `
+const UnreadWrapper = styled.div`
+  display: flex;
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+  background-color: #6A60A9;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  transform: translate(22px, -13px);
+  color: WHITE;
+`
 
 const RightHeader = (  ) => {
 
+  const { accessToken, setAccessToken, setIsLogin, setSession,  } = useStore()
+  const count = useRef(0)
+  
   useEffect(() => {
     let eventSource;
-
-    if (!localStorage.getItem('accessToken')) return;
 
     const createSource = () => {
       const url = 'https://i10a610.p.ssafy.io:8080/sse/notification/subscribe';
@@ -40,6 +55,7 @@ const RightHeader = (  ) => {
       })
 
       eventSource.addEventListener('chat', data => {
+        count.current = count.current + 1
         console.log(data)
       })
 
@@ -52,18 +68,44 @@ const RightHeader = (  ) => {
         eventSource?.close()
       }
     }
+    
+    if (!localStorage.getItem('accessToken')) return;
+    else {
+      const setUser = async() => {
+        const possible = await getMyChats()
+        if( possible ){
+          const user = await getUserInfo(localStorage.getItem('userId'))
+          setIsLogin( true )
+          setAccessToken( localStorage.getItem( 'accessToken' ) )
+          setSession( user )
+          createSource()
+        }
+        else{
+          localStorage.removeItem( 'accessToken' )
+          localStorage.removeItem( 'refreshToken' )
+          localStorage.removeItem( 'userId' )
+          window.location.reload()         
+        }
+      }
 
-    createSource()
-
-    return () => {
-        eventSource?.close()
+      setUser()
     }
+    
+    return () => {
+      eventSource && eventSource?.close()
+    }
+    
   }, [])
 
   const navigator = useNavigate()
 
   const { isLogin } = useStore()
   const [ isChatOpen, setIsChatOpen ] = useState<boolean>(false)
+
+  const openHandler =()=> {
+    if( !isChatOpen ) count.current = 0
+    setIsChatOpen( !isChatOpen )
+  }
 
   const logout = () => {
     localStorage.removeItem( 'accessToken' )
@@ -111,7 +153,11 @@ const RightHeader = (  ) => {
       {
         isLogin &&  (
         <HeaderIconWrapper>
-          <ChatIcon onClick = {() => setIsChatOpen( !isChatOpen )}/>
+          {
+            // count.current > 0 && 
+            <UnreadWrapper><p>{ count.current }</p></UnreadWrapper>
+          }
+          <ChatIcon onClick = { openHandler }/>
           { isChatOpen && <HeaderChat /> }
           <IconItem menus = { personMenu }><PersonIcon /></IconItem>
         </HeaderIconWrapper> )

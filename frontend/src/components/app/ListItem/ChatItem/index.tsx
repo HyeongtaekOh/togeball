@@ -64,13 +64,20 @@ const ChatItem = ( props: ChatListProps ) => {
     <TextWrapper>
       <div style={{ display: 'block', width:'100%' }}>
       <Title type='medium'>{ item?.title }</Title>
-      <DescribeWrapper>{ item?.description }</DescribeWrapper>
+      {
+        type !== 'my' &&
+        <DescribeWrapper>{ item?.description }</DescribeWrapper>
+      }
       </div>
         <TagWrapper>
           { item.tags.map(( tag ) => (
             <Title type='small'>#{ tag?.content }&nbsp;</Title>
           ))}
         </TagWrapper>
+        {
+          type === 'my' &&
+          <p style={{ margin: '10px 0px 2px 0px', fontSize: '12px' }}>{ item?.status?.latestChatMessage?.content }</p> 
+        }
     </TextWrapper>
     {
       type !== 'my' &&
