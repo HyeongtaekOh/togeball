@@ -31,7 +31,7 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
 
         String query = request.getURI().getQuery();
         Matcher matcher = tokenMatcher(query);
-        log.info("query: {}", query);
+//        log.info("query: {}", query);
         if (!matcher.find()) {
             log.error("beforeHandshake: Authorization is not found");
             return false;
