@@ -1,9 +1,8 @@
 import styled from 'styled-components'
 import React, { useState } from 'react'
 import lufi from 'src/asset/images/lufi.jpg'
-import lgtwinslogo from 'src/asset/images/lgtwinslogo.jpg'
 import { Title } from 'src/components'
-import { Participants } from '@/pages/chat/components'
+
 
 
 const ProfileContainer = styled.div`
