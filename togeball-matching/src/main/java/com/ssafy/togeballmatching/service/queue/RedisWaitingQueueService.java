@@ -2,7 +2,9 @@ package com.ssafy.togeballmatching.service.queue;
 
 import com.ssafy.togeballmatching.dto.MatchingUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -10,28 +12,35 @@ import java.util.List;
 
 @Service
 //@Primary
-@RequiredArgsConstructor
 public class RedisWaitingQueueService implements WaitingQueueService {
 
     private final RedisTemplate<String, MatchingUser> redisTemplate;
+    private final String REDIS_QUEUE_KEY = "togeball:waiting-queue";
+    private final HashOperations<String, Integer, MatchingUser> hashOperations;
+
+    @Autowired
+    public RedisWaitingQueueService(RedisTemplate<String, MatchingUser> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+        this.hashOperations = redisTemplate.opsForHash();
+    }
 
     @Override
     public void addQueue(MatchingUser matchingUser) {
-        redisTemplate.opsForList().rightPush("waiting-queue", matchingUser);
+        hashOperations.put(REDIS_QUEUE_KEY, matchingUser.getUserId(), matchingUser);
     }
 
     @Override
     public List<MatchingUser> getWaitingUsers() {
-        return redisTemplate.opsForList().range("waiting-queue", 0, -1);
+        return hashOperations.values(REDIS_QUEUE_KEY);
     }
 
     @Override
     public List<MatchingUser> getFirstNWaitingUsers(int n) {
-        return redisTemplate.opsForList().range("waiting-queue", 0, n - 1);
+        return hashOperations.values(REDIS_QUEUE_KEY).stream().limit(n).toList();
     }
 
     @Override
     public void clearQueue() {
-        redisTemplate.delete("waiting-queue");
+        redisTemplate.delete(REDIS_QUEUE_KEY);
     }
 }
