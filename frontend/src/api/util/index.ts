@@ -70,9 +70,9 @@ export const getAxios =  async ( url: string, params?: any )  => {
   }
 } 
 
-export const postAxios =  async( url: string, data?: any )  =>{
+export const postAxios =  async( url: string, data?: any, multi?:any )  =>{
   try{
-    const response = await useAxios.post( url, data )
+    const response = await useAxios.post( url, data, multi )
     console.log(response)
     return response
   } catch( error ){
