@@ -46,11 +46,10 @@ const MyinfoWrapper = styled.div`
 `
 
 const PictureWrapper = styled.img`
-    border : 1px solid #2C2C06;
     width: 60%;
-    margin-left: 20px;
-    margin-top: 20px;
-    border-radius: 40px;
+    margin-left: 30px;
+    margin-top: 30px;
+    border-radius: 20%;
 `
 
 const MySelfWrapper = styled.div`
@@ -84,7 +83,6 @@ const EditProfileWrapper = styled.p`
 `
 
 
-
 const Ticket = ( () => {
 
     const navigate = useNavigate()
@@ -94,7 +92,6 @@ const Ticket = ( () => {
     }
 
     const { data: userInfo } = useQuery([ 'user' ], () => getMyInfo())
-    console.log(userInfo?.profileImage)
 
     const user = { email: userInfo?.email, myTeam : userInfo?.clubSponsorName+userInfo?.clubName,
         profileImage : userInfo?.profileImage, nickName: userInfo?.nickname,
