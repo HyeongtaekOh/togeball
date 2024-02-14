@@ -4,6 +4,7 @@ import com.ssafy.togeballmatching.dto.MatchingRequest;
 import com.ssafy.togeballmatching.dto.Tag;
 import com.ssafy.togeballmatching.dto.TagType;
 import com.ssafy.togeballmatching.dto.MatchingUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -16,6 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@Slf4j
 @Service
 public class MatchingService {
 
@@ -31,6 +33,13 @@ public class MatchingService {
     private String GPT_API_KEY;
 
     public List<MatchingRequest> matchUsers(List<MatchingUser> users) {
+
+        log.info("matchUsers: {}", users);
+
+        if (users.size() < MIN_GROUP_SIZE) {
+            log.warn("매칭할 사용자가 부족합니다.");
+            return Collections.emptyList();
+        }
 
         List<MatchingRequest> matchings = new ArrayList<>();
 

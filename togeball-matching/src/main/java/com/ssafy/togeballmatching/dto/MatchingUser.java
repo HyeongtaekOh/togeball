@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Builder
-@ToString
+@ToString(of = {"userId"})
 @EqualsAndHashCode
 public class MatchingUser {
 
