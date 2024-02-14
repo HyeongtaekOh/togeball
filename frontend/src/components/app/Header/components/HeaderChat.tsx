@@ -11,7 +11,7 @@ const HeaderChatWrapper = styled.div`
   border: 1px solid #DEDCEE;
   border-radius: 10px;
   background-color: white;
-  z-index:999;
+  z-index: 999;
   padding: 10px;
 `
 

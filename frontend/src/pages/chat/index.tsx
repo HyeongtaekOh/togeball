@@ -72,7 +72,7 @@ const Chat = () => {
   const { data : chatInfo } = useQuery([ 'chatInfo', { id : chatroomId }], () => getChat( { id : chatroomId }))
   
 
-  const stompClient = useRef(null)
+  const stompClient = useRef( null )
 
   useEffect(() => {
     const onConnect = async() => {

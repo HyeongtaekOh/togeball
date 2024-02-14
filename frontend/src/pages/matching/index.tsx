@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Stomp from 'stompjs'
 import   { MatchingQueue, Timer, MatchingModal }   from './components'
 import { Title } from 'src/components'
 import styled from 'styled-components'
 import SockJS from 'sockjs-client'
+import { Participants } from '../chat/components'
 
 
 
@@ -15,8 +17,16 @@ const MatchingWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
 `
+
 const Matching: React.FC = () => {
+
+ 
+  const navigator = useNavigate()
+ 
+
   // 매칭에 올라온 큐를 다음과 같이 바꿔야함.
+
+
   const [ matchingData, setMatchingData ] = useState({
     hashtags: [  ],
     counts: {
@@ -24,15 +34,22 @@ const Matching: React.FC = () => {
     },
   });
 
+  const [ participants, setParticipants ] = useState({
+    participants: []
+  })
+
   useEffect(() => {
 
      // WebSocket 연결 설정
     const clientId = localStorage.getItem('accessToken')
+    
+    if (!clientId) return alert('로그인이 필요합니다!'), navigator('/home')
+    
+    
     const token = clientId.substring(7)
-    console.log(clientId)
-    console.log(token)
+    
    
-    const socket = new SockJS(`https://i10a610.p.ssafy.io:8083/matching-server/matching?token=` + token)
+    const socket = new SockJS('https://i10a610.p.ssafy.io:8083/matching-server/matching?token=' + token)
     
     console.log(socket) 
 
@@ -48,24 +65,28 @@ const Matching: React.FC = () => {
       // 서버에서 메시지를 받았을 때 실행되는 코드
       const message = event.data
       //TODO : state를 업데이트하는 useState 추가.
-      console.log("서버로부터 메시지를 받았습니다: " + message)      
+      const newMessage = JSON.parse(message)
+      
+      setMatchingData({
+        hashtags: newMessage.hashtags, 
+        counts: newMessage.counts
+      });
+      
   }
 
   return () => {
     socket.close()
   }
-}, [])
+}, [ matchingData, participants  ])
 
   // 웹소켓서버 연결하면 false를 기본값으로 바꿀 예정
-  const [isModalOpened, setIsModalOpened] = useState( true )
+  const [isModalOpened, setIsModalOpened] = useState( false )
 
   const closeModal = () => {
     setIsModalOpened( false )
   }
 
-  const openModal = () => {
-    setIsModalOpened (true )
-  }
+  
 
   return (
     <MatchingWrapper>
@@ -75,7 +96,7 @@ const Matching: React.FC = () => {
       </div>
       <div style={{ display: 'flex', justifyContent:'center', height:'80%'}}>
       <MatchingQueue data={ matchingData }/>
-      { isModalOpened && <MatchingModal isOpen={ isModalOpened } onClose={ closeModal } />}
+      { isModalOpened && <MatchingModal isOpen={ isModalOpened } onClose={ closeModal } participants = { participants }  />}
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10%'}}>
         <Timer duration={ 180 }/>

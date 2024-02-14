@@ -9,6 +9,18 @@ const PageWrapper = styled.div`
     justify-content: center;
     align-items: center;
 `
+const UnreadWrapper = styled.div`
+  display: flex;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background-color: #6A60A9;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-5px, -5px);
+  color: WHITE;
+`
 
 const Pagination = ( props ) => {
   
@@ -60,9 +72,15 @@ const Pagination = ( props ) => {
     const startIndex = ( currentPage - 1 ) * itemsPerPage
     const endIndex = startIndex + itemsPerPage
 
-    if(type === 'my'){
+    if( type === 'my' ){
       return chats?.content.slice( startIndex, endIndex ).map(( chat ) => (
-        <ChatItem type = { type } key = { chat?.id } item= { chat }/>
+        <div>
+          {
+            chat?.status?.unreadCount > 0 && 
+            <UnreadWrapper><p>{ chat?.status?.unreadCount }</p></UnreadWrapper>
+          }
+          <ChatItem type = { type }  item= { chat }/>
+        </div>
       ))
     }
     else {
