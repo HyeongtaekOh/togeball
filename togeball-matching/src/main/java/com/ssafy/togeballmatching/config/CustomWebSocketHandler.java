@@ -36,6 +36,7 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
         log.info("status: {}", status);
         Integer userId = (Integer) session.getAttributes().get("userId");
         webSocketSessionStoreService.removeWebSocketSession(userId);
+        waitingQueueService.removeQueue(userId);
         messagingService.sendMatchingStatsToAll();
     }
 }
