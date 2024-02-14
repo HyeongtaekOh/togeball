@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { ChatMessage, Participants } from './components'
 import { Button, InputBox, LeftIcon, MainLayout } from 'src/components'
-import { stompClient } from './util/chat'
+import { createClient } from './util/chat'
 import useStore from 'src/store'
 import styled from 'styled-components'
 import { getChat, getChatMessages, getParticipants } from 'src/api'
@@ -71,10 +71,12 @@ const Chat = () => {
   const { data: participants } = useQuery([ 'participants', { id : chatroomId }], () => getParticipants( { id : chatroomId }))
   const { data : chatInfo } = useQuery([ 'chatInfo', { id : chatroomId }], () => getChat( { id : chatroomId }))
   
+
+  const stompClient = useRef(null)
+
   useEffect(() => {
-    const onConnect = () => {
-      stompClient.connected &&
-      stompClient.subscribe(`/topic/room.${ chatroomId }`, ( message ) => {
+    const onConnect = async() => {
+      stompClient.current?.subscribe(`/topic/room.${ chatroomId }`, ( message ) => {
         const newMessage = JSON.parse( message.body )
         setMessages(( prevMessages ) => [
           ...prevMessages,
@@ -91,7 +93,8 @@ const Chat = () => {
 
     const connectToStomp = async () => {
       try {
-        await stompClient.connect({ Authorization :  userId }, onConnect )
+        stompClient.current = await createClient()
+        await stompClient.current?.connect({ Authorization :  userId }, onConnect )
       } catch ( error ) {
         console.error('Stomp 연결에 실패했습니다:', error)
       }
@@ -129,7 +132,7 @@ const Chat = () => {
     connectToStomp()
 
     return () => {
-      stompClient.connected && stompClient.disconnect()
+      stompClient.current?.disconnect()
     }
   }, [])
 
@@ -139,8 +142,8 @@ const Chat = () => {
   }, [ messages ])
 
   const sendMessage = () => {
-    if( input.trim()==='') return;
-    stompClient.connected && stompClient.send(
+    if( input.trim()==='') return
+    stompClient.current?.send(
       `/pub/chat.${ chatroomId }`, 
       { Authorization : userId }, 
         JSON.stringify(

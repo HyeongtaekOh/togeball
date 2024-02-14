@@ -7,7 +7,6 @@ const useAxios = axios.create({
   // },
   // withCredentials: true,
   // responseType: 'json',
-  timeout: 10000,
 })
 
 useAxios.interceptors.request.use( 

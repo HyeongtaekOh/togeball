@@ -43,7 +43,11 @@ const useModel = create<Model>( ( set, get ) => (
       }
     )),
     image: '',
-    setImage: ( data ) => set(() => ({ image: data }) )
+    setImage: ( data ) => set(() => ({ image: data })),
+    gender: '',
+    setGender: ( data ) => set(()=>({ gender: data })),
+    selectedDate: '',
+    setSelectedDate: ( data ) => set(() => ({ selectedDate: data }))
   }
 ))
 
@@ -61,4 +65,8 @@ export interface Model{
   deleteStadiums: ( stadium: TagType ) => void
   image: string
   setImage: ( data ) => void
+  gender: string
+  setGender: ( data ) => void 
+  selectedDate: string
+  setSelectedDate: ( data ) => void
 }

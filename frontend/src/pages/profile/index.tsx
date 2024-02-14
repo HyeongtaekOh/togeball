@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { HomeLayout, MainLayout, Title,  InputBox, Button } from 'src/components'
 import { patchProfile, getCheckNickname } from './api'
 import { getTags } from 'src/api'
-import { RowTagList, ColTagList, TagList } from './components'
+import { RowTagList, ColTagList, TagList, GenderTag, BirthdayPicker } from './components'
 import useModel from './store'
 import { getMyInfo } from 'src/api'
 import { useNavigate } from 'react-router-dom';
@@ -58,18 +58,10 @@ const Profile = () => {
   const [ id, setId ] = useState( userInfo?.email )
   const [ nickName, setNickName ] = useState( userInfo?.nickname )
   const [ nicknameError, setNicknameError ] = useState('')
-  const { selectTags, team, image, stadiums, resetTags } = useModel()
+  const { selectTags, team, image, stadiums, resetTags, gender, selectedDate } = useModel()
   const [ isOk, setIsOk ] = useState<boolean>(true)
   const profileMutation = useMutation( patchProfile )
 
-
-  useEffect(() => {
-    console.log("selectTags:", selectTags);
-    console.log("team:", team);
-    console.log("image:", image);
-    console.log("stadiums:", stadiums);
-  }, [selectTags, team, image, stadiums]);
-    
   const param = {
     page: 0,
     size: 100
@@ -90,10 +82,10 @@ const Profile = () => {
     clubId: team,
     profileImage: image,
     role: 'BASIC',
+    gender: gender,
+    birthdate: selectedDate==='' ? null : new Date(selectedDate),
     tagIds: [ ...selectTags, ...stadiums ].map( item => item.id )
   }
-
-  // useEffect(()=>{ resetTags() }, [])
 
   useEffect(() => {
     const validateNickname = async () => {
@@ -127,15 +119,21 @@ const Profile = () => {
   }
 
   const postProfileSetting = () => {
-    console.log( data );
-    if ( isOk && team!==0 ){
+    if ( !isOk ){
+      alert('닉네임을 설정해주세요')
+    }else if( gender==='' ){
+      alert('성별을 설정해주세요')
+    }else if( selectedDate==='' ){
+      alert('생일을 설정해주세요')
+    }else if( team===0 ){
+      alert('팀을 선택해주세요')
+    }else{
       profileMutation.mutateAsync( data )
       goMyPage()
-    }else{
-      alert('설정을 다시 해주세요!');
     }
   }
-
+  
+  
   return(
     <MainLayout title='프로필 설정'>
       <HomeLayout style={{ paddingTop: '30px' }}>
@@ -160,8 +158,12 @@ const Profile = () => {
             />
             {nicknameError && <ErrorText>{ nicknameError }</ErrorText>}
           </InputWrapper>
-          <RowTagList list = { preferredStadiums } flag = { true } mytags = { userInfo.tags }>선호 구장</RowTagList>
-          <RowTagList list = { preferredTeam } myteam = { userInfo.clubSponsorName }>팀선택{<br/>}(1개만 선택)</RowTagList>     
+          <div style={{ display:'flex', marginLeft:'45px' }}>
+          <GenderTag userGen = { userInfo?.gender }/>
+          <BirthdayPicker mybirth={ userInfo?.birthdate }/>
+          </div>
+          <RowTagList list = { preferredStadiums } flag = { true } mytags = { userInfo?.tags }>선호 구장</RowTagList>
+          <RowTagList list = { preferredTeam } myteam = { userInfo?.clubSponsorName }>팀선택{<br/>}(1개만 선택)</RowTagList>     
         </ProfileSettingWrapper>
         <ProfileSettingWrapper>
           <Title type = 'medium'>직관 스타일</Title>
@@ -169,12 +171,12 @@ const Profile = () => {
             나의 직관 스타일을 나타낼 수 있는 태그를 선택해주세요.(최소 5개, 최대 15개)
           </Title>
           <TagList tags = { selectTags } bgColor='#FBD14B' isTag/>
-          <ColTagList list = { preferredTeam } mytags = { userInfo.tags }>직관응원팀</ColTagList>
-          <ColTagList list = { cheeringStyle } mytags = { userInfo.tags }>응원 유형</ColTagList>
-          <ColTagList list = { preferredSeat } mytags = { userInfo.tags }>선호 좌석</ColTagList>
-          <ColTagList list = { mbti } mytags = { userInfo.tags }>MBTI</ColTagList>
-          <ColTagList list = { seasonPass } mytags = { userInfo.tags }>시즌권 보유</ColTagList>
-          <ColTagList list = { unlabeled } mytags = { userInfo.tags }>기타</ColTagList>
+          <ColTagList list = { preferredTeam } mytags = { userInfo?.tags }>직관응원팀</ColTagList>
+          <ColTagList list = { cheeringStyle } mytags = { userInfo?.tags }>응원 유형</ColTagList>
+          <ColTagList list = { preferredSeat } mytags = { userInfo?.tags }>선호 좌석</ColTagList>
+          <ColTagList list = { mbti } mytags = { userInfo?.tags }>MBTI</ColTagList>
+          <ColTagList list = { seasonPass } mytags = { userInfo?.tags }>시즌권 보유</ColTagList>
+          <ColTagList list = { unlabeled } mytags = { userInfo?.tags }>기타</ColTagList>
           <ButtonWrapper>
           <Button type = 'save' onClick={ postProfileSetting }>저장</Button>
           <Button type = 'cancel' onClick={ goMyPage }>취소</Button>
