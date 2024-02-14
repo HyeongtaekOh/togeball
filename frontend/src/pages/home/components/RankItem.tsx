@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 const RankItemWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
   box-sizing: border-box;
   width:50%;
   height: 30px;
@@ -16,14 +17,14 @@ const RankItemWrapper = styled.div`
 const RankItem = ( props : RankItemProps ) => {
 
   const { club } = props
-  const { clubName, ranking } = club
+  const { sponsorName, ranking, clubLogo } = club
 
   return(
     <RankItemWrapper>
       <p style={{ fontWeight: 'bold' }}>{ ranking }</p>
-      <img style={{ width: '40px' }}/>
-      <div style={{ width: '100%', textAlign: 'center' }}>
-        <p style={{ fontWeight: 'bold' }}>{ clubName }</p>
+      <div style={{ display: 'flex', gap: '5px', marginRight: '40px' }}>
+        <p style={{ fontWeight: 'bold', marginTop: '3px' }}>{ sponsorName }</p>
+        <img src = { clubLogo } style={{ width: '30px', height:'20px'}}/>
       </div>
     </RankItemWrapper>
   )
