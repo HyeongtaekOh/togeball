@@ -82,6 +82,8 @@ public class MessagingService {
                 log.info("matching Complete! matchingResponse : {}", json);
                 TextMessage textMessage = new TextMessage(json);
                 session.sendMessage(textMessage);
+                session.close();
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
