@@ -5,7 +5,7 @@ import { Button, InputBox, LeftIcon, MainLayout } from 'src/components'
 import { createClient } from './util/chat'
 import useStore from 'src/store'
 import styled from 'styled-components'
-import { getChat, getChatMessages, getParticipants } from 'src/api'
+import { getChat, getChatMessages, getMyInfo, getParticipants } from 'src/api'
 import { useQuery, useMutation } from 'react-query'
 import { formatDate } from './util'
 import postChatImage  from './api/postChatImage'
@@ -70,6 +70,7 @@ const Chat = () => {
   const  [ input, setInput ] = useState('')
   const scriptEndRef = useRef< HTMLDivElement >( null ) 
   const { session } = useStore()
+  const { data: itsme } = useQuery([ 'itsme' ], () => getMyInfo())
   const { data: participants } = useQuery([ 'participants', { id : chatroomId }], () => getParticipants( { id : chatroomId }))
   const { data : chatInfo } = useQuery([ 'chatInfo', { id : chatroomId }], () => getChat( { id : chatroomId }))
 
@@ -143,13 +144,13 @@ const Chat = () => {
     if ( !e.target.files || e.target.files.length ===0 ) return
 
     const file = e.target.files[0]
-    console.log('Upload', file)
+    console.log(itsme?.nickname)
 
     try {
       const param = {
         file: file,
         roomId: Number(chatroomId),
-        nickname: participants?.nickname,
+        nickname: itsme?.nickname,
         senderId: userId,
         type: "IMAGE"
       }
