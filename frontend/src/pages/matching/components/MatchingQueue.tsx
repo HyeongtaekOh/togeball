@@ -30,7 +30,7 @@ const MatchingQueue = ( props ) => {
       .force( 'charge', d3.forceManyBody().strength(5))
       .force( 'x', d3.forceX( width / 2 ).strength(0.1))
       .force( 'y', d3.forceY( height / 2 ).strength(0.1))
-      .force( 'collision', d3.forceCollide().radius(d => Math.sqrt( d.value ) * 90))
+      .force( 'collision', d3.forceCollide().radius(d => Math.sqrt( d.value ) * 60))
     
    
       
@@ -41,14 +41,14 @@ const MatchingQueue = ( props ) => {
     
 
     circles.enter().append( 'circle' )
-      .attr( 'fill', 'white' )
-      .attr('stroke', '#E48BF4') // 테두리 색 설정
-      .attr('stroke-width', 4) // 테두리 두께 설정
+      .attr( 'fill', '#FCF1FC' )
+      .attr('stroke', '#FCE5FC') // 테두리 색 설정
+      .attr('stroke-width', 10) // 테두리 두께 설정
       .style('filter', 'url(#blur-filter)')
       .merge( circles )
       .attr( 'cx', d => d.x )
       .attr( 'cy', d => d.y )
-      .attr( 'r', d => Math.sqrt( d.value ) * 90 )
+      .attr( 'r', d => Math.sqrt( d.value ) * 60 )
 
     // 텍스트 추가
     const texts = svg.selectAll( 'text' ).data( newBubbleData );
@@ -71,11 +71,12 @@ const MatchingQueue = ( props ) => {
   }, [ data ])
 
   return (
-    <svg ref={ svgRef } width={ 1000 } height='100%' style={{ backgroundColor:'#7D74B4'}}>
+    <svg ref={ svgRef } width={ 1000 } height='100%' style={{ backgroundColor:'white'}}>
       <style>
         {`
           text {
-            font-size: 22px;
+            font-size: 20px;
+            font-family: 'Ibm-Medium';
           }
         `}
       </style>

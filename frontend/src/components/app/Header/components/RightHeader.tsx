@@ -45,9 +45,9 @@ const RightHeader = (  ) => {
   const { data: HeaderChats, isLoading } = useQuery( 'HeaderChats', getMyChats )
   
   useEffect(()=>{
-    updateCount(0)
     if( !HeaderChats ) return
-
+    count.current = 0
+    updateCount(0)
     HeaderChats?.content?.map((room)=>{
       count.current =  count.current + room?.status?.unreadCount
       updateCount( count.current )
@@ -71,8 +71,18 @@ const RightHeader = (  ) => {
       })
 
       eventSource.addEventListener('chat', data => {
-        count.current = count.current + 1
-        console.log(data)
+        const match = window.location.href.match(/\/chat\/(\d+)/)
+        if ( match ) {
+          const chatId = match[1]
+          if( data?.data?.roomId && chatId != data?.data?.roomId ){
+            console.log(chatId, data?.data?.roomId)
+            count.current = count.current + 1
+            updateCount( count.current )
+          }
+        } else {
+          count.current = count.current + 1
+          updateCount(count.current)
+        }
       })
 
       eventSource.onopen = () => {
@@ -170,7 +180,7 @@ const RightHeader = (  ) => {
         isLogin &&  (
         <HeaderIconWrapper>
           {
-            // count.current > 0 && 
+            count.current > 0 && 
             <UnreadWrapper><p>{ count.current }</p></UnreadWrapper>
           }
           <ChatIcon onClick = { openHandler }/>
