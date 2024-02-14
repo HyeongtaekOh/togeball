@@ -1,5 +1,6 @@
 import { Title } from 'src/components'
 import { ParticipantsType } from 'src/types'
+import lufi from 'src/asset/images/lufi.jpg'
 import styled from 'styled-components'
 
 
@@ -59,7 +60,7 @@ const InfoWrapper = styled.div`
     return(
       <ProfileCardWrapper>
         <InfoWrapper>
-          <ProfileImage src = { participant?.profileImage } alt='이미지'/>
+          <ProfileImage src = {( participant?.profileImage===null || participant?.profileImage==='' ) ? lufi : participant?.profileImage } alt=''/>
           <div>
             <Title type='small' bold = { true }>{ participant?.nickname }</Title>
             <Title type='small' >{ age ? `${age}세`: '' } { gender }</Title>
