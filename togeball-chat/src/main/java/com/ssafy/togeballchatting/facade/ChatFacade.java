@@ -1,10 +1,9 @@
 package com.ssafy.togeballchatting.facade;
 
-import com.ssafy.togeballchatting.dto.ChatHistoryDto;
-import com.ssafy.togeballchatting.dto.ChatMessageDto;
-import com.ssafy.togeballchatting.dto.ChatroomJoinMessage;
-import com.ssafy.togeballchatting.dto.ChatroomStatus;
+import com.ssafy.togeballchatting.dto.*;
+import com.ssafy.togeballchatting.entity.ChatMessage;
 import com.ssafy.togeballchatting.entity.MessageType;
+import com.ssafy.togeballchatting.exception.NotFoundMessageException;
 import com.ssafy.togeballchatting.exception.NotParticipatingException;
 import com.ssafy.togeballchatting.service.ChatHistoryService;
 import com.ssafy.togeballchatting.service.ChatMessageService;
@@ -91,7 +90,7 @@ public class ChatFacade {
         List<ChatroomStatus> response = new ArrayList<>();
         for (Integer roomId : roomIds) {
             Integer unreadCount = countUnreadMessages(roomId, userId);
-            ChatMessageDto latestChatMessage = unreadCount > 0 ? getLatestChatMessage(roomId) : null;
+            ChatMessageDto latestChatMessage = getLatestChatMessage(roomId, userId);
             response.add(ChatroomStatus.builder()
                     .roomId(roomId)
                     .unreadCount(unreadCount)
@@ -112,8 +111,12 @@ public class ChatFacade {
     }
 
     @Transactional(readOnly = true)
-    public ChatMessageDto getLatestChatMessage(Integer roomId) {
-        return chatMessageService.getLatestChatMessage(roomId);
+    public ChatMessageDto getLatestChatMessage(Integer roomId, Integer userId) {
+        ChatHistoryDto chatHistoryDto = chatHistoryService.findChatHistoryByRoomIdAndUserId(roomId, userId);
+        if (chatHistoryDto == null) {
+            return null;
+        }
+        return chatMessageService.getLatestChatMessage(roomId, chatHistoryDto.getEnteredTimestamp());
     }
 
     @Transactional
@@ -152,5 +155,22 @@ public class ChatFacade {
                 .roomId(roomId)
                 .content(nickname + " 님이 나가셨습니다.")
                 .build());
+    }
+
+    @Transactional
+    public void updateReadStatus(Integer userId, Integer roomId, ChatReadDto chatReadDto) {
+
+        ChatMessageDto lastReadMessage = chatMessageService.findById(chatReadDto.getLastReadMessageId());
+        if (lastReadMessage == null || !lastReadMessage.getRoomId().equals(roomId)){
+            throw new NotFoundMessageException("잘못된 메시지 ID입니다.");
+        }
+
+        ChatHistoryDto chatHistoryDto = chatHistoryService.findChatHistoryByRoomIdAndUserId(roomId, userId);
+        if (chatHistoryDto == null) {
+            throw new NotParticipatingException("사용자가 채팅방에 참여하지 않았습니다.");
+        }
+
+        chatHistoryDto.setLastReadTimestamp(lastReadMessage.getTimestamp());
+        chatHistoryService.save(chatHistoryDto);
     }
 }

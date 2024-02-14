@@ -16,5 +16,5 @@ public interface ChatMessageRepository extends MongoRepository<ChatMessage, Stri
 
     Integer countByRoomIdAndTypeNotAndTimestampIsGreaterThan(Integer roomId, MessageType type, Instant lastReadTimestamp);
 
-    ChatMessage findTopByRoomIdAndTypeNotOrderByTimestampDesc(Integer roomId, MessageType type);
+    ChatMessage findTopByRoomIdAndTypeNotAndTimestampIsGreaterThanEqualOrderByTimestampDesc(Integer roomId, MessageType type, Instant timestamp);
 }

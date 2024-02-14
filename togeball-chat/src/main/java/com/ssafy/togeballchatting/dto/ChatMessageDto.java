@@ -13,6 +13,7 @@ import java.time.Instant;
 @ToString
 public class ChatMessageDto {
 
+        private String id;
         private Integer roomId;
         private Integer senderId;
         private String nickname;
@@ -22,6 +23,7 @@ public class ChatMessageDto {
 
         public static ChatMessageDto of(ChatMessage chatMessage) {
                 return ChatMessageDto.builder()
+                        .id(chatMessage.getId())
                         .roomId(chatMessage.getRoomId())
                         .senderId(chatMessage.getSenderId())
                         .nickname(chatMessage.getNickname())
@@ -33,6 +35,7 @@ public class ChatMessageDto {
 
         public ChatMessage toEntity() {
                 return ChatMessage.builder()
+                        .id(id)
                         .roomId(roomId)
                         .senderId(senderId)
                         .nickname(nickname)
