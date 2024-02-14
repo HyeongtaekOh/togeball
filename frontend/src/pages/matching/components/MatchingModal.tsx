@@ -46,16 +46,8 @@ const CloseButton = styled.button`
 `
 
 const MatchingModal = ( props ) => {
-  const { onClose } = props
-  const participants = [
-    {
-      id: 102030,
-      nickname: 'oonjae',
-      birthdate: '2000-02-18',
-      gender: '남성',
-      profileImg: 'url',
-    },
-  ]
+  const { onClose, participants } = props
+  
 
   const handleModalClose = () => {
        onClose()
