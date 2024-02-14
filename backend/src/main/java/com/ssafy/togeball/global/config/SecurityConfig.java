@@ -62,6 +62,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/league/**").permitAll()
                         .requestMatchers("/api/posts/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/chatrooms").permitAll()
+                        .requestMatchers("/api/matching").hasRole("ADMIN")
                         .requestMatchers("/api/chatrooms/**").authenticated()
                         .anyRequest().authenticated())
                 .oauth2Login(oauth2Login -> oauth2Login.permitAll()
