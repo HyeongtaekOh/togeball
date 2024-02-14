@@ -36,8 +36,8 @@ const UnreadWrapper = styled.div`
 
 const RightHeader = (  ) => {
 
-  const { accessToken, setAccessToken, setIsLogin, setSession,  } = useStore()
-  const count = useRef(0)
+  const { setAccessToken, setIsLogin, setSession,  } = useStore()
+  const count = useRef( Number(localStorage.getItem('alarm')))
   
   useEffect(() => {
     let eventSource;
@@ -69,7 +69,7 @@ const RightHeader = (  ) => {
       }
     }
     
-    if (!localStorage.getItem('accessToken')) return;
+    if (!localStorage.getItem('accessToken')) return
     else {
       const setUser = async() => {
         const possible = await getMyChats()
@@ -92,6 +92,7 @@ const RightHeader = (  ) => {
     }
     
     return () => {
+      localStorage.setItem('alarm', String( count.current ))
       eventSource && eventSource?.close()
     }
     
@@ -103,7 +104,7 @@ const RightHeader = (  ) => {
   const [ isChatOpen, setIsChatOpen ] = useState<boolean>(false)
 
   const openHandler =()=> {
-    if( !isChatOpen ) count.current = 0
+    // if( !isChatOpen ) count.current = 0
     setIsChatOpen( !isChatOpen )
   }
 
