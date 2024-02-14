@@ -40,7 +40,7 @@ useAxios.interceptors.response.use(
 
     if( error?.response?.status === 401 || error === 401 ){
 
-      if(localStorage.getItem('refreshToken')){
+      if( localStorage.getItem('refreshToken')){
         const refreshToken = localStorage.getItem('refreshToken')
         const data = { "Authorization-refresh" : refreshToken }
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/reissue`, { headers : data });
@@ -50,12 +50,13 @@ useAxios.interceptors.response.use(
         localStorage.setItem("accessToken", response?.headers?.authorization )
         localStorage.setItem("refreshToken", response?.headers[`refresh-token`] )
 
-      } else{
-          localStorage.removeItem( 'accessToken' )
-          localStorage.removeItem( 'refreshToken' )
-          localStorage.removeItem( 'userId' )
-          window.location.reload()   
-      }
+      } 
+      // else{
+      //     localStorage.removeItem( 'accessToken' )
+      //     localStorage.removeItem( 'refreshToken' )
+      //     localStorage.removeItem( 'userId' )
+      //     window.location.reload()   
+      // }
     }
   }
 )
