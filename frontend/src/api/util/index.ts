@@ -1,3 +1,4 @@
+import useStore from 'src/store'
 import axios from 'axios'
 
 const useAxios = axios.create({
@@ -41,18 +42,19 @@ useAxios.interceptors.response.use(
 
       if(localStorage.getItem('refreshToken')){
         const refreshToken = localStorage.getItem('refreshToken')
-        console.log(refreshToken)
         const data = { "Authorization-refresh" : refreshToken }
-        // const response = await axios.post<string>('https://i10a610.p.ssafy.io:8080/api/auth/reissue', { headers : data });
-        // const response = await useAxios.post<string>('/api/auth/reissue', { headers : data });
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/reissue`, { headers : data });
        
-        // localStorage.setItem("accessToken", response?.headers?.authorization )
-        // localStorage.setItem("refreshToken", response?.headers[`refresh-token`] )
+        useStore.setState({ isLogin: true })
+        useStore.setState({ accessToken: response?.headers?.authorization })
+        localStorage.setItem("accessToken", response?.headers?.authorization )
+        localStorage.setItem("refreshToken", response?.headers[`refresh-token`] )
 
       } else{
-        // if ( window.location.pathname !== "/" && window.location.pathname !== "/home") {
-          // window.location.href = "/login"
-        // }
+          localStorage.removeItem( 'accessToken' )
+          localStorage.removeItem( 'refreshToken' )
+          localStorage.removeItem( 'userId' )
+          window.location.reload()   
       }
     }
   }

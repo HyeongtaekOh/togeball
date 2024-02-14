@@ -15,12 +15,3 @@ export const makeTags = async( data : dataType ) => {
     console.log(err)
   }
 }
-
-const getTagId  = async( data : string ) => {
-  try{
-    const response = await postAxios(`/api/hashtags/content/${data }`)
-    console.log(response)
-  } catch( err ){
-    console.log(err)
-  }
-}
