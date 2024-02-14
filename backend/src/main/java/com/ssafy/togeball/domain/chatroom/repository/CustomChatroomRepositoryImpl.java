@@ -40,7 +40,11 @@ import java.util.List;
 import static com.ssafy.togeball.domain.chatroom.entity.QChatroom.chatroom;
 import static com.ssafy.togeball.domain.chatroom.entity.QChatroomMembership.chatroomMembership;
 import static com.ssafy.togeball.domain.chatroom.entity.QRecruitChatroom.recruitChatroom;
+import static com.ssafy.togeball.domain.league.entity.QClub.club;
+import static com.ssafy.togeball.domain.league.entity.QGame.game;
+import static com.ssafy.togeball.domain.league.entity.QStadium.stadium;
 import static com.ssafy.togeball.domain.tag.entity.QRecruitTag.recruitTag;
+import static com.ssafy.togeball.domain.tag.entity.QTag.tag;
 import static com.ssafy.togeball.domain.user.entity.QUser.user;
 
 @Slf4j
@@ -124,7 +128,13 @@ public class CustomChatroomRepositoryImpl extends CustomPagingAndSortingReposito
 
     @Override
     public Page<RecruitChatroom> findRecruitChatroomsByManagerId(Integer managerId, Pageable pageable) {
-        JPAQuery<RecruitChatroom> query = queryFactory.selectFrom(recruitChatroom)
+        JPAQuery<RecruitChatroom> query = queryFactory
+                .selectFrom(recruitChatroom)
+                .leftJoin(recruitChatroom.recruitTags, recruitTag).fetchJoin()
+                .leftJoin(recruitTag.tag, tag).fetchJoin()
+                .leftJoin(recruitChatroom.manager, user).fetchJoin()
+                .leftJoin(recruitChatroom.game, game).fetchJoin()
+                .leftJoin(game.stadium, stadium).fetchJoin()
                 .where(recruitChatroom.manager.id.eq(managerId));
 
         return fetchPage(query, pageable);
