@@ -24,6 +24,7 @@ const ModalOverlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
 `
 
 const ModalContent = styled.div`
@@ -57,7 +58,7 @@ const MatchingModal = ( props ) => {
   const navigator = useNavigate()
 
   const onClickHandler = () => {
-    navigator( `/chat/${ chatroomId }` )
+    navigator( `/matching/chat/${ chatroomId }`, { state: { participants, title } } )
   }
   
  console.log(participants)
@@ -70,15 +71,15 @@ const MatchingModal = ( props ) => {
 
           <p style={{ fontSize: '30px', color: '#7D74B4' , fontWeight:'bolder' }}>{ title }</p>
           <div style={{ textAlign: 'center'}}>
-                {participants.map((participant) => (
+                { participants.map(( participant ) => (
                       <MatchingProfile
-                        key={participant?.id}
-                        name={participant.nickname}
-                        gender={participant.gender}
-                        age={participant.birthdate}
-                        profileImg={participant.profileImg}
-                        tags={participant.tags.map(tag => tag.content)} // 태그 배열에서 content 속성 추출
-                        myteam={participant.clubLogo}
+                        key={ participant?.id }
+                        name={ participant.nickname }
+                        gender={ participant.gender }
+                        age={ participant.birthdate }
+                        profileImg={ participant.profileImg }
+                        tags={ participant.tags.map( tag => tag.content )} // 태그 배열에서 content 속성 추출
+                        myteam={ participant.clubLogo }
                       />
                     ))}
           </div>

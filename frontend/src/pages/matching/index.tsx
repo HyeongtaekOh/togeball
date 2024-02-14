@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Stomp from 'stompjs'
 import   { MatchingQueue, Timer, MatchingModal }   from './components'
-import { Title, HomeLayout, MainLayout } from 'src/components'
+import { Title, MainLayout } from 'src/components'
 import styled from 'styled-components'
 import SockJS from 'sockjs-client'
-import { Participants } from '../chat/components'
-import Header from 'src/components/app/Header'
+
 
 
 
