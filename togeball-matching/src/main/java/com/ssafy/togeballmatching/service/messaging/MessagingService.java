@@ -1,6 +1,7 @@
 package com.ssafy.togeballmatching.service.messaging;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ssafy.togeballmatching.dto.MatchingResponse;
 import com.ssafy.togeballmatching.dto.MatchingUser;
 import com.ssafy.togeballmatching.service.sessionstore.WebSocketSessionStoreService;
@@ -22,8 +23,6 @@ public class MessagingService {
 
     private final WebSocketSessionStoreService webSocketSessionStoreService;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
-
     public void sendMessage(Integer userId, String message) throws IOException {
         TextMessage textMessage = new TextMessage(message);
         webSocketSessionStoreService.getWebSocketSession(userId).sendMessage(textMessage);
@@ -36,6 +35,7 @@ public class MessagingService {
                 Map<String, Object> combinedData = new HashMap<>();
                 combinedData.put("hashtags", sortedTagIds);
                 combinedData.put("counts", sortedTags);
+                ObjectMapper objectMapper = new ObjectMapper();
                 String json = objectMapper.writeValueAsString(combinedData);
                 TextMessage textMessage = new TextMessage(json);
                 session.sendMessage(textMessage);
@@ -73,7 +73,12 @@ public class MessagingService {
             try {
                 Map<String, Object> combinedData = new HashMap<>();
                 combinedData.put("matching", matchingResponse);
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.registerModule(new JavaTimeModule());
+                objectMapper.disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
                 String json = objectMapper.writeValueAsString(combinedData);
+
                 log.info("matching Complete! matchingResponse : {}", json);
                 TextMessage textMessage = new TextMessage(json);
                 session.sendMessage(textMessage);
