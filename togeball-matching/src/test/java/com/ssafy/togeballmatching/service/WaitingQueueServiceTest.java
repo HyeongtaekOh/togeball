@@ -122,6 +122,7 @@ WaitingQueueService service;
 
     @Test
     void addQueue() {
+        service.clearQueue();
 
         service.addQueue(matchingUser1);
 
