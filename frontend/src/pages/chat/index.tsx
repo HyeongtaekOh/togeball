@@ -5,9 +5,10 @@ import { Button, InputBox, LeftIcon, MainLayout } from 'src/components'
 import { createClient } from './util/chat'
 import useStore from 'src/store'
 import styled from 'styled-components'
-import { getChat, getChatMessages, getParticipants } from 'src/api'
-import { useQuery } from 'react-query'
+import { getChat, getChatMessages, getMyInfo, getParticipants } from 'src/api'
+import { useQuery, useMutation } from 'react-query'
 import { formatDate } from './util'
+import postChatImage  from './api/postChatImage'
 
 const ChatPageWrapper = styled.div`
   width: 80%;
@@ -62,17 +63,20 @@ type PathParam = {
 const Chat = () => {
 
   const { chatroomId } = useParams< PathParam >()
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
   const userId = localStorage.getItem('userId')
   const [ messages, setMessages ] = useState([])
   const  [ input, setInput ] = useState('')
   const scriptEndRef = useRef< HTMLDivElement >( null ) 
   const { session } = useStore()
+  const { data: itsme } = useQuery([ 'itsme' ], () => getMyInfo())
   const { data: participants } = useQuery([ 'participants', { id : chatroomId }], () => getParticipants( { id : chatroomId }))
   const { data : chatInfo } = useQuery([ 'chatInfo', { id : chatroomId }], () => getChat( { id : chatroomId }))
-  
 
   const stompClient = useRef( null )
+
+  const imageMutations = useMutation( postChatImage )
 
   useEffect(() => {
     const onConnect = async() => {
@@ -136,6 +140,26 @@ const Chat = () => {
     }
   }, [])
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if ( !e.target.files || e.target.files.length ===0 ) return
+
+    const file = e.target.files[0]
+    console.log(itsme?.nickname)
+
+    try {
+      const param = {
+        file: file,
+        roomId: Number(chatroomId),
+        nickname: itsme?.nickname,
+        senderId: userId,
+        type: "IMAGE"
+      }
+      await imageMutations.mutateAsync(param)
+    } catch (error) {
+      console.error('이미지 업로드 에러:', error);
+    }
+  };
+
   useEffect(() => {
     scriptEndRef.current && 
     scriptEndRef.current.scrollIntoView({ block: 'end' }) 
@@ -160,8 +184,10 @@ const Chat = () => {
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    e.key === 'Enter' &&  sendMessage()
+    e.key === 'Enter' && sendMessage()
+    
   }
+
 
   return (
     <MainLayout>
@@ -183,7 +209,7 @@ const Chat = () => {
             <InputBoxWrapper>
               <input 
                 style= {{ display: 'none' }} type= 'file' accept= 'image/*' id= 'files' 
-                // ref={ inputRef } onChange={ onUploadImage }
+                ref={ inputRef } onChange={ handleImageUpload }
                 />
               <LabelWrapper htmlFor= 'files'>+</LabelWrapper>
                 <InputBox
@@ -193,7 +219,7 @@ const Chat = () => {
                   onKeyDown={ handleKeyDown }
                   placeholder='메시지를 입력하세요'
                 >
-                  <Button style={{ padding : '0px' }} width='40px'onClick={ sendMessage }>
+                  <Button style={{ padding : '0px' }} width='40px' onClick={ sendMessage }>
                     전송
                   </Button>
                 </InputBox>

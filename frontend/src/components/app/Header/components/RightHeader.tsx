@@ -7,6 +7,8 @@ import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { EventSourcePolyfill } from 'event-source-polyfill'
 import { getMyChats, getUserInfo } from 'src/api'
+import { useQuery } from 'react-query'
+import useHeaderStore from '../store'
 
 
 const HeaderMenuWrapper = styled.div`
@@ -36,14 +38,28 @@ const UnreadWrapper = styled.div`
 
 const RightHeader = (  ) => {
 
-  const { accessToken, setAccessToken, setIsLogin, setSession,  } = useStore()
+  const { setAccessToken, setIsLogin, setSession  } = useStore()
+  const { updateCount } =  useHeaderStore()
   const count = useRef(0)
+  
+  const { data: HeaderChats, isLoading } = useQuery( 'HeaderChats', getMyChats )
+  
+  useEffect(()=>{
+    updateCount(0)
+    if( !HeaderChats ) return
+
+    HeaderChats?.content?.map((room)=>{
+      count.current =  count.current + room?.status?.unreadCount
+      updateCount( count.current )
+    })
+
+  },[ HeaderChats, updateCount ])
   
   useEffect(() => {
     let eventSource;
 
     const createSource = () => {
-      const url = 'https://i10a610.p.ssafy.io:8080/sse/notification/subscribe';
+      const url = 'https://i10a610.p.ssafy.io:8080/sse/notification/subscribe'
       eventSource = new EventSourcePolyfill( url, {
         headers: {
           Authorization: localStorage.getItem('accessToken')
@@ -69,7 +85,7 @@ const RightHeader = (  ) => {
       }
     }
     
-    if (!localStorage.getItem('accessToken')) return;
+    if (!localStorage.getItem('accessToken')) return
     else {
       const setUser = async() => {
         const possible = await getMyChats()
@@ -80,12 +96,12 @@ const RightHeader = (  ) => {
           setSession( user )
           createSource()
         }
-        else{
-          localStorage.removeItem( 'accessToken' )
-          localStorage.removeItem( 'refreshToken' )
-          localStorage.removeItem( 'userId' )
-          window.location.reload()         
-        }
+        // else{
+        //   localStorage.removeItem( 'accessToken' )
+        //   localStorage.removeItem( 'refreshToken' )
+        //   localStorage.removeItem( 'userId' )
+        //   window.location.reload()         
+        // }
       }
 
       setUser()
@@ -103,7 +119,7 @@ const RightHeader = (  ) => {
   const [ isChatOpen, setIsChatOpen ] = useState<boolean>(false)
 
   const openHandler =()=> {
-    if( !isChatOpen ) count.current = 0
+    // if( !isChatOpen ) count.current = 0
     setIsChatOpen( !isChatOpen )
   }
 
@@ -158,7 +174,7 @@ const RightHeader = (  ) => {
             <UnreadWrapper><p>{ count.current }</p></UnreadWrapper>
           }
           <ChatIcon onClick = { openHandler }/>
-          { isChatOpen && <HeaderChat /> }
+          { isChatOpen && <HeaderChat chats = { HeaderChats } isLoading={ isLoading } /> }
           <IconItem menus = { personMenu }><PersonIcon /></IconItem>
         </HeaderIconWrapper> )
       }

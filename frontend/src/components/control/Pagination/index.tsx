@@ -92,14 +92,20 @@ const Pagination = ( props ) => {
 
   return (
     <>
-    <div style={{ display: 'flex', gap: '10px', flexDirection: 'column', width: '100%' }}>
-      { renderItems() }
-    </div>
-    <PageWrapper>
-        <LeftIcon size= { 20 } onClick={ handlePrevClick } disabled={ currentPage === 1 }/>
-        { renderPagination() }
-        <RightIcon size= { 20 } onClick={ handleNextClick }/>
-    </PageWrapper>
+      <div style={{ display: 'flex', gap: '10px', flexDirection: 'column', width: '100%' }}>
+        { renderItems() }
+      </div>
+      {
+        ( chatContent?.length > 0 || chats?.content?.length > 0 ) ?
+        (
+          <PageWrapper>
+            <LeftIcon size= { 20 } onClick={ handlePrevClick } disabled={ currentPage === 1 }/>
+            { renderPagination() }
+            <RightIcon size= { 20 } onClick={ handleNextClick }/>
+          </PageWrapper>
+        ):
+        ( <p>채팅방이 없습니다</p> )
+      }
     </>
   )
 }

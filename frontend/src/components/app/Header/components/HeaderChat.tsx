@@ -15,9 +15,9 @@ const HeaderChatWrapper = styled.div`
   padding: 10px;
 `
 
-const HeaderChat = ( props  ) => {  
+const HeaderChat = ( props ) => {  
 
-  const { data: chats, isLoading } = useQuery( 'chats', getMyChats )
+  const { chats, isLoading } = props
   
   return(
 

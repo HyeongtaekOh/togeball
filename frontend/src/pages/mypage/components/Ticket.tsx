@@ -58,7 +58,7 @@ const MySelfWrapper = styled.div`
     flex-direction: column;
     width: 70%;
     flexWrap: wrap;
-    margin-top: 40px;
+    margin-top: 30px;
 `
 
 const IndexWrapper = styled.p`
@@ -92,12 +92,20 @@ const Ticket = ( () => {
         navigate('/profile')
     }
 
-    const { data: userInfo } = useQuery([ 'user' ], () => getMyInfo())
+    const { data: info } = useQuery([ 'user' ], () => getMyInfo())
+    const [ user, setUser ] = useState( null )
 
-    const user = { email: userInfo?.email, myTeam : userInfo?.clubSponsorName+userInfo?.clubName,
-        profileImage : userInfo?.profileImage, nickName: userInfo?.nickname,
-        tag: userInfo?.tags.map(( tag ) =>{ return '#'+tag.content }), logo: userInfo?.clubLogo
-    }
+    useEffect(() => {
+        setUser({
+            email: info?.email,
+            myTeam : info?.clubSponsorName+info?.clubName,
+            profileImage : info?.profileImage, 
+            nickName: info?.nickname,
+            tag: info?.tags.map(( tag ) =>{ return '#'+tag.content }), 
+            logo: info?.clubLogo
+        })
+    }, [ info ])
+
 
     return (
             <TicketWrapper>
@@ -108,25 +116,25 @@ const Ticket = ( () => {
                 <MyinfoWrapper>
                     <div style={{ width: '65%', height: '100%', display: 'flex', flexWrap: 'wrap' }}>
                         <div style={{ width:'30%'}}>
-                            <PictureWrapper src={ ( user.profileImage===null || user.profileImage==='' )? lufi : user.profileImage } />
+                            <PictureWrapper src={( user?.profileImage===null || user?.profileImage==='' )? lufi : user?.profileImage } />
                         </div>
                         <MySelfWrapper>
                             <IndexWrapper>이메일:  
-                                <ValueWrapper>{ user.email }</ValueWrapper>
+                                <ValueWrapper>{ user?.email }</ValueWrapper>
                             </IndexWrapper>
                             <div style={{ display: 'flex', gap: '40px' }}>
                                 <IndexWrapper>응원팀:  
-                                    <ValueWrapper>{ ( user.myTeam===0 ) ? '미정' : user.myTeam }</ValueWrapper>
+                                    <ValueWrapper>{ ( user?.myTeam===0 ) ? '미정' : user?.myTeam }</ValueWrapper>
                                 </IndexWrapper>
                                 <IndexWrapper>닉네임:  
-                                    <ValueWrapper>{ user.nickName }</ValueWrapper>
+                                    <ValueWrapper>{ user?.nickName }</ValueWrapper>
                                 </IndexWrapper>
                             </div>
                         </MySelfWrapper>
-                        <TagList tags = { user.tag }/>  
+                        <TagList tags = { user?.tag }/>  
                     </div>
                     <div style={{ width: '30%', height: '100%' }}>
-                        <img src={ user.logo===null ? Logo : user.logo } alt=''
+                        <img src={ user?.logo===null ? Logo : user?.logo } alt=''
                             style={{ width: '90%', height: '90%', opacity: '0.5', marginTop: '5%' }}/>
                     </div>
                     <EditProfileWrapper onClick={ EditProfile }>회원정보수정</EditProfileWrapper>  
