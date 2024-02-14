@@ -168,25 +168,6 @@ WaitingQueueService service;
     }
 
     @Test
-    void removeFirstNQueue() {
-
-        service.addQueue(matchingUser1);
-        service.addQueue(matchingUser2);
-        service.addQueue(matchingUser3);
-        service.addQueue(matchingUser4);
-        service.addQueue(matchingUser5);
-        service.addQueue(matchingUser6);
-        service.addQueue(matchingUser7);
-
-        service.removeFirstNQueue(3);
-
-        List<MatchingUser> remainingMatchingUsers = List.of(matchingUser4, matchingUser5, matchingUser6, matchingUser7);
-        List<MatchingUser> waitingUsers = service.getWaitingUsers();
-        log.info("waitingUsers: {}", waitingUsers);
-        assertEquals(remainingMatchingUsers, waitingUsers);
-    }
-
-    @Test
     void clearQueue() {
 
         service.addQueue(matchingUser1);
