@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { EventSourcePolyfill } from 'event-source-polyfill'
 
+
 const HeaderMenuWrapper = styled.div`
   box-sizing: border-box;  
   display: flex;
