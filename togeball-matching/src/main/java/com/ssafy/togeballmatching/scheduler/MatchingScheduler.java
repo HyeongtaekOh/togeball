@@ -40,7 +40,7 @@ public class MatchingScheduler {
     private final WebSocketSessionStoreService webSocketSessionStoreService;
     private final MatchingService matchingService;
 
-    @Scheduled(fixedDelay = 1000 * 60, initialDelay = 1000)
+    @Scheduled(fixedDelay = 1000 * 30, initialDelay = 1000) //30초마다
     public void matching() {
 
         log.info("matching scheduler start");
