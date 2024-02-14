@@ -6,7 +6,7 @@ import lufi from 'src/asset/images/lufi.jpg'
 import Logo from 'src/asset/images/Logo.jpg'
 import barcode from 'src/asset/images/barcode.jpg'
 import { useQuery } from 'react-query';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const TicketWrapper = styled.div`
     display: flex;
@@ -46,7 +46,8 @@ const MyinfoWrapper = styled.div`
 `
 
 const PictureWrapper = styled.img`
-    width: 60%;
+    width: 84px;
+    height: 84px;
     margin-left: 30px;
     margin-top: 30px;
     border-radius: 20%;
