@@ -14,7 +14,6 @@ import java.util.List;
 @SuperBuilder
 public class RecruitChatroomResponse extends ChatroomResponse {
 
-    private List<UserResponse> members;
     private UserResponse manager;
     private GameResponse game;
     private ClubResponse cheeringClub;
@@ -32,9 +31,6 @@ public class RecruitChatroomResponse extends ChatroomResponse {
                 .type(chatroom.getType())
                 .title(chatroom.getTitle())
                 .manager(UserResponse.of(chatroom.getManager()))
-                .members(chatroom.getChatroomMemberships().stream()
-                        .map(chatroomMembership -> UserResponse.of(chatroomMembership.getUser()))
-                        .toList())
                 .game(GameResponse.of(chatroom.getGame()))
                 .cheeringClub(ClubResponse.of(chatroom.getCheeringClub()))
                 .description(chatroom.getDescription())
