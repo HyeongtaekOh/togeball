@@ -2,6 +2,7 @@ package com.ssafy.togeballmatching.config;
 
 import com.fasterxml.jackson.databind.deser.DataFormatReaders;
 import com.ssafy.togeballmatching.dto.MatchingUser;
+import com.ssafy.togeballmatching.service.WaitingTagService;
 import com.ssafy.togeballmatching.service.messaging.MessagingService;
 import com.ssafy.togeballmatching.service.queue.RedisWaitingQueueService;
 import com.ssafy.togeballmatching.service.queue.WaitingQueueService;
@@ -22,6 +23,8 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
     private final WebSocketSessionStoreService webSocketSessionStoreService;
     private final WaitingQueueService waitingQueueService;
 
+    private final WaitingTagService waitingTagService;
+
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         Integer userId = (Integer) session.getAttributes().get("userId");
@@ -29,6 +32,7 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
         webSocketSessionStoreService.addWebSocketSession(userId, session);
         waitingQueueService.addQueue(user);
         messagingService.sendMatchingStatsToAll();
+        waitingTagService.gathering();
     }
 
     @Override
@@ -38,5 +42,6 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
         webSocketSessionStoreService.removeWebSocketSession(userId);
         waitingQueueService.removeQueue(userId);
         messagingService.sendMatchingStatsToAll();
+        waitingTagService.gathering();
     }
 }
