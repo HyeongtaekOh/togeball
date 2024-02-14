@@ -75,7 +75,7 @@ public class MatchingScheduler {
 //        }
     }
 
-    @Scheduled(fixedDelay = 1000 * 60 * 30, initialDelay = 0) //서버 시작 시 작동, 이후 30분마다 갱신
+    @Scheduled(fixedDelay = 1000 * 60 * 30) //서버 시작 시 작동, 이후 30분마다 갱신
     public String getAdminToken() {
 
         RestTemplate restTemplate = new RestTemplate();
@@ -87,8 +87,8 @@ public class MatchingScheduler {
 
         // Request Body 설정
         JSONObject requestBody = new JSONObject();
-        requestBody.put("email","ay@com.com");
-        requestBody.put("password","1234");
+        requestBody.put("email","admin");
+        requestBody.put("password","admin");
 
         // Request Entity 생성
         HttpEntity entity = new HttpEntity(requestBody.toString(), headers);
@@ -97,7 +97,7 @@ public class MatchingScheduler {
         ResponseEntity responseEntity = restTemplate.exchange(baseUrl, HttpMethod.POST, entity, String.class);
 
         // Response Body 출력
-        System.out.println(responseEntity.getHeaders().get("Authorization"));
+        log.info("getAdminToken : {}", responseEntity.getHeaders().get("Authorization"));
         return responseEntity.getHeaders().get("Authorization").get(0);
     }
 
@@ -146,9 +146,4 @@ public class MatchingScheduler {
         System.out.println(responseEntity.getBody());
         return responseEntity.getBody();
     }
-
-    @Value("admin")
-    private String email;
-    @Value("admin")
-    private String password;
 }
