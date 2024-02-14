@@ -20,8 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class WaitingQueueServiceTest {
 
 //    WaitingQueueService service = new MemoryWaitingQueueService();
-    @Autowired
-WaitingQueueService service;
+    @Autowired WaitingQueueService service;
 
     static Tag userTag1;
     static Tag userTag2;
