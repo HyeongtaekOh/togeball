@@ -64,9 +64,9 @@ public class MatchingScheduler {
                 messagingService.sendMatchingResultToUsers(matching.getUserIds(), matchingResponse);
             }
 
-        }
+            waitingQueueService.clearQueue();
 
-        waitingQueueService.clearQueue();
+        }
     }
 
     @Scheduled(fixedDelay = 1000 * 60 * 30) //서버 시작 시 작동, 이후 30분마다 갱신

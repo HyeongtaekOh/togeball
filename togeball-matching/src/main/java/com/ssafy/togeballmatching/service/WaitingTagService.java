@@ -1,4 +1,4 @@
-package com.ssafy.togeballmatching.scheduler;
+package com.ssafy.togeballmatching.service;
 
 import com.ssafy.togeballmatching.dto.MatchingUser;
 import com.ssafy.togeballmatching.dto.Tag;
@@ -18,7 +18,7 @@ import java.util.*;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class WaitingTagScheduler {
+public class WaitingTagService {
 
     @Value("${rabbitmq.exchange}")
     private String exchange;
@@ -31,7 +31,6 @@ public class WaitingTagScheduler {
     private final WaitingQueueService waitingQueueService;
     private final WebSocketSessionStoreService webSocketSessionStoreService;
 
-    @Scheduled(fixedDelay = 5000)
     public void gathering() {
 
         List<WebSocketSession> sessions = webSocketSessionStoreService.getAllWebSocketSession();
