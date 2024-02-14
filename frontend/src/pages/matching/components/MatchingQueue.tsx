@@ -21,7 +21,8 @@ const MatchingQueue = ( props ) => {
       value: data?.counts[ tagName ],
       x: Math.random() * width, // X 좌표를 랜덤하게 설정
       y: Math.random() * height, // Y 좌표를 랜덤하게 설정
-    }));
+      
+    }))
 
     setBubbleData( newBubbleData )
 

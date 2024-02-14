@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Stomp from 'stompjs'
 import   { MatchingQueue, Timer, MatchingModal }   from './components'
 import { Title } from 'src/components'
@@ -16,8 +17,16 @@ const MatchingWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
 `
+
 const Matching: React.FC = () => {
+
+ 
+  const navigator = useNavigate()
+ 
+
   // 매칭에 올라온 큐를 다음과 같이 바꿔야함.
+
+
   const [ matchingData, setMatchingData ] = useState({
     hashtags: [  ],
     counts: {
@@ -33,6 +42,10 @@ const Matching: React.FC = () => {
 
      // WebSocket 연결 설정
     const clientId = localStorage.getItem('accessToken')
+    
+    if (!clientId) return alert('로그인이 필요합니다!'), navigator('/home')
+    
+    
     const token = clientId.substring(7)
     
    
