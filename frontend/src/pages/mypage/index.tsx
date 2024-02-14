@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { ChatItem, HomeLayout, MainLayout } from 'src/components'
 import { Ticket } from './components'
-import { useState, useEffect, useRef } from 'react';
 import { getChats, getBoards } from './api';
 import { useQuery } from 'react-query';
 
