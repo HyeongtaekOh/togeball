@@ -1,6 +1,7 @@
 package com.ssafy.togeballmatching.scheduler;
 
 import com.ssafy.togeballmatching.dto.MatchingRequest;
+import com.ssafy.togeballmatching.dto.MatchingResponse;
 import com.ssafy.togeballmatching.dto.MatchingUser;
 import com.ssafy.togeballmatching.service.MatchingService;
 import com.ssafy.togeballmatching.service.messaging.MessagingService;
@@ -60,14 +61,9 @@ public class MatchingScheduler {
             for (MatchingRequest matching : matchings) {
                 rabbitService.sendMessage(exchange, routingKey, matching);
 
-                String chatroomId = getChatroomId(matching);
+                MatchingResponse matchingResponse = getChatroom(matching);
 
-                List<MatchingUser> participants = new ArrayList<>();
-                for (int i : matching.getUserIds()) {
-                    participants.add(getMatchingUser(i));
-                }
-
-                messagingService.sendMatchingResultToUsers(matching.getTitle(), matching.getUserIds(), chatroomId, participants);
+                messagingService.sendMatchingResultToUsers(matching.getUserIds(), matchingResponse);
             }
 
         }
@@ -102,7 +98,7 @@ public class MatchingScheduler {
         return responseEntity.getHeaders().get("Authorization").get(0);
     }
 
-    public String getChatroomId(MatchingRequest matching) {
+    public MatchingResponse getChatroom(MatchingRequest matching) {
 
         RestTemplate restTemplate = new RestTemplate();
         String baseUrl = "https://i10a610.p.ssafy.io:8080/api/matching";
@@ -116,14 +112,13 @@ public class MatchingScheduler {
         HttpEntity<MatchingRequest> entity = new HttpEntity<>(matching, headers);
 
         // API 호출
-        ResponseEntity<String> responseEntity = restTemplate.exchange(
+        ResponseEntity<MatchingResponse> responseEntity = restTemplate.exchange(
                 baseUrl,
                 HttpMethod.POST,
                 entity,
-                String.class);
+                MatchingResponse.class);
 
         // Response Body 출력
-        log.info("getChatroomId : {}", responseEntity.getBody());
         return responseEntity.getBody();
     }
 
