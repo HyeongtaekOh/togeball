@@ -1,6 +1,7 @@
 package com.ssafy.togeballmatching.service.messaging;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.togeballmatching.dto.MatchingUser;
 import com.ssafy.togeballmatching.service.sessionstore.WebSocketSessionStoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +59,8 @@ public class MessagingService {
         });
     }
 
-    public void sendMatchingResultToUsers(List<Integer> userIds, int chatroomId, Map<String,String> participants){
+    public void sendMatchingResultToUsers(String title, List<Integer> userIds,
+                                          String chatroomId, List<MatchingUser> participants){
 
         List<WebSocketSession> sessions = webSocketSessionStoreService.getWebSocketSessionsByUserIds(userIds)
                 .stream()

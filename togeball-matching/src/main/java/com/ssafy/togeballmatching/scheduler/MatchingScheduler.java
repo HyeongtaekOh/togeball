@@ -13,9 +13,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -32,8 +34,6 @@ public class MatchingScheduler {
     @Value("${rabbitmq.matching.routing-key}")
     private String routingKey;
 
-    private WebClient webClient = WebConfig.getBaseUrl();
-
     private final RabbitMQService rabbitService;
     private final MessagingService messagingService;
     private final WaitingQueueService waitingQueueService;
@@ -46,7 +46,7 @@ public class MatchingScheduler {
         List<WebSocketSession> sessions = webSocketSessionStoreService.getAllWebSocketSession();
         List<MatchingUser> waitingUsers = waitingQueueService.getWaitingUsers();
 
-        if (sessions.size() >= 2) {
+//        if (sessions.size() >= 2) {
 
             // 1. 유저 목록 받아옴
             List<Integer> userIds = sessions.stream().map(session -> (Integer) session.getAttributes().get("userId")).toList();
@@ -57,17 +57,50 @@ public class MatchingScheduler {
             for (MatchingRequest matching : matchings) {
                 rabbitService.sendMessage(exchange, routingKey, matching);
 
-                ResponseEntity<Integer> chatroomId = webClient.post()
+                WebClient webClient = WebConfig.getBaseUrl();
+                String chatroomId = webClient.post()
                         .uri("/api/matching")
                         //.header(HttpHeaders.AUTHORIZATION, "Bearer "+accessToken)
-                        .bodyValue(matching)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromValue(matching))
                         .retrieve()
-                        .toEntity(Integer.class)
+                        .bodyToMono(String.class)
                         .block();
 
-//                messagingService.sendMatchingResultToUsers(matching.getTitle(), matching.getUserIds(), chatroomId, participants);
+                List<MatchingUser> participants = new ArrayList<>();
+                for (int i : matching.getUserIds()) {
+                    MatchingUser user = webClient.get()
+                            .uri("/api/users/" + i)
+                            .retrieve()
+                            .bodyToMono(MatchingUser.class)
+                            .block();
+                    participants.add(user);
+                }
+
+                messagingService.sendMatchingResultToUsers(matching.getTitle(), matching.getUserIds(), chatroomId, participants);
             }
             waitingQueueService.clearQueue();
-        }
+//        }
     }
+
+//    @Scheduled(fixedDelay = 1000 * 60 * 30) //30분마다
+//    public void login() {
+//
+//        JSONObject requestBody = new JSONObject();
+//        requestBody.put("email", email);
+//        requestBody.put("password", password);
+//
+//        WebClient webClient = WebConfig.getBaseUrl();
+//        ResponseEntity<String> token = webClient.post()
+//                .uri("/api/auth/login")
+//                .bodyValue(requestBody.toString())
+//                .retrieve()
+//                .toEntity(String.class)
+//                .block();
+//    }
+
+    @Value("ay@com.com")
+    private String email;
+    @Value("1234")
+    private String password;
 }
