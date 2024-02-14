@@ -54,13 +54,18 @@ const Profile = () => {
   const navigator = useNavigate()
 
   const { data: userInfo } = useQuery([ 'user' ], () => getMyInfo())
+  // const [ userInfo, setUserInfo ] = useState( null )
+  
+//   useEffect(() => {
+//       setUserInfo( myInfo );
+// }, [ myInfo ]);
 
-  const [ id, setId ] = useState( userInfo?.email )
+  const id = userInfo?.email
   const [ nickName, setNickName ] = useState( userInfo?.nickname )
   const [ nicknameError, setNicknameError ] = useState('')
   const { selectTags, team, image, stadiums, resetTags, gender, selectedDate } = useModel()
   const [ isOk, setIsOk ] = useState<boolean>(true)
-  
+
   const profileMutation = useMutation( patchProfile, {
     onSuccess: () => {
         resetTags()
@@ -86,7 +91,8 @@ const Profile = () => {
   const data = {
     nickname: nickName,
     clubId: team,
-    profileImage: image,
+    profileImage: ( image==='' && userInfo?.profileImage!=='' ) ? userInfo?.profileImage : 
+    image,
     role: 'BASIC',
     gender: gender,
     birthdate: selectedDate==='' ? null : new Date(selectedDate),

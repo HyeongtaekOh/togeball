@@ -23,16 +23,15 @@ const TitleWrapper = styled.div`
   font-weight: bold;
   font-size: 13px;
   margin-top: 30px;
-  margin-right: 12px;
 `
 const StyledDatePicker = styled(DatePicker)`
   display: flex;
   justify-content: center;
   margin-top: 30px;
-  width: 60%;
+  width: 50%;
   background-color : #DEDCEE;
   padding: 10px 0px 10px 30px;
-  border-radius: 10px;  
+  border-radius: 30px;  
 `
 
 const BirthdayPicker = ( props ) => {
@@ -58,7 +57,7 @@ const BirthdayPicker = ( props ) => {
         selected={ selectedDate }
         onChange={ handleChange }
         dateFormat="yyyy-MM-dd"
-        placeholderText="설정하기"
+        placeholderText="  설정하기"
         showYearDropdown
         scrollableYearDropdown
         yearDropdownItemNumber={100}

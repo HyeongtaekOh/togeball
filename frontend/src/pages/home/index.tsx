@@ -1,8 +1,10 @@
 import { HomeLayout, MainLayout, Title } from 'src/components'
 import { HomeCard, TodayGameCard, RankCard } from './components'
 import { useEffect, useState } from 'react'
-import { ClubType } from '@/types'
+import { ClubType } from 'src/types'
+import { getClubs } from './api'
 import styled from 'styled-components'
+import { useQuery } from 'react-query'
 
 const MainComponentWrapper = styled.div`
   display : flex;
@@ -45,60 +47,24 @@ const GameWrapper = styled.div`
 
 const Home = () => {
 
-  const [ clubList, setClubList ] = useState<ClubType[]>([
-    {
-      clubId: 0,
-      clubName: 'lg',
-      sponsorName: 'lg',
-      ranking: 1
-    },
-    {
-      clubId: 1,
-      clubName: 'kt',
-      sponsorName: 'kt',
-      ranking: 2
-    },{
-      clubId: 2,
-      clubName: 'a',
-      sponsorName: 'a',
-      ranking: 3
-    },{
-      clubId: 3,
-      clubName: 'b',
-      sponsorName: 'b',
-      ranking: 4
-    },{
-      clubId: 4,
-      clubName: 'c',
-      sponsorName: 'c',
-      ranking: 6
-    },{
-      clubId: 5,
-      clubName: 'c',
-      sponsorName: 'c',
-      ranking: 5
-    },{
-      clubId: 7,
-      clubName: 'd',
-      sponsorName: 'd',
-      ranking: 7
-    },{
-      clubId: 8,
-      clubName: 'e',
-      sponsorName: 'e',
-      ranking: 8
-    },{
-      clubId: 9,
-      clubName: 'f',
-      sponsorName: 'f',
-      ranking: 9
-    },{
-      clubId: 10,
-      clubName: 'g',
-      sponsorName: 'g',
-      ranking: 10
-    }
-  ])
+
+  const [ clubList, setClubList ] = useState<ClubType[]>([])
+
+  const { data: clubs } = useQuery([ 'clubs' ], () => getClubs())
+
+  useEffect(()=>{
+    clubs?.forEach(( club )=>{
+
+      const clubFilter = {
+        clubId: club?.id,
+        sponsorName: club?.sponsorName,
+        clubLogo: club?.logo,
+        ranking: club?.ranking
+      }
+      
+      setClubList((prevClubList) => [...prevClubList, clubFilter])
+    })
+  },[ clubs ])
 
   return (
     <MainLayout>

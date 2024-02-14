@@ -41,6 +41,9 @@ const TagBtn = ( props: TagBtnProps ) => {
       if(selectTags.length<15){
         isClick.current =!isClick.current
         isClick.current ? addSelectTags( item ) : deleteTags( item ) 
+      }else if(selectTags.length==15 && isClick.current){
+        deleteTags( item )
+        isClick.current = !isClick.current
       }
     }
 
