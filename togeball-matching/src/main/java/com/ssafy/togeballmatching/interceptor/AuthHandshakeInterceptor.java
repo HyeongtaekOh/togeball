@@ -55,7 +55,7 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
                 .retrieve()
                 .bodyToMono(MatchingUser.class)
                 .block();
-        log.info("{},{},{},{}",user.getUserId(),user.getNickname(),user.getProfileImage(),user.getTags());
+//        log.info("{},{},{},{}",user.getUserId(),user.getNickname(),user.getProfileImage(),user.getTags());
 //        log.info("{}",user.getTags().get(0).getType()); //PREFERRED_TEAM
 //        boolean temp = user.getTags().get(0) instanceof Tag; //true
 
