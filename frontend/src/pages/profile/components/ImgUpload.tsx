@@ -46,6 +46,7 @@ const ImgUpload = (props) => {
     const file = e.target.files[0]
     try {
       const presignedUrl = await getImgPath()
+      const path = presignedUrl.objectKey.match(/\/profiles\/(.*)/)?.[1]
       await fetch(presignedUrl.preSignedURL, {
         method: 'PUT',
         headers: {
@@ -54,7 +55,7 @@ const ImgUpload = (props) => {
         body: file
       });
       setImgSrc( URL.createObjectURL( file ))
-      setImage( presignedUrl.objectKey ) 
+      setImage( 'https://togeball-s3-bucket.s3.ap-northeast-2.amazonaws.com/profiles/'+path ) 
     } catch (error) {
       console.error('Error uploading image:', error);
     }
