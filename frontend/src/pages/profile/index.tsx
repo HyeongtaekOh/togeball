@@ -60,7 +60,13 @@ const Profile = () => {
   const [ nicknameError, setNicknameError ] = useState('')
   const { selectTags, team, image, stadiums, resetTags, gender, selectedDate } = useModel()
   const [ isOk, setIsOk ] = useState<boolean>(true)
-  const profileMutation = useMutation( patchProfile )
+  
+  const profileMutation = useMutation( patchProfile, {
+    onSuccess: () => {
+        resetTags()
+        navigator('/mypage')
+    }
+  } )
 
   const param = {
     page: 0,
@@ -111,11 +117,6 @@ const Profile = () => {
 
   const handleNicknameChange = (e) => {
     setNickName(e.target.value);
-  };
-
-  const goMyPage = () =>{
-    resetTags()
-    navigator('/mypage')
   }
 
   const postProfileSetting = () => {
@@ -129,8 +130,12 @@ const Profile = () => {
       alert('팀을 선택해주세요')
     }else{
       profileMutation.mutateAsync( data )
-      goMyPage()
     }
+  }
+
+  const goMyPage = () =>{
+    resetTags()
+    navigator('/mypage')
   }
   
   
