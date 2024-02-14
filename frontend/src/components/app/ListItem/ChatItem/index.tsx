@@ -103,8 +103,14 @@ const ChatItem = ( props: ChatListProps ) => {
           ))}
         </TagWrapper>
         {
-          type === 'my' &&
-          <p style={{ margin: '10px 0px 2px 0px', fontSize: '12px' }}>{ item?.status?.latestChatMessage?.content }</p> 
+          type === 'my' && item?.status?.latestChatMessage?.type === 'TEXT' && 
+          <p style={{ margin: '10px 0px 2px 0px', fontSize: '12px' }}>{( item?.status?.latestChatMessage?.content).substring(0, 13) }    
+          { item?.status?.latestChatMessage?.content?.length > 13 &&  '..' }
+          </p> 
+        }
+        {
+          type === 'my' && item?.status?.latestChatMessage?.type === 'IMAGE' && 
+          <p style={{ margin: '10px 0px 2px 0px', fontSize: '12px' }}>( 사진 )</p> 
         }
     </TextWrapper>
     {
