@@ -58,7 +58,7 @@ const BirthdayPicker = ( props ) => {
         selected={ selectedDate }
         onChange={ handleChange }
         dateFormat="yyyy-MM-dd"
-        placeholderText="생년월일을 선택하세요"
+        placeholderText="설정하기"
         showYearDropdown
         scrollableYearDropdown
         yearDropdownItemNumber={100}

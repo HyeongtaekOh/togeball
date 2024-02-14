@@ -15,7 +15,7 @@ const HeaderChatWrapper = styled.div`
   padding: 10px;
 `
 
-const HeaderChat = ( props  ) => {  
+const HeaderChat = ( props ) => {  
 
   const { chats, isLoading } = props
   
