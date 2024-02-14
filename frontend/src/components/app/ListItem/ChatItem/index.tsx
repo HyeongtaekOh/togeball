@@ -3,8 +3,8 @@ import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { Title } from 'src/components'
 import styled from 'styled-components'
+import useHeaderStore from '../../Header/store'
 import useStore from 'src/store'
-
 
 const ChatWrapper = styled.div<{ width?: string }>`
   display: flex;
@@ -41,6 +41,7 @@ const TagWrapper = styled.div`
 const ChatItem = ( props: ChatListProps ) => {
 
   const { item, type, width } = props
+  const { updateCount, count } = useHeaderStore()
   const { session } = useStore()
 
   const navigator = useNavigate()
@@ -77,7 +78,10 @@ const ChatItem = ( props: ChatListProps ) => {
           return
         }
       }
-      else partiMutation.mutateAsync({ chatRoomId : item?.id })
+      else {
+        updateCount( count - item?.status?.unreadCount )
+        partiMutation.mutateAsync({ chatRoomId : item?.id })
+      }
     }
 
   }

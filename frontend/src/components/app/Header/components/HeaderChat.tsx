@@ -17,7 +17,7 @@ const HeaderChatWrapper = styled.div`
 
 const HeaderChat = ( props ) => {  
 
-  const { data: headerChats, isLoading } = useQuery( 'headerChats', getMyChats )
+  const { chats, isLoading } = props
   
   return(
 
@@ -27,7 +27,7 @@ const HeaderChat = ( props ) => {
         {
           isLoading ? 
           <Title>로딩중</Title>:
-          <Pagination type= 'my' chats={ headerChats } />
+          <Pagination type= 'my' chats={ chats } />
         }
       </div>
    </HeaderChatWrapper>
