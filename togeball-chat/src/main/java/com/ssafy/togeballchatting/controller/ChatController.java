@@ -2,6 +2,7 @@ package com.ssafy.togeballchatting.controller;
 
 import com.ssafy.togeballchatting.aop.UserContext;
 import com.ssafy.togeballchatting.dto.ChatMessageDto;
+import com.ssafy.togeballchatting.dto.ChatReadDto;
 import com.ssafy.togeballchatting.dto.ChatroomStatus;
 import com.ssafy.togeballchatting.exception.NotParticipatingException;
 import com.ssafy.togeballchatting.facade.ChatFacade;
@@ -59,6 +60,16 @@ public class ChatController {
         log.info("userId: {}, roomIds: {}", userId, roomIds);
         List<ChatroomStatus> response = chatFacade.getUnreadMessageCountAndLatestChatMessage(userId, roomIds);
         return ResponseEntity.ok(response);
+    }
+
+    @UserContext
+    @PostMapping("/me/chats/{roomId}/read")
+    public ResponseEntity<?> readChatMessages(Integer userId,
+                                              HttpServletRequest request,
+                                              @PathVariable(value = "roomId") Integer roomId,
+                                              @RequestBody ChatReadDto chatReadDto) {
+        chatFacade.updateReadStatus(userId, roomId, chatReadDto);
+        return ResponseEntity.noContent().build();
     }
 
     @ExceptionHandler(NotParticipatingException.class)
