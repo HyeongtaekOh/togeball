@@ -31,6 +31,13 @@ public class ChatMessageService {
         return ChatMessageDto.of(message);
     }
 
+    @Transactional(readOnly = true)
+    public ChatMessageDto findById(String id) {
+        ChatMessage chatMessage = chatMessageRepository.findById(id).orElse(null);
+        return chatMessage != null ? ChatMessageDto.of(chatMessage) : null;
+    }
+
+    @Transactional(readOnly = true)
     public Page<ChatMessageDto> findAllGameChatMessageByRoomId(Integer roomId, Pageable pageable) {
 
         Page<ChatMessage> page = chatMessageRepository.findAllByRoomIdOrderByTimestampDesc(roomId, pageable);
@@ -45,6 +52,7 @@ public class ChatMessageService {
         return getReversedPage(pageable, page);
     }
 
+    @Transactional(readOnly = true)
     private Page<ChatMessageDto> getReversedPage(Pageable pageable, Page<ChatMessage> page) {
         Page<ChatMessageDto> chatMessageDtos = page.map(ChatMessageDto::of);
         List<ChatMessageDto> reversed = new ArrayList<>(chatMessageDtos.getContent());
@@ -52,12 +60,14 @@ public class ChatMessageService {
         return new PageImpl<>(reversed, pageable, chatMessageDtos.getTotalElements());
     }
 
+    @Transactional(readOnly = true)
     public Integer countUnreadMessages(Integer roomId, Instant lastReadTimestamp) {
         return chatMessageRepository.countByRoomIdAndTypeNotAndTimestampIsGreaterThan(roomId, MessageType.NOTICE, lastReadTimestamp);
     }
 
-    public ChatMessageDto getLatestChatMessage(Integer roomId) {
-        ChatMessage chatMessage = chatMessageRepository.findTopByRoomIdAndTypeNotOrderByTimestampDesc(roomId, MessageType.NOTICE);
-        return ChatMessageDto.of(chatMessage);
+    @Transactional(readOnly = true)
+    public ChatMessageDto getLatestChatMessage(Integer roomId, Instant enteredTimestamp) {
+        ChatMessage chatMessage = chatMessageRepository.findTopByRoomIdAndTypeNotAndTimestampIsGreaterThanEqualOrderByTimestampDesc(roomId, MessageType.NOTICE, enteredTimestamp);
+        return chatMessage != null ? ChatMessageDto.of(chatMessage) : null;
     }
 }
