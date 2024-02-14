@@ -70,6 +70,8 @@ public class MessagingService {
         sessions.forEach(session -> {
             try {
                 Map<String, Object> combinedData = new HashMap<>();
+                combinedData.put("title", title);
+                combinedData.put("userIds", userIds);
                 combinedData.put("chatroomId", chatroomId);
                 combinedData.put("participants", participants);
                 String json = objectMapper.writeValueAsString(combinedData);

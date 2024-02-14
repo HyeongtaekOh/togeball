@@ -1,12 +1,9 @@
 package com.ssafy.togeballmatching.scheduler;
 
-import com.ssafy.togeballmatching.config.WebConfig;
 import com.ssafy.togeballmatching.dto.MatchingRequest;
 import com.ssafy.togeballmatching.dto.MatchingUser;
-import com.ssafy.togeballmatching.dto.Tag;
 import com.ssafy.togeballmatching.service.MatchingService;
 import com.ssafy.togeballmatching.service.messaging.MessagingService;
-import com.ssafy.togeballmatching.service.queue.RedisWaitingQueueService;
 import com.ssafy.togeballmatching.service.queue.WaitingQueueService;
 import com.ssafy.togeballmatching.service.rabbit.RabbitMQService;
 import com.ssafy.togeballmatching.service.sessionstore.WebSocketSessionStoreService;
@@ -19,10 +16,7 @@ import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.socket.WebSocketSession;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.*;
 
@@ -45,7 +39,7 @@ public class MatchingScheduler {
     private final WebSocketSessionStoreService webSocketSessionStoreService;
     private final MatchingService matchingService;
 
-    @Scheduled(fixedDelay = 5000, initialDelay = 1000)
+    @Scheduled(fixedDelay = 1000 * 60, initialDelay = 1000)
     public void matching() {
 
         log.info("matching scheduler start");
@@ -53,11 +47,11 @@ public class MatchingScheduler {
         List<WebSocketSession> sessions = webSocketSessionStoreService.getAllWebSocketSession();
         List<MatchingUser> waitingUsers = waitingQueueService.getWaitingUsers();
 
-//        if (sessions.size() >= 2) {
+        log.info("sessions: {}", sessions);
+        log.info("waitingUsers: {}", waitingUsers);
 
-            // 1. 유저 목록 받아옴
-            List<Integer> userIds = sessions.stream().map(session -> (Integer) session.getAttributes().get("userId")).toList();
-            log.info("userIds: {}", userIds);
+        // 0. 세션 2개 이상일 때만 매칭 수행
+        if (sessions.size() >= 2) {
 
             // 2. 매칭 알고리즘 수행
             List<MatchingRequest> matchings = matchingService.matchUsers(waitingUsers);
@@ -66,7 +60,7 @@ public class MatchingScheduler {
             for (MatchingRequest matching : matchings) {
                 rabbitService.sendMessage(exchange, routingKey, matching);
 
-            String chatroomId = getChatroomId(matching);
+                String chatroomId = getChatroomId(matching);
 
                 List<MatchingUser> participants = new ArrayList<>();
                 for (int i : matching.getUserIds()) {
@@ -76,9 +70,9 @@ public class MatchingScheduler {
                 messagingService.sendMatchingResultToUsers(matching.getTitle(), matching.getUserIds(), chatroomId, participants);
             }
 
-        waitingQueueService.clearQueue();
+        }
 
-//        }
+        waitingQueueService.clearQueue();
     }
 
     @Scheduled(fixedDelay = 1000 * 60 * 30) //서버 시작 시 작동, 이후 30분마다 갱신
@@ -93,11 +87,11 @@ public class MatchingScheduler {
 
         // Request Body 설정
         JSONObject requestBody = new JSONObject();
-        requestBody.put("email","admin");
-        requestBody.put("password","admin");
+        requestBody.put("email", "admin");
+        requestBody.put("password", "admin");
 
         // Request Entity 생성
-        HttpEntity entity = new HttpEntity(requestBody.toString(), headers);
+        HttpEntity<?> entity = new HttpEntity<>(requestBody.toString(), headers);
 
         // API 호출
         ResponseEntity responseEntity = restTemplate.exchange(baseUrl, HttpMethod.POST, entity, String.class);
@@ -129,14 +123,14 @@ public class MatchingScheduler {
                 String.class);
 
         // Response Body 출력
-        System.out.println(responseEntity.getBody());
+        log.info("getChatroomId : {}", responseEntity.getBody());
         return responseEntity.getBody();
     }
 
     public MatchingUser getMatchingUser(int userId) {
 
         RestTemplate restTemplate = new RestTemplate();
-        String baseUrl = "https://i10a610.p.ssafy.io:8080/api/user/" + userId;
+        String baseUrl = "https://i10a610.p.ssafy.io:8080/api/users/" + userId;
 
         // Request Header 설정
         HttpHeaders headers = new HttpHeaders();
@@ -147,10 +141,15 @@ public class MatchingScheduler {
         HttpEntity entity = new HttpEntity(headers);
 
         // API 호출
-        ResponseEntity<MatchingUser> responseEntity = restTemplate.exchange(baseUrl, HttpMethod.POST, entity, new ParameterizedTypeReference<>() {});
+        ResponseEntity<MatchingUser> responseEntity = restTemplate.exchange(
+                baseUrl,
+                HttpMethod.GET,
+                entity,
+                new ParameterizedTypeReference<>() {}
+        );
 
         // Response Body 출력
-        System.out.println(responseEntity.getBody());
+        log.info("getMatchingUser : {}", responseEntity.getBody());
         return responseEntity.getBody();
     }
 }

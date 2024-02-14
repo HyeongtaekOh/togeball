@@ -242,6 +242,7 @@ public class MatchingService {
 
             return String.join(", ", topTags) + "유저들의 채팅방";
         } catch (Exception e) {
+            log.info("OpenAI API 호출 실패: {}", e.getMessage());
             return String.join(", ", topTags) + "유저들의 채팅방";
         }
     }
