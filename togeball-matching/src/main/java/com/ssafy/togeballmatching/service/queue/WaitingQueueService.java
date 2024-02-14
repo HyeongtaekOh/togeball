@@ -12,7 +12,6 @@ public interface WaitingQueueService {
 
     public List<MatchingUser> getFirstNWaitingUsers(int n);
 
-    public void removeFirstNQueue(int n);
 
     public void clearQueue();
 }

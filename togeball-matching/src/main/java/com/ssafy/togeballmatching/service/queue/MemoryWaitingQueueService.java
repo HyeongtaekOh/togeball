@@ -5,34 +5,32 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
-//@Primary
+@Primary
 public class MemoryWaitingQueueService implements WaitingQueueService {
 
-    private final List<MatchingUser> waitingQueue = new CopyOnWriteArrayList<>();
+    private final Map<Integer, MatchingUser> waitingQueue = new ConcurrentHashMap<>();
 
 
     @Override
     public void addQueue(MatchingUser matchingUser) {
-        waitingQueue.add(matchingUser);
+        waitingQueue.put(matchingUser.getUserId(), matchingUser);
     }
 
     @Override
     public List<MatchingUser> getWaitingUsers() {
-        return waitingQueue;
+        return waitingQueue.values().stream().toList();
     }
 
     @Override
     public List<MatchingUser> getFirstNWaitingUsers(int n) {
-        return waitingQueue.subList(0, n);
-    }
-
-    @Override
-    public void removeFirstNQueue(int n) {
-        waitingQueue.subList(0, n).clear();
+        return waitingQueue.values().stream().limit(n).toList();
     }
 
     @Override

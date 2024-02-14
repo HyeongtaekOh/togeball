@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@Primary
+//@Primary
 @RequiredArgsConstructor
 public class RedisWaitingQueueService implements WaitingQueueService {
 
@@ -28,11 +28,6 @@ public class RedisWaitingQueueService implements WaitingQueueService {
     @Override
     public List<MatchingUser> getFirstNWaitingUsers(int n) {
         return redisTemplate.opsForList().range("waiting-queue", 0, n - 1);
-    }
-
-    @Override
-    public void removeFirstNQueue(int n) {
-        redisTemplate.opsForList().trim("waiting-queue", n, -1);
     }
 
     @Override
