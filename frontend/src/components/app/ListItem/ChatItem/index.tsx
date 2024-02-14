@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Title } from 'src/components'
 import styled from 'styled-components'
 import useHeaderStore from '../../Header/store'
+import useStore from 'src/store'
 
 
 const ChatWrapper = styled.div<{ width?: string }>`
@@ -42,7 +43,7 @@ const ChatItem = ( props: ChatListProps ) => {
 
   const { item, type, width } = props
   const { updateCount, count } = useHeaderStore()
-  const unReadCount = count
+  const { session } = useStore()
 
   const navigator = useNavigate()
   const partiMutation = useMutation( partiChat, {
@@ -51,15 +52,40 @@ const ChatItem = ( props: ChatListProps ) => {
     }
   } )
 
+
+  const checkParti = () =>{
+    item?.members?.map(( member )=>{
+      if( member.id === session.id ){
+        return 1
+      }
+    })
+    return 2
+  }
+
+
+
   const goChat = () => {
     if( !localStorage.getItem('userId') ){
       alert(' 로그인 하세요 ')
       navigator('/login')
     } 
     else {
-      ( type === 'my' ) && 
+      if( type!=='my' 
+      && item?.capacity === item?.members?.length
+      && item?.manager?.id !== session?.id
+      )
+      {
+        const check = checkParti()
+        if ( check === 2 ){
+          alert('인원이 다 찼습니다')
+          return
+        }
+      }
+      else 
+      {
         updateCount(count - item?.status?.unreadCount)  
-      partiMutation.mutateAsync({ chatRoomId : item?.id })
+        partiMutation.mutateAsync({ chatRoomId : item?.id })
+      }
     }
   }
 
@@ -86,7 +112,7 @@ const ChatItem = ( props: ChatListProps ) => {
     </TextWrapper>
     {
       type !== 'my' &&
-      <p style={{ paddingTop: '40px'}}>{ item?.members?.length | 0}/ { item?.capacity }명</p> 
+      <p style={{ paddingTop: '40px'}}>{ item?.members?.length | 0 }/ { item?.capacity }명</p> 
     }
    </ChatWrapper>
   )
