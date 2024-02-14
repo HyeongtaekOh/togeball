@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import lufi from 'src/asset/images/lufi.jpg'
 import lgtwinslogo from 'src/asset/images/lgtwinslogo.jpg'
 import { Title } from 'src/components'
+import { Participants } from '@/pages/chat/components'
 
 
 const ProfileContainer = styled.div`
@@ -41,15 +42,20 @@ const Tooltip = styled.div<{ isVisible: boolean }>`
 
 
 const MatchingProfile = ( props ) => {
-  const { nickname, age, gender, profileImg, hashtags, myteam } = props
+  const { name, profileImg, age, gender, myteam, tags  } = props
+
+ 
   const [ isTooltipVisible, setIsTooltipVisible ] = useState( false )
+  console.log(name, profileImg, age, gender, myteam, tags)
+
+  
 
   return (
     <ProfileContainer>
       <ProfileImage
-      // 임시 루피 사진
-        src={ lufi }
-        alt={`${ nickname }'s profile`}
+      
+        src={( profileImg===undefined || profileImg==='') ?  lufi : profileImg  }
+        alt={`${ name }'s profile`}
         onMouseEnter={() => setIsTooltipVisible( true )}
         onMouseLeave={() => setIsTooltipVisible( false )}
       />
@@ -57,13 +63,15 @@ const MatchingProfile = ( props ) => {
         <div style={{ display: 'flex'}}>
           <img src={ lufi } alt="" style={{ width: '40%', height: '80%', borderRadius: '50px', marginRight: '10px' }}/>
           <div style={{ width: '40%'}}>
-            <Title type='medium'>{ nickname }</Title>
+            <Title type='medium'>{ name }</Title>
             <p>{ age }세 { gender }</p>            
           </div>
-          <img src={ lgtwinslogo } alt="" style={{ width: '20%', height: '50%', marginLeft: '5px'}} />
+          <img src={ myteam } alt="" style={{ width: '20%', height: '50%', marginLeft: '5px'}} />
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', paddingBottom: '20px'}}>  
-        <p style={{ fontWeight:'bold'}}>{ hashtags }</p>
+        {tags.map((tag, index) => (
+    <p key={index} style={{ fontWeight: 'bold' }}>{tag}</p>
+  ))}
         </div>
         {/* 다른 프로필 정보도 추가예정 */}
       </Tooltip>
