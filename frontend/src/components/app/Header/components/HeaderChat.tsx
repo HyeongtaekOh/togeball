@@ -17,7 +17,7 @@ const HeaderChatWrapper = styled.div`
 
 const HeaderChat = ( props  ) => {  
 
-  const { data: chats, isLoading } = useQuery( 'chats', getMyChats )
+  const { chats, isLoading } = props
   
   return(
 
