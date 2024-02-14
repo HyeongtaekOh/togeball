@@ -58,7 +58,7 @@ const MySelfWrapper = styled.div`
     flex-direction: column;
     width: 70%;
     flexWrap: wrap;
-    margin-top: 40px;
+    margin-top: 30px;
 `
 
 const IndexWrapper = styled.p`
