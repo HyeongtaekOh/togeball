@@ -54,7 +54,7 @@ public class SecurityConfig {
                  * .requestMatchers("/api/for-anyone").permitAll()
                  */
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/oauth2/**", "/h2-console/**", "/error", "/login/**").permitAll()
+                        .requestMatchers("/", "/oauth2/**", "/h2-console/**", "/error", "/login/**", "/swagger-ui/**", "/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/reissue", "/api/auth/code").permitAll()
                         .requestMatchers("/api/users/me/**").authenticated()
                         .requestMatchers( "/api/users/**").permitAll()
