@@ -60,9 +60,7 @@ public class MatchingScheduler {
             // 3. API 서버에 매칭 결과 전송, 4. 매칭된 사용자들에게 매칭 결과 전송
             for (MatchingRequest matching : matchings) {
                 rabbitService.sendMessage(exchange, routingKey, matching);
-
                 MatchingResponse matchingResponse = getChatroom(matching);
-
                 messagingService.sendMatchingResultToUsers(matching.getUserIds(), matchingResponse);
             }
 
@@ -117,6 +115,8 @@ public class MatchingScheduler {
                 HttpMethod.POST,
                 entity,
                 MatchingResponse.class);
+
+        log.info("getChatroomMethod working: {}",responseEntity.getBody());
 
         // Response Body 출력
         return responseEntity.getBody();
