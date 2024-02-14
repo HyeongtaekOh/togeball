@@ -8,6 +8,7 @@ import com.ssafy.togeball.domain.chatroom.entity.Chatroom;
 import com.ssafy.togeball.domain.chatroom.entity.GameChatroom;
 import com.ssafy.togeball.domain.chatroom.entity.MatchingChatroom;
 import com.ssafy.togeball.domain.chatroom.entity.RecruitChatroom;
+import com.ssafy.togeball.domain.matching.entity.Matching;
 import com.ssafy.togeball.domain.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

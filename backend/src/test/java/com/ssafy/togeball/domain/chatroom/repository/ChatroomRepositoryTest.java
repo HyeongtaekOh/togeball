@@ -254,7 +254,7 @@ class ChatroomRepositoryTest {
                 .build();
         MatchingChatroom matchingChatroom = MatchingChatroom.builder()
                 .title("matching chatroom")
-                .matching(matching)
+                .capacity(10)
                 .build();
 
         // when
@@ -355,7 +355,7 @@ class ChatroomRepositoryTest {
                 .build();
         MatchingChatroom matchingChatroom1 = MatchingChatroom.builder()
                 .title("matching chatroom 1")
-                .matching(matching)
+                .capacity(10)
                 .build();
 
         // when
@@ -404,7 +404,7 @@ class ChatroomRepositoryTest {
                 .build();
         MatchingChatroom matchingChatroom1 = MatchingChatroom.builder()
                 .title("matching chatroom 1")
-                .matching(matching)
+                .capacity(10)
                 .build();
 
         // when

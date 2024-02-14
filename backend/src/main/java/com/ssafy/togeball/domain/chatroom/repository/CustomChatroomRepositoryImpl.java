@@ -20,6 +20,7 @@ import com.ssafy.togeball.domain.league.exception.ClubNotFoundException;
 import com.ssafy.togeball.domain.league.exception.GameNotFoundException;
 import com.ssafy.togeball.domain.league.repository.ClubRepository;
 import com.ssafy.togeball.domain.league.repository.GameRepository;
+import com.ssafy.togeball.domain.matching.entity.Matching;
 import com.ssafy.togeball.domain.tag.entity.Tag;
 import com.ssafy.togeball.domain.tag.exception.TagNotFoundException;
 import com.ssafy.togeball.domain.tag.repository.TagRepository;
@@ -192,10 +193,11 @@ public class CustomChatroomRepositoryImpl extends CustomPagingAndSortingReposito
     }
 
     @Override
-    public MatchingChatroom createMatchingChatroom(MatchingChatroomRequest chatroomDto){
+    public MatchingChatroom createMatchingChatroom(MatchingChatroomRequest chatroomDto) {
 
         MatchingChatroom matchingChatroom = MatchingChatroom.builder()
                 .title(chatroomDto.getTitle())
+                .capacity(chatroomDto.getCapacity())
                 .build();
 
         em.persist(matchingChatroom);

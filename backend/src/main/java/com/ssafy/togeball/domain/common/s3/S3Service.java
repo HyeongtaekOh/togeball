@@ -41,6 +41,6 @@ public class S3Service {
     }
 
     public String getObjectUrl() {
-        return "https://" + bucketName + "." + region + ".amazonaws.com";
+        return "https://" + bucketName + "." + region + ".amazonaws.com/";
     }
 }
