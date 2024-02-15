@@ -75,14 +75,14 @@ const MatchingModal = ( props ) => {
 
           <p style={{ fontSize: '30px', color: '#7D74B4' , fontWeight:'bolder' }}>{ title }</p>
           <div style={{ textAlign: 'center'}}>
-                { participants.map(( participant ) => (
+                { participants?.map(( participant ) => (
                       <MatchingProfile
                         key={ participant?.id }
                         name={ participant.nickname }
                         gender={ participant.gender }
                         age={ participant.birthdate }
                         profileImg={ participant.profileImg }
-                        tags={ participant.tags.map( tag => tag.content )} // 태그 배열에서 content 속성 추출
+                        tags={ participant.tags?.map( tag => tag.content )} // 태그 배열에서 content 속성 추출
                         myteam={ participant.clubLogo }
                       />
                     ))}

@@ -5,6 +5,7 @@ import { Title } from 'src/components'
 import styled from 'styled-components'
 import useHeaderStore from '../../Header/store'
 import useStore from 'src/store'
+import Logo from 'src/asset/images/Logo.jpg'
 
 const ChatWrapper = styled.div<{ width?: string }>`
   display: flex;
@@ -88,7 +89,7 @@ const ChatItem = ( props: ChatListProps ) => {
 
   return(
    <ChatWrapper onClick={()=> goChat()} width={ width }>
-     <img src={ item?.cheeringClub?.logo } alt='로고' style={{ width: '8%', minWidth:'60px',marginBottom: '8px' }}/> 
+     <img src={ item?.cheeringClub?.logo || Logo } alt='로고' style={{ width: '8%', minWidth:'60px',marginBottom: '8px' }}/> 
     <TextWrapper>
       <div style={{ display: 'block', width:'100%' }}>
       <Title type='medium'>{ item?.title }</Title>
@@ -98,7 +99,7 @@ const ChatItem = ( props: ChatListProps ) => {
       }
       </div>
         <TagWrapper>
-          { item.tags.map(( tag ) => (
+          { item.tags?.map(( tag ) => (
             <Title type='small'>#{ tag?.content }&nbsp;</Title>
           ))}
         </TagWrapper>

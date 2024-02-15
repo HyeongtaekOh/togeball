@@ -16,7 +16,7 @@ const MatchingQueue = ( props ) => {
     const width = +svg.attr( 'width' )
     const height = parentHeight
 
-    const newBubbleData = data.hashtags.map(( tagName ) => ({
+    const newBubbleData = data.hashtags?.map(( tagName ) => ({
       label: tagName,
       value: data?.counts[ tagName ],
       x: Math.random() * width, // X 좌표를 랜덤하게 설정
