@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 const ImgWrapper = styled.img`
   width: 118px;
-  height: 80px;
+  height: 70%;
   margin-top: 20px;
 `
 const BtnWrapper = styled.button`

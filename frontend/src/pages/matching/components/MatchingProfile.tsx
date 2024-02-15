@@ -53,14 +53,14 @@ const MatchingProfile = ( props ) => {
     <ProfileContainer>
       <ProfileImage
       
-        src={( profileImg===undefined || profileImg==='') ?  lufi : profileImg  }
+        src={ profileImg ? profileImg : lufi }
         alt={`${ name }'s profile`}
         onMouseEnter={() => setIsTooltipVisible( true )}
         onMouseLeave={() => setIsTooltipVisible( false )}
       />
       <Tooltip as="div" isVisible={ isTooltipVisible }>
         <div style={{ display: 'flex'}}>
-          <img src={ lufi } alt="" style={{ width: '40%', height: '80%', borderRadius: '50px', marginRight: '10px' }}/>
+          <img src={ profileImg? profileImg : lufi } alt="" style={{ width: '40%', height: '80%', borderRadius: '50px', marginRight: '10px' }}/>
           <div style={{ width: '40%'}}>
             <Title type='medium'>{ name }</Title>
             <p>{ age }세 { gender }</p>            

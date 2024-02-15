@@ -86,7 +86,7 @@ const Matching: React.FC = () => {
   return () => {
     socket.close()
   }
-}, [ ])
+}, [])
 
   const [isModalOpened, setIsModalOpened] = useState( false )
 
