@@ -206,8 +206,12 @@ const Chat = () => {
   }
 
  const exitChat = async() => {
-  await deleteAxios(`/api/chatrooms/${chatroomId}/participants`)
-  navigator('/')
+  const confirmed = window.confirm('정말로 나가시겠습니까?')
+
+  if (confirmed) {
+    await deleteAxios(`/api/chatrooms/${chatroomId}/participants`)
+    navigator('/')
+  }
  }
 
   return (
