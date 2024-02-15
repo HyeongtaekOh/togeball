@@ -1,7 +1,7 @@
 import { Button, InputBox, Select, MainLayout, HomeLayout, Title } from 'src/components';
 import { TagsInput, WeekCalendar } from './components'
 import useStore from './store'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useMutation, useQuery } from 'react-query'
 import { RecruitType, TagApiType } from 'src/types'
@@ -68,7 +68,8 @@ const RecruitPost = () => {
   
   const { data: tags } = useQuery<TagApiType>([ 'tags', { page: 0, size: 100 }], () => getTags({ page: 0, size: 100 }))
   
-  const teams = tags?.content.filter(item => item.type === "PREFERRED_TEAM")
+  const [ flag, setFlag ] = useState(false);
+  const [ teams, setTeams ] = useState([])
   const seats = tags?.content.filter(item => item.type === "PREFERRED_SEAT")
   const [ nums ] = useState([
     { id: 2, content: '2명' },
@@ -83,6 +84,7 @@ const RecruitPost = () => {
   ])
 
   const { match, isModalOpened, updateModal, tagList, updateMatch } = useStore()
+
   const partiMutation = useMutation( partiChat )
   const recruitMutation = useMutation( makeRecruitChat, {
     onSuccess: async( res ) => {
@@ -156,9 +158,26 @@ const RecruitPost = () => {
           cheeringClubId: Number( team ),
           tagIds: [ ...response, seat ]
         }
+        console.log(data)
       await recruitMutation.mutateAsync( data )
     }
   }
+
+  useEffect(() => {
+    teams.length === 3 &&
+      setTeams([{id: 11, content: '응원팀무관'}])
+    if ( match && match.id && flag) {
+      setTeams( prevItems => [ ...prevItems, { id: match?.id, content: match?.homeClubName }])
+      setTeams( prevItems => [ ...prevItems, { id: match?.id, content: match?.awayClubName }])
+    }
+  }, [ match ]); 
+
+  useEffect(()=>{
+    updateMatch({})
+    setFlag( true )
+    setTeams([{id: 11, content: '응원팀무관'}])
+  }, [])
+
 
   return (
     <MainLayout title='직관 메이트 모집하기'>  
