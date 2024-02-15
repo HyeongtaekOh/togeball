@@ -5,10 +5,6 @@ import { Title, MainLayout } from 'src/components'
 import styled from 'styled-components'
 import SockJS from 'sockjs-client'
 
-
-
-
-
 const MatchingWrapper = styled.div`
   background-color: white;
   width: 100%;
@@ -34,7 +30,7 @@ const Matching: React.FC = () => {
     },
   });
 
-  const [ participants, setParticipants ] = useState({
+  const [ matchingInfo, setMatchingInfo ] = useState({
     participants: {},
     chatroomId: undefined,
     title : undefined,
@@ -79,14 +75,14 @@ const Matching: React.FC = () => {
         setMatchingData({
           hashtags: newMessage.hashtags, 
           counts: newMessage.counts
-        });
+        })
 
       }
       else {
         const newMessage = JSON.parse(message)
         console.log(message)
         console.log( newMessage )
-        setParticipants({
+        setMatchingInfo({
           participants: newMessage.matching.users,
           title: newMessage.matching.title,
           chatroomId: newMessage.matching.matchingChatroomId
@@ -119,7 +115,12 @@ const Matching: React.FC = () => {
         </div>
         <div style={{ display: 'flex', justifyContent:'center', height:'100%'}}>
         <MatchingQueue data={ matchingData }/>
-        { isModalOpened && <MatchingModal isOpen={ isModalOpened } onClose={ closeModal } participants = { participants.participants } chatroomId = { participants.chatroomId } title = { participants.title } />}
+        { isModalOpened && 
+          <MatchingModal 
+            isOpen={ isModalOpened } onClose={ closeModal } 
+            participants = { matchingInfo.participants } 
+            chatroomId = { matchingInfo.chatroomId } title = { matchingInfo.title } 
+          />}
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: '777'}}>
           <Timer duration={ 180 }/>

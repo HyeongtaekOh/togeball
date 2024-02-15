@@ -81,7 +81,7 @@ export const TagsInput = () => {
 
   return (
     <TagsInputWrapper>
-      { tagList.map(( tagItem ) => {
+      { tagList?.map(( tagItem ) => {
         return (
           <TagItem key={ tagItem }>
             <span style={{ fontWeight: 'bold' }}>#{ tagItem }</span>

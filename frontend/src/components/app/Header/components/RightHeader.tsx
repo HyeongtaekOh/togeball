@@ -170,7 +170,7 @@ const RightHeader = (  ) => {
 
     <HeaderMenuWrapper>
       {
-        menu.map(( item : MenuItemProps ) => {
+        menu?.map(( item : MenuItemProps ) => {
           return <MenuItem 
               key = { item?.title } title ={ item?.title } 
               path = { item?.path } menus ={ item?.menus }

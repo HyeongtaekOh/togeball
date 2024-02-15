@@ -1,4 +1,4 @@
-import { ProfileCard } from 'src/components'
+import { ProfileCard, Title } from 'src/components'
 import styled from 'styled-components'
 
 const PartiWrapper = styled.div`
@@ -21,8 +21,6 @@ const HeaderWrapper = styled.div`
   background-color: #6A60A9;
   box-shadow: 1px 1px 2px 2px lightGray;
   color : white;
-  align-items: center;
-  justify-content: center;
   font-size: 10px;
 `
 const MemberWrapper = styled.div`
@@ -40,12 +38,10 @@ const MemberWrapper = styled.div`
 `
 const Participants = ( props ) => {
 
-  const { list, title } = props
+  const { list } = props
+
   return(
     <PartiWrapper>
-      <HeaderWrapper>
-        <p>{ title }</p>
-      </HeaderWrapper>
       <MemberWrapper>
       {
         list?.map(( participant, index ) => (

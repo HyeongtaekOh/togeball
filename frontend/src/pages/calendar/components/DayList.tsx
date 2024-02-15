@@ -30,9 +30,9 @@ const DayList = ( props ) => {
   
   return(
     <DayListWrapper>
-      { cal.map(( day, index ) => (
+      { cal?.map(( day, index ) => (
           <WeekWrapper key={ index }>
-            { day.map(( day, index ) => (
+            { day?.map(( day, index ) => (
                   <Day day= { day } index={ index } key={ index } 
                   gamelist= { games }/>
             ))}

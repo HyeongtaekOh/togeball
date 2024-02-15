@@ -60,7 +60,7 @@ const LabelWrapper =styled.label`
 type PathParam = {
   chatroomId?: string
 }
-const Chat = () => {
+const MatchChat = () => {
 
   const { chatroomId } = useParams< PathParam >()
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -79,13 +79,9 @@ const Chat = () => {
   const imageMutations = useMutation( postChatImage )
 
   const location = useLocation()
-  const matchingParticipants = location.state?.participants
-  const title = location.state?.title
   
   console.log( participants )
   console.log( chatInfo)
-  console.log( title)
-  console.log(matchingParticipants)
 
   useEffect(() => {
     const onConnect = async() => {
@@ -199,9 +195,9 @@ const Chat = () => {
 
 
   return (
-    <MainLayout>
+    <MainLayout title={ chatInfo?.title.replace(/"/g, '') }>
         <ChatPageWrapper>
-          <Participants list = { matchingParticipants } title = { title }/>
+          <Participants list = { participants } title = { chatInfo?.title }/>
           <ChatWrapper>
             <ScriptWrapper>
               { 
@@ -240,4 +236,4 @@ const Chat = () => {
   )
 }
 
-export default Chat
+export default MatchChat

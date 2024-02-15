@@ -48,7 +48,7 @@ const MyPage = (() => {
                         내가 모집중인 채팅방
                     </SubjectWrapper>
                     <ItemListWrapper>
-                        { mychatlist && mychatlist.map( chatItem => (
+                        { mychatlist && mychatlist?.map( chatItem => (
                          <ChatItem key={ chatItem.id } item={ chatItem } width='300px ' ></ChatItem>
                             ))}
                         <div id="chatObserver" style={{ height: "10px" }}></div>
@@ -59,7 +59,7 @@ const MyPage = (() => {
                         내가 쓴 게시글
                     </SubjectWrapper>
                     <ItemListWrapper>
-                    { boardlist && boardlist.map( BoardItem => (
+                    { boardlist && boardlist?.map( BoardItem => (
                          <BoardItem key={ BoardItem.id } item={ BoardItem }></BoardItem>
                             ))}
                         <div id="boardObserver" style={{ height: "10px" }}></div>

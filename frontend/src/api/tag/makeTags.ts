@@ -7,7 +7,7 @@ interface dataType{
 
 export const makeTags = async( data : dataType ) => {
   try{
-    return await Promise.all( data?.tags.map(async( tag ) => {
+    return await Promise.all( data?.tags?.map(async( tag ) => {
       const response = await postAxios(`/api/hashtags`, { content: tag })
       return response?.data?.id
     }))
