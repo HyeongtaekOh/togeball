@@ -1,10 +1,8 @@
 import { getAxios } from 'src/api/util'
 
 export const getUserInfo = async( id : string ) => {
-  console.log(id)
   try{
-    const response =  await getAxios( `api/users/${id}` )
-    return response
+    return await getAxios( `api/users/${id}` )
   } catch( err ){
     console.log(err)
   }

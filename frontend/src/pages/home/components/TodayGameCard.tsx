@@ -31,11 +31,6 @@ const TodayGameCard = () =>{
   const indRef = useRef(0)
   const [ curGame, setCurGame ] = useState<GameType>( todayGames && todayGames[0] )
 
-  // const param  = {
-  //   gameId: game?.id
-  // }
-
-  // const { data: gameChat } = useQuery(['gameChat', param ], () => getGameChat( param ))
     
   const onClickRight = () => {
     indRef.current < todayGames.length - 1 && 
