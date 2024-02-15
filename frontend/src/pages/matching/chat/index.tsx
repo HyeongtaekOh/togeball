@@ -9,7 +9,6 @@ import { getChat, getChatMessages, getMyInfo, getParticipants } from 'src/api'
 import { useQuery, useMutation } from 'react-query'
 import { formatDate } from './util'
 import postChatImage  from './api/postChatImage'
-import postLastChat from './api/postLastChat'
 
 const ChatPageWrapper = styled.div`
   width: 80%;
@@ -78,11 +77,14 @@ const Chat = () => {
   const stompClient = useRef( null )
 
   const imageMutations = useMutation( postChatImage )
-  const lastChatMutatioins = useMutation( postLastChat )
 
   const location = useLocation()
   const matchingParticipants = location.state?.participants
-  console.log(participants)
+  const title = location.state?.title
+  
+  console.log( participants )
+  console.log( chatInfo)
+  console.log( title)
   console.log(matchingParticipants)
 
   useEffect(() => {
@@ -96,7 +98,6 @@ const Chat = () => {
             senderId: newMessage?.senderId,  
             type : newMessage?.type,
             nickname: newMessage?.nickname,
-            id: newMessage?.id,
             time: formatDate(new Date())
           },
       ])},
@@ -130,7 +131,6 @@ const Chat = () => {
               senderId: chat?.senderId,  
               type : chat?.type,
               nickname: chat?.nickname,
-              id: chat?.id,
               time: formatDate(new Date( chat?.timestamp ))
             },
         ])
@@ -145,17 +145,9 @@ const Chat = () => {
     connectToStomp()
 
     return () => {
-      const data = {
-        roomId : Number(chatroomId),
-        data :{
-          lastReadMessageId : messages[messages.length - 1].id
-        }
-      }
-
-      lastChatMutatioins.mutateAsync( data )
       stompClient.current?.disconnect()
     }
-  }, [ chatroomId ])
+  }, [])
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if ( !e.target.files || e.target.files.length ===0 ) return
@@ -173,7 +165,7 @@ const Chat = () => {
       }
       await imageMutations.mutateAsync(param)
     } catch (error) {
-      console.error('이미지 업로드 에러:', error)
+      console.error('이미지 업로드 에러:', error);
     }
   };
 
@@ -209,7 +201,7 @@ const Chat = () => {
   return (
     <MainLayout>
         <ChatPageWrapper>
-          <Participants list = { participants } title = { chatInfo?.game }/>
+          <Participants list = { matchingParticipants } title = { title }/>
           <ChatWrapper>
             <ScriptWrapper>
               { 
