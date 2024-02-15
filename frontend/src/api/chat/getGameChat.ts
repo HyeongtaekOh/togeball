@@ -7,7 +7,8 @@ interface dataType {
 
 export const getGameChat = async( param : dataType ) => {
   try{
-    return await getAxios(`//api/chatrooms/game`, param )
+    const response = await getAxios(`//api/chatrooms/game`, param )
+    return response?.id
   } catch( err ){
     console.log(err)
   }
