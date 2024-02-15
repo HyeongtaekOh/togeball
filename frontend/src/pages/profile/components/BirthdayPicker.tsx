@@ -55,7 +55,7 @@ const BirthdayPicker = ( props ) => {
       <TitleWrapper>생년월일</TitleWrapper>
       <GlobalStyle />
       <StyledDatePicker
-        // selected={ selectedDate }
+        selected={ selectedDate }
         onChange={ handleChange }
         dateFormat="yyyy-MM-dd"
         placeholderText="설정하기"
