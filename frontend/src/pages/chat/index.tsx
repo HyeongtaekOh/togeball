@@ -148,11 +148,11 @@ const Chat = () => {
       const data = {
         roomId : Number(chatroomId),
         data :{
-          lastReadMessageId : messages[messages.length - 1].id
+          lastReadMessageId : messages[messages.length - 1]?.id
         }
       }
 
-      lastChatMutatioins.mutateAsync( data )
+      data.data.lastReadMessageId && lastChatMutatioins.mutateAsync( data )
       stompClient.current?.disconnect()
     }
   }, [ chatroomId ])
