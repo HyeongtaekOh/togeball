@@ -20,8 +20,6 @@ const RankCard = ( props : RankCardProps ) => {
     return clubList.sort(( a, b )=> { return a.ranking - b.ranking }
   )}, [ clubList ] )
 
-  console.log(clubList)
-
   return(
     <RankCardWrapper>
       {
