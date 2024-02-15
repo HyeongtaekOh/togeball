@@ -19,7 +19,7 @@ const InputBox = ( props: InputProps ) => {
   const {
     title, height = '60px', width = '100%', 
     placeholder = '내용을 입력하세요', value, 
-    onChange, onKeyDown, children,
+    onChange, onKeyDown, children, type,
     fontSize = '12px'
   } = props
 
@@ -31,6 +31,7 @@ const InputBox = ( props: InputProps ) => {
         <div style={{ width: '30%', paddingLeft : '10px' }}> { title } </div>
       }
       <input 
+        type = { type === 'password'? 'password': 'text' }
         value = { value } 
         onChange={ onChange } 
         onKeyDown={ onKeyDown }
@@ -55,5 +56,6 @@ export type InputProps = {
   onChange? : ( value?: any ) => void
   onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void
   children?: React.ReactNode,
-  fontSize?: string | number
+  fontSize?: string | number,
+  type?: string
 }
