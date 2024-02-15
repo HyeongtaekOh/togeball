@@ -4,6 +4,7 @@ import   { MatchingQueue, Timer, MatchingModal }   from './components'
 import { Title, MainLayout } from 'src/components'
 import styled from 'styled-components'
 import SockJS from 'sockjs-client'
+import useStore from 'src/store'
 
 const MatchingWrapper = styled.div`
   background-color: white;
@@ -37,11 +38,14 @@ const Matching: React.FC = () => {
 
   })
 
+  const { setIsLogin } = useStore()
+
   useEffect(() => {
    const clientId = localStorage.getItem('accessToken')
    
    if ( !clientId ) {
     alert('로그인이 필요합니다!')
+    setIsLogin(false)
     navigator('/home')
     return
    }
