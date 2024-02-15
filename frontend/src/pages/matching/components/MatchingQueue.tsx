@@ -22,6 +22,7 @@ const MatchingQueue = ( props ) => {
       x: Math.random() * width, // X 좌표를 랜덤하게 설정
       y: Math.random() * height, // Y 좌표를 랜덤하게 설정
       
+      
     }))
 
     setBubbleData( newBubbleData )
@@ -31,6 +32,10 @@ const MatchingQueue = ( props ) => {
       .force( 'x', d3.forceX( width / 2 ).strength(0.1))
       .force( 'y', d3.forceY( height / 2 ).strength(0.1))
       .force( 'collision', d3.forceCollide().radius(d => Math.sqrt( d.value ) * 60))
+      .on( 'tick', () => {
+        circles.attr( 'cx', d => d.x ).attr( 'cy', d => d.y )
+        texts.attr( 'x', d => d.x ).attr( 'y', d => d.y )
+      });
     
    
       
@@ -53,13 +58,13 @@ const MatchingQueue = ( props ) => {
     // 텍스트 추가
     const texts = svg.selectAll( 'text' ).data( newBubbleData );
 
-    texts.enter().append( 'text' )
-      .attr( 'x', d => d.x )
-      .attr( 'y', d => d.y )
-      .attr( 'dy', '0.35em' )  // 텍스트의 세로 중앙 정렬
-      .attr( 'text-anchor', 'middle' )  // 텍스트의 가로 중앙 정렬
-      .text( d => d.label )
-      
+    texts.enter().append('text')
+    .attr('text-anchor', 'middle')
+    .attr('dy', '0.35em')
+    .merge(texts)
+    .attr('x', d => d.x)
+    .attr('y', d => d.y)
+    .text(d => d.label)
 
     circles.exit().remove()
     texts.exit().remove()
