@@ -1,13 +1,13 @@
 import { Button, InputBox, Select, MainLayout, HomeLayout, Title } from 'src/components';
-import { TagsInput, WeekCalendar } from '../components'
-import useStore from '../store'
+import { TagsInput, WeekCalendar } from './components'
+import useStore from './store'
 import { useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useMutation, useQuery } from 'react-query'
 import { RecruitType, TagApiType } from 'src/types'
 import { getTags, makeRecruitChat, makeTags, partiChat } from 'src/api'
 import { styled } from 'styled-components'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 const MatchBtn = styled.button`
     width: 410px;

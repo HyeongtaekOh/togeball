@@ -1,14 +1,15 @@
 import { useState, useEffect, useRef } from 'react'
-import { useParams, useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { ChatMessage, Participants } from './components'
 import { Button, InputBox, LeftIcon, MainLayout } from 'src/components'
 import { createClient } from './util/chat'
+import { formatDate } from './util'
 import useStore from 'src/store'
-import styled from 'styled-components'
 import { getChat, getChatMessages, getMyInfo, getParticipants } from 'src/api'
 import { useQuery, useMutation } from 'react-query'
-import { formatDate } from './util'
 import postChatImage  from './api/postChatImage'
+import postLastChat from './api/postLastChat'
+import styled from 'styled-components'
 
 const ChatPageWrapper = styled.div`
   width: 80%;
@@ -16,6 +17,7 @@ const ChatPageWrapper = styled.div`
   display: flex;
   flex-direction: row;
 `
+
 const ChatWrapper = styled.div`
   width: 100%;
   height: 100%;
@@ -25,6 +27,7 @@ const ChatWrapper = styled.div`
   padding: 10px;
   padding-top: 0px;
 `
+
 const ScriptWrapper = styled.div`
   border: 1px solid #DEDCEE;
   border-radius: 10px;
@@ -32,6 +35,7 @@ const ScriptWrapper = styled.div`
   height: 90%;
   overflow-y: scroll;
 `
+
 const InputBoxWrapper = styled.div`
   display: flex;
   box-sizing: border-box;
@@ -40,6 +44,7 @@ const InputBoxWrapper = styled.div`
   width: 100%;
   align-items: center;
 `
+
 const LabelWrapper =styled.label`
   background-color: gray;
   display: flex;
@@ -57,9 +62,7 @@ const LabelWrapper =styled.label`
   }
 `
 
-type PathParam = {
-  chatroomId?: string
-}
+
 const MatchChat = () => {
 
   const { chatroomId } = useParams< PathParam >()
@@ -68,8 +71,10 @@ const MatchChat = () => {
   const userId = localStorage.getItem('userId')
   const [ messages, setMessages ] = useState([])
   const  [ input, setInput ] = useState('')
+
   const scriptEndRef = useRef< HTMLDivElement >( null ) 
   const { session } = useStore()
+
   const { data: itsme } = useQuery([ 'itsme' ], () => getMyInfo())
   const { data: participants } = useQuery([ 'participants', { id : chatroomId }], () => getParticipants( { id : chatroomId }))
   const { data : chatInfo } = useQuery([ 'chatInfo', { id : chatroomId }], () => getChat( { id : chatroomId }))
@@ -77,16 +82,13 @@ const MatchChat = () => {
   const stompClient = useRef( null )
 
   const imageMutations = useMutation( postChatImage )
-
-  const location = useLocation()
-  
-  console.log( participants )
-  console.log( chatInfo)
+  const lastChatMutatioins = useMutation( postLastChat )
 
   useEffect(() => {
     const onConnect = async() => {
       stompClient.current?.subscribe(`/topic/room.${ chatroomId }`, ( message ) => {
         const newMessage = JSON.parse( message.body )
+
         setMessages(( prevMessages ) => [
           ...prevMessages,
           { 
@@ -94,13 +96,16 @@ const MatchChat = () => {
             senderId: newMessage?.senderId,  
             type : newMessage?.type,
             nickname: newMessage?.nickname,
-            time: formatDate(new Date())
+            id: newMessage?.id,
+            time: formatDate( new Date())
           },
       ])},
+
       { 'auto-delete': true, durable: false, exclusive: false })       
     }
 
     const connectToStomp = async () => {
+
       try {
         stompClient.current = await createClient()
         await stompClient.current?.connect({ Authorization :  userId }, onConnect )
@@ -116,10 +121,12 @@ const MatchChat = () => {
     }
 
     const getMessages= async () => {
+
       try{
         setMessages([])
         const response= await getChatMessages( chatroomId, param )
-        response?.content.map(( chat )=>{
+        response?.content?.map(( chat )=>{
+
           setMessages(( prevMessages ) => [
             ...prevMessages,
             { 
@@ -127,7 +134,8 @@ const MatchChat = () => {
               senderId: chat?.senderId,  
               type : chat?.type,
               nickname: chat?.nickname,
-              time: formatDate(new Date( chat?.timestamp ))
+              id: chat?.id,
+              time: formatDate( new Date( chat?.timestamp ))
             },
         ])
       })
@@ -141,27 +149,34 @@ const MatchChat = () => {
     connectToStomp()
 
     return () => {
+      const data = {
+        roomId : Number( chatroomId ),
+        data :{
+          lastReadMessageId : messages[ messages.length - 1 ]?.id
+        }
+      }
+
+      data.data.lastReadMessageId && lastChatMutatioins.mutateAsync( data )
       stompClient.current?.disconnect()
     }
-  }, [])
+  }, [ chatroomId ])
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async ( e: React.ChangeEvent<HTMLInputElement> ) => {
     if ( !e.target.files || e.target.files.length ===0 ) return
 
     const file = e.target.files[0]
-    console.log(itsme?.nickname)
 
     try {
       const param = {
         file: file,
-        roomId: Number(chatroomId),
+        roomId: Number( chatroomId ),
         nickname: itsme?.nickname,
         senderId: userId,
         type: "IMAGE"
       }
-      await imageMutations.mutateAsync(param)
-    } catch (error) {
-      console.error('이미지 업로드 에러:', error);
+      await imageMutations.mutateAsync( param )
+    } catch ( error ) {
+      console.error( '이미지 업로드 에러:', error );
     }
   };
 
@@ -171,7 +186,7 @@ const MatchChat = () => {
   }, [ messages ])
 
   const sendMessage = () => {
-    if( input.trim()==='') return
+    if( input.trim()==='' ) return
     stompClient.current?.send(
       `/pub/chat.${ chatroomId }`, 
       { Authorization : userId }, 
@@ -188,20 +203,19 @@ const MatchChat = () => {
     setInput('')
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = ( e: React.KeyboardEvent<HTMLInputElement> ) => {
     e.key === 'Enter' && sendMessage()
     
   }
 
-
   return (
-    <MainLayout title={ chatInfo?.title.replace(/"/g, '') }>
+    <MainLayout title={ chatInfo?.title.replace( /"/g, '' )}>
         <ChatPageWrapper>
           <Participants list = { participants } title = { chatInfo?.title }/>
           <ChatWrapper>
             <ScriptWrapper>
               { 
-                messages.map(( message, index ) => (
+                messages?.map(( message, index ) => (
                 <ChatMessage 
                   key={ index } 
                   message = { message } 
@@ -220,7 +234,7 @@ const MatchChat = () => {
               <InputBox
                   value={ input }
                   icon={ <LeftIcon/> }
-                  onChange={ (e) => setInput( e.target.value ) }
+                  onChange={(e) => setInput( e.target.value )}
                   onKeyDown={ handleKeyDown }
                   placeholder='메시지를 입력하세요'
                 >
@@ -229,7 +243,6 @@ const MatchChat = () => {
                 </Button>
               </InputBox>
             </InputBoxWrapper>
-            
           </ChatWrapper>
         </ChatPageWrapper>
     </MainLayout>
@@ -237,3 +250,7 @@ const MatchChat = () => {
 }
 
 export default MatchChat
+
+type PathParam = {
+  chatroomId?: string
+}
