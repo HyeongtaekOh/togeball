@@ -25,7 +25,7 @@ const InputWrapper = styled.div`
   gap: 10px;
   margin-top: 30px;
 `
-const TitleWrapper = styled.div<{ type? : string } >`
+const TitleWrapper = styled.div<{ type? : string }>`
   display: flex;
   flex-direction: column;
   text-align: right;
@@ -57,7 +57,7 @@ const Profile = () => {
   const [ nickName, setNickName ] = useState( userInfo?.nickname )
   const [ nicknameError, setNicknameError ] = useState('')
   const { selectTags, team, image, stadiums, updateTags, gender, selectedDate } = useModel()
-  const [ isOk, setIsOk ] = useState<boolean>(true)
+  const [ isOk, setIsOk ] = useState<boolean>( true )
 
   useEffect(() => {
     userInfo && 
@@ -68,7 +68,7 @@ const Profile = () => {
 
   const profileMutation = useMutation( patchProfile, {
     onSuccess: () => {
-      navigator('/mypage')
+      navigator( '/mypage' )
     }
   })
 
@@ -79,13 +79,13 @@ const Profile = () => {
 
   const { data: tags } = useQuery<TagApiType>([ 'tags', param ], () => getTags( param ))
 
-  const preferredTeam = tags?.content.filter(item => item.type === "PREFERRED_TEAM");
-  const preferredStadiums = tags?.content.filter(item => item.type === "PREFERRED_STADIUM");
-  const preferredSeat = tags?.content.filter(item => item.type === "PREFERRED_SEAT");
-  const cheeringStyle = tags?.content.filter(item => item.type === "CHEERING_STYLE");
-  const mbti = tags?.content.filter(item => item.type === "MBTI");
-  const seasonPass = tags?.content.filter(item => item.type === "SEASON_PASS");
-  const unlabeled = tags?.content.filter(item => item.type === "UNLABELED");
+  const preferredTeam = tags?.content.filter( item => item.type === "PREFERRED_TEAM" )
+  const preferredStadiums = tags?.content.filter( item => item.type === "PREFERRED_STADIUM" )
+  const preferredSeat = tags?.content.filter( item => item.type === "PREFERRED_SEAT" )
+  const cheeringStyle = tags?.content.filter( item => item.type === "CHEERING_STYLE" )
+  const mbti = tags?.content.filter( item => item.type === "MBTI" )
+  const seasonPass = tags?.content.filter( item => item.type === "SEASON_PASS" )
+  const unlabeled = tags?.content.filter( item => item.type === "UNLABELED" )
   
   const data = {
     nickname: nickName,
@@ -94,7 +94,7 @@ const Profile = () => {
     image,
     role: 'BASIC',
     gender: gender,
-    birthdate: selectedDate==='' ? null : new Date(selectedDate),
+    birthdate: selectedDate==='' ? null : new Date( selectedDate ),
     tagIds: [ ...selectTags, ...stadiums ].map( item => item.id )
   }
 
@@ -110,9 +110,9 @@ const Profile = () => {
         setNicknameError('')
         setIsOk( true )
       }else{
-        if(nickName ===userInfo?.nickname){
+        if( nickName === userInfo?.nickname ){
         }else{
-          setNicknameError('사용할 수 없는 닉네임입니다.')
+          setNicknameError( '사용할 수 없는 닉네임입니다.' )
           setIsOk( false )
         }
       }
@@ -121,25 +121,25 @@ const Profile = () => {
   }, [ nickName ]);
 
   const handleNicknameChange = (e) => {
-    setNickName(e.target.value);
+    setNickName( e.target.value )
   }
 
   const postProfileSetting = () => {
     if ( !isOk ){
-      alert('닉네임을 설정해주세요')
-    } else if( gender==='' ){
-      alert('성별을 설정해주세요')
-    } else if( selectedDate==='' ){
-      alert('생일을 설정해주세요')
-    } else if( team===0 ){
-      alert('팀을 선택해주세요')
+      alert( '닉네임을 설정해주세요' )
+    } else if( gender === '' ){
+      alert( '성별을 설정해주세요' )
+    } else if( selectedDate === '' ){
+      alert( '생일을 설정해주세요' )
+    } else if( team === 0 ){
+      alert( '팀을 선택해주세요' )
     } else{
       profileMutation.mutateAsync( data )
     }
   }
 
   const goMyPage = () =>{
-    navigator('/mypage')
+    navigator( '/mypage' )
   }
   
   
@@ -163,10 +163,10 @@ const Profile = () => {
                   <Title type='small'>닉네임</Title>
                 </TitleWrapper>
                 <InputBox
-                  value={ nickName || userInfo?.nickname }
+                  value={ nickName === undefined ? userInfo?.nickname: nickName }
                   placeholder={ '닉네임을 입력하세요' }
                   height='40px' width='300px'
-                  onChange={handleNicknameChange} />
+                  onChange={ handleNicknameChange } />
                 { nicknameError && <ErrorText>{ nicknameError }</ErrorText>}
               </InputWrapper>
               <div style={{ display: 'flex', marginLeft: '45px' }}>
