@@ -76,7 +76,7 @@ const Home = () => {
             <tr>
               <td rowSpan={ 2 } colSpan={ 2 } style={{ width: '60%' }}>
                 <GameWrapper>
-                  <Title color= '#746E6E' type= 'medium'>오늘의 경기</Title>
+                  <Title color= '#746E6E' type= 'medium'>오늘의 경기 채팅방</Title>
                     <TodayGameCard/>
                   <Title color='#746E6E' type= 'medium'>현재 순위</Title>
                     <RankCard clubList = { clubList }/>
