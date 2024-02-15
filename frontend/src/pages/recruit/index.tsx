@@ -2,12 +2,12 @@ import { Select, MainLayout, HomeLayout, Pagination, Button } from 'src/componen
 import { styled } from 'styled-components'
 import { WeekCalendar } from './components'
 import { useQuery } from 'react-query'
-import { TagApiType } from 'src/types'
+import { GameType, TagApiType } from 'src/types'
 import { getTags } from 'src/api'
 import { createPortal } from 'react-dom'
 import { getRecruits } from './api'
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useStore from './store'
 
 const SettingWrapper = styled.div`
@@ -53,11 +53,18 @@ const RecruitList = () => {
   const navigator = useNavigate()
 
   const [ team, setTeam ] = useState()
+  const [ game, setGame ] = useState<GameType>()
+
   const [ chatContent, setChatContent ] = useState()
 
   const teams = tags?.content.filter(item => item.type === 'PREFERRED_TEAM')
   
-  const { match, isModalOpened, updateModal, updateMatch } = useStore()
+  const { match, isModalOpened, updateModal } = useStore()
+  console.log(match,'!!')
+
+  useEffect(()=>{
+    setGame(match)
+  }, [ match ])
   
   const { data : chats } = useQuery([ 'chats', { type: 'RECRUIT' }], () => getRecruits({ type: 'RECRUIT' }))
 
@@ -91,10 +98,6 @@ const RecruitList = () => {
       document.body
     )
   }
-
-  const FilterMine = () => {
-
-    }
     
     return (
       <MainLayout title='직접 방 선택'>  

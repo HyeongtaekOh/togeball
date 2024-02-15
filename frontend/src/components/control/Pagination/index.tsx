@@ -51,7 +51,7 @@ const Pagination = ( props ) => {
       setChatContent( chats?.content?.filter(( chat )=> 
       ( chat?.game?.homeClubName === match?.homeClubName ) &&
       ( chat?.game?.awayClubName === match?.awayClubName ) &&
-      ( chat?.game?.datetime === match.datetime )
+      ( chat?.game?.datetime === match?.datetime )
       ))
       setCurrentPage( 1 )
     }
