@@ -44,7 +44,6 @@ const Login = () => {
       localStorage.setItem( 'accessToken', res?.headers?.authorization )
       localStorage.setItem( 'refreshToken', res?.headers["authorization-refresh"])
       localStorage.setItem( 'userId',  res?.data?.id )
-      localStorage.setItem( 'alarm', '0' )
 
       setIsLogin( true )
 

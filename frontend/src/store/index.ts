@@ -15,14 +15,6 @@ const useStore = create<MainStore>( ( set, get ) => ( {
   userId : '',
   setUserId: ( userId ) => set( { userId } ),
 
-  isOpen : false,
-  updateIsOpen:() => set({ isOpen: true }),
-  closeOpen: () => set({ isOpen: false }),
-
-  alwaysOpen : false,
-  updateAlwaysOpen:() => set({ alwaysOpen: true }),
-  resetAlwaysOpen: () => set({ alwaysOpen: false }),
-
 }))
 
 export default useStore
@@ -39,14 +31,6 @@ type MainStore = {
 
   userId : string
   setUserId: ( userId: string ) => void
-
-  isOpen: boolean
-  updateIsOpen: () => void
-  closeOpen: () => void
-
-  alwaysOpen : boolean
-  updateAlwaysOpen: () => void
-  resetAlwaysOpen: () => void
 }
 
 type Session = {

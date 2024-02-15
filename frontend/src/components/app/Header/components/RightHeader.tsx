@@ -104,27 +104,17 @@ const RightHeader = (  ) => {
   }, [])
 
   const navigator = useNavigate()
-  const { 
-    isLogin, 
-    updateIsOpen, isOpen, closeOpen,
-    alwaysOpen, updateAlwaysOpen  
-  } = useStore()
+  const { isLogin } = useStore()
 
-  const [ isChatOpen, setIsChatOpen ] = useState<boolean>(isOpen)
+  const [ isChatOpen, setIsChatOpen ] = useState<boolean>(false)
 
   const openHandler =()=> {
-   if(!isChatOpen || !isOpen ){
-    setIsChatOpen( true )
-    updateIsOpen()
-   }
+    setIsChatOpen( !isChatOpen )
   }
 
-  // const stopClose = () => {
-  //   console.log('hi')
-  //   updateAlwaysOpen()
-  //   closeOpen()
-  //   console.log(alwaysOpen, isOpen)
-  // }
+  const stopClose = () => {
+    setIsChatOpen(false)
+  }
 
   const logout = () => {
     localStorage.removeItem( 'accessToken' )
@@ -177,7 +167,8 @@ const RightHeader = (  ) => {
             <UnreadWrapper><p>{ count.current }</p></UnreadWrapper>
           }
           <ChatIcon onClick = { openHandler }/>
-          { isChatOpen && isOpen  && <HeaderChat chats = { HeaderChats } isLoading={ isLoading }/> }
+          { isChatOpen
+            && <HeaderChat chats = { HeaderChats } isLoading={ isLoading } onClick={ stopClose }/> }
           <IconItem menus = { personMenu }><PersonIcon /></IconItem>
         </HeaderIconWrapper> )
       }

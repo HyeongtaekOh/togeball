@@ -16,18 +16,8 @@ const MainLayout = ( props : MainLayoutProps ) =>{
 
     const { children, title } = props
 
-    const { closeOpen, isOpen, alwaysOpen, resetAlwaysOpen } = useStore()
-
-    const closeChat = () => {
-        // console.log('hi2')
-        // console.log(alwaysOpen)
-        // !alwaysOpen && 
-        isOpen && closeOpen() 
-        // resetAlwaysOpen()
-    }
-
     return(
-    <div onClick={ closeChat } style ={{ width: '100%', height: '100%'}}>
+    <div style ={{ width: '100%', height: '100%'}}>
       <Header title={ title }/>
       <MainWrapper>
             { children }
