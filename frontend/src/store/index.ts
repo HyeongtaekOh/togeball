@@ -16,12 +16,12 @@ const useStore = create<MainStore>( ( set, get ) => ( {
   setUserId: ( userId ) => set( { userId } ),
 
   isOpen : false,
-  updateIsOpen:() => set(( state ) => ({ isOpen: true })),
-  closeOpen: () => set(( state ) => ({ isOpen: false })),
+  updateIsOpen:() => set({ isOpen: true }),
+  closeOpen: () => set({ isOpen: false }),
 
-  alwaysOpen: false,
-  updateAlwaysOpen:() => set(( state ) => ({ alwaysOpen: true })),
-  resetAlwaysOpen:() => set(( state ) => ({ alwaysOpen: false}))
+  alwaysOpen : false,
+  updateAlwaysOpen:() => set({ alwaysOpen: true }),
+  resetAlwaysOpen: () => set({ alwaysOpen: false }),
 
 }))
 

@@ -210,8 +210,6 @@ const Chat = () => {
     e.key === 'Enter' && sendMessage()
     
   }
- console.log('메세지')
- console.log(messages)
 
  const exitChat = async() => {
   await deleteAxios(`/api/chatrooms/${chatroomId}/participants`)

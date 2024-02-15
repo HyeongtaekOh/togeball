@@ -19,9 +19,10 @@ const MainLayout = ( props : MainLayoutProps ) =>{
     const { closeOpen, isOpen, alwaysOpen, resetAlwaysOpen } = useStore()
 
     const closeChat = () => {
-        console.log('hi2')
-        console.log(alwaysOpen)
-        !alwaysOpen && isOpen && closeOpen() 
+        // console.log('hi2')
+        // console.log(alwaysOpen)
+        // !alwaysOpen && 
+        isOpen && closeOpen() 
         // resetAlwaysOpen()
     }
 
