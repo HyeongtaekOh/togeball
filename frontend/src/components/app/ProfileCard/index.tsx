@@ -1,47 +1,43 @@
 import { Title } from 'src/components'
 import { ParticipantsType } from 'src/types'
-import lufi from 'src/asset/images/lufi.jpg'
+import Logo from 'src/asset/images/Logo.jpg'
 import styled from 'styled-components'
 
 
 const ProfileCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 5px;
   box-sizing: border-box;
   border-radius: 10px;
   border: 1px solid black;
   border-color: lightGray;
   width: 100%;
-  min-height: 80px;
+  max-height: 100px;
   padding: 7px;
 `
 const ProfileImage = styled.img`
-  border-radius: 50%;
   height: 42px;
-  min-width: 42px;
+  width: 42px;
+  object-fit: cover;
+  border-radius: 10%;
 `
 const TeamImage = styled.img`
   border-radius: 50%;
-  height: 36px;
-  width: 36px;
+  height: 23px;
+  width: 23px;
+  object-fit: cover;
+  object-position: center; 
 `
 const ProfileTagWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-`
-const ProfileTags = styled.div`
-  display: flex;
-  justify-content: center;
-  font-size: 12px;
-  margin-bottom: 4px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  font-size: 9px;
   overflow: hidden;
   gap: 3px;
-  padding: 0px 20px;
-  width: 60%;
+  width: 100%;
+  margin-top: 2px;
 `
 const InfoWrapper = styled.div`
   display: flex;
@@ -60,21 +56,24 @@ const InfoWrapper = styled.div`
     return(
       <ProfileCardWrapper>
         <InfoWrapper>
-          <ProfileImage src = {( participant?.profileImage===null || participant?.profileImage==='' ) ? lufi : participant?.profileImage } alt=''/>
+        <div style={{ display: 'flex', gap: '7px' }}>
+          <ProfileImage src = { participant?.profileImage || Logo } alt=''/>
           <div>
-            <Title type='small' bold = { true }>{ participant?.nickname }</Title>
-            <Title type='small' >{ age ? `${age}세`: '' } { gender }</Title>
+            <Title type='small' bold = { true }>
+            {( participant?.nickname ).replace('Guest','').substring(0, 7) }    
+            { participant?.nickname?.length > 13 &&  '..' }
+            </Title>
+            <Title type='small' >{ age ? `${age}세`: '' } { gender || '' }</Title>
+          </div>
           </div>
           <TeamImage src = { participant?.clubLogo }/>
         </InfoWrapper>
         <ProfileTagWrapper>
-          <ProfileTags>
-            {/* { 
-              participant?.tags?.map((tag, index) => (
-               <div>{ tag }</div>
+            { 
+              participant?.tags?.slice(0, 10).map((tag, index) => (
+               <div>#{ tag?.content }</div>
               ))
-            } */}
-          </ProfileTags>
+            }
         </ProfileTagWrapper>
       </ProfileCardWrapper>
     )

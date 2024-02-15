@@ -68,7 +68,7 @@ const MatchingProfile = ( props ) => {
           <img src={ myteam } alt="" style={{ width: '20%', height: '50%', marginLeft: '5px'}} />
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', paddingBottom: '20px'}}>  
-        {tags.map((tag, index) => (
+        {tags?.map((tag, index) => (
     <p key={index} style={{ fontWeight: 'bold' }}>{tag}</p>
   ))}
         </div>

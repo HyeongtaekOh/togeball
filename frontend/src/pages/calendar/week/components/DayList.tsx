@@ -23,11 +23,11 @@ const DayList = ( props ) => {
   return(
     <>
       {
-        cal.map(( day, index ) => {
+        cal?.map(( day, index ) => {
           return(
             <WeekWrapper key={ index }>
               {
-                day.map( ( day, index ) => {
+                day?.map( ( day, index ) => {
                   return(
                     <Day day= { day } index={ index } key={ index } 
                   gamelist= { games }/>

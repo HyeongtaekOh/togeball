@@ -23,7 +23,7 @@ const RankCard = ( props : RankCardProps ) => {
   return(
     <RankCardWrapper>
       {
-        rankList.map(( club, index ) => {
+        rankList?.map(( club, index ) => {
           return(
             <RankItem key={ index } club={ club }/>            
           )

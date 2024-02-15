@@ -4,11 +4,10 @@ import { useCallback } from 'react'
 import styled from 'styled-components'
 
 const ImgWrapper = styled.img`
-  width: 100px;
+  width: 118px;
   height: 80px;
-  object-fit: cover;
+  margin-top: 20px;
 `
-
 const BtnWrapper = styled.button`
   border: none;
   background: none;
@@ -17,9 +16,7 @@ const BtnWrapper = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
 `
-
 const TitleWrapper = styled.span`
   font-size: 24px;
   font-weight: bold;
