@@ -14,8 +14,10 @@ export const routes = [
     
     { path: 'calendar' },
     { path: 'mypage' },
-    { path: 'matching' },
-    { path: 'matching/chat', dynamicPath: 'matching/chat/:chatroomId'},
+
+    { path : 'matching' },
+    { path: 'matchChat' },
+    { path: 'matchChat', dynamicPath: `matchChat/:chatroomId` },
     { path: 'chat' },
     { path: 'chat', dynamicPath: `chat/:chatroomId` },
 
