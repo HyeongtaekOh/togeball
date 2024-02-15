@@ -79,7 +79,7 @@ const Pagination = ( props ) => {
         <button
           key={ i }
           onClick={() => handleClick( i )}
-          style={{ color: currentPage === i ? '#6A60A9' : '#DEDCEE', backgroundColor: '#fff', border: 'none' }}
+          style={{ color: currentPage === i ? '#6A60A9' : '#DEDCEE', backgroundColor: '#fff', border: 'none', cursor: 'pointer' }}
         >
           { i }
         </button>

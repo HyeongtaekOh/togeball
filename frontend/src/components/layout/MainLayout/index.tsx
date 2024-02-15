@@ -23,12 +23,12 @@ const MainLayout = ( props : MainLayoutProps ) =>{
     }
 
     return(
-      <div onClick={ closeChat } >
-        <Header title={ title }/>
-        <MainWrapper>
+    <div onClick={ closeChat } style ={{ width: '100%', height: '100%'}}>
+      <Header title={ title }/>
+      <MainWrapper>
             { children }
-        </MainWrapper>
-      </div>
+      </MainWrapper>
+     </div>
     )
 
 }
