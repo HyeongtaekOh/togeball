@@ -53,6 +53,7 @@ const Home = () => {
   const { data: clubs } = useQuery([ 'clubs' ], () => getClubs())
 
   useEffect(()=>{
+    setClubList([])
     clubs?.forEach(( club )=>{
 
       const clubFilter = {
@@ -62,7 +63,7 @@ const Home = () => {
         ranking: club?.ranking
       }
       
-      setClubList((prevClubList) => [...prevClubList, clubFilter])
+      setClubList((prevClubList) => [ ...prevClubList, clubFilter ])
     })
   },[ clubs ])
 

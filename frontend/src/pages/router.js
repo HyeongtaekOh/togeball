@@ -16,10 +16,15 @@ export const routes = [
     { path: 'mypage' },
 
     { path : 'matching' },
+
     { path: 'matchChat' },
     { path: 'matchChat', dynamicPath: `matchChat/:chatroomId` },
+    
     { path: 'chat' },
     { path: 'chat', dynamicPath: `chat/:chatroomId` },
+
+    { path: 'openChat' },
+    { path: 'openChat', dynamicPath: `openChat/:chatroomId` },
 
     { path: 'login/kakao' }
 
