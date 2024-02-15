@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-query';
 import { getGameChat, partiChat } from 'src/api';
 import { getAxios } from 'src/api/util';
+import useStore from 'src/store';
 
 const GameItemWrapper = styled.div`
   display: flex;
@@ -30,6 +31,8 @@ const InfomWrapper = styled.div`
   `
   
 const GameItem = ( props : GameItemProp ) => {
+
+  const { isLogin  } = useStore()
     
   const { game } = props
   const navigator = useNavigate()
@@ -41,18 +44,18 @@ const GameItem = ( props : GameItemProp ) => {
   const partiMutation = useMutation( partiChat, {
     onSuccess: async() => {
       const gameChat = await getAxios(`/api/chatrooms/game`, param )
-      navigator(`/openChat/${ gameChat.id }` , { state: game })
+      navigator(`/openChat/${ gameChat?.id }` , { state: game })
     }
   })
   
   const goChat =  async() => {
-    if( !localStorage.getItem('userId') ){
+    if( !isLogin ){
       alert(' 로그인 하세요 ')
       navigator('/login')
     } 
     else {
       const gameInfo = await getAxios(`/api/chatrooms/game`, { gameId: game?.id } )
-      if(!gameInfo) {
+      if( !gameInfo ) {
         alert(' 로그인 하세요 ')
         navigator('/login')
       }
