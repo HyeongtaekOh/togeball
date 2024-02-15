@@ -1,4 +1,4 @@
-import { ProfileCard, Title } from 'src/components'
+import { ProfileCard } from 'src/components'
 import styled from 'styled-components'
 
 const PartiWrapper = styled.div`
@@ -10,19 +10,7 @@ const PartiWrapper = styled.div`
   border-radius: 20px 20px 10px 10px;
   box-shadow: 1px 1px 2px 2px lightGray;
 `
-const HeaderWrapper = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  height: 50px;
-  width: 100%;
-  border-radius: 20px 20px 0px 0px;
-  background-color: #6A60A9;
-  box-shadow: 1px 1px 2px 2px lightGray;
-  color : white;
-  font-size: 10px;
-`
+
 const MemberWrapper = styled.div`
   display: flex;
   flex-direction: column;
