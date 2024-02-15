@@ -37,7 +37,7 @@ const TagInput = styled.input`
   cursor: text;
   box-sizing: border-box;
   display: flex;
-  width: 300px;
+  width: 600px;
   font-size: 16px;
   background-color: inherit;
   border: none;
@@ -49,8 +49,8 @@ const TagInput = styled.input`
 `
 
 export const TagsInput = () => {
-  const { tagItem, tagList, setTagItem, setTagList } = useStore();
-  const [ placeholder, setPlaceholder ] = useState("태그를 설정하세요 (최대 10개)");
+  const { tagItem, tagList, setTagItem, setTagList } = useStore()
+  const [ placeholder, setPlaceholder ] = useState("태그를 설정하고 Enter키를 누르세요(최대 10개)")
 
   const duplicateCheck = ( text ) => {
     return text !== "" && tagList.indexOf( text ) !== -1 ?  false: true;

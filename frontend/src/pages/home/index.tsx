@@ -127,8 +127,8 @@ const Home = () => {
                   color= '#6A60A9'
                   path = '/recruit'
                 >
-                  오늘 경기 외에 모든<br/> 
-                  경기 일정을 확인해보세요.
+                  다른 직관러의 모집 채팅방에<br/> 
+                  참여해보세요.
                 </HomeCard>
               </td>
               <td>

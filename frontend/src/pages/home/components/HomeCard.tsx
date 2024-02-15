@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components'
 const HomeCardWrapper = styled.div<{ type: string, color: string }>`
     box-sizing: border-box;
     padding: 7%;
+    padding-right: 0%;
     border-radius: 10px;
     background-color: ${( props ) => props.color };
     display: flex;
@@ -88,7 +89,7 @@ const HomeCard = ( props : HomeCardProps ) => {
           <Title 
             type = 'medium'  
             color= 'white' 
-            style ={{ margin: '0% 0% 0% 85%'}} 
+            style ={{ margin: '0% 0% 0% 80%'}} 
           >
             Go &gt;
           </Title>

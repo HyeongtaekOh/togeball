@@ -215,8 +215,7 @@ const RecruitPost = () => {
         </p>
         <div style={{ display:'flex', justifyContent: 'right', gap: '10px' }}>
           <Button type='parti' width='120px' onClick= { makeChatting }>채팅방 만들기</Button>
-          <Button type='reset' width='90px' onClick= { onReset }>초기화</Button>
-          <Button type='cancel' width='80px'>취소</Button>
+          <Button type='cancel' width='80px' onClick= { () => navigator(-1) }>취소</Button>
         </div>
       </HomeLayout>
     </MainLayout>
