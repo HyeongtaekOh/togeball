@@ -1,8 +1,8 @@
 import { Title } from 'src/components'
 import styled, { css } from 'styled-components'
 import { getUserInfo } from 'src/api'
-import { useQuery } from 'react-query';
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
+import Logo from 'src/asset/images/Logo.jpg'
 
 const ChatMessageWrapper = styled.div<{ isMe?: string }>` 
   display: flex;
@@ -82,11 +82,11 @@ const ChatMessage = ( props: ChatMessageProps ) => {
               ( isMe==='me' )?(
                <div style={{ display:'flex', width: '100%', justifyContent: 'flex-end', gap: '5px'}}>
                <NickWrapper>{ nickname } </NickWrapper>
-               <ImgWrapper src = { userImage } alt="hi"/>
+               <ImgWrapper src = { userImage || Logo } alt="hi"/>
                </div>
               ):(
                <div style={{ display:'flex', width: '100%', justifyContent: 'flex-start', gap: '5px' }}>
-               <ImgWrapper src = { userImage } alt="hi"/>
+               <ImgWrapper src = { userImage || Logo } alt="hi"/>
                <NickWrapper>{ nickname } </NickWrapper>
                </div>
               )
