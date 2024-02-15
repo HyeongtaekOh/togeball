@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import  MatchingProfile  from './MatchingProfile'
 import { Button, Title } from 'src/components'
 import { useNavigate } from 'react-router-dom'
+import { useMutation } from 'react-query'
+import { partiChat } from 'src/api'
 
 
 
@@ -13,7 +15,6 @@ const ModalInfoWrapper = styled.div`
   align-items: center;
   height: 80%;
 `
-
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -26,7 +27,6 @@ const ModalOverlay = styled.div`
   align-items: center;
   z-index: 999;
 `
-
 const ModalContent = styled.div`
   background: white;
   width: 50%;
@@ -36,7 +36,6 @@ const ModalContent = styled.div`
   box-shadow: 10px 5px 5px ;
   
 `
-
 const CloseButton = styled.button`
   background: #ccc;
   padding: 8px 12px;
@@ -47,8 +46,14 @@ const CloseButton = styled.button`
 `
 
 const MatchingModal = ( props ) => {
-  const { onClose, participants, chatroomId, title } = props
-  
+
+  const { participants, onClose, chatroomId, title } = props
+
+  const partiMutation = useMutation( partiChat, {
+    onSuccess: () => {
+      navigator(`/matchChat/${ chatroomId }`)
+    }
+  })
 
   const handleModalClose = () => {
        onClose()
@@ -58,10 +63,9 @@ const MatchingModal = ( props ) => {
   const navigator = useNavigate()
 
   const onClickHandler = () => {
-    navigator( `/matching/chat/${ chatroomId }`, { state: { participants, title } } )
+    partiMutation.mutateAsync({ chatRoomId : chatroomId })
   }
   
- console.log(participants)
 
   return (
     <ModalOverlay>
