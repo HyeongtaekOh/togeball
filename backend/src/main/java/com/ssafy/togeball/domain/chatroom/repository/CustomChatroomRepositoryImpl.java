@@ -83,7 +83,8 @@ public class CustomChatroomRepositoryImpl extends CustomPagingAndSortingReposito
                 .from(chatroomMembership)
                 .join(chatroomMembership.chatroom, chatroom)
                 .join(chatroomMembership.user, user)
-                .where(user.id.eq(userId));
+                .where(user.id.eq(userId)
+                        .and(chatroom.type.ne("GAME")));
 
         return fetchPage(query, pageable);
     }
