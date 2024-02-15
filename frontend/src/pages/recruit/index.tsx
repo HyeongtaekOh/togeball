@@ -2,13 +2,13 @@ import { Select, MainLayout, HomeLayout, Pagination, Button } from 'src/componen
 import { styled } from 'styled-components'
 import { WeekCalendar } from './components'
 import { useQuery } from 'react-query'
-import { GameType, TagApiType } from 'src/types'
+import { TagApiType } from 'src/types'
 import { getTags } from 'src/api'
 import { createPortal } from 'react-dom'
 import { getRecruits } from './api'
+import useStore from './store'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import useStore from './store'
 
 const SettingWrapper = styled.div`
     display: flex;
@@ -17,6 +17,7 @@ const SettingWrapper = styled.div`
     gap: 10px;
     margin-top: 20px;
 `
+
 const MatchBtn = styled.button`
     width: 300px;
     height: 36px;
@@ -36,6 +37,7 @@ const ModalBackground = styled.div`
     bottom: 0;
     z-index: 400;
 `
+
 const Modal = styled.div`
     width: 1100px;
     height: 36 0px;
@@ -53,43 +55,39 @@ const RecruitList = () => {
   const navigator = useNavigate()
 
   const [ team, setTeam ] = useState()
-  const [ game, setGame ] = useState<GameType>()
-
   const [ chatContent, setChatContent ] = useState()
+  const { match, isModalOpened, updateModal, updateMatch } = useStore()
 
-  const teams = tags?.content.filter(item => item.type === 'PREFERRED_TEAM')
+  const teams = tags?.content.filter( item => item.type === 'PREFERRED_TEAM' )
   
-  const { match, isModalOpened, updateModal } = useStore()
-  console.log(match,'!!')
-
   useEffect(()=>{
-    setGame(match)
-  }, [ match ])
+    updateMatch({})
+  }, [])
   
   const { data : chats } = useQuery([ 'chats', { type: 'RECRUIT' }], () => getRecruits({ type: 'RECRUIT' }))
 
   const goWrite = () => {
-    if( !localStorage.getItem('userId') ){
+    if( !localStorage.getItem( 'userId' ) ){
       alert(' 로그인 하세요 ')
-      navigator('/login')
+      navigator( '/login' )
     } 
-    else navigator('/recruit/post')
+    else navigator( '/recruit/post' )
   }
 
-  const html = document.querySelector('html')
+  const html = document.querySelector( 'html' )
 
   const openModal = () => {
       updateModal()
-      html?.classList.add('scroll-locked')
+      html?.classList.add( 'scroll-locked' )
   }
   const closeModal = () => {
       updateModal()
-      html?.classList.remove('scroll-locked')
+      html?.classList.remove( 'scroll-locked' )
   }
 
   const ModalPortal = ({ children, onClose  }) => {
     const handleBackgroundClick = (e) => {
-      (e.target === e.currentTarget) && onClose()
+      ( e.target === e.currentTarget ) && onClose()
     }
     return createPortal(
       <ModalBackground onClick={ handleBackgroundClick }>
