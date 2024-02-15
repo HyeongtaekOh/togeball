@@ -80,7 +80,11 @@ const Chat = () => {
 
   const location = useLocation()
   const matchingParticipants = location.state?.participants
-  console.log(participants)
+  const title = location.state?.title
+  
+  console.log( participants )
+  console.log( chatInfo)
+  console.log( title)
   console.log(matchingParticipants)
 
   useEffect(() => {
@@ -197,7 +201,7 @@ const Chat = () => {
   return (
     <MainLayout>
         <ChatPageWrapper>
-          <Participants list = { participants } title = { chatInfo?.game }/>
+          <Participants list = { matchingParticipants } title = { title }/>
           <ChatWrapper>
             <ScriptWrapper>
               { 
