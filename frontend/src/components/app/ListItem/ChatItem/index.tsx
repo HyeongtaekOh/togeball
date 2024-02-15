@@ -14,12 +14,19 @@ const ChatWrapper = styled.div<{ width?: string }>`
   border-radius: 10px;
   border: 2px solid #6A60A9;
   padding: 10px;
-  padding-bottom: 2px;
-  justify-content: space-around;
+  padding-bottom: 5px;
+  justify-content: space-between;
   &:hover{
-    background-color: #E4E2DD;
+    background-color: #f2f2f2;
     cursor: pointer;
   }
+`
+const InfoWrapper = styled.div`
+  display: flex;
+  Background-color: white;
+  gap: 20px;
+  background-color: inherit;
+  overflow: hidden;
 `
 const TextWrapper = styled.div`
   display: flex;
@@ -36,15 +43,26 @@ const DescribeWrapper = styled.p`
 const TagWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  margin-top: 5px;
 `
-
+const ImgWrapper = styled.img`
+  width: 8%;
+  margin-bottom: 8px;
+  min-width: 60px;
+`
+const ImgDivWrapper = styled.div`
+  min-width : 80px;
+  max-width : 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 const ChatItem = ( props: ChatListProps ) => {
 
   const { item, type, width } = props
   const { updateCount, count } = useHeaderStore()
   const { session } = useStore()
-  console.log(item)
 
   const navigator = useNavigate()
   const partiMutation = useMutation( partiChat, {
@@ -92,7 +110,10 @@ const ChatItem = ( props: ChatListProps ) => {
 
   return(
    <ChatWrapper onClick={()=> goChat()} width={ width }>
-     <img src={ item?.cheeringClub?.logo || Logo } alt='로고' style={{ width: '8%', minWidth:'60px',marginBottom: '8px' }}/> 
+    <InfoWrapper>
+      <ImgDivWrapper>
+     <ImgWrapper src={ item?.cheeringClub?.logo || Logo } alt='로고'/> 
+     </ImgDivWrapper>
     <TextWrapper>
       <div style={{ display: 'block', width:'100%' }}>
       <Title type='medium'>{ item?.title }</Title>
@@ -103,7 +124,7 @@ const ChatItem = ( props: ChatListProps ) => {
       </div>
         <TagWrapper>
           { item.tags?.map(( tag ) => (
-            <Title type='small'>#{ tag?.content }&nbsp;</Title>
+            <p style={{ fontSize:'10PX' }}>#{ tag?.content }&nbsp;</p>
           ))}
         </TagWrapper>
         {
@@ -117,10 +138,13 @@ const ChatItem = ( props: ChatListProps ) => {
           <p style={{ margin: '10px 0px 2px 0px', fontSize: '12px' }}>( 사진 )</p> 
         }
     </TextWrapper>
+    </InfoWrapper>
+    <div style={{ minWidth: '50px'}}>
     {
       type !== 'my' &&
       <p style={{ paddingTop: '40px'}}>{ item?.members?.length | 0 }/ { item?.capacity }명</p> 
     }
+    </div>
    </ChatWrapper>
   )
 }
