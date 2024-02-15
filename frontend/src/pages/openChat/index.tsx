@@ -84,9 +84,9 @@ const OpenChat = () => {
   const lastChatMutatioins = useMutation( postLastChat )
 
   const location = useLocation()
-  const matchingParticipants = location.state?.participants
-  console.log(participants)
-  console.log(matchingParticipants)
+  const games = location.state
+  
+  console.log( games )
 
   useEffect(() => {
     const onConnect = async() => {
@@ -216,7 +216,7 @@ const OpenChat = () => {
   return (
     <MainLayout>
         <ChatPageWrapper>
-          <Participants list = { participants } title = { chatInfo?.game }/>
+          <Participants list = { participants } game = { games }/>
           <ChatWrapper>
             <ScriptWrapper>
               { 

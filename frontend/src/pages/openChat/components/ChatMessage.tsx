@@ -14,6 +14,7 @@ const ChatWrapper = styled.div<{ isMe?: string}>`
   margin-top : 1px;
   padding: 7px;
 
+  
   ${( props ) =>
     props.isMe ==='you' &&
     css`
@@ -21,11 +22,13 @@ const ChatWrapper = styled.div<{ isMe?: string}>`
   `}
 `
 const ChatTopWrapper = styled.div<{ isMe?: string }>`
-  width: 30%;
+  min-width: 10%;
+  max-width: 50%;
   display: flex;
   flex-direction: column;
   padding: 5px;
   gap : 3px;
+  
 `
 const TimeWrapper = styled.p<{ isMe? : string }>`
   align-self: flex-end;
