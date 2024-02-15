@@ -2,6 +2,8 @@ import { GameType } from 'src/types';
 import { Title } from 'src/components'
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useMutation, useQuery } from 'react-query';
+import { partiChat, getGameChat } from 'src/api';
 
 const GameItemWrapper = styled.div`
   display: flex;
@@ -24,23 +26,36 @@ const InfomWrapper = styled.div`
   height: 80%;
   align-items: center;
   justify-content: center;
-`
-
+  `
+  
 const GameItem = ( props : GameItemProp ) => {
-
+    
   const { game } = props
   const navigator = useNavigate()
-
-  const goChat =  ( id ) => {
+  
+  const param  = {
+    gameId: game?.id
+  }
+  const { data: gameChat } = useQuery(['gameChat', param ], () => getGameChat( param ))
+  
+  const partiMutation = useMutation( partiChat, {
+    onSuccess: () => {
+      console.log(gameChat)
+      navigator(`/openChat/${gameChat?.id}`)
+    }
+  })
+  
+  const goChat =  (  ) => {
     if( !localStorage.getItem('userId') ){
       alert(' 로그인 하세요 ')
       navigator('/login')
     } 
-    else navigator( `/chat/${id}` )
+    else partiMutation.mutateAsync({ chatRoomId : game?.id })
   }
+  
 
   return(
-    <GameItemWrapper onClick={() => goChat(game?.id) }>
+    <GameItemWrapper onClick={() => goChat() }>
         <img style={{ width : '25%' }} alt={ game?.homeClubName } src={ game?.homeClubLogo }/>
         <InfomWrapper>
           <Title>VS</Title>

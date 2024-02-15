@@ -1,13 +1,10 @@
 import useStore from 'src/store'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const useAxios = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
-  // headers: {
-  //   'Content-Type': 'application/json',
-  // },
-  // withCredentials: true,
-  // responseType: 'json',
+  timeout: 10000
 })
 
 useAxios.interceptors.request.use( 
@@ -26,6 +23,7 @@ useAxios.interceptors.request.use(
 )
 
 useAxios.interceptors.response.use(
+
   async( response ) => {
     return response
   },
@@ -38,25 +36,29 @@ useAxios.interceptors.response.use(
       return error.response
     }
 
-    if( error?.response?.status === 401 || error === 401 ){
+    if( error?.response?.status === 401 || error === 401 || status === 401 ){
 
       if( localStorage.getItem('refreshToken')){
         const refreshToken = localStorage.getItem('refreshToken')
         const data = { "Authorization-refresh" : refreshToken }
-        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/reissue`, { headers : data });
-       
-        useStore.setState({ isLogin: true })
-        useStore.setState({ accessToken: response?.headers?.authorization })
-        localStorage.setItem("accessToken", response?.headers?.authorization )
-        localStorage.setItem("refreshToken", response?.headers[`refresh-token`] )
+        try{
+          const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/reissue`, { headers : data });
+          useStore.setState({ isLogin: true })
+          useStore.setState({ accessToken: response?.headers?.authorization })
+          localStorage.setItem("accessToken", response?.headers?.authorization )
+          localStorage.setItem("refreshToken", response?.headers[`refresh-token`] )
 
-      } 
-      // else{
-      //     localStorage.removeItem( 'accessToken' )
-      //     localStorage.removeItem( 'refreshToken' )
-      //     localStorage.removeItem( 'userId' )
-      //     window.location.reload()   
-      // }
+          error.config.headers.Authorization = response?.headers?.authorization
+          return axios.request(error.config);
+        } catch( refreshError ){
+          console.log("리프레시도 만료됨")
+
+          localStorage.removeItem("accessToken")
+          localStorage.removeItem("refreshToken")
+        }
+       
+
+      }
     }
   }
 )

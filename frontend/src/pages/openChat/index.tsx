@@ -5,10 +5,11 @@ import { Button, InputBox, LeftIcon, MainLayout } from 'src/components'
 import { createClient } from './util/chat'
 import useStore from 'src/store'
 import styled from 'styled-components'
-import { getChat, getChatMessages, getMyInfo, getParticipants } from 'src/api'
+import { getChat, getOpenChatMessages, getMyInfo, getParticipants } from 'src/api'
 import { useQuery, useMutation } from 'react-query'
 import { formatDate } from './util'
 import postChatImage  from './api/postChatImage'
+import postLastChat from './api/postLastChat'
 
 const ChatPageWrapper = styled.div`
   width: 80%;
@@ -60,7 +61,7 @@ const LabelWrapper =styled.label`
 type PathParam = {
   chatroomId?: string
 }
-const MatchChat = () => {
+const OpenChat = () => {
 
   const { chatroomId } = useParams< PathParam >()
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -77,11 +78,12 @@ const MatchChat = () => {
   const stompClient = useRef( null )
 
   const imageMutations = useMutation( postChatImage )
+  const lastChatMutatioins = useMutation( postLastChat )
 
   const location = useLocation()
-  
-  console.log( participants )
-  console.log( chatInfo)
+  const matchingParticipants = location.state?.participants
+  console.log(participants)
+  console.log(matchingParticipants)
 
   useEffect(() => {
     const onConnect = async() => {
@@ -94,6 +96,7 @@ const MatchChat = () => {
             senderId: newMessage?.senderId,  
             type : newMessage?.type,
             nickname: newMessage?.nickname,
+            id: newMessage?.id,
             time: formatDate(new Date())
           },
       ])},
@@ -110,7 +113,6 @@ const MatchChat = () => {
     }
 
     const param = {
-      userId: userId,
       page: 0,
       size: 100
     }
@@ -118,8 +120,8 @@ const MatchChat = () => {
     const getMessages= async () => {
       try{
         setMessages([])
-        const response= await getChatMessages( chatroomId, param )
-        response?.content.map(( chat )=>{
+        const response= await getOpenChatMessages( chatroomId, param )
+        response?.content?.map(( chat )=>{
           setMessages(( prevMessages ) => [
             ...prevMessages,
             { 
@@ -127,6 +129,7 @@ const MatchChat = () => {
               senderId: chat?.senderId,  
               type : chat?.type,
               nickname: chat?.nickname,
+              id: chat?.id,
               time: formatDate(new Date( chat?.timestamp ))
             },
         ])
@@ -141,9 +144,17 @@ const MatchChat = () => {
     connectToStomp()
 
     return () => {
+      const data = {
+        roomId : Number(chatroomId),
+        data :{
+          lastReadMessageId : messages[messages.length - 1]?.id
+        }
+      }
+
+      data.data.lastReadMessageId && lastChatMutatioins.mutateAsync( data )
       stompClient.current?.disconnect()
     }
-  }, [])
+  }, [ chatroomId ])
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if ( !e.target.files || e.target.files.length ===0 ) return
@@ -161,7 +172,7 @@ const MatchChat = () => {
       }
       await imageMutations.mutateAsync(param)
     } catch (error) {
-      console.error('이미지 업로드 에러:', error);
+      console.error('이미지 업로드 에러:', error)
     }
   };
 
@@ -195,13 +206,13 @@ const MatchChat = () => {
 
 
   return (
-    <MainLayout title={ chatInfo?.title.replace(/"/g, '') }>
+    <MainLayout>
         <ChatPageWrapper>
-          <Participants list = { participants } title = { chatInfo?.title }/>
+          <Participants list = { participants } title = { chatInfo?.game }/>
           <ChatWrapper>
             <ScriptWrapper>
               { 
-                messages.map(( message, index ) => (
+                messages?.map(( message, index ) => (
                 <ChatMessage 
                   key={ index } 
                   message = { message } 
@@ -217,17 +228,17 @@ const MatchChat = () => {
                 ref={ inputRef } onChange={ handleImageUpload }
                 />
               <LabelWrapper htmlFor= 'files'>+</LabelWrapper>
-              <InputBox
+                <InputBox
                   value={ input }
                   icon={ <LeftIcon/> }
                   onChange={ (e) => setInput( e.target.value ) }
                   onKeyDown={ handleKeyDown }
                   placeholder='메시지를 입력하세요'
                 >
-                <Button style={{ padding : '0px' }} width='40px' onClick={ sendMessage }>
-                  전송
-                </Button>
-              </InputBox>
+                  <Button style={{ padding : '0px' }} width='40px' onClick={ sendMessage }>
+                    전송
+                  </Button>
+                </InputBox>
             </InputBoxWrapper>
             
           </ChatWrapper>
@@ -236,4 +247,4 @@ const MatchChat = () => {
   )
 }
 
-export default MatchChat
+export default OpenChat
