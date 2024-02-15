@@ -29,8 +29,6 @@ const Pagination = ( props ) => {
   const itemsPerPage = type === 'my'? 4 : 5
   const [ currentPage, setCurrentPage ] = useState( 1 )
   const [ totalPages, setTotalPages ] = useState( Math.ceil( chats?.totalElements / itemsPerPage ))
-  console.log(totalPages)
-  // const totalPages = Math.ceil( chats?.totalElements / itemsPerPage )
 
   useEffect(()=>{
     if( type === 'my' ) return
