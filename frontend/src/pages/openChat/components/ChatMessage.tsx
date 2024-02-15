@@ -1,7 +1,5 @@
 import { Title } from 'src/components'
 import styled, { css } from 'styled-components'
-import { getUserInfo } from 'src/api'
-import { useQuery } from 'react-query';
 
 const ChatMessageWrapper = styled.div<{ isMe?: string }>` 
   display: flex;
@@ -44,17 +42,13 @@ const NickWrapper = styled.p<{ isMe? : string }>`
 const ChatMessage = ( props: ChatMessageProps ) => {
 
   const { time, message } = props
-  const { content, senderId, nickname, type, profile } = message
-
+  const { content, senderId, nickname, type } = message
+  
   const userId = localStorage.getItem( 'userId' )
   const isMe = userId == senderId ? 'me' : 'you';
 
-  const { data: user } = useQuery([ 'user' ], () => getUserInfo( String(senderId) ))
-  console.log( user )
-
   return (
     <ChatMessageWrapper isMe = { isMe }> 
-
     {
       senderId? (
       <ChatTopWrapper isMe = { isMe }>
@@ -86,6 +80,5 @@ export default ChatMessage
   content?: string;
   senderId?: number;
   time?: string;
-  message? :any;
-  profile? : any;
+  message? :any
 }

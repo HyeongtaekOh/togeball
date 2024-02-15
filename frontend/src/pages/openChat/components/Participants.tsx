@@ -39,14 +39,13 @@ const MemberWrapper = styled.div`
   overflow-x: hidden;
 `
 const Participants = ( props ) => {
-  
+
   const { list, game } = props
-  console.log( game )
   return(
     <PartiWrapper>
       <HeaderWrapper>
-        { game?.game?.datetime } 
-        <p>{ game?.game?.homeClubName } vs { game?.game?.awayClubName }</p>
+        { game?.datetime } 
+        <p>{ game?.homeClubName } vs { game?.awayClubName }</p>
       </HeaderWrapper>
       <MemberWrapper>
       {

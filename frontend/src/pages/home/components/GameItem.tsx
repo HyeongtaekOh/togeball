@@ -2,6 +2,9 @@ import { GameType } from 'src/types';
 import { Title } from 'src/components'
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useMutation, useQuery } from 'react-query';
+import { getGameChat, partiChat } from 'src/api';
+import { getAxios } from 'src/api/util';
 
 const GameItemWrapper = styled.div`
   display: flex;
@@ -24,23 +27,38 @@ const InfomWrapper = styled.div`
   height: 80%;
   align-items: center;
   justify-content: center;
-`
-
+  `
+  
 const GameItem = ( props : GameItemProp ) => {
-
+    
   const { game } = props
   const navigator = useNavigate()
+  
+  const param  = {
+    gameId: game?.id
+  }
 
-  const goChat =  ( id ) => {
+  const partiMutation = useMutation( partiChat, {
+    onSuccess: async() => {
+      const gameChat = await getAxios(`/api/chatrooms/game`, param )
+      navigator(`/openChat/${ gameChat.id }`)
+    }
+  })
+  
+  const goChat =  async() => {
     if( !localStorage.getItem('userId') ){
       alert(' 로그인 하세요 ')
       navigator('/login')
     } 
-    else navigator( `/chat/${id}` )
+    else {
+      const gameInfo = await getAxios(`/api/chatrooms/game`, { gameId: game?.id } )
+      partiMutation.mutateAsync({ chatRoomId : gameInfo?.id })
+    }
   }
+  
 
   return(
-    <GameItemWrapper onClick={() => goChat(game?.id) }>
+    <GameItemWrapper onClick={() => goChat() }>
         <img style={{ width : '25%' }} alt={ game?.homeClubName } src={ game?.homeClubLogo }/>
         <InfomWrapper>
           <Title>VS</Title>
