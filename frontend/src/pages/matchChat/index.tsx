@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { ChatMessage, Participants } from './components'
 import { Button, InputBox, LeftIcon, MainLayout } from 'src/components'
 import { createClient } from './util/chat'
@@ -10,6 +10,7 @@ import { useQuery, useMutation } from 'react-query'
 import postChatImage  from './api/postChatImage'
 import postLastChat from './api/postLastChat'
 import styled from 'styled-components'
+import { deleteAxios } from 'src/api/util'
 
 const ChatPageWrapper = styled.div`
   width: 80%;
@@ -64,6 +65,8 @@ const LabelWrapper =styled.label`
 
 
 const MatchChat = () => {
+
+  const navigator = useNavigate()
 
   const { chatroomId } = useParams< PathParam >()
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -208,6 +211,11 @@ const MatchChat = () => {
     
   }
 
+  const exitChat = async() => {
+    await deleteAxios(`/api/chatrooms/${chatroomId}/participants`)
+    navigator('/')
+   }
+
   return (
     <MainLayout title={ chatInfo?.title.replace( /"/g, '' )}>
         <ChatPageWrapper>
@@ -242,6 +250,9 @@ const MatchChat = () => {
                   전송
                 </Button>
               </InputBox>
+              <Button onClick={() => exitChat()}>
+                    나가기
+                </Button>
             </InputBoxWrapper>
           </ChatWrapper>
         </ChatPageWrapper>

@@ -69,6 +69,10 @@ const OpenChatCard = ( props: Textprops ) => {
         } 
         else {
           const gameInfo = await getAxios(`/api/chatrooms/game`, { gameId: id } )
+          if(!gameInfo) {
+            alert(' 로그인 하세요 ')
+            navigator('/login')
+          }
           partiMutation.mutateAsync({ chatRoomId : gameInfo?.id })
         }
       }
