@@ -1,6 +1,10 @@
 import { styled } from "styled-components";
 import { Button } from "../..";
 import { GameType } from "src/types";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
+import { partiChat } from "src/api";
+import { getAxios } from "src/api/util";
 
 const Mainwrapper = styled.div`
   display: flex;
@@ -14,7 +18,6 @@ const Mainwrapper = styled.div`
   margin: 10px;
   padding-top: 15px;
 `
-
 const WrapImgWrapper = styled.div`
     display: flex;
     justify-content: center;
@@ -28,7 +31,6 @@ const WrapTxtWrapper = styled.div`
     gap: 10px;
     
 `
-
 const ImgWrapper = styled.img`
     width: 45%;
     
@@ -44,10 +46,36 @@ const OpenChatCard = ( props: Textprops ) => {
        games
     } = props
 
-    const { datetime, homeClubName, awayClubName, homeClubLogo, awayClubLogo } = games
+    const navigator = useNavigate()
+
+    // console.log(games)
+
+    const { id, datetime, homeClubName, awayClubName, homeClubLogo, awayClubLogo } = games
+
+    const partiMutation = useMutation( partiChat, {
+        onSuccess: async() => {
+          const gameChat = await getAxios(`/api/chatrooms/game`,  { gameId: id } )
+          navigator(`/openChat/${ gameChat?.id }`)
+        }
+      })
 
     
     const time = datetime.substring(11,16)
+
+    const goChat =  async() => {
+        if( !localStorage.getItem('userId') ){
+          alert(' 로그인 하세요 ')
+          navigator('/login')
+        } 
+        else {
+          const gameInfo = await getAxios(`/api/chatrooms/game`, { gameId: id } )
+          if(!gameInfo) {
+            alert(' 로그인 하세요 ')
+            navigator('/login')
+          }
+          partiMutation.mutateAsync({ chatRoomId : gameInfo?.id })
+        }
+      }
 
     return(
         <Mainwrapper>
@@ -64,7 +92,7 @@ const OpenChatCard = ( props: Textprops ) => {
                 { time }
                 </p> 
             </TextWrapper>
-            <Button>참가하기</Button>
+            <Button onClick={() => goChat()}>참가하기</Button>
             </WrapTxtWrapper>
         </Mainwrapper>
     )

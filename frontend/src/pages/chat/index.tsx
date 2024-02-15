@@ -1,15 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
-import { useParams, useLocation } from 'react-router-dom'
+import { useParams, useLocation, useNavigate } from 'react-router-dom'
 import { ChatMessage, Participants } from './components'
 import { Button, InputBox, LeftIcon, MainLayout } from 'src/components'
 import { createClient } from './util/chat'
 import useStore from 'src/store'
 import styled from 'styled-components'
-import { getChat, getChatMessages, getMyInfo, getParticipants } from 'src/api'
+import { exitChat, getChat, getChatMessages, getMyInfo, getParticipants } from 'src/api'
 import { useQuery, useMutation } from 'react-query'
 import { formatDate } from './util'
 import postChatImage  from './api/postChatImage'
 import postLastChat from './api/postLastChat'
+import { deleteAxios } from 'src/api/util'
 
 const ChatPageWrapper = styled.div`
   width: 80%;
@@ -62,6 +63,8 @@ type PathParam = {
   chatroomId?: string
 }
 const Chat = () => {
+
+  const navigator = useNavigate()
 
   const { chatroomId } = useParams< PathParam >()
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -207,6 +210,11 @@ const Chat = () => {
  console.log('메세지')
  console.log(messages)
 
+ const exitChat = async() => {
+  await deleteAxios(`/api/chatrooms/${chatroomId}/participants`)
+  navigator('/')
+ }
+
   return (
     <MainLayout>
         <ChatPageWrapper>
@@ -240,7 +248,11 @@ const Chat = () => {
                   <Button style={{ padding : '0px' }} width='40px' onClick={ sendMessage }>
                     전송
                   </Button>
+                  
                 </InputBox>
+                <Button onClick={() => exitChat()}>
+                    나가기
+                </Button>
             </InputBoxWrapper>
             
           </ChatWrapper>

@@ -30,11 +30,8 @@ const Todaygames = () => {
   
 
   const param = {
-    // startDate: `${year}-${month}-${day}`,
-    // endDate: `${year}-${month}-${day}`,
-    // 경기날짜가 있는걸로 임의 지정
-    startDate: '2024-04-06',
-    endDate: '2024-04-06',
+    startDate: '2024-03-24',
+    endDate: '2024-03-24',
   }
   
   const { data: games } = useQuery<GameType[]>(['games', param ], () => getGames( param ))
