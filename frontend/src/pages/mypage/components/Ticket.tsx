@@ -101,7 +101,7 @@ const Ticket = ( () => {
             myTeam : info?.clubSponsorName+info?.clubName,
             profileImage : info?.profileImage, 
             nickName: info?.nickname,
-            tag: info?.tags.map(( tag ) =>{ return '#'+tag.content }), 
+            tag: info?.tags?.map(( tag ) =>{ return '#'+tag.content }), 
             logo: info?.clubLogo
         })
     }, [ info ])

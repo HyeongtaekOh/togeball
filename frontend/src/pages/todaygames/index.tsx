@@ -48,7 +48,7 @@ const Todaygames = () => {
 
       <WrapgameWrapper>
       { games?.length > 0 ? (        
-        games.map(( game, index ) => (
+        games?.map(( game, index ) => (
           <OpenChatCard games = { game } key={ index }/>
           ))     
           

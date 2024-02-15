@@ -73,7 +73,7 @@ const Pagination = ( props ) => {
     const endIndex = startIndex + itemsPerPage
 
     if( type === 'my' ){
-      return chats?.content.slice( startIndex, endIndex ).map(( chat ) => (
+      return chats?.content.slice( startIndex, endIndex )?.map(( chat ) => (
         <div>
           {
             chat?.status?.unreadCount > 0 && 
@@ -84,7 +84,7 @@ const Pagination = ( props ) => {
       ))
     }
     else {
-      return chatContent?.slice( startIndex, endIndex ).map(( chat ) => (
+      return chatContent?.slice( startIndex, endIndex )?.map(( chat ) => (
         <ChatItem type = { type } key = { chat?.id } item= { chat }/>
       ))
     }

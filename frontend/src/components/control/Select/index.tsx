@@ -73,7 +73,7 @@ const SelectBox = ( props: SelectBoxProps ) => {
       isOpen && dataSource &&
       <LiDivWrapper width = { width } background = { background }>
       {(
-        dataSource.map(( data : SourceData | TagType ) => {
+        dataSource?.map(( data : SourceData | TagType ) => {
           return <LiWrapper onClick={() => changeHandler( data )}>{ data?.content }</LiWrapper>
         })
       )}
@@ -83,7 +83,7 @@ const SelectBox = ( props: SelectBoxProps ) => {
       isOpen && tagSource &&
       <LiDivWrapper width = { width } background = { background }>
       {(
-        tagSource.map(( data : TagType ) => {
+        tagSource?.map(( data : TagType ) => {
           return <LiWrapper onClick={() => changeHandler( data )}>{ data?.content }</LiWrapper>
         })
       )}

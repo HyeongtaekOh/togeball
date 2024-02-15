@@ -122,7 +122,7 @@ const Chat = () => {
       try{
         setMessages([])
         const response= await getChatMessages( chatroomId, param )
-        response?.content.map(( chat )=>{
+        response?.content?.map(( chat )=>{
           setMessages(( prevMessages ) => [
             ...prevMessages,
             { 
@@ -213,7 +213,7 @@ const Chat = () => {
           <ChatWrapper>
             <ScriptWrapper>
               { 
-                messages.map(( message, index ) => (
+                messages?.map(( message, index ) => (
                 <ChatMessage 
                   key={ index } 
                   message = { message } 

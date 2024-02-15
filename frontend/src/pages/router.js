@@ -25,7 +25,7 @@ export const routes = [
 
 ]
 
-const lazyModules = routes.map( ( { path, dynamicPath } ) => useRouter( path, dynamicPath ) )
+const lazyModules = routes?.map( ( { path, dynamicPath } ) => useRouter( path, dynamicPath ) )
 
 lazyModules.unshift( {
     path: '/',
