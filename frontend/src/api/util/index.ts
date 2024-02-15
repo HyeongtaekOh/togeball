@@ -83,6 +83,15 @@ export const postAxios =  async( url: string, data?: any, multi?:any )  =>{
   }
 }
 
+export const deleteAxios = async( url: string, params?: any ) => {
+  try{
+    const response = await useAxios.delete( url, { params } )
+    return response
+  } catch( error ){
+    return Promise.reject( error )
+  }
+}
+
 export const patchAxios = async(url: string, data?: any ) =>{
   try{
     const response = await useAxios.patch( url, data )
@@ -91,18 +100,7 @@ export const patchAxios = async(url: string, data?: any ) =>{
   } catch( error ){
     return Promise.reject( error )
   }
-  // fetch(process.env.REACT_APP_BASE_URL+url, {
-	// headers: {
-	// 'Accept': '*/*',
-	// 'Content-Type': 'application/json',
-  // 'charset': 'utf-8',
-  // 'Authorization': `${ localStorage.getItem('accessToken')}`
-	// },
-	// method: "PATCH",	
-	// body: JSON.stringify({ data })
-  // }).then((response) => 
-  //   response.ok ).then((data) =>
-	//   console.log(data))
+
 }
 
 export default useAxios
