@@ -52,6 +52,10 @@ const GameItem = ( props : GameItemProp ) => {
     } 
     else {
       const gameInfo = await getAxios(`/api/chatrooms/game`, { gameId: game?.id } )
+      if(!gameInfo) {
+        alert(' 로그인 하세요 ')
+        navigator('/login')
+      }
       partiMutation.mutateAsync({ chatRoomId : gameInfo?.id })
     }
   }
