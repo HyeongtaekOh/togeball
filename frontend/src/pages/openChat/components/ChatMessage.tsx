@@ -20,15 +20,13 @@ const ChatWrapper = styled.div<{ isMe?: string}>`
     background-color: #FBD14B;
   `}
 `
-
-const ChatTopWrapper = styled.div<{ isMe? : string }>`
+const ChatTopWrapper = styled.div<{ isMe?: string }>`
   width: 30%;
   display: flex;
   flex-direction: column;
   padding: 5px;
   gap : 3px;
 `
-
 const TimeWrapper = styled.p<{ isMe? : string }>`
   align-self: flex-end;
   font-size: 10px;
@@ -36,7 +34,6 @@ const TimeWrapper = styled.p<{ isMe? : string }>`
   width:20%;
   text-align: ${(props)=>props.isMe === 'me'? 'right': 'left' }
 `
-
 const NickWrapper = styled.p<{ isMe? : string }>`
   align-self: ${(props)=>props.isMe === 'me'? 'flex-end': 'flex-start' };
   font-size: 10px;
@@ -79,8 +76,7 @@ const ChatMessage = ( props: ChatMessageProps ) => {
 }
 
 export default ChatMessage
-
-type ChatMessageProps = {
+ type ChatMessageProps = {
   content?: string;
   senderId?: number;
   time?: string;

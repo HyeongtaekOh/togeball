@@ -10,7 +10,21 @@ const PartiWrapper = styled.div`
   border-radius: 20px 20px 10px 10px;
   box-shadow: 1px 1px 2px 2px lightGray;
 `
-
+const HeaderWrapper = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  height: 50px;
+  width: 100%;
+  border-radius: 20px 20px 0px 0px;
+  background-color: #6A60A9;
+  box-shadow: 1px 1px 2px 2px lightGray;
+  color : white;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+`
 const MemberWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -26,10 +40,13 @@ const MemberWrapper = styled.div`
 `
 const Participants = ( props ) => {
 
-  const { list } = props
-
+  const { list, game } = props
   return(
     <PartiWrapper>
+      <HeaderWrapper>
+        { game?.datetime } 
+        <p>{ game?.homeClubName } vs { game?.awayClubName }</p>
+      </HeaderWrapper>
       <MemberWrapper>
       {
         list?.map(( participant, index ) => (
