@@ -24,7 +24,7 @@ const UnreadWrapper = styled.div`
 
 const Pagination = ( props ) => {
   
-  const { chats, type = 'all', team, chatContent, setChatContent } = props
+  const { match, chats, type = 'all', team, chatContent, setChatContent } = props
 
   
   const itemsPerPage = type === 'my'? 4 : 5
@@ -37,10 +37,25 @@ const Pagination = ( props ) => {
 
     setChatContent( chats?.content )
     if( chatContent &&  team !== 11 ){
+      setChatContent( chats?.content )
       setChatContent( chats?.content?.filter(( chat )=> chat?.cheeringClub?.id === team ))
       setCurrentPage( 1 )
     }
-  }, [ team, chats ])
+  }, [ team, chats])
+
+  useEffect(()=>{
+    if( type === 'my' ) return
+
+    setChatContent( chats?.content )
+    if( chatContent && chats?.content ){
+      setChatContent( chats?.content?.filter(( chat )=> 
+      ( chat?.game?.homeClubName === match?.homeClubName ) &&
+      ( chat?.game?.awayClubName === match?.awayClubName ) &&
+      ( chat?.game?.datetime === match.datetime )
+      ))
+      setCurrentPage( 1 )
+    }
+  }, [ chats, match ])
 
   const handleClick = ( page ) => {
     setCurrentPage( page )
@@ -54,11 +69,11 @@ const Pagination = ( props ) => {
 
   const renderPagination = () => {
     const pages = []
-    for (let i = 1; i <= totalPages; i++) {
+    for ( let i = 1; i <= totalPages; i++ ) {
       pages.push(
         <button
           key={ i }
-          onClick={() => handleClick( i ) }
+          onClick={() => handleClick( i )}
           style={{ color: currentPage === i ? '#6A60A9' : '#DEDCEE', backgroundColor: '#fff', border: 'none' }}
         >
           { i }
