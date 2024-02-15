@@ -22,7 +22,7 @@ const RankItem = ( props : RankItemProps ) => {
   return(
     <RankItemWrapper>
       <p style={{ fontWeight: 'bold' }}>{ ranking }</p>
-      <div style={{ display: 'flex', gap: '5px', marginRight: '40px' }}>
+      <div style={{ display: 'flex', gap: '5px', marginRight: '40px',minWidth:'100px' }}>
         <p style={{ fontWeight: 'bold', marginTop: '3px' }}>{ sponsorName }</p>
         <img src = { clubLogo } style={{ width: '30px', height:'20px'}}/>
       </div>
