@@ -26,11 +26,11 @@ const Pagination = ( props ) => {
   
   const { match, chats, type = 'all', team, chatContent, setChatContent } = props
 
-  
   const itemsPerPage = type === 'my'? 4 : 5
   const [ currentPage, setCurrentPage ] = useState( 1 )
+  const [ totalPages, setTotalPages ] = useState( Math.ceil( chats?.totalElements / itemsPerPage ))
 
-  const totalPages = Math.ceil( chats?.totalElements / itemsPerPage )
+  // const totalPages = Math.ceil( chats?.totalElements / itemsPerPage )
 
   useEffect(()=>{
     if( type === 'my' ) return
@@ -56,6 +56,11 @@ const Pagination = ( props ) => {
       setCurrentPage( 1 )
     }
   }, [ chats, match ])
+
+  useEffect(() => {
+    setTotalPages( Math.ceil(chatContent?.length / itemsPerPage ))
+  }, [ chatContent ]);
+
 
   const handleClick = ( page ) => {
     setCurrentPage( page )
