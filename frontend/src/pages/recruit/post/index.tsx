@@ -67,10 +67,12 @@ const RecruitPost = () => {
   const [ textarea, setTextarea ] = useState('')
   
   const { data: tags } = useQuery<TagApiType>([ 'tags', { page: 0, size: 100 }], () => getTags({ page: 0, size: 100 }))
-  
+
   const [ flag, setFlag ] = useState(false);
-  const [ teams, setTeams ] = useState([])
+  const [ teams, setTeams ] = useState([ { id: 100, content: '경기를 선택하세요' }])
   const seats = tags?.content.filter(item => item.type === "PREFERRED_SEAT")
+  let initialTeams = tags?.content.filter( item => item.type === "PREFERRED_TEAM" )
+
   const [ nums ] = useState([
     { id: 2, content: '2명' },
     { id: 3, content: '3명' },
@@ -88,7 +90,6 @@ const RecruitPost = () => {
   const partiMutation = useMutation( partiChat )
   const recruitMutation = useMutation( makeRecruitChat, {
     onSuccess: async( res ) => {
-      console.log(res)
       if( res?.status === 201 ) {
         await partiMutation.mutateAsync({ chatRoomId : res?.data?.id })
         alert( '채팅방이 생성되었습니다. ')
@@ -164,20 +165,16 @@ const RecruitPost = () => {
   }
 
   useEffect(() => {
-    teams.length === 3 &&
-      setTeams([{id: 11, content: '응원팀무관'}])
-    if ( match && match.id && flag) {
-      setTeams( prevItems => [ ...prevItems, { id: match?.id, content: match?.homeClubName }])
-      setTeams( prevItems => [ ...prevItems, { id: match?.id, content: match?.awayClubName }])
-    }
+    const newTeams = initialTeams?.filter((team)=>{
+      return team.content === match?.homeClubName || team.content === match?.awayClubName
+    })
+    newTeams && setTeams([ ...newTeams, { id: 11, content: '응원팀무관' }])
   }, [ match ]); 
 
   useEffect(()=>{
     updateMatch({})
     setFlag( true )
-    setTeams([{id: 11, content: '응원팀무관'}])
   }, [])
-
 
   return (
     <MainLayout title='직관 메이트 모집하기'>  
