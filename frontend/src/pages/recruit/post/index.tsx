@@ -68,7 +68,7 @@ const RecruitPost = () => {
   
   const { data: tags } = useQuery<TagApiType>([ 'tags', { page: 0, size: 100 }], () => getTags({ page: 0, size: 100 }))
   
-  // const teams = tags?.content.filter(item => item.type === "PREFERRED_TEAM")
+  const [ flag, setFlag ] = useState(false);
   const [ teams, setTeams ] = useState([])
   const seats = tags?.content.filter(item => item.type === "PREFERRED_SEAT")
   const [ nums ] = useState([
@@ -158,23 +158,25 @@ const RecruitPost = () => {
           cheeringClubId: Number( team ),
           tagIds: [ ...response, seat ]
         }
+        console.log(data)
       await recruitMutation.mutateAsync( data )
     }
   }
 
-  useEffect(()=>{
-    updateMatch({})
-    setTeams([{id: 11, content: '응원팀무관'}])
-  }, [])
-
   useEffect(() => {
     teams.length === 3 &&
       setTeams([{id: 11, content: '응원팀무관'}])
-    if ( match && match.id ) {
+    if ( match && match.id && flag) {
       setTeams( prevItems => [ ...prevItems, { id: match?.id, content: match?.homeClubName }])
       setTeams( prevItems => [ ...prevItems, { id: match?.id, content: match?.awayClubName }])
     }
   }, [ match ]); 
+
+  useEffect(()=>{
+    updateMatch({})
+    setFlag( true )
+    setTeams([{id: 11, content: '응원팀무관'}])
+  }, [])
 
 
   return (
