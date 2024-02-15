@@ -81,7 +81,7 @@ const MatchingModal = ( props ) => {
                         name={ participant.nickname }
                         gender={ participant.gender }
                         age={ participant.birthdate }
-                        profileImg={ participant.profileImg }
+                        profileImg={ participant.profileImage }
                         tags={ participant.tags?.map( tag => tag.content )} // 태그 배열에서 content 속성 추출
                         myteam={ participant.clubLogo }
                       />
