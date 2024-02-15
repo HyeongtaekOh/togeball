@@ -28,19 +28,15 @@ const Todaygames = () => {
   const month = (today.getMonth() + 1).toString().padStart(2, '0')
   const day = today.getDate().toString().padStart(2, '0')
   
-
   const param = {
     startDate: '2024-03-24',
     endDate: '2024-03-24',
   }
   
   const { data: games } = useQuery<GameType[]>(['games', param ], () => getGames( param ))
-  console.log(games)
-
-
 
   return (
-    <MainLayout>
+    <MainLayout title='오늘의 경기 오픈 채팅방'>
       <HomeLayout>
 
       <WrapgameWrapper>

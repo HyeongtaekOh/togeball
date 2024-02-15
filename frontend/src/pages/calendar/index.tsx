@@ -31,8 +31,6 @@ const Calendar = () => {
   const{ isMonth, updateIsMonth } = useStore()
 
   const { currentMonth, setCurrentMonth, calculateDateRange } = useDate()
-  //gameList를 DayList에서 주는 것 나중에 시도할 것
-  // const { currentMonth, updateCurrentMonth } = useStore()
   const { startDate, endDate } = calculateDateRange()
 
   const days = []
@@ -57,7 +55,7 @@ const Calendar = () => {
   useEffect(() => { refetch() }, [ currentMonth, refetch ])
  
   return(
-    <MainLayout>
+    <MainLayout title='경기 일정'>
       <HomeLayout>
         { isMonth ? 
         ( 

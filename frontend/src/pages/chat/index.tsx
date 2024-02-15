@@ -215,7 +215,7 @@ const Chat = () => {
  }
 
   return (
-    <MainLayout>
+    <MainLayout title={ chatInfo?.title }>
         <ChatPageWrapper>
           <Participants list = { participants } game = { chatInfo }/>
           <ChatWrapper>
