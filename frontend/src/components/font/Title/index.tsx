@@ -12,7 +12,7 @@ const TitleWrapper = styled.p<{ type : string, color : string, bold : boolean }>
     line-height: 130%;
     white-space: nowrap;
     text-overflow: ellipsis;
-    overflow: hidden; 
+    overflow-x: hidden; 
     
     ${(props) =>
         ( props.type !== 'small' || props.bold ) &&

@@ -55,7 +55,7 @@ const OpenChatCard = ( props: Textprops ) => {
     const partiMutation = useMutation( partiChat, {
         onSuccess: async() => {
           const gameChat = await getAxios(`/api/chatrooms/game`,  { gameId: id } )
-          navigator(`/openChat/${ gameChat?.id }`)
+          navigator(`/openChat/${ gameChat?.id }` , { state: games })
         }
       })
 

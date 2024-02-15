@@ -84,14 +84,17 @@ const OpenChat = () => {
   const lastChatMutatioins = useMutation( postLastChat )
 
   const location = useLocation()
-  const matchingParticipants = location.state?.participants
-  console.log(participants)
-  console.log(matchingParticipants)
+  const games = location.state
+  
+  console.log( games )
 
   useEffect(() => {
     const onConnect = async() => {
       stompClient.current?.subscribe(`/topic/room.${ chatroomId }`, ( message ) => {
         const newMessage = JSON.parse( message.body )
+
+        if( newMessage?.type === 'NOTICE' ) return
+
         setMessages(( prevMessages ) => [
           ...prevMessages,
           { 
@@ -125,6 +128,7 @@ const OpenChat = () => {
         setMessages([])
         const response= await getOpenChatMessages( chatroomId, param )
         response?.content?.map(( chat )=>{
+          if( chat?.type === 'NOTICE' ) return
           setMessages(( prevMessages ) => [
             ...prevMessages,
             { 
@@ -216,7 +220,7 @@ const OpenChat = () => {
   return (
     <MainLayout>
         <ChatPageWrapper>
-          <Participants list = { participants } title = { chatInfo?.game }/>
+          <Participants list = { participants } game = { games }/>
           <ChatWrapper>
             <ScriptWrapper>
               { 

@@ -1,5 +1,6 @@
 import { styled } from 'styled-components'
 import Header from 'src/components/app/Header'
+import useStore from 'src/store'
 
 const MainWrapper = styled.div` 
     box-sizing: border-box;
@@ -15,13 +16,19 @@ const MainLayout = ( props : MainLayoutProps ) =>{
 
     const { children, title } = props
 
+    const { closeOpen, isOpen } = useStore()
+
+    const closeChat = () => {
+        isOpen && closeOpen()
+    }
+
     return(
-        <>
-        <Header title={ title }/>
-        <MainWrapper>
+    <div onClick={ closeChat } style ={{ width: '100%', height: '100%'}}>
+      <Header title={ title }/>
+      <MainWrapper>
             { children }
-        </MainWrapper>
-        </>
+      </MainWrapper>
+     </div>
     )
 
 }

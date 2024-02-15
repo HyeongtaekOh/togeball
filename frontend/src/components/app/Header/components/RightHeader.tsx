@@ -10,7 +10,6 @@ import { getMyChats, getUserInfo } from 'src/api'
 import { useQuery } from 'react-query'
 import useHeaderStore from '../store'
 
-
 const HeaderMenuWrapper = styled.div`
   box-sizing: border-box;  
   display: flex;
@@ -96,26 +95,7 @@ const RightHeader = (  ) => {
     }
     
     if (!localStorage.getItem('accessToken')) return
-    else {
-      const setUser = async() => {
-        const possible = await getMyChats()
-        if( possible ){
-          const user = await getUserInfo(localStorage.getItem('userId'))
-          setIsLogin( true )
-          setAccessToken( localStorage.getItem( 'accessToken' ) )
-          setSession( user )
-          createSource()
-        }
-        // else{
-        //   localStorage.removeItem( 'accessToken' )
-        //   localStorage.removeItem( 'refreshToken' )
-        //   localStorage.removeItem( 'userId' )
-        //   window.location.reload()         
-        // }
-      }
 
-      setUser()
-    }
     
     return () => {
       eventSource && eventSource?.close()
@@ -124,13 +104,16 @@ const RightHeader = (  ) => {
   }, [])
 
   const navigator = useNavigate()
+  const { updateIsOpen, isOpen } = useStore()
 
   const { isLogin } = useStore()
-  const [ isChatOpen, setIsChatOpen ] = useState<boolean>(false)
+  const [ isChatOpen, setIsChatOpen ] = useState<boolean>(isOpen)
 
   const openHandler =()=> {
-    // if( !isChatOpen ) count.current = 0
-    setIsChatOpen( !isChatOpen )
+   if(!isChatOpen || !isOpen ){
+    setIsChatOpen(true)
+    updateIsOpen()
+   }
   }
 
   const logout = () => {
@@ -184,7 +167,7 @@ const RightHeader = (  ) => {
             <UnreadWrapper><p>{ count.current }</p></UnreadWrapper>
           }
           <ChatIcon onClick = { openHandler }/>
-          { isChatOpen && <HeaderChat chats = { HeaderChats } isLoading={ isLoading } /> }
+          { isChatOpen && isOpen  && <HeaderChat chats = { HeaderChats } isLoading={ isLoading } /> }
           <IconItem menus = { personMenu }><PersonIcon /></IconItem>
         </HeaderIconWrapper> )
       }
