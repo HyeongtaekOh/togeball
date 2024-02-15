@@ -92,6 +92,9 @@ const OpenChat = () => {
     const onConnect = async() => {
       stompClient.current?.subscribe(`/topic/room.${ chatroomId }`, ( message ) => {
         const newMessage = JSON.parse( message.body )
+
+        if( newMessage?.type === 'NOTICE' ) return
+
         setMessages(( prevMessages ) => [
           ...prevMessages,
           { 
@@ -125,6 +128,7 @@ const OpenChat = () => {
         setMessages([])
         const response= await getOpenChatMessages( chatroomId, param )
         response?.content?.map(( chat )=>{
+          if( chat?.type === 'NOTICE' ) return
           setMessages(( prevMessages ) => [
             ...prevMessages,
             { 
