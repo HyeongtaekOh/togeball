@@ -160,7 +160,7 @@ const RightHeader = (  ) => {
       { title : 'Content', 
         menus : [ 
           { name : '오픈 채팅방', path : '/todaygames' },
-          { name : '메이트 채팅방', path : '/recuit' },
+          { name : '메이트 채팅방', path : '/recruit' },
           { name : '경기 일정', path : '/calendar' },
         ] 
       },
