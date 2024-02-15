@@ -21,7 +21,7 @@ export const DateList = () => {
   
     return(
       <DateListWrapper>
-        { date.map( ( day, index ) => {
+        { date?.map( ( day, index ) => {
           return(
             <DateBorder key={ index }>
               { day }

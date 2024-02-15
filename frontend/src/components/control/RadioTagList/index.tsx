@@ -37,7 +37,7 @@ const RadioTagList = ( props: TagListProps ) => {
     return (
       <TagListWrapper>
       {
-        tags.map(( tag ) => (
+        tags?.map(( tag ) => (
           <TagBtnWrapper 
             key = { tag?.value } onClick={(e) => changeColor(e) } $isSelect = { tag?.isSelect }>
             #{ tag?.name }

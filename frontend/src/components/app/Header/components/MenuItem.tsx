@@ -49,7 +49,7 @@ const MenuItem = ( props : MenuItemProps ) => {
         (
         <LiDivWrapper>
         {
-          menus.map(( menu : menuData ) => {
+          menus?.map(( menu : menuData ) => {
             return (
               <li key = { menu.name } onClick= {() => onClick( menu?.path ) }>{ menu?.name }</li>
             )
