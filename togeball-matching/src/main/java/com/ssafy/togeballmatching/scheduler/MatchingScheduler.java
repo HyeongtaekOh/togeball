@@ -4,6 +4,7 @@ import com.ssafy.togeballmatching.dto.MatchingRequest;
 import com.ssafy.togeballmatching.dto.MatchingResponse;
 import com.ssafy.togeballmatching.dto.MatchingUser;
 import com.ssafy.togeballmatching.service.MatchingService;
+import com.ssafy.togeballmatching.service.WaitingTagService;
 import com.ssafy.togeballmatching.service.messaging.MessagingService;
 import com.ssafy.togeballmatching.service.queue.WaitingQueueService;
 import com.ssafy.togeballmatching.service.rabbit.RabbitMQService;
@@ -36,6 +37,7 @@ public class MatchingScheduler {
 
     private final RabbitMQService rabbitService;
     private final MessagingService messagingService;
+    private final WaitingTagService waitingTagService;
     private final WaitingQueueService waitingQueueService;
     private final WebSocketSessionStoreService webSocketSessionStoreService;
     private final MatchingService matchingService;
@@ -67,6 +69,11 @@ public class MatchingScheduler {
             waitingQueueService.clearQueue();
 
         }
+    }
+
+    @Scheduled(fixedDelay= 1000 * 5)
+    public void gathering() {
+        waitingTagService.gathering();
     }
 
     @Scheduled(fixedDelay = 1000 * 60 * 30) //서버 시작 시 작동, 이후 30분마다 갱신
