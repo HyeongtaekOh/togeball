@@ -99,7 +99,7 @@ const Matching: React.FC = () => {
   return () => {
     socket.close()
   }
-}, [ ])
+}, [])
 
   // 웹소켓서버 연결하면 false를 기본값으로 바꿀 예정
   const [isModalOpened, setIsModalOpened] = useState( false )
