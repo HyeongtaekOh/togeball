@@ -28,8 +28,8 @@ const ButtonWrapper = styled.button<ButtonProps>`
   css`
     background-color: #FBD14B;  
     color: white;
-    &hover{
-      background-color: #FBD14B;
+    &:hover{
+      background-color: #F2C63A;
     }
   `}
 
