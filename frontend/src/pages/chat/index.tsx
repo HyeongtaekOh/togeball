@@ -17,6 +17,7 @@ const ChatPageWrapper = styled.div`
   height: 95%;
   display: flex;
   flex-direction: row;
+  margin-top: 12px;
 `
 const ChatWrapper = styled.div`
   width: 100%;
@@ -75,20 +76,13 @@ const Chat = () => {
   const scriptEndRef = useRef< HTMLDivElement >( null ) 
   const { session } = useStore()
   const { data: itsme } = useQuery([ 'itsme' ], () => getMyInfo())
-  const { data: participants, isLoading } = useQuery([ 'participants', { id : chatroomId }], () => getParticipants( { id : chatroomId }))
+  const { data: participants } = useQuery([ 'participants', { id : chatroomId }], () => getParticipants( { id : chatroomId }))
   const { data : chatInfo } = useQuery([ 'chatInfo', { id : chatroomId }], () => getChat( { id : chatroomId }))
   
   const stompClient = useRef( null )
 
   const imageMutations = useMutation( postChatImage )
   const lastChatMutatioins = useMutation( postLastChat )
-
-
- if(isLoading){
-  console.log('dpfj')
- }else{
-  console.log(participants)
- }
 
   useEffect(() => {
     const onConnect = async() => {

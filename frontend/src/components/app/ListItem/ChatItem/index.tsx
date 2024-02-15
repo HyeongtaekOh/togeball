@@ -44,11 +44,14 @@ const ChatItem = ( props: ChatListProps ) => {
   const { item, type, width } = props
   const { updateCount, count } = useHeaderStore()
   const { session } = useStore()
+  console.log(item)
 
   const navigator = useNavigate()
   const partiMutation = useMutation( partiChat, {
     onSuccess: () => {
-      navigator(`/chat/${ item?.id }`)
+      ( item?.type === 'RECRUIT' ) ? 
+      navigator(`/chat/${ item?.id }`):
+      navigator(`/matchChat/${ item?.id }`)
     }
   } )
 

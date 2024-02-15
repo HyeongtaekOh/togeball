@@ -17,6 +17,7 @@ const ChatPageWrapper = styled.div`
   height: 95%;
   display: flex;
   flex-direction: row;
+  margin-top: 12px;
 `
 
 const ChatWrapper = styled.div`
