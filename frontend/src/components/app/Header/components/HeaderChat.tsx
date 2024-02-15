@@ -15,11 +15,11 @@ const HeaderChatWrapper = styled.div`
 
 const HeaderChat = ( props ) => {  
 
-  const { chats, isLoading } = props
+  const { chats, isLoading, onClick } = props
   
   return(
 
-   <HeaderChatWrapper>
+   <HeaderChatWrapper onClick = { onClick }>
       <Title color ='#6A60A9'>나의 채팅방</Title>
       <div style={{ width: '100%', marginTop: '20px' }}>
         {

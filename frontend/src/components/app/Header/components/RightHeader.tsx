@@ -104,9 +104,8 @@ const RightHeader = (  ) => {
   }, [])
 
   const navigator = useNavigate()
-  const { updateIsOpen, isOpen } = useStore()
+  const { isLogin, updateIsOpen, isOpen, alwaysOpen, updateAlwaysOpen } = useStore()
 
-  const { isLogin } = useStore()
   const [ isChatOpen, setIsChatOpen ] = useState<boolean>(isOpen)
 
   const openHandler =()=> {
@@ -114,6 +113,13 @@ const RightHeader = (  ) => {
     setIsChatOpen(true)
     updateIsOpen()
    }
+  }
+
+  const stopClose = () => {
+    console.log('hi')
+    updateAlwaysOpen()
+    updateIsOpen()
+    console.log(alwaysOpen,isOpen)
   }
 
   const logout = () => {
@@ -167,7 +173,7 @@ const RightHeader = (  ) => {
             <UnreadWrapper><p>{ count.current }</p></UnreadWrapper>
           }
           <ChatIcon onClick = { openHandler }/>
-          { isChatOpen && isOpen  && <HeaderChat chats = { HeaderChats } isLoading={ isLoading } /> }
+          { isChatOpen && isOpen  && <HeaderChat chats = { HeaderChats } isLoading={ isLoading } onClick={ stopClose } /> }
           <IconItem menus = { personMenu }><PersonIcon /></IconItem>
         </HeaderIconWrapper> )
       }
