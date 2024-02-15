@@ -41,7 +41,7 @@ const GameItem = ( props : GameItemProp ) => {
   const partiMutation = useMutation( partiChat, {
     onSuccess: async() => {
       const gameChat = await getAxios(`/api/chatrooms/game`, param )
-      navigator(`/openChat/${ gameChat.id }`)
+      navigator(`/openChat/${ gameChat.id }` , { state: game })
     }
   })
   

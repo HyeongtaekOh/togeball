@@ -44,7 +44,7 @@ const Participants = ( props ) => {
   return(
     <PartiWrapper>
       <HeaderWrapper>
-        { game?.datetime.substring(0,10) + ' ' + game.datetime.substring(11) } 
+        { game?.datetime.substring(0,10) + ' ' + game?.datetime.substring(11) } 
         <p>{ game?.homeClubName } vs { game?.awayClubName }</p>
       </HeaderWrapper>
       <MemberWrapper>

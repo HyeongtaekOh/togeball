@@ -75,7 +75,7 @@ const Chat = () => {
   const scriptEndRef = useRef< HTMLDivElement >( null ) 
   const { session } = useStore()
   const { data: itsme } = useQuery([ 'itsme' ], () => getMyInfo())
-  const { data: participants } = useQuery([ 'participants', { id : chatroomId }], () => getParticipants( { id : chatroomId }))
+  const { data: participants, isLoading } = useQuery([ 'participants', { id : chatroomId }], () => getParticipants( { id : chatroomId }))
   const { data : chatInfo } = useQuery([ 'chatInfo', { id : chatroomId }], () => getChat( { id : chatroomId }))
   
   const stompClient = useRef( null )
@@ -84,8 +84,11 @@ const Chat = () => {
   const lastChatMutatioins = useMutation( postLastChat )
 
 
-  console.log('참여자')
+ if(isLoading){
+  console.log('dpfj')
+ }else{
   console.log(participants)
+ }
 
   useEffect(() => {
     const onConnect = async() => {
