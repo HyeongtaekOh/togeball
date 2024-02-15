@@ -14,7 +14,6 @@ import java.util.List;
 @SuperBuilder
 public class RecruitChatroomResponse extends ChatroomResponse {
 
-    private List<UserResponse> members;
     private UserResponse manager;
     private GameResponse game;
     private ClubResponse cheeringClub;
