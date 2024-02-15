@@ -80,15 +80,15 @@ const Chat = () => {
   const imageMutations = useMutation( postChatImage )
   const lastChatMutatioins = useMutation( postLastChat )
 
-  const location = useLocation()
-  const matchingParticipants = location.state?.participants
+
+  console.log('참여자')
   console.log(participants)
-  console.log(matchingParticipants)
 
   useEffect(() => {
     const onConnect = async() => {
       stompClient.current?.subscribe(`/topic/room.${ chatroomId }`, ( message ) => {
         const newMessage = JSON.parse( message.body )
+        console.log( newMessage )
         setMessages(( prevMessages ) => [
           ...prevMessages,
           { 
@@ -204,16 +204,17 @@ const Chat = () => {
     e.key === 'Enter' && sendMessage()
     
   }
-
+ console.log('메세지')
+ console.log(messages)
 
   return (
     <MainLayout>
         <ChatPageWrapper>
-          <Participants list = { participants } title = { chatInfo?.game }/>
+          <Participants list = { participants } game = { chatInfo }/>
           <ChatWrapper>
             <ScriptWrapper>
               { 
-                messages?.map(( message, index ) => (
+                messages?.map(( message, index ) => ( 
                 <ChatMessage 
                   key={ index } 
                   message = { message } 
