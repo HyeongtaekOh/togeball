@@ -15,10 +15,7 @@ const RankCardWrapper = styled.div`
 const RankCard = ( props : RankCardProps ) => {
 
   const { clubList } = props
-
-  const rankList = useMemo(() => { 
-    return clubList.sort(( a, b )=> { return a.ranking - b.ranking }
-  )}, [ clubList ] )
+  const rankList = [ ...clubList ].sort((a, b) => a.ranking - b.ranking )
 
   return(
     <RankCardWrapper>
