@@ -7,7 +7,7 @@ const HomeWrapper = styled.div`
     width: 65%;
     min-width: 800px;
     flex-direction: column;
-    gap: 15px;
+    gap: 13px;
     margin: auto;
 `
 

@@ -163,7 +163,7 @@ const RecruitPost = () => {
   return (
     <MainLayout title='직관 메이트 모집하기'>  
       <HomeLayout>
-        <Title type='medium' style={{ marginTop: '20px' }}>제목</Title>
+        <Title style={{ marginTop: '20px', fontSize: '17px' }}>제목</Title>
         <InputBox 
           width='100%' 
           value= { title }
@@ -187,23 +187,23 @@ const RecruitPost = () => {
             document.body )
         }
         <Contents>
-          <Title type='medium'>응원팀</Title>
+          <Title style={{ fontSize : '16px'}}>응원팀</Title>
           <Select dataSource={ teams } placeholder='팀 선택' height='40px'
            setState={ setTeam }></Select>
-           <Title type='medium'>선호 좌석</Title>
+           <Title style={{ fontSize : '16px'}}>선호 좌석</Title>
           <Select dataSource={ seats } placeholder='좌석 선택' height= '40px' 
            setState={ setSeat }></Select>
         </Contents>
         <Contents>
-          <Title type='medium'>인원</Title>
+          <Title style={{ fontSize : '16px'}}>인원</Title>
             <Select 
               dataSource={ nums } placeholder='(2명 ~ 10명)' width='220px' height='40px' 
              setState={ setCapacity }/>
         </Contents>
         <Contents>
-          <Title type='medium'>태그</Title><TagsInput />
+          <Title style={{ fontSize : '16px'}}>태그</Title><TagsInput />
         </Contents>
-          <Title type='medium'>채팅방 소개</Title>
+        <Title style={{ fontSize : '16px'}}>채팅방 소개</Title>
         <Input 
           value={ textarea } 
           onChange={(e) => onInputHandler(e) } 
