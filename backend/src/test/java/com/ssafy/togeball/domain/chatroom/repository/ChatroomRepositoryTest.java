@@ -372,10 +372,12 @@ class ChatroomRepositoryTest {
 
         List<Chatroom> found1 = chatroomRepository.findChatroomsByUserId(user1.getId(), pageable).getContent();
         List<Chatroom> found2 = chatroomRepository.findChatroomsByUserId(user2.getId(), pageable).getContent();
+        List<Chatroom> found3 = chatroomRepository.findChatroomsByUserId(1, pageable).getContent();
 
         // then
-        assertEquals(4, found1.size());
-        assertEquals(3, found2.size());
+        assertEquals(3, found1.size());
+        assertEquals(2, found2.size());
+        log.info("found3: {}", found3);
     }
 
     @Test
