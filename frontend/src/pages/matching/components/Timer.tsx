@@ -6,7 +6,7 @@ import styled from 'styled-components'
 // }
 
 const TimerWrapper = styled.p`
-  font-size: 25px;
+  font-size: 30px;
   font-weight: bold;
   color: lightgrey; 
 `
@@ -31,7 +31,7 @@ const Timer = ( props ) => {
   }
 
   return (
-    <div>     
+    <div style={{ backgroundColor : 'inherit', marginBottom: '10%', position: 'absolute' }}>     
       <TimerWrapper>경과 시간: { formatTime( elapsedTime ) }</TimerWrapper>     
     </div>
   )

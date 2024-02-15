@@ -61,8 +61,6 @@ const Matching: React.FC = () => {
     const message = event.data
     if ( message[2] === 'h'){
         const newMessage = JSON.parse(message)
-        console.log(message)
-        console.log( newMessage)
         setMatchingData({
           hashtags: newMessage.hashtags, 
           counts: newMessage.counts
@@ -71,8 +69,6 @@ const Matching: React.FC = () => {
 
       else {
         const newMessage = JSON.parse(message)
-        console.log(message)
-        console.log( newMessage )
         setMatchingInfo({
           participants: newMessage.matching.users,
           title: newMessage.matching.title,

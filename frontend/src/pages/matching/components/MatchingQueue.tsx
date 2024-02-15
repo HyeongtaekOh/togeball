@@ -33,7 +33,7 @@ const MatchingQueue = (props) => {
       .on('tick', () => {
         circles.attr('cx', d => d.x).attr('cy', d => d.y)
         texts.attr('x', d => d.x).attr('y', d => d.y)
-      });
+      })
 
     const filter = svg.append('defs').append('filter').attr('id', 'blur-filter').append('feGaussianBlur').attr('stdDeviation', 5)
 
