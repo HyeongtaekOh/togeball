@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 import { Pagination, Title } from 'src/components'
-import { useQuery } from 'react-query'
-import { getMyChats } from 'src/api'
 
 const HeaderChatWrapper = styled.div`
   position: absolute;
