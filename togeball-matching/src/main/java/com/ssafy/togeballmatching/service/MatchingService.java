@@ -110,7 +110,9 @@ public class MatchingService {
                 .collect(Collectors.toList());
 
         // 유사도가 가장 높은 그룹을 병합
-        while (groups.size() > 1) {
+        int size;
+         do {
+            size = groups.size();
             double maxSimilarity = -1;
             int mergeIndexA = -1, mergeIndexB = -1;
             for (int i = 0; i < groups.size(); i++) {
@@ -129,38 +131,39 @@ public class MatchingService {
                 }
             }
             if (mergeIndexA != -1 && mergeIndexB != -1) {
-                groups.get(mergeIndexA).addAll(groups.get(mergeIndexB));
-                groups.remove(mergeIndexB);
+                // 두 그룹을 합쳐서 MAX_GROUP_SIZE를 초과하지 않도록
+                if (groups.get(mergeIndexA).size() + groups.get(mergeIndexB).size() <= MAX_GROUP_SIZE) {
+                    groups.get(mergeIndexA).addAll(groups.get(mergeIndexB));
+                    groups.remove(mergeIndexB);
+                }
             }
-        }
+        } while (groups.size() != size);
 
-        List<List<MatchingUser>> preDividedGroups = groups.stream()
+        List<List<MatchingUser>> dividedGroups = groups.stream()
                 .map(group -> group.stream().map(users::get).collect(Collectors.toList()))
                 .toList();
 
-        List<List<MatchingUser>> dividedGroups = new ArrayList<>();
-        for (List<MatchingUser> group : preDividedGroups) {
-            if (group.size() <= MAX_GROUP_SIZE) {
-                dividedGroups.add(group);
-                continue;
+        // dividedGroups를 돌면서 MIN_GROUP_SIZE보다 작은 그룹은 다른 그룹 중 가장 작은 그룹과 합침
+        for (int i = 0; i < dividedGroups.size(); i++) {
+            if (dividedGroups.get(i).size() < MIN_GROUP_SIZE) {
+                int minSize = Integer.MAX_VALUE;
+                int mergeIndex = -1;
+                for (int j = 0; j < dividedGroups.size(); j++) {
+                    if (i == j) continue;
+                    if (dividedGroups.get(j).size() < minSize) {
+                        minSize = dividedGroups.get(j).size();
+                        mergeIndex = j;
+                    }
+                }
+                if (mergeIndex != -1) {
+                    dividedGroups.get(mergeIndex).addAll(dividedGroups.get(i));
+                    dividedGroups.remove(i);
+                    i--;
+                }
             }
-            dividedGroups.addAll(furtherDivideGroup(group));
         }
 
         return dividedGroups;
-    }
-
-    // 유사도 그룹이 최대 크기를 초과할 때
-    private List<List<MatchingUser>> furtherDivideGroup(List<MatchingUser> group) {
-
-        List<List<MatchingUser>> groups = new ArrayList<>();
-        int start = 0;
-        while (start < group.size()) {
-            int end = Math.min(start + MAX_GROUP_SIZE, group.size());
-            groups.add(new ArrayList<>(group.subList(start, end)));
-            start = end;
-        }
-        return groups;
     }
 
     private void ensureAllUsersMatched(List<MatchingUser> users, List<List<MatchingUser>> finalGroups, Set<MatchingUser> allocatedUsers) {
