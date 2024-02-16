@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import React, { useState } from 'react'
-import lufi from 'src/asset/images/lufi.jpg'
+import Logo from 'src/asset/images/Logo.jpg'
 import { Title } from 'src/components'
 
 
@@ -56,14 +56,14 @@ const MatchingProfile = ( props ) => {
     <ProfileContainer>
       <ProfileImage
       
-        src={ profileImg ? profileImg : lufi }
+        src={ profileImg ? profileImg : Logo }
         alt={`${ name }'s profile`}
         onMouseEnter={() => setIsTooltipVisible( true )}
         onMouseLeave={() => setIsTooltipVisible( false )}
       />
       <Tooltip as="div" isVisible={ isTooltipVisible }>
         <div style={{ display: 'flex'}}>
-          <img src={ profileImg? profileImg : lufi } alt="" style={{ width: '40%', height: '80%', borderRadius: '50px', marginRight: '10px' }}/>
+          <img src={ profileImg? profileImg : Logo } alt="" style={{ width: '40%', height: '80%', borderRadius: '50px', marginRight: '10px' }}/>
           <div style={{ width: '40%'}}>
             <Title type='medium'>{ name }</Title>
             <p style={{ fontWeight: 'bold', marginTop: '10px' }}> { newGender ? newGender : '성별 비공개' } { newAge ? '(' +newAge + ')' : '나이비공개' }</p>            

@@ -19,7 +19,7 @@ const IconWrapper = styled.div`
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    margin-top: -20px;    
   `
 const MsgWrapper = styled.p`
   color: red;
@@ -106,7 +106,7 @@ const SignUp = () => {
           회원가입
         </SignButton>
         <Title type='small'>SNS 회원가입</Title>
-        <IconWrapper><NaverIcon /><KakaoIcon /></IconWrapper>
+        <IconWrapper><KakaoIcon /></IconWrapper>
        </SignLayout>
       </MainLayout>
     )

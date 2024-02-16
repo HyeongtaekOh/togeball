@@ -1,7 +1,7 @@
 import { Title } from 'src/components'
 import { getImgPath } from 'src/api'
 import { useCallback, useRef, useState } from 'react'
-import lufi from 'src/asset/images/lufi.jpg'
+import Logo from 'src/asset/images/Logo.jpg'
 import styled from 'styled-components'
 import useModel from '../store'
 
@@ -37,7 +37,7 @@ const LabberWrapper = styled.label`
 const ImgUpload = (props) => {
   
   const inputRef = useRef<HTMLInputElement | null>(null)
-  const [ imgSrc, setImgSrc ] = useState(props.profileImage===''? lufi : props.profileImage)
+  const [ imgSrc, setImgSrc ] = useState(props.profileImage===''? Logo : props.profileImage)
   const { setImage } = useModel()
 
   const onUploadImage = useCallback( async( e: React.ChangeEvent<HTMLInputElement> ) => {

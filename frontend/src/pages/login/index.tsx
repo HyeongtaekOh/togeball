@@ -1,5 +1,5 @@
 import { InputBox, Title, KakaoIcon, 
-    NaverIcon, MainLayout, SignLayout, SignButton } from 'src/components'
+  MainLayout, SignLayout, SignButton } from 'src/components'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { login } from './api'
@@ -20,6 +20,7 @@ const IconWrapper = styled.div`
     display: flex;
     flex-direction: row;
     gap: 10px;
+    margin-top:-20px;
   `
   
 const Login = () => {
@@ -103,7 +104,7 @@ const Login = () => {
       </InputWrapper>
       <SignButton onClick={ onLogin }>로그인</SignButton>
       <Title type='small'>SNS 로그인</Title>
-      <IconWrapper><NaverIcon />
+      <IconWrapper>
       <KakaoIcon onClick={ handleKakao }/>
       </IconWrapper>
       <a href='./signup'>혹시 아직 회원이 아니신가요?</a>

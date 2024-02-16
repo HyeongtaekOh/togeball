@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { getMyInfo } from 'src/api'
 import { TagList } from './index';
-import lufi from 'src/asset/images/lufi.jpg'
 import Logo from 'src/asset/images/Logo.jpg'
 import barcode from 'src/asset/images/barcode.jpg'
 import { useQuery } from 'react-query';
@@ -118,7 +117,7 @@ const Ticket = ( () => {
                 <MyinfoWrapper>
                     <div style={{ width: '65%', height: '100%', display: 'flex', flexWrap: 'wrap' }}>
                         <div style={{ width:'30%'}}>
-                            <PictureWrapper src={( user?.profileImage===null || user?.profileImage==='' )? lufi : user?.profileImage } />
+                            <PictureWrapper src={( user?.profileImage===null || user?.profileImage==='' )? Logo : user?.profileImage } />
                         </div>
                         <MySelfWrapper>
                             <IndexWrapper><Title type='small'>이메일:</Title>  
