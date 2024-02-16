@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import   { MatchingQueue, Timer, MatchingModal }   from './components'
-import { Title, MainLayout } from 'src/components'
+import { MainLayout } from 'src/components'
 import styled from 'styled-components'
 import SockJS from 'sockjs-client'
 import useStore from 'src/store'

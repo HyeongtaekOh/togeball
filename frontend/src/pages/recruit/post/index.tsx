@@ -68,7 +68,7 @@ const RecruitPost = () => {
   
   const { data: tags } = useQuery<TagApiType>([ 'tags', { page: 0, size: 100 }], () => getTags({ page: 0, size: 100 }))
 
-  const [ flag, setFlag ] = useState(false);
+  const [ flag, setFlag ] = useState(false)
   const [ teams, setTeams ] = useState([ { id: 100, content: '경기를 선택하세요' }])
   const seats = tags?.content.filter(item => item.type === "PREFERRED_SEAT")
   let initialTeams = tags?.content.filter( item => item.type === "PREFERRED_TEAM" )
@@ -168,7 +168,7 @@ const RecruitPost = () => {
       return team.content === match?.homeClubName || team.content === match?.awayClubName
     })
     newTeams && setTeams([ ...newTeams, { id: 11, content: '응원팀무관' }])
-  }, [ match ]); 
+  }, [ match ])
 
   useEffect(()=>{
     updateMatch({})

@@ -1,15 +1,12 @@
 import styled from 'styled-components'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Logo from 'src/asset/images/Logo.jpg'
 import { Title } from 'src/components'
-
-
 
 const ProfileContainer = styled.div`
   position: relative;
   display: inline-block;
 `
-
 const ProfileImage = styled.img`
   width: 100px;
   height: 100px;
@@ -18,13 +15,12 @@ const ProfileImage = styled.img`
   border : 1px solid lightgray;
   margin-left: 30px;
 `
-
 const Tooltip = styled.div<{ isVisible: boolean }>`
   position: absolute;
   width: 200px;
-  max-height: 200px; /* 내부 컨텐츠의 최대 높이 설정 */
-  overflow-y: auto; /* 내부 컨텐츠가 넘칠 때 스크롤 생성 */
-  top: 100%; /* 툴팁이 아이콘 아래에 위치하도록 조절 */
+  max-height: 200px; 
+  overflow-y: auto; 
+  top: 100%; 
   left: 10%;
   transform: translateX(-50%);
   background: white;
@@ -39,8 +35,6 @@ const Tooltip = styled.div<{ isVisible: boolean }>`
   flex-direction: column;
   margin-top: 2px;    
 `
-
-
 
 const MatchingProfile = ( props ) => {
   const { name, profileImg, age, gender, myteam, tags  } = props
@@ -76,7 +70,7 @@ const MatchingProfile = ( props ) => {
         
       </Tooltip>
     </ProfileContainer>
-  );
-};
+  )
+}
 
 export default MatchingProfile
