@@ -118,7 +118,7 @@ const Pagination = ( props ) => {
         ( chatContent?.length > 0 || chats?.content?.length > 0 ) ?
         (
           <PageWrapper>
-            <LeftIcon size= { 20 } onClick={ handlePrevClick } disabled={ currentPage === 1 }/>
+            <LeftIcon size= { 20 } onClick={ handlePrevClick }/>
             { renderPagination() }
             <RightIcon size= { 20 } onClick={ handleNextClick }/>
           </PageWrapper>
