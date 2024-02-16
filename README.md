@@ -72,7 +72,7 @@
 
 ## 핵심 기능
 
-### 기능1
+### 매칭 시스템
 <img src="/uploads/cf0590e512a68efb63b540256f82d50e/image-17.png" width="300" height="200">
 <img src="/uploads/3eaff9326fbb81c6223be7de04f80df6/image-18.png" width="300" height="200">
 
@@ -81,10 +81,9 @@
     - 백 : 유사도를 이용한 매칭 알고리즘 설계
 
 
-### 기능 2
+### 채팅 시스템
 
-<img src="/uploads/57457d427aabf7a2add027afb06dfb3e/image-19.png" width="300" height="200">
-<img src="/uploads/ed21e291d69cdd0f15d324f98b61158f/image-20.png" width="300" height="200">
+<img src="/uploads/14b3dee7bcadfd97d29e99271a3ab7c1/%EB%AA%A8%EC%A7%91%EC%B1%84%ED%8C%85%EB%B0%A9%EC%B0%B8%EC%97%AC.gif" width="500" height="300">
 
 - 채팅
     - 프론트: 웹소켓과 stomp 프로토콜을 이용한 통신, 이미지 전송 가능
@@ -120,7 +119,7 @@
 
 #### 채팅방 생성
 
-<img src="/uploads/aa931c33dcd3ba21913f4341a76137ab/recruit.PNG" width="500" height="300">
+<img src="/uploads/8a38c24551313b9dc6dd579ad23232be/recruitChatroom.gif" width="500" height="300">
 
 - 커스텀 주별 달력 활용하여 경기 선택
 - 경기에 맞는 응원팀 항목 제한
@@ -128,12 +127,12 @@
 
 #### 채팅방
 
-<img src="/uploads/96c91fbc2f068122ac1d9c848e25bcb6/image.png" width="500" height="300">
+<img src="/uploads/5322f26a04c751b744dcf69d1441e952/gameChatroom.gif" width="500" height="300">
 
 - 대화 참가자 모두 표시
 
 #### 나의 채팅방 확인
-<img src="/uploads/00666cb3b6a867c0a6c8d0ff5d4d744b/navbar.PNG" width="300" height="400">
+<img src="/uploads/4680a18e1f3990b21d7d7687d4eeda74/alarm.gif" width="300" height="400">
 
 - 나의 채팅방 목록 확인 및 채팅방 개별 알림
 - 최근 메시지 확인, 클릭 시 채팅방 이동
@@ -165,5 +164,24 @@
 
 - 태그 API
 <img src="/uploads/1e338a96f1e9770ad113cc5d962b7c2d/post5.PNG" width="300" height="200">
+
+### 인프라
+
+#### 아키텍처 설계
+
+<img src="/uploads/9af32a0aadb0bc9f343859956785f79c/archi.png" width="500" height="300">
+
+#### 모니터링 구현
+
+- 시스템 모니터링
+<img src="/uploads/04a5e0fea5de942bf477bb977934309b/node.PNG" width="500" height="300">
+
+
+- 젠킨스 모니터링
+<img src="/uploads/c22c5c25991da292e8dd3aedbb24c9fe/jen.PNG" width="500" height="300">
+
+
+- 엔진엑스 모니터링
+<img src="/uploads/e2d4b44087215aa45301455605559f5e/ngix.PNG" width="500" height="300">
 
 
