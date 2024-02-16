@@ -83,7 +83,7 @@
 
 ### 채팅 시스템
 
-<img src="/uploads/14b3dee7bcadfd97d29e99271a3ab7c1/%EB%AA%A8%EC%A7%91%EC%B1%84%ED%8C%85%EB%B0%A9%EC%B0%B8%EC%97%AC.gif" width="500" height="300">
+<img src="/uploads/14b3dee7bcadfd97d29e99271a3ab7c1/%EB%AA%A8%EC%A7%91%EC%B1%84%ED%8C%85%EB%B0%A9%EC%B0%B8%EC%97%AC.gif" width="800" height="600">
 
 - 채팅
     - 프론트: 웹소켓과 stomp 프로토콜을 이용한 통신, 이미지 전송 가능
@@ -119,7 +119,7 @@
 
 #### 채팅방 생성
 
-<img src="/uploads/8a38c24551313b9dc6dd579ad23232be/recruitChatroom.gif" width="500" height="300">
+<img src="/uploads/8a38c24551313b9dc6dd579ad23232be/recruitChatroom.gif" width="800" height="600">
 
 - 커스텀 주별 달력 활용하여 경기 선택
 - 경기에 맞는 응원팀 항목 제한
@@ -127,15 +127,34 @@
 
 #### 채팅방
 
-<img src="/uploads/5322f26a04c751b744dcf69d1441e952/gameChatroom.gif" width="500" height="300">
+##### 채팅
+<img src="/uploads/ca21120ad75e06caaabe571a802c0820/chatting.gif" width="800" height="600">
+
+##### 게임 채팅방 참여
+<img src="/uploads/5322f26a04c751b744dcf69d1441e952/gameChatroom.gif" width="800" height="600">
 
 - 대화 참가자 모두 표시
 
 #### 나의 채팅방 확인
-<img src="/uploads/4680a18e1f3990b21d7d7687d4eeda74/alarm.gif" width="300" height="400">
+<img src="/uploads/4680a18e1f3990b21d7d7687d4eeda74/alarm.gif" width="800" height="600">
 
 - 나의 채팅방 목록 확인 및 채팅방 개별 알림
 - 최근 메시지 확인, 클릭 시 채팅방 이동
+
+#### 로그인 및 회원가입
+
+- 회원가입
+<img src="/uploads/0959f41a5deb7fd8995b558aee2c5772/signup.gif" width="800" height="600">
+
+- 로그인
+<img src="/uploads/f1f53d6672fe7e218b4fcddf6b9022c5/email_login.gif" width="400" height="300">
+<img src="/uploads/fb439e7ccac61913c2493377879db3e7/kakao_login.gif" width="400" height="300">
+
+
+#### 경기 캘린더
+
+- 월별/주별 캘린더
+<img src="/uploads/dd97f26f2fad8ed639075bdaf230f629/calender.gif" width="800" height="600">
 
 
 ### 백엔드
