@@ -51,7 +51,7 @@ const MatchingModal = ( props ) => {
 
   const partiMutation = useMutation( partiChat, {
     onSuccess: () => {
-      navigator(`/matchChat/${ chatroomId }`)
+      navigator(`/matchChat/${ chatroomId }`, { state: title });
     }
   })
 

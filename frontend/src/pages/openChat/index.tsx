@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
-import { useParams, useLocation, useNavigate } from 'react-router-dom'
+import { useParams, useLocation, useNavigate, } from 'react-router-dom'
 import { ChatMessage, Participants } from './components'
 import { Button, InputBox, LeftIcon, MainLayout } from 'src/components'
 import { createClient } from './util/chat'
 import useStore from 'src/store'
 import styled from 'styled-components'
-import { getChat, getOpenChatMessages, getMyInfo, getParticipants } from 'src/api'
+import { getChat, getOpenChatMessages, getMyInfo, getParticipants, exitChat } from 'src/api'
 import { useQuery, useMutation } from 'react-query'
 import { formatDate } from './util'
 import postChatImage  from './api/postChatImage'
@@ -220,10 +220,13 @@ const OpenChat = () => {
       navigator('/')
     }
    }
-
+  
+   
+  
 
   return (
     <MainLayout>
+      
         <ChatPageWrapper>
           <Participants list = { participants } game = { games }/>
           <ChatWrapper>
