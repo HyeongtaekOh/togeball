@@ -86,8 +86,6 @@ const OpenChat = () => {
 
   const location = useLocation()
   const games = location.state
-  
-  console.log( games )
 
   useEffect(() => {
     const onConnect = async() => {
@@ -152,6 +150,12 @@ const OpenChat = () => {
     connectToStomp()
 
     return () => {
+      
+      const exitChat = async() => {
+        await deleteAxios(`/api/chatrooms/${chatroomId}/participants`)
+      }
+      exitChat()
+
       const data = {
         roomId : Number(chatroomId),
         data :{
@@ -168,7 +172,6 @@ const OpenChat = () => {
     if ( !e.target.files || e.target.files.length ===0 ) return
 
     const file = e.target.files[0]
-    console.log(itsme?.nickname)
 
     try {
       const param = {
@@ -212,18 +215,6 @@ const OpenChat = () => {
     
   }
 
-  const exitChat = async() => {
-    const confirmed = window.confirm('정말로 나가시겠습니까?')
-
-    if (confirmed) {
-      await deleteAxios(`/api/chatrooms/${chatroomId}/participants`)
-      navigator('/')
-    }
-   }
-  
-   
-  
-
   return (
     <MainLayout>
       
@@ -259,9 +250,6 @@ const OpenChat = () => {
                     전송
                   </Button>
                 </InputBox>
-                <Button onClick={() => exitChat()}>
-                    나가기
-                </Button>
             </InputBoxWrapper>
             
           </ChatWrapper>

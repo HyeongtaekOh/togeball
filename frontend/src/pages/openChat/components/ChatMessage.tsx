@@ -65,7 +65,6 @@ const ChatMessage = ( props: ChatMessageProps ) => {
     const getUser = async() => {
       const user =  await getUserInfo( senderId )
       setUserImage( user?.profileImage )
-      console.log(user)
       setUserName( user?.nickname )
       return user
     }
