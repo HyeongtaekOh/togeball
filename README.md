@@ -83,7 +83,7 @@
 
 ### 채팅 시스템
 
-<img src="/uploads/14b3dee7bcadfd97d29e99271a3ab7c1/%EB%AA%A8%EC%A7%91%EC%B1%84%ED%8C%85%EB%B0%A9%EC%B0%B8%EC%97%AC.gif" width="800" height="600">
+<img src="/uploads/ca21120ad75e06caaabe571a802c0820/chatting.gif" width="800" height="600">
 
 - 채팅
     - 프론트: 웹소켓과 stomp 프로토콜을 이용한 통신, 이미지 전송 가능
@@ -110,8 +110,7 @@
 
 #### 모집 채팅방
 
-
-<img src="/uploads/0593ddf2a94c15d6457d2f692984d5f0/image.png" width="500" height="300">
+<img src="/uploads/14b3dee7bcadfd97d29e99271a3ab7c1/%EB%AA%A8%EC%A7%91%EC%B1%84%ED%8C%85%EB%B0%A9%EC%B0%B8%EC%97%AC.gif" width="800" height="600">
 
 - 현재 활성화 된 채팅방 목록 제공
 - 경기 일자, 응원팀에 맞는 채팅방 찾는 필터 기능 제공
@@ -126,9 +125,6 @@
 - 사용자에 맞는 태그 입력 가능
 
 #### 채팅방
-
-##### 채팅
-<img src="/uploads/ca21120ad75e06caaabe571a802c0820/chatting.gif" width="800" height="600">
 
 ##### 게임 채팅방 참여
 <img src="/uploads/5322f26a04c751b744dcf69d1441e952/gameChatroom.gif" width="800" height="600">
