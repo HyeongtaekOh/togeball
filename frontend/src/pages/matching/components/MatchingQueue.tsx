@@ -68,7 +68,7 @@ const MatchingQueue = (props) => {
       circles.attr('cx', d => d.x).attr('cy', d => d.y)
       texts.attr('x', d => d.x).attr('y', d => d.y)
     });
-  }, [data])
+  }, [ data ])
 
   // 애니메이션을 위한 함수
   const blinkAnimation = (selection) => {

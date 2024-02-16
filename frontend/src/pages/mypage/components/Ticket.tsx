@@ -1,12 +1,12 @@
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 import { getMyInfo } from 'src/api'
-import { TagList } from './index';
+import { TagList } from './index'
 import Logo from 'src/asset/images/Logo.jpg'
 import barcode from 'src/asset/images/barcode.jpg'
-import { useQuery } from 'react-query';
-import { useEffect, useState } from 'react';
-import { Title } from 'src/components';
+import { useQuery } from 'react-query'
+import { useEffect, useState } from 'react'
+import { Title } from 'src/components'
 
 const TicketWrapper = styled.div`
     display: flex;
