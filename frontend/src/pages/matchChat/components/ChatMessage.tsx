@@ -56,6 +56,7 @@ const ChatMessage = ( props: ChatMessageProps ) => {
   const { time, message } = props
   const { content, senderId, nickname, type } = message
   const [ userImage, setUserImage ] = useState()
+  const [ username, setUserName ] = useState()
   
   const userId = localStorage.getItem( 'userId' )
   const isMe = userId == senderId ? 'me' : 'you';
@@ -64,6 +65,7 @@ const ChatMessage = ( props: ChatMessageProps ) => {
     const getUser = async() => {
       const user =  await getUserInfo( senderId )
       setUserImage( user?.profileImage )
+      setUserName( user?.nickname )
       return user
     }
     getUser()
@@ -80,7 +82,7 @@ const ChatMessage = ( props: ChatMessageProps ) => {
               {
               ( isMe==='me' )?(
                <div style={{ display:'flex', width: '100%', justifyContent: 'flex-end', gap: '5px'}}>
-               <NickWrapper>{ nickname } </NickWrapper>
+               <NickWrapper>{ username } </NickWrapper>
                <ImgWrapper src = { userImage || Logo } alt="hi"/>
                </div>
               ):(

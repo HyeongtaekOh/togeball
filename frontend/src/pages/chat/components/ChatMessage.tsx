@@ -60,11 +60,13 @@ const ChatMessage = ( props: ChatMessageProps ) => {
   const isMe = userId == senderId ? 'me' : 'you';
 
   const [ userImage, setUserImage ] = useState()
+  const [ username, setUserName ] = useState()
 
   useEffect(()=>{
     const getUser = async() => {
       const user =  await getUserInfo( senderId )
       setUserImage( user?.profileImage )
+      setUserName( user?.nickname )
       return user
     }
     getUser()
@@ -81,7 +83,7 @@ const ChatMessage = ( props: ChatMessageProps ) => {
             {
               ( isMe==='me' )?(
                <div style={{ display:'flex', width: '100%', justifyContent: 'flex-end', gap: '5px'}}>
-               <NickWrapper>{ nickname } </NickWrapper>
+               <NickWrapper>{ username } </NickWrapper>
                <ImgWrapper src = { userImage || Logo } alt="hi"/>
                </div>
               ):(
