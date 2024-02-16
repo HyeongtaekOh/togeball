@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const ButttonWrapper = styled.button<{ size : number }>`
     box-sizing: border-box;

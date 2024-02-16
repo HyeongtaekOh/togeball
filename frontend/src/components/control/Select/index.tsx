@@ -18,7 +18,6 @@ const SelectWrapper = styled.div<{ width : string, height : string, background: 
   border: 1px solid lightgray;
   cursor: pointer;
 `
-
 const LiDivWrapper = styled.div<{ width : string, background: string }>`
   width: ${( props )=> props.width };
   background: ${( props )=> props.background };
@@ -34,7 +33,6 @@ const LiDivWrapper = styled.div<{ width : string, background: string }>`
   background-color: white;
   border-radius: 10px;
 `
-
 const LiWrapper = styled.li`
   cursor: pointer;
   padding: 8px 15px;

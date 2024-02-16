@@ -1,5 +1,5 @@
 
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const ButttonWrapper = styled.button<{ size : number }>`
     box-sizing: border-box;
@@ -14,7 +14,7 @@ const ButttonWrapper = styled.button<{ size : number }>`
 
 const LeftIcon = ( props: IconProps ) => {
 
-    const { size = 40, onClick, disabled = false } = props
+    const { size = 40, onClick } = props
 
     return(
         <ButttonWrapper size={ size } onClick={ onClick }>
@@ -28,5 +28,4 @@ export default LeftIcon
 type IconProps = {
     size?: number,
     onClick?: () => void,
-    disabled?: boolean
 }
