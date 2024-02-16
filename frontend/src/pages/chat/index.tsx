@@ -76,7 +76,7 @@ const Chat = () => {
   const scriptEndRef = useRef< HTMLDivElement >( null ) 
   const { session } = useStore()
   const { data: itsme } = useQuery([ 'itsme' ], () => getMyInfo())
-  const { data: participants } = useQuery([ 'participants', { id : chatroomId }], () => getParticipants( { id : chatroomId }))
+  const { data: participants, refetch } = useQuery([ 'participants', { id : chatroomId }], () => getParticipants( { id : chatroomId }))
   const { data : chatInfo } = useQuery([ 'chatInfo', { id : chatroomId }], () => getChat( { id : chatroomId }))
   
   const stompClient = useRef( null )
@@ -85,9 +85,11 @@ const Chat = () => {
   const lastChatMutatioins = useMutation( postLastChat )
 
   useEffect(() => {
+    refetch()
     const onConnect = async() => {
       stompClient.current?.subscribe(`/topic/room.${ chatroomId }`, ( message ) => {
         const newMessage = JSON.parse( message.body )
+        refetch()
         setMessages(( prevMessages ) => [
           ...prevMessages,
           { 

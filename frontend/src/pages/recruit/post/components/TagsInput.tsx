@@ -37,7 +37,6 @@ const TagInput = styled.input`
   cursor: text;
   box-sizing: border-box;
   display: flex;
-  width: 100%;
   font-size: 16px;
   background-color: inherit;
   border: none;
