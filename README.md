@@ -182,20 +182,20 @@
 
 #### 아키텍처 설계
 
-<img src="/uploads/9af32a0aadb0bc9f343859956785f79c/archi.png" width="1000" height="600">
+<img src="/uploads/9af32a0aadb0bc9f343859956785f79c/archi.png" width="800" height="600">
 
 #### 모니터링 구현
 
 - 시스템 모니터링
-<img src="/uploads/04a5e0fea5de942bf477bb977934309b/node.PNG" width="1000" height="600">
+<img src="/uploads/04a5e0fea5de942bf477bb977934309b/node.PNG" width="800" height="600">
 
 
 - 젠킨스 모니터링
-<img src="/uploads/c22c5c25991da292e8dd3aedbb24c9fe/jen.PNG" width="1000" height="600">
+<img src="/uploads/c22c5c25991da292e8dd3aedbb24c9fe/jen.PNG" width="800" height="600">
 
 
 - 엔진엑스 모니터링
-<img src="/uploads/e2d4b44087215aa45301455605559f5e/ngix.PNG" width="1000" height="600">
+<img src="/uploads/e2d4b44087215aa45301455605559f5e/ngix.PNG" width="800" height="600">
 
 ## 기타 산출물
 
