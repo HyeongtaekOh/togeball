@@ -34,7 +34,6 @@ const MenuItem = ( props : MenuItemProps ) => {
   const navigator = useNavigate()
 
   const onClick = useCallback(( path : string ) => {
-    console.log(path)
     path && navigator( path )
   }, [] )
 

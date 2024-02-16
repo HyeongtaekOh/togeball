@@ -14,12 +14,10 @@ const SignButtonWrapper = styled.button<{ width : string }>`
     background-color: #9008F2;
   }
   `
+
 const SignButton = ( props: SignButtonProps ) =>{
 
-  const {
-    children, width = '100%',
-    onClick
-  } = props
+  const { children, width = '100%', onClick } = props
 
   return (
     <SignButtonWrapper onClick={ onClick } width={ width } >

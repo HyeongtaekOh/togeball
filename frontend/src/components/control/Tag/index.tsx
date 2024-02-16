@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const TagWrapper = styled.div<{ $bgColor : string, width : string, height : string }>`
   display: flex;
@@ -18,17 +18,18 @@ const TagWrapper = styled.div<{ $bgColor : string, width : string, height : stri
   font-weight: bolder;
   margin: 1px 5px 1px 5px;
   border-radius: 20px;
-`;
+`
 
 const Tag = ( props: TagProps ) => {
+  
   const { children,  bgColor = '#DEDCEE', width, height='18px' } = props
 
   return (
     <TagWrapper $bgColor={ bgColor } width={ width } height={ height } >
      { children }
     </TagWrapper>
-  );
-};
+  )
+}
 
 export default Tag
 
@@ -37,4 +38,4 @@ type TagProps = {
   bgColor?: string,
   width?: string,
   height?: string
-};
+}

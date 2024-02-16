@@ -13,15 +13,6 @@ const HeaderChatWrapper = styled.div`
   padding: 10px;
 `
 
-const CloseButton = styled.button`
-  background: #ccc;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  
-`
-
 const HeaderChat = ( props ) => {  
 
   const { chats, isLoading, onClick } = props

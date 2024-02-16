@@ -45,9 +45,7 @@ const Tooltip = styled.div<{ isVisible: boolean }>`
 const MatchingProfile = ( props ) => {
   const { name, profileImg, age, gender, myteam, tags  } = props
 
- 
   const [ isTooltipVisible, setIsTooltipVisible ] = useState( false )
-  console.log(name, profileImg, age, gender, myteam, tags)
 
   const newAge = new Date().getFullYear() - Number(age?.substring(0,4)) + 1
   const newGender = gender === 'Female' ? '여성' : '남성'

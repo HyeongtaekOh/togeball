@@ -88,7 +88,6 @@ const Chat = () => {
     const onConnect = async() => {
       stompClient.current?.subscribe(`/topic/room.${ chatroomId }`, ( message ) => {
         const newMessage = JSON.parse( message.body )
-        console.log( newMessage )
         setMessages(( prevMessages ) => [
           ...prevMessages,
           { 
@@ -161,7 +160,6 @@ const Chat = () => {
     if ( !e.target.files || e.target.files.length ===0 ) return
 
     const file = e.target.files[0]
-    console.log(itsme?.nickname)
 
     try {
       const param = {

@@ -1,26 +1,25 @@
 import styled, { css } from 'styled-components'
 
 const size = {
-    'large' : '23px',
-    'medium' : '19px',
-    'small' : '13px',
+  'large' : '23px',
+  'medium' : '19px',
+  'small' : '13px',
 } 
 
 const TitleWrapper = styled.p<{ type : string, color : string, bold : boolean }>`
-    font-size: ${( props ) => size[ props.type ]};
-    color: ${ ( props ) => props.color };
-    line-height: 130%;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow-x: hidden; 
-    
-    ${(props) =>
-        ( props.type !== 'small' || props.bold ) &&
-        css`
-            font-weight: bold;
-        `
-    }
-
+  font-size: ${( props ) => size[ props.type ]};
+  color: ${ ( props ) => props.color };
+  line-height: 130%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden; 
+  
+  ${(props) =>
+      ( props.type !== 'small' || props.bold ) &&
+      css`
+          font-weight: bold;
+      `
+  }
 `
 
 const Title = ( props : TitleProps ) =>{

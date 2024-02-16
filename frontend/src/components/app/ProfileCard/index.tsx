@@ -3,7 +3,6 @@ import { ParticipantsType } from 'src/types'
 import Logo from 'src/asset/images/Logo.jpg'
 import styled from 'styled-components'
 
-
 const ProfileCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -49,6 +48,7 @@ const InfoWrapper = styled.div`
   const ProfileCard = ( props : ProfileCardProps ) => {
 
     const { participant } = props
+
     const age 
       = new Date().getFullYear() - Number(participant?.birthdate?.substring(0,4)) + 1
     const gender = participant?.gender === 'FEMALE' ? '여성' : '남성'
@@ -79,7 +79,6 @@ const InfoWrapper = styled.div`
     )
   
   }
-
 
   export default ProfileCard
 

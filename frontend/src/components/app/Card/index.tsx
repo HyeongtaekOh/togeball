@@ -1,10 +1,10 @@
-import { styled } from "styled-components";
-import { Button } from "../..";
-import { GameType } from "src/types";
-import { useNavigate } from "react-router-dom";
-import { useMutation } from "react-query";
-import { partiChat } from "src/api";
-import { getAxios } from "src/api/util";
+import { styled } from "styled-components"
+import { Button } from "../.."
+import { GameType } from "src/types"
+import { useNavigate } from "react-router-dom"
+import { useMutation } from "react-query"
+import { partiChat } from "src/api"
+import { getAxios } from "src/api/util"
 
 const Mainwrapper = styled.div`
   display: flex;
@@ -42,13 +42,10 @@ const TextWrapper = styled.p<Textprops>`
 `
 
 const OpenChatCard = ( props: Textprops ) => {
-    const {
-       games
-    } = props
+  
+    const { games } = props
 
     const navigator = useNavigate()
-
-    // console.log(games)
 
     const { id, datetime, homeClubName, awayClubName, homeClubLogo, awayClubLogo } = games
 

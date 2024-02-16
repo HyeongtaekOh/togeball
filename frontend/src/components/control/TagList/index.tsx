@@ -1,6 +1,6 @@
-import TagBtn from '../TagBtn';
-import Tag from '../Tag';
-import styled from 'styled-components';
+import TagBtn from '../TagBtn'
+import Tag from '../Tag'
+import styled from 'styled-components'
 
 const TagListWrapper = styled.div`
   display: flex;
@@ -10,7 +10,8 @@ const TagListWrapper = styled.div`
 `
 
 const TagList = ( props: TagListProps ) => {
-  const { tags, myteam, bgColor, isTag, flag, mytags } = props;
+
+  const { tags, myteam, bgColor, isTag, flag, mytags } = props
 
   const tagList = 
   isTag? (   
@@ -29,9 +30,7 @@ const TagList = ( props: TagListProps ) => {
   )
 
   return (
-    <TagListWrapper>
-      { tagList }
-    </TagListWrapper>
+    <TagListWrapper>{ tagList }</TagListWrapper>
   )
 
 }

@@ -1,6 +1,5 @@
 import useStore from 'src/store'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
 
 const useAxios = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -42,17 +41,15 @@ useAxios.interceptors.response.use(
         const refreshToken = localStorage.getItem('refreshToken')
         const data = { "Authorization-refresh" : refreshToken }
         try{
-          const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/reissue`, { headers : data });
+          const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/reissue`, { headers : data })
           useStore.setState({ isLogin: true })
           useStore.setState({ accessToken: response?.headers?.authorization })
           localStorage.setItem("accessToken", response?.headers?.authorization )
           localStorage.setItem("refreshToken", response?.headers[`refresh-token`] )
 
           error.config.headers.Authorization = response?.headers?.authorization
-          return axios.request(error.config);
+          return axios.request(error.config)
         } catch( refreshError ){
-          console.log("리프레시도 만료됨")
-
           localStorage.removeItem("accessToken")
           localStorage.removeItem("refreshToken")
         }

@@ -74,7 +74,6 @@ const RightHeader = (  ) => {
         if ( match ) {
           const chatId = match[1]
           if( data?.data?.roomId && chatId != data?.data?.roomId ){
-            console.log(chatId, data?.data?.roomId)
             count.current = count.current + 1
             updateCount( count.current )
           }
