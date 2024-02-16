@@ -41,7 +41,6 @@ const MemberWrapper = styled.div`
 const Participants = ( props ) => {
   
   const { list, game } = props
-  console.log( game )
   return(
     <PartiWrapper>
       <HeaderWrapper>

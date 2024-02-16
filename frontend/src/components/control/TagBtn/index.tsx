@@ -1,8 +1,7 @@
-import { TagType } from 'src/types';
-import { useEffect, useState } from 'react';
-import useModel from 'src/pages/profile/store';
-import styled from 'styled-components';
-
+import { TagType } from 'src/types'
+import { useEffect, useState } from 'react'
+import useModel from 'src/pages/profile/store'
+import styled from 'styled-components'
 
 const TagBtnWrapper = styled.button<{ $bgColor: string, color: string }>`
   background-color: ${( props ) => props.$bgColor };
@@ -23,50 +22,49 @@ const TagBtnWrapper = styled.button<{ $bgColor: string, color: string }>`
 
 const TagBtn = (props: TagBtnProps) => {
 
-    const { children, myteam, item, mytags, stadiumFlag = false } = props
+  const { children, myteam, item, mytags, stadiumFlag = false } = props
 
-    const { team, setTeam, addStadiums, deleteStadiums } = useModel()
-    const isSelect = myteam===item.content
-    
-    const isMine = mytags?.find( tag => tag.id === item.id ) !== undefined || isSelect
-    const [ isClick, setIsClick ] = useState<boolean>( isMine )
+  const { team, setTeam, addStadiums, deleteStadiums } = useModel()
+  const isSelect = myteam===item.content
+  
+  const isMine = mytags?.find( tag => tag.id === item.id ) !== undefined || isSelect
+  const [ isClick, setIsClick ] = useState<boolean>( isMine )
 
-    useEffect(() => {
-      if (stadiumFlag && isMine) {
-          addStadiums(item);
-      }
-      if(isMine && team==0){
-        setTeam(item.id)
-      }
-  }, []);
-    
-    const backgroundColor = isClick? '#6A60A9' : '#DEDCEE';
-    const letterColor = isClick? 'white' : 'black';
+  useEffect(() => {
+    if ( stadiumFlag && isMine ) {
+        addStadiums(item)
+    }
+    if( isMine && team == 0 ){
+      setTeam(item.id)
+    }
+  }, [])
+  
+  const backgroundColor = isClick? '#6A60A9' : '#DEDCEE'
+  const letterColor = isClick? 'white' : 'black'
 
-    const changeColor = () => {
-      if( stadiumFlag ){ 
-        ( !isClick ? addStadiums( item ) : deleteStadiums( item ))
+  const changeColor = () => {
+    if( stadiumFlag ){ 
+      ( !isClick ? addStadiums( item ) : deleteStadiums( item ))
+      setIsClick( !isClick )
+    } else {
+      if( team===0 ){
         setIsClick( !isClick )
+        setTeam( item.id )
       } else {
-        if( team===0 ){
+        if( team===item.id ){
           setIsClick( !isClick )
-          setTeam( item.id )
-        } else {
-          if( team===item.id ){
-            setIsClick( !isClick )
-            setTeam(0)
-          }
+          setTeam(0)
         }
       }
     }
+  }
 
-      return (
-        <TagBtnWrapper onClick={ changeColor } $bgColor={ backgroundColor } color={ letterColor }>
-          #{ children }
-        </TagBtnWrapper>
-      )
+  return (
+    <TagBtnWrapper onClick={ changeColor } $bgColor={ backgroundColor } color={ letterColor }>
+      #{ children }
+    </TagBtnWrapper>
+  )
 }
-
 
 export default TagBtn
 

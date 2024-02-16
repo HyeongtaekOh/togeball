@@ -159,7 +159,6 @@ const RecruitPost = () => {
           cheeringClubId: Number( team ),
           tagIds: [ ...response, seat ]
         }
-        console.log(data)
       await recruitMutation.mutateAsync( data )
     }
   }

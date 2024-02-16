@@ -1,5 +1,5 @@
-import styled, { css } from "styled-components";
-import { BoardType } from "src/types/Board";
+import styled, { css } from "styled-components"
+import { BoardType } from "src/types/Board"
 
 const BoardWrapper = styled.div<BoardListProps>`
     display: flex;
@@ -21,7 +21,6 @@ const BoardWrapper = styled.div<BoardListProps>`
       `
     }
 `
-
 const CreateTimeWrapper = styled.p`
     color: #A4A29F;
     font-size: 10px;
@@ -32,19 +31,17 @@ const UserWrapper = styled.div`
     display: flex;
     align-items: flex-end;
     justify-content: center;
-
-    
 `
 
 const BoardItem = ( props: BoardListProps ) => {
 
-  const { board, onClick, type = 'main' } = props
+  const { board } = props
 
   const { creatorName, title, createdTime, logo } = board
 
   return(
     <BoardWrapper >
-      <img style={{ width: '10%', borderRadius:'10px' }} src={ logo} alt="" ></img>
+      <img style={{ width: '10%', borderRadius:'10px' }} src={ logo } alt="" ></img>
       <BoardWrapper type="sub">
       <p style={{ color: 'black' }}>{ title }</p>
       <CreateTimeWrapper>{ createdTime }</CreateTimeWrapper>

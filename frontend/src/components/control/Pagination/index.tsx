@@ -58,7 +58,7 @@ const Pagination = ( props ) => {
   useEffect(() => {
     chatContent && 
     setTotalPages( Math.ceil(chatContent?.length / itemsPerPage ))
-  }, [ chatContent ]);
+  }, [ chatContent ])
 
 
   const handleClick = ( page ) => {
@@ -118,7 +118,7 @@ const Pagination = ( props ) => {
         ( chatContent?.length > 0 || chats?.content?.length > 0 ) ?
         (
           <PageWrapper>
-            <LeftIcon size= { 20 } onClick={ handlePrevClick } disabled={ currentPage === 1 }/>
+            <LeftIcon size= { 20 } onClick={ handlePrevClick }/>
             { renderPagination() }
             <RightIcon size= { 20 } onClick={ handleNextClick }/>
           </PageWrapper>
@@ -129,4 +129,4 @@ const Pagination = ( props ) => {
   )
 }
 
-export default Pagination;
+export default Pagination
