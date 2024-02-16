@@ -10,7 +10,6 @@
 - 역할 분담
 - 프로젝트 소개
 - 기술스택
-- 메인페이지
 - 핵심 기능
 - 역할별 상세 보기
 - 기타 산출물
@@ -68,10 +67,6 @@
 | :--------: | :--------: | :------: | :-----: | :--------: |
 |   <img src="/uploads/777add1f8b2af7aea06f37755d9a8415/image-11.png" width="100" height="100">   | <img src="/uploads/e3a9d820b8d90e67b17fd830b98f9908/doc.png" width="100" height="100">    | <img src="/uploads/9627973f6e2be541052ef266c2bf8020/image-13.png" width="100" height="100"> | <img src="/uploads/7f43b163bf59e392b1214722252c86d3/image-14.png" width="100" height="100"> | <img src="/uploads/fed859911e53bde4872b8100670da8ae/image-15.png" width="100" height="100"> |
 
-
-## 메인페이지
-
-<img src="/uploads/ce57c18f8bec52f29146afa5cc47acba/image-16.png" width="600" height="400">
 
 
 ## 핵심 기능
