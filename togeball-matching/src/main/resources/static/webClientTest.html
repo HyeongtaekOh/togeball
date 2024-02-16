@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WebSocket Client</title>
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+
+</head>
+<body>
+<h1>WebSocket Client Example</h1>
+<p id="message">Waiting for messages from the server...</p>
+
+<script>
+  // JavaScript 클라이언트 예제
+  // const clientId = Math.floor(Math.random() * 100); // 클라이언트 고유한 식별자
+  // const socket = new SockJS("https://localhost:8080/matching-server/matching?userId=" + clientId);
+  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImlkIjoyLCJleHAiOjE3MDcyOTA2NTN9.0WWrJcRDIQSK50_zvdfkdC9po0vBnoaGxQFw550WcTC9SVdRscV4rAnmc5KSxopvAdEPfvVSv-y6_-q19r6H9A";
+  const socket = new SockJS("https://localhost:8080/matching-server/matching?token="+token);
+
+  socket.onopen = function(event) {
+    // WebSocket 연결이 열렸을 때 실행되는 코드
+    console.log("WebSocket 연결이 열렸습니다.");
+    document.getElementById("message").textContent = "WebSocket 연결이 열렸습니다.";
+
+    // 연결이 열리면 서버에 메시지를 보낼 수 있음
+    // 예: 서버에 "Hello, Server!" 메시지 보내기
+    socket.send("Hello, Server!");
+  };
+
+  socket.onmessage = function(event) {
+    // 서버에서 메시지를 받았을 때 실행되는 코드
+    const message = event.data;
+    console.log("서버로부터 메시지를 받았습니다: " + message);
+    document.getElementById("message").textContent = "서버로부터 메시지를 받았습니다: " + message;
+  };
+
+  socket.onclose = function(event) {
+    // WebSocket 연결이 닫혔을 때 실행되는 코드
+    console.log("WebSocket 연결이 닫혔습니다.");
+    document.getElementById("message").textContent = "WebSocket 연결이 닫혔습니다.";
+  };
+
+  socket.onerror = function(event) {
+    // WebSocket 에러가 발생했을 때 실행되는 코드
+    console.error("WebSocket 에러가 발생했습니다.");
+    document.getElementById("message").textContent = "WebSocket 에러가 발생했습니다.";
+  };
+</script>
+</body>
+</html>
