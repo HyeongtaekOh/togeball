@@ -77,7 +77,7 @@
 ## 핵심 기능
 
 ### 매칭 시스템
-<img src="/uploads/df5967699187ce6d0a3ea2404ba48b92/matching.gif" width="800" height="600">
+<img src="/uploads/df5967699187ce6d0a3ea2404ba48b92/matching.gif" width="1000" height="600">
 
 - 매칭 
     - 프론트: 웹소켓을 이용한 통신, d3를 이용한 데이터 시각화 및 인터랙티브웹 구현
@@ -86,7 +86,7 @@
 
 ### 채팅 시스템
 
-<img src="/uploads/ca21120ad75e06caaabe571a802c0820/chatting.gif" width="800" height="600">
+<img src="/uploads/ca21120ad75e06caaabe571a802c0820/chatting.gif" width="1000" height="600">
 
 - 채팅
     - 프론트: 웹소켓과 stomp 프로토콜을 이용한 통신, 이미지 전송 가능
@@ -100,7 +100,7 @@
 #### 매칭 시스템
 
 
-<img src="/uploads/df5967699187ce6d0a3ea2404ba48b92/matching.gif" width="800" height="600">
+<img src="/uploads/df5967699187ce6d0a3ea2404ba48b92/matching.gif" width="1000" height="600">
 
 - 매칭 클릭 시 매칭을 시도하는 사람들과의 사용자 태그 기반 매칭 적용
 - 상위 6개의 태그 애니메이션으로 표시
@@ -113,7 +113,7 @@
 
 #### 모집 채팅방
 
-<img src="/uploads/14b3dee7bcadfd97d29e99271a3ab7c1/%EB%AA%A8%EC%A7%91%EC%B1%84%ED%8C%85%EB%B0%A9%EC%B0%B8%EC%97%AC.gif" width="800" height="600">
+<img src="/uploads/14b3dee7bcadfd97d29e99271a3ab7c1/%EB%AA%A8%EC%A7%91%EC%B1%84%ED%8C%85%EB%B0%A9%EC%B0%B8%EC%97%AC.gif" width="1000" height="600">
 
 - 현재 활성화 된 채팅방 목록 제공
 - 경기 일자, 응원팀에 맞는 채팅방 찾는 필터 기능 제공
@@ -121,7 +121,7 @@
 
 #### 채팅방 생성
 
-<img src="/uploads/8a38c24551313b9dc6dd579ad23232be/recruitChatroom.gif" width="800" height="600">
+<img src="/uploads/8a38c24551313b9dc6dd579ad23232be/recruitChatroom.gif" width="1000" height="600">
 
 - 커스텀 주별 달력 활용하여 경기 선택
 - 경기에 맞는 응원팀 항목 제한
@@ -130,12 +130,12 @@
 #### 채팅방
 
 ##### 게임 채팅방 참여
-<img src="/uploads/5322f26a04c751b744dcf69d1441e952/gameChatroom.gif" width="800" height="600">
+<img src="/uploads/5322f26a04c751b744dcf69d1441e952/gameChatroom.gif" width="1000" height="600">
 
 - 대화 참가자 모두 표시
 
 #### 나의 채팅방 확인
-<img src="/uploads/4680a18e1f3990b21d7d7687d4eeda74/alarm.gif" width="800" height="600">
+<img src="/uploads/4680a18e1f3990b21d7d7687d4eeda74/alarm.gif" width="1000" height="600">
 
 - 나의 채팅방 목록 확인 및 채팅방 개별 알림
 - 최근 메시지 확인, 클릭 시 채팅방 이동
@@ -143,7 +143,7 @@
 #### 로그인 및 회원가입
 
 - 회원가입
-<img src="/uploads/0959f41a5deb7fd8995b558aee2c5772/signup.gif" width="800" height="600">
+<img src="/uploads/0959f41a5deb7fd8995b558aee2c5772/signup.gif" width="1000" height="600">
 
 - 로그인
 <img src="/uploads/f1f53d6672fe7e218b4fcddf6b9022c5/email_login.gif" width="400" height="300">
@@ -153,7 +153,7 @@
 #### 경기 캘린더
 
 - 월별/주별 캘린더
-<img src="/uploads/37ec483af70852f172e1fcfb0a68f41a/calender__2_.gif" width="800" height="600">
+<img src="/uploads/37ec483af70852f172e1fcfb0a68f41a/calender__2_.gif" width="1000" height="600">
 
 
 ### 백엔드
@@ -187,29 +187,29 @@
 
 #### 아키텍처 설계
 
-<img src="/uploads/9af32a0aadb0bc9f343859956785f79c/archi.png" width="800" height="600">
+<img src="/uploads/9af32a0aadb0bc9f343859956785f79c/archi.png" width="1000" height="600">
 
 #### 모니터링 구현
 
 - 시스템 모니터링
-<img src="/uploads/04a5e0fea5de942bf477bb977934309b/node.PNG" width="800" height="600">
+<img src="/uploads/04a5e0fea5de942bf477bb977934309b/node.PNG" width="1000" height="600">
 
 
 - 젠킨스 모니터링
-<img src="/uploads/c22c5c25991da292e8dd3aedbb24c9fe/jen.PNG" width="800" height="600">
+<img src="/uploads/c22c5c25991da292e8dd3aedbb24c9fe/jen.PNG" width="1000" height="600">
 
 
 - 엔진엑스 모니터링
-<img src="/uploads/e2d4b44087215aa45301455605559f5e/ngix.PNG" width="800" height="600">
+<img src="/uploads/e2d4b44087215aa45301455605559f5e/ngix.PNG" width="1000" height="600">
 
 ## 기타 산출물
 
 
 #### ERD
-<img src="/uploads/2dc4599f4f4bf8789c63aa43821e13fd/erd.png" width="800" height="600">
+<img src="/uploads/2dc4599f4f4bf8789c63aa43821e13fd/erd.png" width="1000" height="600">
 
 #### Figma 화면 설계서
-<img src="/uploads/5e8cb2e4a208929f44bcd9be87b465ee/figmain.png" width="800" height="600">
+<img src="/uploads/5e8cb2e4a208929f44bcd9be87b465ee/figmain.png" width="1000" height="600">
 
 
 #### 회고
