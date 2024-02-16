@@ -1,0 +1,84 @@
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  port: 8080
+  ssl:
+    enabled: true
+    enabled-protocols:
+      - TLSv1.1
+      - TLSv1.2
+    key-store: "classpath:ssl/keystore.p12"
+    key-store-password: "togeball"
+    key-store-type: "PKCS12"
+
+spring:
+  data:
+    mongodb:
+      host: i10a610.p.ssafy.io
+      port: 27017
+      username: ${MONGO_INITDB_ROOT_USERNAME}
+      password: ${MONGO_INITDB_ROOT_PASSWORD}
+      authentication-database: admin
+      database: togeball_chat_3
+  rabbitmq:
+    host: i10a610.p.ssafy.io
+    port: 4672
+    username: ssafy
+    password: ssafy
+  cloud:
+    aws:
+      credentials:
+        access-key: ${S3_ACCESS_KEY}
+        secret-key: ${S3_SECRET_KEY}
+      region:
+        static: ap-northeast-2
+      s3:
+        bucket: togeball-s3-bucket
+  servlet:
+    multipart:
+      max-file-size: 100MB
+  config:
+    import: optional:env/env.yml
+
+logging:
+  level:
+    org:
+      springframework:
+        messaging: DEBUG
+        web:
+          socket: DEBUG
+    io:
+      awspring:
+        cloud: DEBUG
+
+websocket:
+  relay:
+    host: i10a610.p.ssafy.io
+    port: 61613
+    client:
+      login: ssafy
+      passcode: ssafy
+    system:
+      login: ssafy
+      passcode: ssafy
+
+rabbitmq:
+  host: i10a610.p.ssafy.io
+  port: 4672
+  username: ssafy
+  password: ssafy
+  exchange:
+    name: togeball.exchange
+  join:
+    queue: chat.queue
+  notification:
+    queue: notification.chat.queue
+    routing-key: togeball.notification
+
+jwt:
+  secretKey: ${JWT_SECRET_KEY}
+  access:
+    header: Authorization

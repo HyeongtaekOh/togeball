@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>그룹채팅</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <style>
+      #messages {
+        height: 300px;
+        overflow-y: auto;
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      .message {
+        padding: 5px;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        max-width: 50%;
+      }
+      .message-info {
+        font-size: 0.8em;
+        color: gray;
+        margin-bottom: 5px;
+      }
+      .own-message {
+        background-color: #d1e7dd;
+        margin-left: auto;
+        text-align: right;
+      }
+      .other-message {
+        background-color: #f8d7da;
+        text-align: left;
+      }
+      #file-input {
+        display: none;
+      }
+      #file-label {
+        background-color: #007bff;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>채팅방에 입장하세요</h2>
+    <input type="text" id="user-id" placeholder="사용자 ID를 입력하세요" />
+    <button onclick="saveUserId()">저장</button>
+    <br />
+    <input type="text" id="room-id" placeholder="채팅방 ID를 입력하세요" />
+    <button onclick="joinRoom()">접속</button>
+
+    <h2>채팅방</h2>
+    <div id="messages"></div>
+    <input type="text" id="message-input" placeholder="메시지를 입력하세요" />
+    <button onclick="sendMessage()">보내기</button>
+
+    <h2>파일 전송</h2>
+    <label for="file-input" id="file-label">파일 선택</label>
+    <input type="file" id="file-input" accept="image/*" onchange="updateFileLabel()" />
+    <button onclick="uploadFile()">전송</button>
+
+    <h2>이미지 표시</h2>
+    <div id="imageDisplay"></div>
+
+    <script type="text/javascript">
+      var stompClient = null;
+      var roomId = null;
+      var userId = sessionStorage.getItem("userId");
+
+      document.getElementById("user-id").addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+          saveUserId();
+        }
+      });
+
+      document.getElementById("room-id").addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+          joinRoom();
+        }
+      });
+
+      document.getElementById("message-input").addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+          sendMessage();
+        }
+      });
+
+      function saveUserId() {
+        userId = document.getElementById("user-id").value;
+
+        if (!userId) {
+          alert("사용자 ID를 입력하세요.");
+          return;
+        }
+
+        if (isNaN(userId) || userId < 1 || userId > 1000) {
+          alert("사용자 ID는 1~1000 사이의 숫자만 입력 가능합니다.");
+          return;
+        }
+
+        sessionStorage.setItem("userId", userId);
+        document.getElementById("room-id").focus();
+      }
+
+      function joinRoom() {
+        clearMessages();
+        roomId = document.getElementById("room-id").value;
+
+        if (!roomId) {
+          alert("채팅방 ID를 입력하세요.");
+          return;
+        }
+
+        if (isNaN(roomId) || roomId < 1 || roomId > 1000) {
+          alert("채팅방 ID는 1~1000 사이의 숫자만 입력 가능합니다.");
+          return;
+        }
+
+        fetch(
+          `http://i10a610.p.ssafy.io:8081/chat-server/chats/${roomId}?userId=${userId}&page=0&size=10`
+        )
+          .then((response) => response.json())
+          .then((messages) => {
+            displayEnterMessage(`${roomId}번 채팅방에 입장하였습니다.`, "red");
+            console.log(messages);
+            messages.content.forEach((message) => {
+              displayMessage(message, message.senderId == userId);
+            });
+            scrollToBottom();
+          });
+
+        var socket = new SockJS("http://i10a610.p.ssafy.io:8081/chat-server/chat?userId=" + userId);
+        // var socket = new WebSocket("ws://localhost:8080/chat");
+        stompClient = Stomp.over(socket);
+        stompClient.connect({ Authorization: userId }, function (frame) {
+          console.log("Connected: " + frame);
+          stompClient.subscribe(
+            "/topic/room." + roomId,
+            function (message) {
+              var chatMessage = JSON.parse(message.body);
+              displayMessage(chatMessage, chatMessage.senderId == userId);
+              scrollToBottom();
+            },
+            { "auto-delete": true, durable: false, exclusive: false }
+          );
+          document.getElementById("message-input").focus();
+        });
+      }
+
+      function sendMessage() {
+        if (!userId) {
+          alert("사용자 ID를 입력하세요.");
+          return;
+        }
+
+        if (!roomId) {
+          alert("채팅방에 접속하세요.");
+          return;
+        }
+
+        var messageContent = document.getElementById("message-input").value;
+
+        if (!messageContent) {
+          alert("메시지를 입력하세요.");
+          return;
+        }
+
+        var chatMessage = {
+          roomId: roomId,
+          senderId: sessionStorage.getItem("userId"),
+          type: "TALK",
+          content: messageContent,
+        };
+
+        if (stompClient && roomId) {
+          stompClient.send(
+            "/pub/chat." + roomId,
+            { Authorization: userId },
+            JSON.stringify(chatMessage)
+          );
+          document.getElementById("message-input").value = "";
+        } else {
+          alert("You are not connected to a chat room.");
+        }
+      }
+
+      function displayEnterMessage(message, color) {
+        var messagesDiv = document.getElementById("messages");
+        var messageElement = document.createElement("div");
+        messageElement.style.color = color;
+        messageElement.classList.add("message");
+        messageElement.appendChild(document.createTextNode(message));
+        messagesDiv.appendChild(messageElement);
+      }
+
+      function displayMessage(message, isOwnMessage) {
+        var messagesDiv = document.getElementById("messages");
+        var messageElement = document.createElement("div");
+        messageElement.classList.add("message");
+        messageElement.classList.add(isOwnMessage ? "own-message" : "other-message");
+
+        // 메시지 정보 추가 (발신자와 시간)
+        var messageInfo = document.createElement("div");
+        messageInfo.classList.add("message-info");
+        var senderText = document.createTextNode(message.senderId + " ");
+        var createdAtText = document.createTextNode(formatDate(new Date(message.timestamp)));
+        messageInfo.appendChild(senderText);
+        messageInfo.appendChild(createdAtText);
+        messageElement.appendChild(messageInfo);
+
+        // 메시지 내용 추가
+        // var messageContent = document.createTextNode(message.content);
+
+        var messageContent = document.createElement("div");
+
+        // 만약 메시지의 타입이 "IMAGE"면 이미지로 처리
+        if (message.type === "IMAGE") {
+          var img = document.createElement("img");
+          img.src = message.content;
+          img.style.width = "100%";
+          img.style.height = "auto"; // 이미지의 가로세로비를 유지
+          messageContent.appendChild(img);
+        } else {
+          var textContent = document.createTextNode(message.content);
+          messageContent.appendChild(textContent);
+        }
+        messageElement.appendChild(messageContent);
+
+        messagesDiv.appendChild(messageElement);
+      }
+
+      function formatDate(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? "PM" : "AM";
+        hours = hours % 12;
+        hours = hours ? hours : 12; // 0시는 12로 표시
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        var strTime = hours + ":" + minutes + " " + ampm;
+        return (
+          date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + strTime
+        );
+      }
+
+      function clearMessages() {
+        var messagesDiv = document.getElementById("messages");
+        messagesDiv.innerHTML = "";
+      }
+
+      function scrollToBottom() {
+        var messagesDiv = document.getElementById("messages");
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
+
+      function updateFileLabel() {
+        var fileInput = document.getElementById("file-input");
+        var fileLabel = document.getElementById("file-label");
+
+        if (fileInput.files[0]) {
+          fileLabel.textContent = fileInput.files[0].name;
+        } else {
+          fileLabel.textContent = "파일 선택";
+        }
+      }
+
+      function uploadFile() {
+        var fileInput = document.getElementById("file-input");
+        var selectedFile = fileInput.files[0];
+
+        if (!selectedFile) {
+          alert("파일을 선택하세요.");
+          return;
+        }
+
+        if (!userId) {
+          alert("사용자 ID를 입력하세요.");
+          return;
+        }
+
+        if (!roomId) {
+          alert("채팅방에 접속하세요.");
+          return;
+        }
+
+        var formData = new FormData();
+        formData.append("file", selectedFile);
+        formData.append("roomId", roomId);
+        formData.append("senderId", sessionStorage.getItem("userId"));
+        formData.append("type", "IMAGE");
+
+        if (stompClient && roomId) {
+          fetch(`http://i10a610.p.ssafy.io:8081/chat-server/chats/${roomId}/images`, {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.text())
+            .then((imageUrl) => {
+              // 이미지 URL을 사용하여 이미지를 표시
+              var imageDisplay = document.getElementById("imageDisplay");
+              var img = document.createElement("img");
+              img.src = imageUrl;
+              imageDisplay.appendChild(img);
+            })
+            .catch((error) => {
+              console.error("파일 업로드 오류:", error);
+            });
+        } else {
+          alert("You are not connected to a chat room.");
+        }
+      }
+    </script>
+  </body>
+</html>
