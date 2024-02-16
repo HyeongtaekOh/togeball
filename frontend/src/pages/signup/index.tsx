@@ -77,6 +77,11 @@ const SignUp = () => {
       isCheck( e.target.value )
     }
   
+    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_REST_API_KEY}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code`
+    const handleKakao = ()=>{
+        window.location.href = kakaoURL
+    }
+
     return (
       <MainLayout>
         <SignLayout>
@@ -106,7 +111,7 @@ const SignUp = () => {
           회원가입
         </SignButton>
         <Title type='small'>SNS 회원가입</Title>
-        <IconWrapper><KakaoIcon /></IconWrapper>
+        <IconWrapper><KakaoIcon onClick={ handleKakao }/></IconWrapper>
        </SignLayout>
       </MainLayout>
     )
