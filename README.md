@@ -2,7 +2,7 @@
 
 # ⚾️ Togeball - 야구 직관 메이트 매칭 플랫폼
 
-<img src="/uploads/6dcb2dbf8e1efed220d0c5e307b3e6ba/togeball_logo1.png" width="500" height="300">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/7c125c0d-01d6-4352-82f1-9656910d1318" width="500" height="300">
 
 
 ## 목차
@@ -52,27 +52,27 @@
 ### 프론트엔드
 | TypeScript |    React   |  StyeldComponent   |  Zustand |
 | :--------: | :--------: | :------: | :-----: |
-|   <img src="/uploads/296ca86b204eac0daf04aad55a5e6b26/image.png" width="100" height="100">    |   <img src="/uploads/3f21f61ff5941103ebeb216c83c65607/image-1.png" width="100" height="100">    | <img src="/uploads/bc6ee5a8d68f33b8bd193abf623aa3bf/image-2.png" width="100" height="100"> | <img src="/uploads/4e3e91384015b03b8bf66ab093380af7/image-3.png" width="100" height="100"> |
+|   <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/65be6d99-38d9-4c5c-8378-e5264979db90" width="100" height="100">    |   <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/45501075-a1af-44a8-8f3b-e720fd6c5850" width="100" height="100">    | <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/da406de6-1b84-4c37-a772-13d9ec46b380" width="100" height="100"> | <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/a2c920e1-9e1a-4474-add1-94bc3ad87ec8" width="100" height="100"> |
 
 ### 백엔드
 
 | SpringBoot |   MariaDB  |  MongoDB   |  Redis | RabbitMQ | 
 | :--------: | :--------: | :------: | :-----: | :--------: |
-|   <img src="/uploads/b4791806e1d8ca4a32c5f32cd89d0b65/image-4.png" width="100" height="100">    |   <img src="/uploads/296d4d790582241605ecb42ff06b15a8/image-5.png" width="100" height="100">    | <img src="/uploads/2fd08fc5e00ec03cd8caefee5452ba14/mog.png" width="100" height="100"> | <img src="/uploads/58867c6d0179bc526726ae7626d83fa8/image-9.png" width="100" height="100"> | <img src="/uploads/c5eccc59c9595aef959e6a69cfc653c6/image-10.png" width="100" height="100"> |
+|   <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/08b644fe-ced1-476e-b8de-95f5b6a96d71" width="100" height="100">    |   <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/2d634556-065a-4933-94f0-d7f91bcdae47" width="100" height="100">    | <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/b0b78ab1-5bf9-47de-b86e-72a21f9941c7" width="100" height="100"> | <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/41f79e49-d7f0-41a0-80b5-cf33c2cd623c" width="100" height="100"> | <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/686ccff0-c169-4d66-9d81-484706632ef7" width="100" height="100"> |
 
 ### 인프라
 
 
 | Jenkins |   Docker  |  nginx   |  prometheus | Grafana | 
 | :--------: | :--------: | :------: | :-----: | :--------: |
-|   <img src="/uploads/777add1f8b2af7aea06f37755d9a8415/image-11.png" width="100" height="100">   | <img src="/uploads/e3a9d820b8d90e67b17fd830b98f9908/doc.png" width="100" height="100">    | <img src="/uploads/9627973f6e2be541052ef266c2bf8020/image-13.png" width="100" height="100"> | <img src="/uploads/7f43b163bf59e392b1214722252c86d3/image-14.png" width="100" height="100"> | <img src="/uploads/fed859911e53bde4872b8100670da8ae/image-15.png" width="100" height="100"> |
+|   <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/dbd32f39-b91a-4731-8b77-62a58b5c1360" width="100" height="100">   | <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/9b62f9ed-2ff2-419e-8038-0da3ff34112f" width="100" height="100">    | <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/c3804c67-0589-4de9-acc2-814fc10bf15c" width="100" height="100"> | <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/a2bc922a-a409-4668-8311-339d81ee2c32" width="100" height="100"> | <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/b2f01ead-540f-4f68-a412-54344447d436" width="100" height="100"> |
 
 
 
 ## 핵심 기능
 
 ### 매칭 시스템
-<img src="/uploads/df5967699187ce6d0a3ea2404ba48b92/matching.gif" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/7be63b2a-89cc-4560-b9a8-a4be1cab0325" width="1000" height="600">
 
 - 매칭 
     - 프론트: 웹소켓을 이용한 통신, d3를 이용한 데이터 시각화 및 인터랙티브웹 구현
@@ -81,7 +81,7 @@
 
 ### 채팅 시스템
 
-<img src="/uploads/ca21120ad75e06caaabe571a802c0820/chatting.gif" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/33d7e6bd-f4a6-46c8-beba-8b53771632cf" width="1000" height="600">
 
 - 채팅
     - 프론트: 웹소켓과 stomp 프로토콜을 이용한 통신, 이미지 전송 가능
@@ -95,20 +95,20 @@
 #### 매칭 시스템
 
 
-<img src="/uploads/df5967699187ce6d0a3ea2404ba48b92/matching.gif" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/001bece4-b48f-4b59-9681-506651dde4f0" width="1000" height="600">
 
 - 매칭 클릭 시 매칭을 시도하는 사람들과의 사용자 태그 기반 매칭 적용
 - 상위 6개의 태그 애니메이션으로 표시
 - 스케줄링 시간에 따라 2~6인으로 구성된 채팅방 생성
 
-<img src="/uploads/2ab94611d4bb994e1bf37a266563ad14/matchingmodal.PNG" width="500" height="300">
-<img src="/uploads/a648637416590e434a7c2ae498485719/matchingchat.PNG" width="500" height="300">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/78273af4-8eb0-4f23-a8bc-777931f929cc" width="500" height="300">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/cd6e3825-51a3-4956-9509-abf10430648e" width="500" height="300">
 
 - Chat GPT 이용하여 태그들 조합의 적절한 채팅방 이름 생성
 
 #### 모집 채팅방
 
-<img src="/uploads/14b3dee7bcadfd97d29e99271a3ab7c1/%EB%AA%A8%EC%A7%91%EC%B1%84%ED%8C%85%EB%B0%A9%EC%B0%B8%EC%97%AC.gif" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/5bca04ca-fff7-4c55-95a1-ba7a8a574f6f" width="1000" height="600">
 
 - 현재 활성화 된 채팅방 목록 제공
 - 경기 일자, 응원팀에 맞는 채팅방 찾는 필터 기능 제공
@@ -116,7 +116,7 @@
 
 #### 채팅방 생성
 
-<img src="/uploads/8a38c24551313b9dc6dd579ad23232be/recruitChatroom.gif" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/5bfa9617-e369-4aac-8dbc-fb7fb83ca260" width="1000" height="600">
 
 - 커스텀 주별 달력 활용하여 경기 선택
 - 경기에 맞는 응원팀 항목 제한
@@ -125,12 +125,12 @@
 #### 채팅방
 
 ##### 게임 채팅방 참여
-<img src="/uploads/5322f26a04c751b744dcf69d1441e952/gameChatroom.gif" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/cda34057-3b63-4673-afc0-d49b39446fd6" width="1000" height="600">
 
 - 대화 참가자 모두 표시
 
 #### 나의 채팅방 확인
-<img src="/uploads/4680a18e1f3990b21d7d7687d4eeda74/alarm.gif" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/47f7d101-c302-43b6-9106-63c735192659" width="1000" height="600">
 
 - 나의 채팅방 목록 확인 및 채팅방 개별 알림
 - 최근 메시지 확인, 클릭 시 채팅방 이동
@@ -138,17 +138,17 @@
 #### 로그인 및 회원가입
 
 - 회원가입
-<img src="/uploads/0959f41a5deb7fd8995b558aee2c5772/signup.gif" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/025d77aa-5f2c-4646-8ac4-0f053a71dedd" width="1000" height="600">
 
 - 로그인
-<img src="/uploads/f1f53d6672fe7e218b4fcddf6b9022c5/email_login.gif" width="400" height="300">
-<img src="/uploads/fb439e7ccac61913c2493377879db3e7/kakao_login.gif" width="400" height="300">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/4f778ef4-a455-46a8-959a-99175d8e3917" width="400" height="300">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/778a30ce-01ff-45b2-8bd7-0e8b9490f690" width="400" height="300">
 
 
 #### 경기 캘린더
 
 - 월별/주별 캘린더
-<img src="/uploads/37ec483af70852f172e1fcfb0a68f41a/calender__2_.gif" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/bf2fadb0-468b-46e8-92ad-97afe4dc1b4b" width="1000" height="600">
 
 
 ### 백엔드
@@ -156,55 +156,55 @@
 #### Swagger API 확인
 
 - 채팅방 API
-<img src="/uploads/39b925c9230cf4218184faea4646d67b/image__7_.png" width="400" height="200">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/2e039d8d-fec4-4c3d-add7-930a7552a234" width="800">
 
 - 매칭, 태그 API
-<img src="/uploads/1842a2aeb09d29ec8141fd9e94efd7c8/image__8_.png" width="400" height="200">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/0a2bec64-12c3-471b-8550-a2675b3c5b7d" width="800">
 
 #### Postman API 확인
 
 - 게시판, 리그, 매칭, 알림 API
-<img src="/uploads/c89016184ee7c1c269ee4c6e4be3a4a4/post1.PNG" width="200" height="300">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/825eaa21-bf5f-446c-aded-e3fb3fc156ad" width="250">
 
 - 유저 API
-<img src="/uploads/e5fecafd100cdf4bdd914cfb9fb18350/post2.PNG" width="200" height="300">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/6dee6b5f-f061-46e1-b397-b104a6026d25" width="250">
 
 - 인증 API
-<img src="/uploads/45d2f1225ace9f34aab8a5d0576562ca/post3.PNG" width="300" height="200">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/50cb85ef-e4bd-4505-944e-a57dd1256707" width="250">
 
 - 채팅방 API
-<img src="/uploads/17a2d71501b2298330aeefcbefe0028e/post4.PNG" width="200" height="400">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/d4513bfc-54fe-496c-91f1-eb0c4eae616b" width="250">
 
 - 태그 API
-<img src="/uploads/1e338a96f1e9770ad113cc5d962b7c2d/post5.PNG" width="300" height="200">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/fa931c2c-7931-4094-9387-d850908cf3ae" width="250">
 
 ### 인프라
 
 #### 아키텍처 설계
 
-<img src="/uploads/9af32a0aadb0bc9f343859956785f79c/archi.png" width="800" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/878ae586-2a06-4467-bdc8-9df15e5cceff" height="400">
 
 #### 모니터링 구현
 
 - 시스템 모니터링
-<img src="/uploads/04a5e0fea5de942bf477bb977934309b/node.PNG" width="800" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/489af0d6-d4d6-48c9-97f2-77d54eb54ca7" height="600">
 
 
 - 젠킨스 모니터링
-<img src="/uploads/c22c5c25991da292e8dd3aedbb24c9fe/jen.PNG" width="800" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/872946bd-ba96-42ae-b5ae-0d8e2a384c32" height="600">
 
 
 - 엔진엑스 모니터링
-<img src="/uploads/e2d4b44087215aa45301455605559f5e/ngix.PNG" width="800" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/0e050532-7f65-40af-860b-829ec19d6ff9" height="600">
 
 ## 기타 산출물
 
 
 #### ERD
-<img src="/uploads/2dc4599f4f4bf8789c63aa43821e13fd/erd.png" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/badddecc-1f75-4931-9ed8-fb31bd09961c" width="1000" height="600">
 
 #### Figma 화면 설계서
-<img src="/uploads/5e8cb2e4a208929f44bcd9be87b465ee/figmain.png" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/4731059a-6787-4b7d-8dbe-9c39fe4ce188" width="1000" height="600">
 
 
 #### 회고
