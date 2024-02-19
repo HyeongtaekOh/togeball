@@ -52,7 +52,7 @@
 ### 프론트엔드
 | TypeScript |    React   |  StyeldComponent   |  Zustand |
 | :--------: | :--------: | :------: | :-----: |
-|   <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/65be6d99-38d9-4c5c-8378-e5264979db90" width="100" height="100">    |   <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/45501075-a1af-44a8-8f3b-e720fd6c5850" width="100" height="100">    | <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/da406de6-1b84-4c37-a772-13d9ec46b380" width="100" height="100"> | <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/a2c920e1-9e1a-4474-add1-94bc3ad87ec8" width="100" height="100"> |
+|   <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/65be6d99-38d9-4c5c-8378-e5264979db90" width="100" height="100">    |   <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/45501075-a1af-44a8-8f3b-e720fd6c5850" width="100" height="100">    | <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/da406de6-1b84-4c37-a772-13d9ec46b380" width="100" height="100"> | <img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/277a29c1-bd8f-44e3-ba0a-20a7e1d4b1f4" width="100" height="100"> |
 
 ### 백엔드
 
