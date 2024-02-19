@@ -2,7 +2,7 @@
 
 # ⚾️ Togeball - 야구 직관 메이트 매칭 플랫폼
 
-<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/7c125c0d-01d6-4352-82f1-9656910d1318" width="500" height="300">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/7c125c0d-01d6-4352-82f1-9656910d1318" width="500">
 
 
 ## 목차
@@ -72,7 +72,7 @@
 ## 핵심 기능
 
 ### 매칭 시스템
-<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/7be63b2a-89cc-4560-b9a8-a4be1cab0325" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/7be63b2a-89cc-4560-b9a8-a4be1cab0325" width="1000">
 
 - 매칭 
     - 프론트: 웹소켓을 이용한 통신, d3를 이용한 데이터 시각화 및 인터랙티브웹 구현
@@ -81,7 +81,7 @@
 
 ### 채팅 시스템
 
-<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/33d7e6bd-f4a6-46c8-beba-8b53771632cf" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/33d7e6bd-f4a6-46c8-beba-8b53771632cf" width="1000">
 
 - 채팅
     - 프론트: 웹소켓과 stomp 프로토콜을 이용한 통신, 이미지 전송 가능
@@ -95,20 +95,20 @@
 #### 매칭 시스템
 
 
-<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/001bece4-b48f-4b59-9681-506651dde4f0" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/001bece4-b48f-4b59-9681-506651dde4f0" width="1000">
 
 - 매칭 클릭 시 매칭을 시도하는 사람들과의 사용자 태그 기반 매칭 적용
 - 상위 6개의 태그 애니메이션으로 표시
 - 스케줄링 시간에 따라 2~6인으로 구성된 채팅방 생성
 
-<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/78273af4-8eb0-4f23-a8bc-777931f929cc" width="500" height="300">
-<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/cd6e3825-51a3-4956-9509-abf10430648e" width="500" height="300">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/78273af4-8eb0-4f23-a8bc-777931f929cc" width="500">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/cd6e3825-51a3-4956-9509-abf10430648e" width="500">
 
 - Chat GPT 이용하여 태그들 조합의 적절한 채팅방 이름 생성
 
 #### 모집 채팅방
 
-<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/5bca04ca-fff7-4c55-95a1-ba7a8a574f6f" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/5bca04ca-fff7-4c55-95a1-ba7a8a574f6f" width="1000">
 
 - 현재 활성화 된 채팅방 목록 제공
 - 경기 일자, 응원팀에 맞는 채팅방 찾는 필터 기능 제공
@@ -116,7 +116,7 @@
 
 #### 채팅방 생성
 
-<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/5bfa9617-e369-4aac-8dbc-fb7fb83ca260" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/5bfa9617-e369-4aac-8dbc-fb7fb83ca260" width="1000">
 
 - 커스텀 주별 달력 활용하여 경기 선택
 - 경기에 맞는 응원팀 항목 제한
@@ -125,12 +125,12 @@
 #### 채팅방
 
 ##### 게임 채팅방 참여
-<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/cda34057-3b63-4673-afc0-d49b39446fd6" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/cda34057-3b63-4673-afc0-d49b39446fd6" width="1000">
 
 - 대화 참가자 모두 표시
 
 #### 나의 채팅방 확인
-<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/47f7d101-c302-43b6-9106-63c735192659" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/47f7d101-c302-43b6-9106-63c735192659" width="1000">
 
 - 나의 채팅방 목록 확인 및 채팅방 개별 알림
 - 최근 메시지 확인, 클릭 시 채팅방 이동
@@ -138,17 +138,17 @@
 #### 로그인 및 회원가입
 
 - 회원가입
-<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/025d77aa-5f2c-4646-8ac4-0f053a71dedd" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/025d77aa-5f2c-4646-8ac4-0f053a71dedd" width="1000">
 
 - 로그인
-<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/4f778ef4-a455-46a8-959a-99175d8e3917" width="400" height="300">
-<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/778a30ce-01ff-45b2-8bd7-0e8b9490f690" width="400" height="300">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/4f778ef4-a455-46a8-959a-99175d8e3917" width="400">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/778a30ce-01ff-45b2-8bd7-0e8b9490f690" width="400">
 
 
 #### 경기 캘린더
 
 - 월별/주별 캘린더
-<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/bf2fadb0-468b-46e8-92ad-97afe4dc1b4b" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/bf2fadb0-468b-46e8-92ad-97afe4dc1b4b" width="1000">
 
 
 ### 백엔드
@@ -201,10 +201,10 @@
 
 
 #### ERD
-<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/badddecc-1f75-4931-9ed8-fb31bd09961c" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/badddecc-1f75-4931-9ed8-fb31bd09961c" width="1000">
 
 #### Figma 화면 설계서
-<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/4731059a-6787-4b7d-8dbe-9c39fe4ce188" width="1000" height="600">
+<img src="https://github.com/HyeongtaekOh/togeball/assets/86342741/4731059a-6787-4b7d-8dbe-9c39fe4ce188" width="1000">
 
 
 #### 회고
